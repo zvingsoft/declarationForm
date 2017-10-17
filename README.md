@@ -5,9 +5,9 @@ declationFrom是一个使用微服务架构开发的针对海关报关、通关�
 
 系统特点：
 - 所有微服务皆使用ServiceComb框架
-- 事务一致性使用ServiceComb Saga
-- 用户界面Vue+ElementUI
-- 数据均使用Mysql5.7
+- 事务一致性使用ServiceComb Saga开发
+- 用户界面使用Vue+ElementUI开发
+- 数据库均使用Mysql5.7
 - 所有微服务均部署为无状态容器
 
 系统组成：
