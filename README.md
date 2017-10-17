@@ -134,58 +134,183 @@ API：
 - 电子审核界面：当用户在报关单详情界面点击提交审核后，进入电子审核界面，此界面调用各个微服务显示检查结构。
 - 人工审核界面：和报关单详情界面类似，按钮改为退回、审核通过，审核通过后按钮变为放行检查通过，放行检查通过之后按钮变成货物放行
 - 查询界面：按条件查询报关单
-- 
-### 3. 计税微服务tax
-- 表结构：
-    - 税率表：商品类型名称、类型代码、税率
-- API：
-    - /tax(GET)：计税计算
-    - /tax(POST): 缴税确认
 
-### 4. 许可证检查服务license
-- 表结构：
-    - 许可证表：企业名称、企业ID、许可证类型、许可证数量
-- API：
-    - /license(GET): 许可证检查
-    - /license(POST): 许可证扣减
-    - /license(PUT): 事务补偿，Saga事物失败时会调用此API恢复许可证数量
 
-### 5. 减免税服务taxCutting
-- 表结构：
-    - 税收减免表：企业ID、商品类型代码、减免税数量
-- API：
-    - /taxCutting(GET)：减免税检查
-    - /taxCutting(POST): 减免税数量扣减
-    - /taxCutting(PUT): 事务补偿，Saga事物失败时会调用此API恢复减免税数量
+### 5. 计税微服务tax
 
-### 6. 加贸检查服务processingTrade
-- 表结构：
-    - 加工贸易限额表：企业ID、加贸数量
-- API：
-    - /processingTrade(GET)：加贸检查
-    - /processingTrade(POST): 加贸数量扣减
-    - /processingTrade(PUT): 事务补偿，Saga事物失败时会调用此API恢复加贸数量
+税率表TaxRate
+    
+|字段名称    |字段代码     |
+|------------|-------------|
+|商品类型名称|GoodsTypeName|
+|商品类型代码|GoodsType    |
+|税率（%）   |Rate         |
 
-### 7. 舱单检查服务manifest
-- 表结构：
-    - 仓单表：仓单ID，仓单
-- API：
-    - /manifest(GET)：舱单核查查
-    - /manifest(POST): 舱单状态改为己用
-    - /manifest(PUT)：事务补偿，Saga事物失败时会调用此API将舱单状态改为未用
+API
 
-### 8. 风险分析服务riskAnalysis 
-- 无数据库
-- API：
-    - riskAnalysis(GET)：获得分析评估结果
 
-### 9. 棉花配额检查服务cottonQuota
-- 表结构：
-    - 加工贸易限额表：企业ID、加贸数量
-- API：
-    - /processingTrade(GET)：加贸检查
-    - /processingTrade(POST): 加贸数量扣减
-    - /processingTrade(PUT): 事务补偿，Saga事物失败时会调用此API恢复加贸数量
+|路径        |方法  |描述                  |
+|------------|------|----------------------|
+|tax/{ID}    |GET   |获取报关单计税计算结果|
+|tax/{ID}    |PUT   |确认缴税              |
+|taxRate     |GET   |获取税率清单          |
+|taxRate     |POST  |增加商品税率          |
+|taxRate/{ID}|PUT   |修改商品税率          |
+|taxRate/{ID}|DELETE|删除商品税率          |
+|taxRate/{ID}|GET   |获取某个商品类型税率  |
+
+
+### 6. 许可证检查服务license
+ 
+
+许可证表License
+
+
+|字段名称  |字段代码   |
+|----------|-----------|
+|企业名称  |CompanyName|
+|企业ID    |CompanyID  |
+|商品类型  |GoodsType  |
+|许可证数量|Quantity   |
+
+
+API
+
+|路径               |方法  |描述                                |
+|-------------------|------|------------------------------------|
+|license/check      |GET   |许可证核查                          |
+|license/sumbit     |GET   |许可证扣减                          |
+|license/compensate |PUT   |Saga事务失败后许可证回冲            |
+|license            |GET   |获取许可证清单                      |
+|license            |POST  |增加许可证                          |
+|license/{GoodsType}|PUT   |修改许可证                          |
+|license/{GoodsType}|DELETE|删除许可证                          |
+|license/{GoodsType}|GET   |获取企业下的某个商品类型的许可证信息|
+
+
+### 7 减免税服务taxCutting
+
+税收减免表TaxCutting
+    
+
+|字段名称     |字段代码     |
+|-------------|-------------|
+|商品类型名称 |GoodsTypeName|
+|商品类型代码 |GoodsType    |
+|减免税率（%）|Rate         |
+|减免税数量   |Quantity     |
+
+
+API
+
+|路径                 |方法  |描述                        |
+|---------------------|------|----------------------------|
+|taxcuttng/check      |GET   |减免税核查                  |
+|taxcuttng/sumbit     |GET   |减免税数量扣减              |
+|taxcuttng/compensate |PUT   |Saga事务失败后减免税数量回冲|
+|taxcuttng            |GET   |获取减免税清单              |
+|taxcuttng            |POST  |增加减免税记录              |
+|taxcuttng/{GoodsType}|PUT   |修改减免税记录              |
+|taxcuttng/{GoodsType}|DELETE|删除减免税记录              |
+|taxcuttng/{GoodsType}|GET   |获取某个商品类型的减免税信息|
+
+
+### 8. 加贸检查服务processingTrade
+
+
+ 加工贸易限额表 ProcessingTradeQuota 
+
+
+|字段名称    |字段代码     |
+|------------|-------------|
+|商品类型名称|GoodsTypeName|
+|商品类型代码|GoodsType    |
+|加工贸易限额|Quantity     |
+
+API
+
+|路径                       |方法  |描述                      |
+|---------------------------|------|--------------------------|
+|processingtrade/check      |GET   |加贸数量核查              |
+|processingtrade/sumbit     |GET   |加贸数量扣减              |
+|processingtrade/compensate |PUT   |Saga事务失败后加贸数量回冲|
+|processingtrade            |GET   |获取加贸限额清单          |
+|processingtrade            |POST  |增加加贸限额记录          |
+|processingtrade/{GoodsType}|PUT   |修改加贸限额记录          |
+|processingtrade/{GoodsType}|DELETE|删除加贸限额记录          |
+|processingtrade/{GoodsType}|GET   |获取某个商品类型的加贸限额|
+
+
+### 9. 舱单检查服务manifest
+
+舱单表Manifest
+
+|字段名称|字段代码 |
+|--------|---------|
+|报关单ID|ID       |
+|企业ID  |CompanyID|
+|位置    |Location |
+|报关单ID|FormID   |
+
+舱单商品清单ManifestGoodsList
+
+
+|字段名称|字段代码  |
+|--------|----------|
+|舱单ID  |ManifestID|
+|商品类型|GoodsType |
+|商品名称|Name      |
+|商品数量|Quantity  |
+|商品单位|Unit      |
+
+
+API
+
+
+|路径               |方法  |描述                            |
+|-------------------|------|--------------------------------|
+|manifest/check     |GET   |舱单核查                        |
+|manifest/sumbit    |GET   |舱单状态改为己用                |
+|manifest/compensate|PUT   |Saga事务失败后舱单状态回冲为未用|
+|manifest           |GET   |获取舱单列表                    |
+|manifest           |POST  |增加舱单                        |
+|manifest/{ID}      |PUT   |修改舱单                        |
+|manifest/{ID}      |DELETE|删除舱单                        |
+|manifest/{ID}      |GET   |获取某个舱单的详细信息          |
+
+### 10. 风险分析服务riskAnalysis 
+
+无数据库
+
+API
+
+|路径             |方法|描述          |
+|-----------------|----|--------------|
+|riskanalysis/{ID}|GET |报关单风险分析|
+
+### 11. 棉花配额检查服务cottonQuota
+
+棉花配额表CottonQuota
+
+|字段名称|字段代码|
+|--------|--------|
+|企业ID  |Company |
+|配额数量|Quota   |
+
+API
+
+
+|路径                   |方法  |描述                      |
+|-----------------------|------|--------------------------|
+|cottonquota/check      |GET   |棉花配额核查              |
+|cottonquota/sumbit     |GET   |棉花配额扣减              |
+|cottonquota/compensate |PUT   |Saga事务失败后棉花配额回冲|
+|cottonquota            |GET   |获取棉花配额清单          |
+|cottonquota            |POST  |增加棉花配额记录          |
+|cottonquota/{CompanyID}|PUT   |修改某个企业的棉花配额记录|
+|cottonquota/{CompanyID}|DELETE|删除某个企业的棉花配额记录|
+|cottonquota/{CompanyID}|GET   |获取某个企业的棉花配额    |
+
 
 ### 12. 其他界面微服务
 - 包括taxUI，taxCuttingUI，licenseUI，manifestUI，cottonQuotaUI
