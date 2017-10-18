@@ -1,4 +1,4 @@
-APPLICATION_ID: delcarationForm
+APPLICATION_ID: declarationForm
 service_description:
   name: license
   version: 0.0.1

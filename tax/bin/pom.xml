@@ -9,7 +9,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.zving</groupId>
-		<artifactId>delcarationform</artifactId>
+		<artifactId>declarationform</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>tax</artifactId>

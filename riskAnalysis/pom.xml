@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.zving.delcarationform</groupId>
-		<artifactId>delcarationform</artifactId>
+		<groupId>com.zving.declarationform</groupId>
+		<artifactId>declarationform</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>riskAnalysis</artifactId>
@@ -38,7 +38,7 @@
 			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.zving.delcarationform</groupId>
+			<groupId>com.zving.declarationform</groupId>
 			<artifactId>common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
