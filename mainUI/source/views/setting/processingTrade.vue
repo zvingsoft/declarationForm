@@ -8,6 +8,8 @@
         <i class="fa fa-edit" aria-hidden="true"></i> 编辑</el-button>
       <el-button @click="ptDelClick" :disabled="ptSelectedRows.length < 1">
         <i class="fa fa-trash-o" aria-hidden="true"></i> 删除</el-button>
+      <el-button @click="ptViewGoodsClick" :disabled="ptSelectedRows.length !== 1">
+        <i class="fa fa-eye" aria-hidden="true"></i> 查看商品</el-button>
     </el-toolbar>
     <!-- 搜索工具条 -->
     <div class="search-bar fr">
@@ -99,20 +101,35 @@
         <el-form-item label="委托企业" prop="commissionedCorp">
           <el-input type="text" v-model="ptDataModel.commissionedCorp" auto-complete="off" style="width:85%"></el-input>
         </el-form-item>
-        <el-form-item label="合同备案" prop="contract">
+        <el-form-item label="合同备案" prop="contract" v-show="editMode===1">
           <el-upload :on-success="onUploadSuccess" class="upload-file" action="" :multiple="false" :file-list="fileList">
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item label="料件备案" prop="material">
+        <el-form-item label="料件备案" prop="material" v-show="editMode===1">
           <el-upload :on-success="onUploadSuccess" class="upload-file" action="" :multiple="false" :file-list="fileList">
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item label="报关单" prop="feclaration">
+        <el-form-item label="报关单" prop="feclaration" v-show="editMode===1">
           <el-upload :on-success="onUploadSuccess" class="upload-file" action="" :multiple="false" :file-list="fileList">
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
+        </el-form-item>
+        <el-form-item label="合同备案" prop="contract" v-show="editMode===2">
+          <el-button @click.native.prevent="contractFileView">
+            查看文件
+          </el-button>
+        </el-form-item>
+        <el-form-item label="料件备案" prop="material" v-show="editMode===2">
+          <el-button @click.native.prevent="materialFileView">
+            查看文件
+          </el-button>
+        </el-form-item>
+        <el-form-item label="报关单" prop="feclaration" v-show="editMode===2">
+          <el-button @click.native.prevent="feclarationFileView">
+            查看文件
+          </el-button>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -122,10 +139,28 @@
     </el-dialog>
     <!-- 文件查看框 -->
     <el-dialog :title="'文件查看'" :visible.sync="fileDialogIsShow">
-
-      <div slot="footer">
-        <el-button @click="fileDialogIsShow=false">取 消</el-button>
-        <el-button type="primary" @click="fileViewOkHandler">确 定</el-button>
+      <img src="http://www.qingshengjiuye.com/UploadFiles/201610271722212414737.jpg" :style="{height:1205+'px',overflowY:'scroll',overflowX:'hidden', paddingRight:'15px'}">
+      <div slot="footer ">
+        <el-button @click="fileDialogIsShow=false ">取 消</el-button>
+        <el-button type="primary " @click="fileViewOkHandler ">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 商品信息框 -->
+    <el-dialog :title=" '商品信息' " :visible.sync="goodsDialogIsShow " size="large">
+      <el-table ref="goodsListTable" highlight-current-row :data="goodsListData" tooltip-effect="dark" @selection-change="goodsOnSelectionChange">
+        <el-table-column min-width="4%" label="项号" prop="itemNum"></el-table-column>
+        <el-table-column min-width="8%" label="商品编号" prop="productNum"></el-table-column>
+        <el-table-column min-width="20%" label="商品名称、规格型号" prop="nameAndSpecifications"></el-table-column>
+        <el-table-column min-width="15%" label="数量及单位" prop="quantityAndUnit"></el-table-column>
+        <el-table-column min-width="5%" label="原产国(地区)" prop="originCountry"></el-table-column>
+        <el-table-column min-width="5%" label="单价" prop="unitPrice"></el-table-column>
+        <el-table-column min-width="5%" label="总价" prop="totalPrice"></el-table-column>
+        <el-table-column min-width="5%" label="币制" prop="currency"></el-table-column>
+        <el-table-column min-width="5%" label="征免" prop="levy"></el-table-column>
+      </el-table>
+      <div slot="footer ">
+        <el-button @click="goodsDialogIsShow=false ">取 消</el-button>
+        <el-button type="primary " @click="goodsDialogOkHandler ">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -144,6 +179,7 @@ export default {
       addAndEditDialogIsShow: false,
       fileDialogIsShow: false,
       fileUploadDialogIsShow: false,
+      goodsDialogIsShow: false,
       ptSelectedRows: [],
       ptCurrentPage: 1,
       ptPageSizes: [5, 10, 15, 20],
@@ -156,7 +192,8 @@ export default {
         contract: '',
         material: '',
         feclaration: '',
-      }
+      },
+      goodsListData: [],
     }
   },
   methods: {
@@ -166,6 +203,11 @@ export default {
     loadProcessingTradeList() {
       processingTradeAPI.getProcessingTradeList().then(data => {
         this.ptListData = data.data;
+      });
+    },
+    loadGoodsList() {
+      processingTradeAPI.getGoodsList().then(data => {
+        this.goodsListData = data.data;
       });
     },
     ptAddClick() {
@@ -194,6 +236,9 @@ export default {
         this.$notify({ title: '成功', message: "删除成功", type: 'success', duration: 2000 });
       })
     },
+    ptViewGoodsClick() {
+      this.goodsDialogIsShow = true;
+    },
     contractFileView() {
       this.fileDialogIsShow = true;
     },
@@ -202,6 +247,10 @@ export default {
     },
     feclarationFileView() {
       this.fileDialogIsShow = true;
+    },
+    goodsDialogOkHandler() {
+      this.goodsDialogIsShow = false;
+      this.$notify({ title: '成功', message: "保存成功", type: 'success', duration: 2000 });
     },
     addAndEditOkHandler() {
       this.addAndEditDialogIsShow = false;
@@ -222,6 +271,7 @@ export default {
   },
   created() {
     this.loadProcessingTradeList();
+    this.loadGoodsList();
     this.clientHeight = document.documentElement.clientHeight - 270;
     this.clientWidth = document.documentElement.clientWidth - 250;
     let num = Math.floor(this.clientHeight / 40) - 1;
