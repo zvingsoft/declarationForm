@@ -1,7 +1,7 @@
-# declationForm:海关报关单场景演示
+# declarationForm:海关报关单场景演示
 
 ### 1. 概述
-declationForm是一个使用微服务架构开发的针对海关报关、通关业务场景的演示系统，旨在展示FusionStage平台微服务相关的各项特性。
+declarationForm是一个使用微服务架构开发的针对海关报关、通关业务场景的演示系统，旨在展示FusionStage平台微服务相关的各项特性。
 
 系统特点：
 - 所有微服务皆使用ServiceComb框架
