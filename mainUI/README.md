@@ -130,7 +130,7 @@ api-designer
 npm install -g raml2html
 
 # 构建raml格式接口文档为html格式接口文档
-raml2html API.raml API.html
+raml2html API.raml -o API.html
 
 ```
 
