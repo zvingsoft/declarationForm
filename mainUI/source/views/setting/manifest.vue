@@ -97,6 +97,9 @@
         </div>
         <div>{{manifestGoodInfo.goodsinfo}}</div>
       </el-card>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="viewDialog = false">关 闭</el-button>
+      </div>
     </el-dialog>
 
   </div>
@@ -316,6 +319,6 @@ export default {
 }
 
 .box-card {
-  width: 90%;
+  width: 100%;
 }
 </style>
