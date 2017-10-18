@@ -6,7 +6,7 @@ yarn.lock
 .classpath
 .settings
 .svn
-node_modules
+node_modules/*
 WEB-INF
 /bin/
 /dist/
