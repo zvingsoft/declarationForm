@@ -25,12 +25,12 @@ documentation:
             example:
               [
                 {
-                  "ID": "123",
-                  "CompanyID": "123456789012L",
-                  "FreightFee": 123,
-                  "Premium": 123,
-                  "OtherFee": 123,
-                  "AddTime": "2017-11-12"
+                  "id": "123",
+                  "companyid": "123456789012L",
+                  "freightfee": 123,
+                  "premium": 123,
+                  "otherfee": 123,
+                  "addtime": "2017-11-12"
                 }
               ]
   post:
@@ -38,11 +38,11 @@ documentation:
     body:
       application/x-www-form-urlencoded:
         properties:
-          CompanyID:
-          FreightFee:
-          Premium:
-          OtherFee:
-          AddTime:
+          companyid:
+          freightfee:
+          premium:
+          otherfee:
+          addtime:
 
   /{id}:
     uriParameters:
@@ -57,22 +57,22 @@ documentation:
             application/json:
               example:
                   {
-                    "ID": "123",
-                    "CompanyID": "123456789012L",
-                    "FreightFee": 123,
-                    "Premium": 123,
-                    "OtherFee": 123,
-                    "AddTime": "2017-11-12"
+                    "id": "123",
+                    "companyid": "123456789012L",
+                    "freightfee": 123,
+                    "premium": 123,
+                    "otherfee": 123,
+                    "addtime": "2017-11-12"
                   }
     put:
       description: 修改报关单
       body:
         application/x-www-form-urlencoded:
           properties:
-            CompanyID:
-            FreightFee:
-            Premium:
-            OtherFee:
+            companyid:
+            freightfee:
+            premium:
+            otherfee:
     delete:
       description: 删除报关单
       
