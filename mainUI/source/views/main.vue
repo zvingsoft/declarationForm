@@ -100,7 +100,7 @@ export default {
   line-height: 50px;
   box-shadow: 2px 0px 2px rgba(0, 0, 0, 1.05);
   padding: 0;
-  background-color: #7285E4;
+  background-color: #7386E6;
   color: #DDE3FF;
   border-radius: 0;
 }
@@ -115,7 +115,7 @@ export default {
 
 .navbar .el-menu--horizontal .el-menu-item:hover,
 .navbar .el-menu--horizontal .el-menu-item.is-active {
-  background-color: #6B7DC9;
+  background-color: #677ACE;
   border-bottom: 5px solid #5469BC;
 }
 
