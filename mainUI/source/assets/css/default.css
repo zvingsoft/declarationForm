@@ -190,7 +190,8 @@ samp {
 }
 
 .menu-wrap .is-active {
-  color: #4422ff;
+  color: #3344FF;
+  background-color: #EAEEF8;
 }
 
 /*begin 对UI框架element的样式的覆盖*/
