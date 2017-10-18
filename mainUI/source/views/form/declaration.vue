@@ -1,5 +1,5 @@
-<template>
-  <div :style="{width:clientWidth+'px'}">
+<template slot-scope="scope">
+  <div v-if="!declarationDialogmodel" :style="{width:clientWidth+'px'}">
     <el-toolbar>
       <el-button class="z-toolbar-btn" :plain="true" @click="addClick">
         <i class="fa fa-plus"></i>新建</el-button>
@@ -11,14 +11,23 @@
     <div class="main-content-wrap">
       <div class="search-bar">
         排序：
-        <el-select size="small"></el-select>
+        <el-select size="small" v-model="sort" class="search-select">
+          <el-option v-for="item in sortOptions" :key="item.key" :label="item.value" :value="item.key">
+          </el-option>
+        </el-select>
         检索字段：
-        <el-select size="small"></el-select>
-        <el-input style="width:200px" size="small"></el-input>
-        <el-select size="small"></el-select>
-        <el-button size="small">搜索</el-button>
+        <el-select size="small" v-model="retrieval" class="search-select">
+          <el-option v-for="item in retrievalOptions" :key="item.key" :label="item.value" :value="item.key">
+          </el-option>
+        </el-select>
+        <el-input style="width:200px" size="small" v-model="searchword"></el-input>
+        <el-select size="small" v-model="logic" class="search-select">
+          <el-option v-for="item in logicOptions" :key="item.key" :label="item.value" :value="item.key">
+          </el-option>
+        </el-select>
+        <el-button size="small" type="primary" @click="getDeclarationData" style="width:70px;">搜　索</el-button>
       </div>
-      <el-table :data="declarationData" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange">
+      <el-table :data="declarationData" ref="declarationTable" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange" @row-click="onRowClick">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column type="expand">
           <template scope="props">
@@ -167,14 +176,17 @@
               <el-form-item label="制填日期：">
                 <span>{{props.row.fillingdate}}</span>
               </el-form-item>
+              <el-form-item label="录入日期：">
+                <span>{{props.row.entrydate}}</span>
+              </el-form-item>
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="preentrynumber" show-overflow-tooltip min-width="15%" label="预录入编号"></el-table-column>
+        <el-table-column prop="preentrynumber" show-overflow-tooltip min-width="20%" label="预录入编号"></el-table-column>
         <el-table-column prop="importorexportport" show-overflow-tooltip min-width="20%" label="进口/出口口岸"></el-table-column>
-        <el-table-column prop="managementunit" show-overflow-tooltip min-width="25%" label="经营单位"></el-table-column>
-        <el-table-column prop="declarationunit" show-overflow-tooltip min-width="25%" label="申报单位"></el-table-column>
+        <el-table-column prop="declarationunit" show-overflow-tooltip min-width="30%" label="申报单位"></el-table-column>
         <el-table-column prop="declarationdate" show-overflow-tooltip min-width="15%" label="申报日期"></el-table-column>
+        <el-table-column prop="entrydate" show-overflow-tooltip min-width="15%" label="录入日期"></el-table-column>
       </el-table>
       <div class="page-wrap">
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize" layout="total, sizes, prev, pager, next" :total="total">
@@ -182,7 +194,18 @@
       </div>
     </div>
 
-    <el-dialog :title="editMode == 1 ? '编辑报关单信息' : '添加报关单'" size="large" :visible.sync="declarationDialogmodel" :close-on-click-model="false">
+  </div>
+  <div v-else>
+    <el-toolbar>
+      <el-button class="z-toolbar-btn" :plain="true" @click="returnMain">
+        <i class="fa fa-step-backward"></i>返回主页面</el-button>
+      <el-button class="z-toolbar-btn" :plain="true" @click="confirm">
+        <i class="fa fa-save"></i>
+        <span v-if="editMode == 1">保存编辑</span>
+        <span v-else>确认新建</span>
+      </el-button>
+    </el-toolbar>
+    <div class="main-content-wrap">
       <el-form label-position="right" :model="tmpDeclaration" inline label-width="160px" class="e-form">
         <el-form-item label="报关单类型：">
           <el-select class="e-input" v-model="tmpDeclaration.declarationtype" placeholder="请选择">
@@ -336,11 +359,7 @@
           </el-date-picker>
         </el-form-item>
       </el-form>
-      <div slot="footer">
-        <el-button @click="declarationDialogmodel = false">取 消</el-button>
-        <el-button type="primary" :loading="confirmLoading" @click="confirm">确 定</el-button>
-      </div>
-    </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -353,6 +372,7 @@ export default {
     return {
       clientWidth: 0,
       clientHeight: 0,
+      searchword: '',
       selectedRows: [],
       declarationData: [],
       currentPage: 1,
@@ -362,20 +382,48 @@ export default {
       editMode: 1,
       declarationDialogmodel: false,
       tmpDeclaration: {},
+      dataLoading: false,
       confirmLoading: false,
-      declarationTypeOptions: [{ key: 'import', value: '进口报关单' }, { key: 'export', value: '出口报关单' }],
+      declarationTypeOptions: [{ key: 'import', value: '进口报关单' },
+      { key: 'export', value: '出口报关单' }],
+      sort: '',
+      sortOptions: [{ key: '', value: '请选择排序' },
+      { key: 'declarationtype', value: '报关单类型' },
+      { key: 'preentrynumber', value: '预录入编号' },
+      { key: 'importorexportport', value: '进口/出口口岸' },
+      { key: 'declarationunit', value: '申报单位' },
+      { key: 'declarationdate', value: '申报日期' },
+      { key: 'entrydate', value: '录入日期' }],
+      retrieval: '',
+      retrievalOptions: [{ key: '', value: '请选择检索字段' },
+      { key: 'declarationtype', value: '报关单类型' },
+      { key: 'preentrynumber', value: '预录入编号' },
+      { key: 'importorexportport', value: '进口/出口口岸' },
+      { key: 'declarationunit', value: '申报单位' },
+      { key: 'declarationdate', value: '申报日期' },
+      { key: 'entrydate', value: '录入日期' }],
+      logic: '',
+      logicOptions: [{ key: '', value: '请选择逻辑' },
+      { key: 'and', value: '与' },
+      { key: 'or', value: '或' },
+      { key: 'none', value: '非' }]
     }
   },
   methods: {
     getDeclarationData() {
+      this.dataLoading = true;
       declarationAPI.getDeclaration(this.currentPage, this.pageSize).then(data => {
         console.log(data);
         this.declarationData = data.data;
         this.total = data.total;
+        this.dataLoading = false;
       });
     },
     onSelectionChange(selection) {
       this.selectedRows = selection;
+    },
+    onRowClick(row, event, column) {
+
     },
     handleSizeChange(val) {
       this.pageSize = val;
@@ -435,6 +483,9 @@ export default {
         });
       });
     },
+    returnMain() {
+      this.declarationDialogmodel = false;
+    },
     confirm() {
       if (this.editMode == 1) {
         declarationAPI.updateDeclaration(this.tmpDeclaration).then(data => {
@@ -467,9 +518,12 @@ export default {
             ...this.declarationData,
             Object.assign({}, this.tmpDeclaration, { id: data.declaration.id })
           ];
+
+          this.tmpDeclaration = {
+            declarationtype: 'import'
+          };
         })
       }
-      this.declarationDialogmodel = false;
     }
   },
   created() {
@@ -525,5 +579,9 @@ export default {
 
 .e-input {
   width: 240px;
+}
+
+.search-select {
+  width: 150px;
 }
 </style>
