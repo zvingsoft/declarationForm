@@ -119,6 +119,21 @@ npm run build
 
 ```
 
+```bash
+# 安装 api-designer 到全局   
+npm install -g api-designer
+
+# 使用 api-designer 编辑raml格式接口文档，编辑时是暂存在浏览器本地缓存中的，需要导出或复制到工程根目录下API.raml文件
+api-designer
+
+# 安装 raml2html 到全局   
+npm install -g raml2html
+
+# 构建raml格式接口文档为html格式接口文档
+raml2html API.raml API.html
+
+```
+
 ## 链接
 VUE 2 文档  
 https://cn.vuejs.org/v2/api/  
