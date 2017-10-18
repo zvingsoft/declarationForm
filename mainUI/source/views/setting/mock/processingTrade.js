@@ -5,16 +5,23 @@ window.axiosMock =
 
 const processingtradelist = [
   {
-    a: 'a',
-    b: 'b',
-    c: 'c',
-    d: 'd',
-    e: 'e',
-    f: 'f',
-    g: 'g',
-    h: 'h'
+    id: '1',
+    number: 'PC-23-FE',
+    processCorp: '天津富强机械厂',
+    commissionedCorp: '法国努比尔仪器厂',
+    contract: '',
+    material: '',
+    feclaration: ''
   },
-  {}
+  {
+    id: '2',
+    number: 'PC-23-FE',
+    processCorp: '天津富强机械厂',
+    commissionedCorp: '法国努比尔仪器厂',
+    contract: '',
+    material: '',
+    feclaration: ''
+  }
 ]
 
 axiosMock.onGet(`/api/processingtrade`).reply(200, {
