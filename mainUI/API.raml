@@ -1,0 +1,144 @@
+#%RAML 1.0
+title: declarationForm
+version: 1
+baseUri: http://localhost:8080/{version}
+documentation:
+  - title: 概述
+    content: |
+      declarationFrom是一个使用微服务架构开发的针对海关报关、通关业务场景的演示系统，旨在展示FusionStage平台微服务相关的各项特性。
+      系统特点：
+      - 所有微服务皆使用ServiceComb框架
+      - 事务一致性使用ServiceComb Saga
+      - 用户界面Vue+ElementUI
+      - 数据均使用Mysql5.7
+      - 所有微服务均部署为无状态容器
+
+/form:
+  description: 报关单相关接口
+
+  get:
+    description: 报关单查询
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              [
+                {
+                  "ID": "123",
+                  "CompanyID": "123456789012L",
+                  "FreightFee": 123,
+                  "Premium": 123,
+                  "OtherFee": 123,
+                  "AddTime": "2017-11-12"
+                }
+              ]
+  post:
+    description: 提交报关单
+    body:
+      application/x-www-form-urlencoded:
+        properties:
+          CompanyID:
+          FreightFee:
+          Premium:
+          OtherFee:
+          AddTime:
+
+  /{id}:
+    uriParameters:
+      id:
+        type: string
+
+    get:
+      description: 获取报关单信息
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                  {
+                    "ID": "123",
+                    "CompanyID": "123456789012L",
+                    "FreightFee": 123,
+                    "Premium": 123,
+                    "OtherFee": 123,
+                    "AddTime": "2017-11-12"
+                  }
+    put:
+      description: 修改报关单
+      body:
+        application/x-www-form-urlencoded:
+          properties:
+            CompanyID:
+            FreightFee:
+            Premium:
+            OtherFee:
+    delete:
+      description: 删除报关单
+      
+  /{ID}/audit:
+    description: 人工审核
+
+    post:
+      description: 人工审核
+
+/tax:
+  description: 计税
+
+  get:
+    description: 计税计算
+  post:
+    description: 缴税确认
+
+/license:
+  description: 许可证检查
+
+  get:
+    description: 许可证检查
+  post:
+    description: 许可证扣减
+  put:
+    description: 事务补偿，Saga事物失败时会调用此API恢复许可证数量
+
+/taxCutting:
+  description: 减免税
+
+  get:
+    description: 减免税检查
+  post:
+    description: 减免税扣减
+  put:
+    description: 事务补偿，Saga事物失败时会调用此API恢复减免税数量
+
+/processingTrade:
+  description: 加工贸易检查
+
+  get:
+    description: 加工贸易检查
+  post:
+    description: 加工贸易添加
+  put:
+    description: 事务补偿，Saga事物失败时会调用此API恢复加工贸易数量
+
+/manifest:
+  description: 舱单检查
+
+  get:
+    description: 舱单检查
+  post:
+    description: 舱单添加
+  put:
+    description: 事务补偿，Saga事物失败时会调用此API恢复舱单数量
+
+/riskAnalysis:
+  description: 获得分析评估结果
+
+/cottonQuota:
+  description: 棉花配额检查
+
+  get:
+    description: 棉花配额检查
+  post:
+    description: 棉花配额添加
+  put:
+    description: 事务补偿，Saga事物失败时会调用此API恢复棉花配额数量

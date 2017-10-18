@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>declation form</title>
+  <link rel="stylesheet" href="./assets/css/normalize.css" />
+  <link rel="stylesheet" href="./assets/css/element-ui.theme-default.css">
+  <link rel="stylesheet" href="./assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./assets/css/default.css" />
+  <style>
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      background-color: #27a16c;
+      margin: 0px;
+    }
+
+    .flex {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      background: #27a16c url(assets/one-bg.png) repeat-x center bottom;
+    }
+
+    .logo {
+      position: absolute;
+      top: 35px;
+      left: 35px;
+    }
+
+    .login {
+      flex-basis: 300px;
+      align-self: center;
+    }
+
+    .appender {
+      flex: 1;
+    }
+
+    .row {
+      margin: 20px;
+    }
+
+    .prepend {
+      width: 30px;
+      text-align: center;
+    }
+
+    .welcome {
+      color: white;
+      font-family: "Hiragino Sans GB", "冬青黑体简体中文", "Microsoft YaHei", "微软雅黑";
+      margin-bottom: 30px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="app" class="flex">
+    <div class="logo">
+      <img src="images/logo_large_zh-cn.png">
+    </div>
+    <div class="appender"></div>
+    <div class="login">
+      <div v-if="executing" style="text-align:center;color:white;font-size:16px;">
+        <div style="padding:20px;">正在登录...</div>
+      </div>
+      <form id="f1" v-if="!executing" @keyup.enter="login">
+        <div class="row">
+          <div class="welcome"> </div>
+        </div>
+        <div class="row">
+          <Input placeholder="用户名" v-model="username" autofocus>
+            <template slot="prepend">
+              <span class="prepend fa fa-user"></span>
+            </template>
+          </Input>
+        </div>
+        <div class="row">
+          <Input placeholder="密码" type="password" v-model="password">
+            <template slot="prepend">
+              <span class="prepend fa fa-lock"></span>
+            </template>
+          </Input>
+        </div>
+        <div class="row" style="text-align:right">
+          <Button type="success" size="middle" @click="login"> 登录 </Button>
+          <Button type="warning" size="middle" @click="document.querySelector('#f1').reset()"> 重置 </Button>
+        </div>
+      </form>
+    </div>
+    <div class="appender"></div>
+  </div>
+  <script src="./login.js"></script>
+</body>
+
+</html>

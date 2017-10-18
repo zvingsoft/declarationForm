@@ -1,1 +1,15 @@
+Thumbs.db
+yarn.lock
+.DS_Store
+.idea
+.vscode
+.classpath
+.settings
+.svn
+node_modules
+WEB-INF
+/bin/
+/dist/
 /target/
+*.log
+*.psd
