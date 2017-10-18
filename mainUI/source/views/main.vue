@@ -6,7 +6,7 @@
           <i class="fa fa-align-justify"></i>
         </el-button>
         <a class="logo">
-          海关报关系统 <sup> demo</sup>
+          <img src="assets/images/logo_zh-cn.png" height="48"/>海关报关系统 <sup> demo</sup>
         </a>
       </div>
       <div class="other-buttons">
@@ -100,8 +100,9 @@ export default {
   line-height: 50px;
   box-shadow: 2px 0px 2px rgba(0, 0, 0, 1.05);
   padding: 0;
-  background-color: #7C8EE4;
+  background-color: #7386E6;
   color: #DDE3FF;
+  border-radius: 0;
 }
 .navbar .el-menu--horizontal {
   background-color: transparent;
@@ -114,18 +115,18 @@ export default {
 
 .navbar .el-menu--horizontal .el-menu-item:hover,
 .navbar .el-menu--horizontal .el-menu-item.is-active {
-  background-color: #6B7DC9;
+  background-color: #677ACE;
   border-bottom: 5px solid #5469BC;
 }
 
 
 .logo {
-  padding-left: 10px;
+  padding-left: 5px;
   width: 200px;
   max-width: 200px;
   display: inline-block;
   font-size: 16px;
-  color: #DDE3FF;
+  color: #ffee99;
 }
 
 .navbar-collapse {
@@ -134,7 +135,6 @@ export default {
 .other-buttons {
   text-align: right;
   float: right;
-  padding: 3px 10px 0 0;
   -webkit-app-region: no-drag;
   position: relative;
   z-index: 103;
