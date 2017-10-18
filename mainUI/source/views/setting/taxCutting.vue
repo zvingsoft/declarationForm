@@ -34,7 +34,7 @@
         <el-table-column prop="smalltype" show-overflow-tooltip min-width="15%" label="减免税小类"></el-table-column>
         <el-table-column prop="way" show-overflow-tooltip min-width="15%" label="减免税方式"></el-table-column>
         <el-table-column show-overflow-tooltip min-width="45%" label="政策文件">
-           <template scope="scope">
+           <template slot-scope="scope">
              <a  @click="lookPolicyPaperClick(scope.row)" class="a-btn name-wrapper">{{scope.row.policypapertitle}}</a>
            </template>
         </el-table-column>
@@ -82,14 +82,22 @@
 
     <!-- 政策文件查看 -->
     <el-dialog title="查看政策文件" :visible.sync="showLookDialog">
-      <table width="100%" cellpadding="4" cellspacing="0" class="look-table">
+      <el-card class="box-card look-card">
+      <div slot="header" class="clearfix">
+        <strong style="font-size: 18px;text-align:center; ">{{tmpTaxCutting.policypapertitle}}</strong>
+      </div>
+      <div style="text-indent:35px">
+        {{tmpTaxCutting.policypapercontent}}
+      </div>
+    </el-card>
+      <!-- <table width="100%" cellpadding="4" cellspacing="0" class="look-table">
         <tr>
           <td align="center" valign="middle"><strong style="font-size: 18px;">{{tmpTaxCutting.policypapertitle}}</strong></td>
         </tr>
         <tr>
           <td align="left" valign="middle"><p style="text-indent:35px">{{tmpTaxCutting.policypapercontent}}</p></td>
         </tr>
-      </table>
+      </table> -->
       <div slot="footer" class="dialog-footer">
         <el-button @click="showLookDialog = false">关 闭</el-button>
       </div>
@@ -215,6 +223,7 @@ export default {
                   smalltype: this.tmpTaxCutting.smalltype,
                   way: this.tmpTaxCutting.way,
                   policypapertitle: this.tmpTaxCutting.policypapertitle,
+                  policypapercontent: this.tmpTaxCutting.policypapercontent,
                   validitydate: this.tmpTaxCutting.validitydate,
                 },
                 ...this.taxCuttingTable
@@ -422,7 +431,7 @@ export default {
     text-decoration:underline;
   }
 
-  .look-table {
+  /* .look-table {
   border: 1px solid #e3e3e3;
   border-collapse: separate;
   }
@@ -430,8 +439,7 @@ export default {
   .look-table td {
     padding: 8px 8px;
   }
-
- /*  .content-table .el-table__body-wrapper .el-table__body {
+  .content-table .el-table__body-wrapper .el-table__body {
     table-layout: fixed;
   }
 
@@ -444,5 +452,8 @@ export default {
 <style>
   .content .el-textarea__inner {
     height: 300px;
+  }
+  .look-card .el-card__header{
+    text-align: center;
   }
 </style>
