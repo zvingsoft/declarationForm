@@ -49,6 +49,7 @@ declarationForm 是一个使用微服务架构开发的针对海关报关、通�
 在`Git`客户端排除 `node_modules` 目录:  
 在工程根目录下的 `.gitignore` 文件中添加 `node_modules`
 1. `vue-loader 13.0.x` 有bug，不能正常编译vue文件，所以暂时用 `vue-loader 12.2.2`。如要升级`vue-loader`，一定要先作测试确认能正常编译vue文件。
+1. 写接口的同事请维护API.raml，并用raml2html生成接口文档API.html
 
 ## 目录说明
 目录结构类似 https://github.com/kenberkeley/vue-demo/tree/master/src 有调整。
@@ -149,3 +150,6 @@ https://github.com/mzabriskie/axios/blob/master/README.md
 
 Font Awesome 图标  
 http://fontawesome.io/icons/  
+
+RAML 1.0 文档
+https://github.com/raml-org/raml-spec/blob/master/versions/raml-10/raml-10.md

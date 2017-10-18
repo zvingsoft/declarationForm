@@ -78,7 +78,7 @@ gulp.task('dev', function () {
         bsReload()
       })
 
-      watch([srcFiles.lib, srcFiles.assets, srcFiles.htmlInRoot], evt => {
+      watch([srcFiles.lib, srcFiles.assets, srcFiles.htmlInRoot, '!**/*.tmp'], evt => {
         var path = evt.path
         gulp
           .src(path, { base: './source' })
