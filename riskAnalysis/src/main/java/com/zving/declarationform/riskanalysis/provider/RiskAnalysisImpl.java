@@ -12,11 +12,11 @@ import com.zving.declarationform.riskanalysis.schema.RiskAnalysis;
 import io.servicecomb.provider.rest.common.RestSchema;
 
 @RestSchema(schemaId = "riskAnalysis")
-@RequestMapping(path = "/riskAnalysis", produces = MediaType.APPLICATION_JSON)
+@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
 public class RiskAnalysisImpl implements RiskAnalysis {
 
 	@Override
-	@RequestMapping(path = "", method = RequestMethod.POST)
+	@RequestMapping(path = "check", method = RequestMethod.POST)
 	public String check(@RequestBody DeclarationForm form) {
 		return "风险分析未发现问题";
 	}
