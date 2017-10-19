@@ -186,7 +186,7 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="preentrynumber" show-overflow-tooltip min-width="20%" label="预录入编号"></el-table-column>
+        <el-table-column prop="customsnumber" show-overflow-tooltip min-width="20%" label="海关编号"></el-table-column>
         <el-table-column prop="declarationtypename" show-overflow-tooltip min-width="20%" label="报关单类型"></el-table-column>
         <el-table-column prop="importorexportport" show-overflow-tooltip min-width="20%" label="进口/出口口岸"></el-table-column>
         <el-table-column min-width="20%" label="商品详情">
@@ -266,6 +266,7 @@
     </el-toolbar>
     <div class="main-content-wrap">
       <el-form label-position="right" :model="tmpDeclaration" inline label-width="160px" class="e-form">
+        <div>基本信息</div>
         <el-form-item label="报关单类型：">
           <el-select class="e-input" v-model="tmpDeclaration.declarationtype" placeholder="请选择">
             <el-option v-for="item in declarationTypeOptions" :key="item.key" :label="item.value" :value="item.key">
@@ -299,6 +300,7 @@
           <el-date-picker v-model="tmpDeclaration.declarationdate" type="date" class="e-input" placeholder="选择申报日期">
           </el-date-picker>
         </el-form-item>
+        <div>单位信息</div>
         <el-form-item label="经营单位：">
           <el-input class="e-input" v-model="tmpDeclaration.managementunit"></el-input>
         </el-form-item>
@@ -323,6 +325,7 @@
         <el-form-item label="征税比例：">
           <el-input class="e-input" v-model="tmpDeclaration.settlementtype"></el-input>
         </el-form-item>
+        <div>货物信息</div>
         <el-form-item label="许可证号：">
           <el-input class="e-input" v-model="tmpDeclaration.licensekey"></el-input>
         </el-form-item>
@@ -392,6 +395,7 @@
         <el-form-item label="税费征收情况：" style="width:90%">
           <el-input type="textarea" v-model="tmpDeclaration.taxpaidornot" :rows="3" style="width:719px;"></el-input>
         </el-form-item>
+        <div>操作相关</div>
         <el-form-item label="录入员：">
           <el-input class="e-input" v-model="tmpDeclaration.entryclerk"></el-input>
         </el-form-item>

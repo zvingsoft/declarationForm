@@ -188,7 +188,7 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="preentrynumber" show-overflow-tooltip min-width="15%" label="预录入编号"></el-table-column>
+        <el-table-column prop="customsnumber" show-overflow-tooltip min-width="15%" label="海关编号"></el-table-column>
         <el-table-column prop="declarationtypename" show-overflow-tooltip min-width="15%" label="报关单类型"></el-table-column>
         <el-table-column min-width="12%" label="商品详情">
           <template slot-scope="scope">
