@@ -264,15 +264,16 @@
         <span v-else>确认新建</span>
       </el-button>
     </el-toolbar>
-    <div class="main-content-wrap">
-      <el-form label-position="right" :model="tmpDeclaration" inline label-width="160px" class="e-form">
-        <div>基本信息</div>
+    <div class="main-content-wrap" style="background-color:#f5f5f5">
+      <el-form label-position="right" :model="tmpDeclaration" label-width="160px" class="e-form">
+        <div class="form-title">基本信息</div>
+        <div class="form-panel">
         <el-form-item label="报关单类型：">
           <el-select class="e-input" v-model="tmpDeclaration.declarationtype" placeholder="请选择">
             <el-option v-for="item in declarationTypeOptions" :key="item.key" :label="item.value" :value="item.key">
             </el-option>
           </el-select>
-        </el-form-item><br/>
+        </el-form-item>
         <el-form-item label="预录入编号：">
           <el-input class="e-input" v-model="tmpDeclaration.preentrynumber"></el-input>
         </el-form-item>
@@ -300,7 +301,9 @@
           <el-date-picker v-model="tmpDeclaration.declarationdate" type="date" class="e-input" placeholder="选择申报日期">
           </el-date-picker>
         </el-form-item>
-        <div>单位信息</div>
+        </div>
+        <div class="form-title">单位信息</div>
+        <div class="form-panel">
         <el-form-item label="经营单位：">
           <el-input class="e-input" v-model="tmpDeclaration.managementunit"></el-input>
         </el-form-item>
@@ -325,7 +328,9 @@
         <el-form-item label="征税比例：">
           <el-input class="e-input" v-model="tmpDeclaration.settlementtype"></el-input>
         </el-form-item>
-        <div>货物信息</div>
+        </div>
+        <div class="form-title">货物信息</div>
+        <div class="form-panel">
         <el-form-item label="许可证号：">
           <el-input class="e-input" v-model="tmpDeclaration.licensekey"></el-input>
         </el-form-item>
@@ -361,7 +366,7 @@
         </el-form-item>
         <el-form-item label="杂费：">
           <el-input class="e-input" v-model="tmpDeclaration.incidental"></el-input>
-        </el-form-item><br/>
+        </el-form-item>
         <el-form-item label="合同协议号：">
           <el-input class="e-input" v-model="tmpDeclaration.agreementnumber"></el-input>
         </el-form-item>
@@ -390,12 +395,14 @@
           <el-input class="e-input" v-model="tmpDeclaration.purposeormanufacturer"></el-input>
         </el-form-item>
         <el-form-item label="标记唛码及备注：" style="width:90%">
-          <el-input type="textarea" v-model="tmpDeclaration.shippingmarksandremarks" :rows="3" style="width:719px;"></el-input>
+          <el-input type="textarea" v-model="tmpDeclaration.shippingmarksandremarks" :rows="3" style="width:450px;"></el-input>
         </el-form-item>
         <el-form-item label="税费征收情况：" style="width:90%">
-          <el-input type="textarea" v-model="tmpDeclaration.taxpaidornot" :rows="3" style="width:719px;"></el-input>
+          <el-input type="textarea" v-model="tmpDeclaration.taxpaidornot" :rows="3" style="width:450px;"></el-input>
         </el-form-item>
-        <div>操作相关</div>
+        </div>
+        <div class="form-title">操作相关</div>
+        <div class="form-panel">
         <el-form-item label="录入员：">
           <el-input class="e-input" v-model="tmpDeclaration.entryclerk"></el-input>
         </el-form-item>
@@ -421,6 +428,8 @@
           <el-date-picker v-model="tmpDeclaration.fillingdate" type="date" class="e-input" placeholder="选择制填日期">
           </el-date-picker>
         </el-form-item>
+        </div>
+        <div style="height:100px;"></div>
       </el-form>
     </div>
   </div>
@@ -455,30 +464,38 @@ export default {
       tmpDeclaration: {},
       dataLoading: false,
       confirmLoading: false,
-      declarationTypeOptions: [{ key: 'import', value: '进口报关单' },
-      { key: 'export', value: '出口报关单' }],
+      declarationTypeOptions: [
+        { key: 'import', value: '进口报关单' },
+        { key: 'export', value: '出口报关单' },
+      ],
       sort: '',
-      sortOptions: [{ key: '', value: '请选择排序' },
-      { key: 'declarationtype', value: '报关单类型' },
-      { key: 'preentrynumber', value: '预录入编号' },
-      { key: 'importorexportport', value: '进口/出口口岸' },
-      { key: 'declarationunit', value: '申报单位' },
-      { key: 'declarationdate', value: '申报日期' },
-      { key: 'entrydate', value: '录入日期' }],
+      sortOptions: [
+        { key: '', value: '请选择排序' },
+        { key: 'declarationtype', value: '报关单类型' },
+        { key: 'preentrynumber', value: '预录入编号' },
+        { key: 'importorexportport', value: '进口/出口口岸' },
+        { key: 'declarationunit', value: '申报单位' },
+        { key: 'declarationdate', value: '申报日期' },
+        { key: 'entrydate', value: '录入日期' },
+      ],
       retrieval: '',
-      retrievalOptions: [{ key: '', value: '请选择检索字段' },
-      { key: 'declarationtype', value: '报关单类型' },
-      { key: 'preentrynumber', value: '预录入编号' },
-      { key: 'importorexportport', value: '进口/出口口岸' },
-      { key: 'declarationunit', value: '申报单位' },
-      { key: 'declarationdate', value: '申报日期' },
-      { key: 'entrydate', value: '录入日期' }],
+      retrievalOptions: [
+        { key: '', value: '请选择检索字段' },
+        { key: 'declarationtype', value: '报关单类型' },
+        { key: 'preentrynumber', value: '预录入编号' },
+        { key: 'importorexportport', value: '进口/出口口岸' },
+        { key: 'declarationunit', value: '申报单位' },
+        { key: 'declarationdate', value: '申报日期' },
+        { key: 'entrydate', value: '录入日期' },
+      ],
       logic: '',
-      logicOptions: [{ key: '', value: '请选择逻辑' },
-      { key: 'and', value: '与' },
-      { key: 'or', value: '或' },
-      { key: 'none', value: '非' }]
-    }
+      logicOptions: [
+        { key: '', value: '请选择逻辑' },
+        { key: 'and', value: '与' },
+        { key: 'or', value: '或' },
+        { key: 'none', value: '非' },
+      ],
+    };
   },
   methods: {
     addPackingClick() {
@@ -502,27 +519,31 @@ export default {
           }
           instance.confirmButtonLoading = true;
 
-          return packinglistAPI.deletePackingList(this.selectedPackingRow.id).then(data => {
-            instance.confirmButtonLoading = false;
-            console.log(data);
-            done(data);
+          return packinglistAPI
+            .deletePackingList(this.selectedPackingRow.id)
+            .then(data => {
+              instance.confirmButtonLoading = false;
+              console.log(data);
+              done(data);
+            });
+        },
+      })
+        .then(data => {
+          this.selectedPackingRow = [];
+          this.$notify({
+            title: '提示',
+            message: '删除成功！',
+            type: 'success',
+            duration: 2000,
           });
-        }
-      }).then((data) => {
-        this.selectedPackingRow = [];
-        this.$notify({
-          title: '提示',
-          message: '删除成功！',
-          type: 'success',
-          duration: 2000
+        })
+        .catch(() => {
+          this.$notify.error({
+            title: '取消',
+            message: '操作取消！',
+            duration: 2000,
+          });
         });
-      }).catch(() => {
-        this.$notify.error({
-          title: '取消',
-          message: '操作取消！',
-          duration: 2000
-        });
-      });
     },
     packingdetailConfirm() {
       if (this.editMode == 1) {
@@ -532,7 +553,7 @@ export default {
               title: '成功',
               message: data.message,
               type: 'success',
-              duration: 2000
+              duration: 2000,
             });
           }
           this.packingdetailDialogModal = false;
@@ -544,11 +565,11 @@ export default {
               title: '成功',
               message: data.message,
               type: 'success',
-              duration: 2000
+              duration: 2000,
             });
           }
           this.packingdetailDialogModal = false;
-        })
+        });
       }
     },
     packingRowClick(row) {
@@ -564,12 +585,14 @@ export default {
     },
     getDeclarationData() {
       this.dataLoading = true;
-      declarationAPI.getDeclaration(this.currentPage, this.pageSize).then(data => {
-        console.log(data);
-        this.declarationData = data.data;
-        this.total = data.total;
-        this.dataLoading = false;
-      });
+      declarationAPI
+        .getDeclaration(this.currentPage, this.pageSize)
+        .then(data => {
+          console.log(data);
+          this.declarationData = data.data;
+          this.total = data.total;
+          this.dataLoading = false;
+        });
     },
     onSelectionChange(selection) {
       this.selectedRows = selection;
@@ -589,7 +612,7 @@ export default {
     addClick() {
       this.editMode = 0;
       this.tmpDeclaration = {
-        declarationtype: 'import'
+        declarationtype: 'import',
       };
       this.declarationDialogmodel = true;
     },
@@ -618,23 +641,27 @@ export default {
             instance.confirmButtonLoading = false;
             done(data);
           });
-        }
-      }).then((data) => {
-        this.declarationData = this.declarationData.filter(val => !rowIds.includes(val.id));
-        this.selectedRows = [];
-        this.$notify({
-          title: '提示',
-          message: '删除成功！',
-          type: 'success',
-          duration: 2000
+        },
+      })
+        .then(data => {
+          this.declarationData = this.declarationData.filter(
+            val => !rowIds.includes(val.id)
+          );
+          this.selectedRows = [];
+          this.$notify({
+            title: '提示',
+            message: '删除成功！',
+            type: 'success',
+            duration: 2000,
+          });
+        })
+        .catch(() => {
+          this.$notify.error({
+            title: '取消',
+            message: '操作取消！',
+            duration: 2000,
+          });
         });
-      }).catch(() => {
-        this.$notify.error({
-          title: '取消',
-          message: '操作取消！',
-          duration: 2000
-        });
-      });
     },
     returnMain() {
       this.declarationDialogmodel = false;
@@ -647,14 +674,16 @@ export default {
               title: '成功',
               message: data.message,
               type: 'success',
-              duration: 2000
+              duration: 2000,
             });
           }
-          let index = this.declarationData.findIndex(val => val.id === this.tmpDeclaration.id);
+          let index = this.declarationData.findIndex(
+            val => val.id === this.tmpDeclaration.id
+          );
           this.declarationData = [
             ...this.declarationData.slice(0, index),
             Object.assign({}, this.tmpDeclaration),
-            ...this.declarationData.slice(index + 1)
+            ...this.declarationData.slice(index + 1),
           ];
         });
       } else {
@@ -664,20 +693,20 @@ export default {
               title: '成功',
               message: data.message,
               type: 'success',
-              duration: 2000
+              duration: 2000,
             });
           }
           this.declarationData = [
             ...this.declarationData,
-            Object.assign({}, this.tmpDeclaration, { id: data.declaration.id })
+            Object.assign({}, this.tmpDeclaration, { id: data.declaration.id }),
           ];
 
           this.tmpDeclaration = {
-            declarationtype: 'import'
+            declarationtype: 'import',
           };
-        })
+        });
       }
-    }
+    },
   },
   created() {
     this.clientWidth = document.documentElement.clientWidth - 200;
@@ -685,9 +714,9 @@ export default {
     this.getDeclarationData();
   },
   components: {
-    'packinglist-table': packinglistTable
-  }
-}
+    'packinglist-table': packinglistTable,
+  },
+};
 </script>
 
 <style scoped>
@@ -723,21 +752,26 @@ export default {
   padding-right: 10px;
 }
 
-.e-form {
-  padding-left: 10%;
-}
-
-.e-form .el-form-item {
-  margin-right: 0;
-  margin-bottom: 0;
-  width: 45%;
-}
-
 .e-input {
-  width: 240px;
+  width: 270px;
 }
 
 .search-select {
   width: 150px;
+}
+
+.form-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 6%;
+  padding: 10px 0 5px 0;
+}
+.form-panel {
+  width: 80%;
+  margin-left: 5%;
+  padding: 20px 0 0 0;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
 }
 </style>
