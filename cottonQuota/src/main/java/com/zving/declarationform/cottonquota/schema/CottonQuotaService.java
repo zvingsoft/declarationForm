@@ -19,7 +19,7 @@ public interface CottonQuotaService {
 
 	String update(CottonQuota form);
 
-	String submit(DeclarationForm form);
+	String confirm(DeclarationForm form);
 
 	String check(DeclarationForm form);
 

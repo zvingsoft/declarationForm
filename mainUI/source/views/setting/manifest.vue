@@ -16,7 +16,7 @@
         <el-input v-model="search.receivecompany" size="small" placeholder="请输入收件公司" style="width: 200px;"></el-input>
         收货人：
         <el-input v-model="search.receiveperson" size="small" placeholder="请输入收货人" style="width: 200px;"></el-input>
-        <el-button size="small" type="primary" @click="handleSearchBtn"> 搜 索 </el-button>
+        <el-button size="small" type="primary" @click="handleSearchBtn" style="width: 60px;">搜索</el-button>
       </div>
       <!--表格-->
       <div>

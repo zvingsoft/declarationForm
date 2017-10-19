@@ -7,59 +7,49 @@
         <i class="fa fa-edit" aria-hidden="true"></i> 编辑</el-button>
       <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="deleteClick" :disabled="selectedRows.length === 0">
         <i class="fa fa-minus" aria-hidden="true"></i> 删除</el-button>
-      <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="auditClick(true)" :disabled="selectedRows.length === 0">
-        <i class="fa fa-check" aria-hidden="true"></i> 审核通过</el-button>
-      <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="auditClick(false)" :disabled="selectedRows.length === 0">
-        <i class="fa fa-remove" aria-hidden="true"></i> 审核不通过</el-button>
+      <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="setConttonQuotaClick" :disabled="selectedRows.length !== 1">
+        <i class="fa fa-cog" aria-hidden="true"></i> 设置棉花配额</el-button>
     </el-toolbar>
 
     <div class="search-bar fr">
-      <span>编号</span>&nbsp;
-      <el-input v-model="number" size="small" placeholder="请输入编号" style="width:200px"></el-input>&nbsp;
-      <span>企业</span>&nbsp;
-      <el-input v-model="companyName" size="small" placeholder="请输入企业" style="width:200px"></el-input>
-      <el-button type="primary" @click="list" size="small" style="width: 60px;">搜索</el-button>
+      <span>名称</span>&nbsp;
+      <el-input v-model="companyName" size="small" placeholder="请输入企业名称" style="width:200px"></el-input>
+      <el-button type="primary" @click="list" size="small">搜索</el-button>
     </div>
 
     <div class="main-content-wrap">
-      <el-table ref="cottonquotaTable" :data="cottonquotas" style="width: 100%" v-loading="dataLoading" @selection-change="onSelectionChange"
-        @row-click="onCottonquotaTableRowClick">
+      <el-table ref="companyTable" :data="companys" style="width: 100%" v-loading="dataLoading" @selection-change="onSelectionChange"
+        @row-click="onCompanyTableRowClick">
         <el-table-column type="selection" width="50">
         </el-table-column>
         <el-table-column type="expand">
           <template slot-scope="props">
-            <el-form label-position="left" inline class="cottonquota-table-expand">
-              <el-form-item label="编号">
-                <span>{{ props.row.number }}</span>
-              </el-form-item>
-              <el-form-item label="企业名称">
+            <el-form label-position="left" inline class="company-table-expand">
+              <el-form-item label="名称">
                 <el-button type="text" @click="viewCompanyClick( props.row.companyid)">{{ props.row.companyname }}</el-button>
               </el-form-item>
               <el-form-item label="银行信用评级">
                 <span>{{ props.row.bankcreditrating }}</span>
               </el-form-item>
-              <el-form-item label="申请量（吨）">
-                <span>{{ props.row.application }}</span>
-              </el-form-item>
-              <el-form-item label="分配量（吨）">
-                <span>{{ props.row.allocation }}</span>
-              </el-form-item>
-              <el-form-item label="已进口（吨）">
-                <span>{{ props.row.used }}</span>
-              </el-form-item>
-              <el-form-item label="企业地址">
+              <el-form-item label="地址">
                 <span>{{ props.row.address }}</span>
               </el-form-item>
-              <el-form-item label="企业电话">
+              <el-form-item label="电话">
                 <span>{{ props.row.phone }}</span>
               </el-form-item>
-              <el-form-item label="企业传真">
+              <el-form-item label="传真">
                 <span>{{ props.row.fax }}</span>
               </el-form-item>
-              <el-form-item label="企业邮政编码">
+              <el-form-item label="邮政编码">
                 <span>{{ props.row.postcode }}</span>
               </el-form-item>
-              <el-form-item label="申请时间">
+              <el-form-item label="棉花分配量" v-if="props.row.allocation>0">
+                <span>{{ props.row.allocation }}</span>（吨）
+              </el-form-item>
+              <el-form-item label="棉花已进口" v-if="props.row.allocation>0">
+                <span>{{ props.row.used }}</span>（吨）
+              </el-form-item>
+              <el-form-item label="添加时间">
                 <span>{{ props.row.addtime }}</span>
               </el-form-item>
               <el-form-item label="添加人">
@@ -68,33 +58,22 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column label="编号" prop="number">
-        </el-table-column>
-        <el-table-column label="企业">
+        <el-table-column label="名称">
           <template slot-scope="props">
             <el-button type="text" @click="viewCompanyClick( props.row.companyid)">{{ props.row.companyname }}</el-button>
           </template>
         </el-table-column>
         <el-table-column label="银行信用评级" prop="bankcreditrating">
         </el-table-column>
-        <el-table-column label="申请量（吨）" prop="application">
+        <el-table-column label="地址" prop="address" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column label="分配量（吨）" prop="allocation">
+        <el-table-column label="电话" prop="phone">
         </el-table-column>
-        <el-table-column label="已进口（吨）" prop="used">
+        <el-table-column label="传真" prop="fax">
         </el-table-column>
-        <el-table-column label="审核状态">
-          <template slot-scope="scope">
-            <span v-if="scope.row.auditstatus==='Y'" class="green-color">已通过</span>
-            <span v-else-if="scope.row.auditstatus==='N'" class="red-color">未通过</span>
-            <span v-else>未审核</span>
-          </template>
+        <el-table-column label="邮政编码" prop="postcode">
         </el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button type="text" @click="auditClick( true,scope.row.id)">通过</el-button>&nbsp;
-            <el-button type="text" @click="auditClick( false,scope.row.id)">不通过</el-button>
-          </template>
+        <el-table-column label="添加时间" prop="addtime">
         </el-table-column>
       </el-table>
 
@@ -109,15 +88,21 @@
 
     <!-- 新建,编辑对话框 -->
     <el-dialog :title="addOperate?'新建':'编辑'" :visible.sync="showDialog">
-      <el-form label-width="160px" :model="tmpCottonQuota">
-        <el-form-item label="企业名称：">
-          <el-select v-model="tmpCottonQuota.companyname" clearable placeholder="请选择" @change="onCompanyChange" :disabled="!addOperate">
-            <el-option v-for="item in companys" :key="item.companyid" :label="item.companyname" :value="item.companyid">
-            </el-option>
-          </el-select>
+      <el-form label-width="160px" :model="tmpCompany">
+        <el-form-item label="名称：">
+          <el-input placeholder="请输入企业名称" v-model="tmpCompany.companyname" class="width-300"></el-input>
         </el-form-item>
-        <el-form-item label="申请量：">
-          <el-input-number :min="0" placeholder="请输入申请量" v-model="tmpCottonQuota.application" class="width-300"></el-input-number>（单位：吨）
+        <el-form-item label="银行信用评级：">
+          <el-input placeholder="请输入银行信用评级" v-model="tmpCompany.bankcreditrating" class="width-300"></el-input>
+        </el-form-item>
+        <el-form-item label="地址：">
+          <el-input placeholder="请输入地址：" v-model="tmpCompany.address" class="width-300"></el-input>
+        </el-form-item>
+        <el-form-item label="电话：">
+          <el-input placeholder="请输入电话" v-model="tmpCompany.phone" class="width-300"></el-input>
+        </el-form-item>
+        <el-form-item label="传真：">
+          <el-input placeholder="请输入传真" v-model="tmpCompany.fax" class="width-300"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -126,33 +111,46 @@
       </div>
     </el-dialog>
 
-    <!-- 企业信息对话框 -->
-    <company-detail :company="tmpCottonQuota" :show.sync="showCompanyDialog"></company-detail>
+    <!-- 设置棉花配额对话框 -->
+    <el-dialog size="tiny" :title="设置棉花配额" :visible.sync="showConttonQuotaDialog">
+      <el-form label-width="160px" :model="tmpCompany">
+        <el-form-item label="企业名称：">
+          {{tmpCompany.companyname}}
+        </el-form-item>
+        <el-form-item label="棉花分配量：">
+          <el-input-number :min="0" placeholder="请输入棉花分配量" v-model="tmpCompany.allocation" class="width-300"></el-input-number>（单位：吨）
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="showConttonQuotaDialog = false">取 消</el-button>
+        <el-button type="primary" @click="saveConttonQuota" :disabled="saveConttonQuotaStatus">确 定</el-button>
+      </div>
+    </el-dialog>
 
+    <!-- 企业信息对话框 -->
+    <company-detail :company="tmpCompany" :show.sync="showCompanyDialog"></company-detail>
   </div>
 </template>
 
 <script>
-  require('./mock/cottonQuota.js')
   require('./mock/company.js')
   import companyAPI from './api/companyAPI.js';
-  import cottonQuotaAPI from './api/cottonQuotaAPI.js';
   import companyDetail from './components/companyDetail.vue';
 
   export default {
     data() {
       return {
         dataLoading: true,
-        cottonquotas: [],
-        number: '',
+        companys: [],
         companyName: '',
-        tmpCottonQuota: {},
+        tmpCompany: {},
         addOperate: true,
         saveStatus: false,
         showDialog: false,
         showCompanyDialog: false,
+        showConttonQuotaDialog: false,
+        saveConttonQuotaStatus: false,
         selectedRows: [],
-        companys: {},
         total: 0,
         pageSize: 15,
         currentPage: 1,
@@ -160,26 +158,32 @@
       }
     },
     methods: {
-      //审核
-      auditClick(pass, ids) {
-        if (ids == undefined || ids == '') {
-          ids = this.getSelectedIds().join(',');
-        }
-        cottonQuotaAPI.auditCottonQuota(pass, ids).then(data => {
+      //设置棉花配额
+      setConttonQuotaClick() {
+        this.showConttonQuotaDialog = true;
+        this.tmpCompany = Object.assign({}, this.selectedRows[0]);
+        this.saveConttonQuotaStatus = false;
+      },
+      //保存棉花配额
+      saveConttonQuota() {
+        this.saveConttonQuotaStatus = true;
+        companyAPI.setConttonQuota(this.tmpCompany).then(data => {
           if (data.status == 1) {
-            this.$message.success(data.message);
             this.list();
+            this.$message.success(data.message);
           } else {
             this.$message.error(data.message);
           }
+          this.saveConttonQuotaStatus = false;
+          this.showConttonQuotaDialog = false;
         });
       },
       //单击一行选中当前行、单击多选框增加选中当前行
-      onCottonquotaTableRowClick(row, event, column) {
+      onCompanyTableRowClick(row, event, column) {
         if (column.type != "selection") {
-          this.$refs.cottonquotaTable.clearSelection();
+          this.$refs.companyTable.clearSelection();
         }
-        this.$refs.cottonquotaTable.toggleRowSelection(row);
+        this.$refs.companyTable.toggleRowSelection(row);
       },
       //选择改变
       onSelectionChange(selection) {
@@ -193,24 +197,23 @@
       //列表
       list() {
         this.dataLoading = true;
-        cottonQuotaAPI.getCottonQuota(this.number, this.companyName, this.currentPage, this.pageSize).then(data => {
-          this.cottonquotas = data.data;
+        companyAPI.getCompany(this.companyName, this.currentPage, this.pageSize).then(data => {
+          this.companys = data.data;
           this.total = data.total;
           this.dataLoading = false;
         })
       },
       //新增
       addClick() {
-        this.loadCompany();
         this.addOperate = true;
-        this.tmpCottonQuota = {};
+        this.tmpCompany = {};
         this.saveStatus = false;
         this.showDialog = true;
       },
       //编辑
       editClick() {
         this.addOperate = false;
-        this.tmpCottonQuota = Object.assign({}, this.selectedRows[0]);;
+        this.tmpCompany = Object.assign({}, this.selectedRows[0]);;
         this.saveStatus = false;
         this.showDialog = true;
       },
@@ -224,7 +227,7 @@
           beforeClose: (action, instance, done) => {
             if (action == 'confirm') {
               instance.confirmButtonLoading = true;
-              return cottonQuotaAPI.deleteCottonQuota(rowIds).then(data => {
+              return companyAPI.deleteCompany(rowIds).then(data => {
                 if (data.status == 1) {
                   this.list();
                   this.$notify({
@@ -254,13 +257,13 @@
       //查看公司信息
       viewCompanyClick(companyid) {
         this.showCompanyDialog = true;
-        this.tmpCottonQuota = this.cottonquotas.filter(row => row.companyid === companyid)[0];
+        this.tmpCompany = this.companys.filter(row => row.companyid === companyid)[0];
       },
       //保存
       save() {
         this.saveStatus = true;
         if (this.addOperate) {
-          cottonQuotaAPI.addCottonQuota(this.tmpCottonQuota).then(data => {
+          companyAPI.addCompany(this.tmpCompany).then(data => {
             if (data.status == 1) {
               this.list();
               this.$message.success(data.message);
@@ -271,7 +274,7 @@
             this.showDialog = false;
           });
         } else {
-          cottonQuotaAPI.editCottonQuota(this.tmpCottonQuota).then(data => {
+          companyAPI.editCompany(this.tmpCompany).then(data => {
             if (data.status == 1) {
               this.list();
               this.$message.success(data.message);
@@ -287,18 +290,10 @@
       getSelectedIds() {
         let rowIds = [];
         this.selectedRows.forEach(function (row) {
-          rowIds.push(row.id);
+          rowIds.push(row.companyid);
         });
         return rowIds;
       },
-      //加载企业列表共选择
-      loadCompany() {
-        if (!this.companys.length > 0) {
-          companyAPI.getCompanyForSelect().then(data => {
-            this.companys = data.data;
-          })
-        }
-      }
     },
     created() {
       this.list();
@@ -319,16 +314,16 @@
     padding: 5px 12px;
   }
 
-  .cottonquota-table-expand {
+  .company-table-expand {
     font-size: 0;
   }
 
-  .cottonquota-table-expand label {
+  .company-table-expand label {
     width: 90px;
     color: #99a9bf;
   }
 
-  .cottonquota-table-expand .el-form-item {
+  .company-table-expand .el-form-item {
     margin-right: 0;
     margin-bottom: 0;
     width: 50%;

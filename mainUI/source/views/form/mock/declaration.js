@@ -131,9 +131,83 @@ axiosMock.onGet(/api\/declaration+$/).reply(res => {
   return result
 })
 
+const packinglist = [
+  {
+    id: '9403300090',
+    declarationid: '1',
+    name: '展台（品牌：AQUATHERM）  产品展示：木质板材，不是办公用  1.5x0.8x1M',
+    number: '2.000件  40.16千克',
+    productcountry: '德国',
+    singleprice: '200',
+    totalprice: '400',
+    currency: '美元',
+    exemption: '照章征税  其它'
+  },
+  {
+    id: '4421909090',
+    declarationid: '1',
+    name: '展板  木质，三聚氰胺板，CYANURAMIDE  BOARD，否',
+    number: '7.000个  200.000千克',
+    productcountry: '德国',
+    singleprice: '1250',
+    totalprice: '8750',
+    currency: '美元',
+    exemption: '照章征税  其它'
+  },
+  {
+    id: '508001090',
+    declarationid: '2',
+    name: '珍珠贝壳粒',
+    number: '1000.000千克 0.000',
+    productcountry: '日本',
+    singleprice: '0.1900',
+    totalprice: '190.00',
+    currency: '美元',
+    exemption: '照章征税  用途：其它'
+  }
+]
+
+axiosMock.onGet(/api\/declaration\/packinglist+$/).reply(res => {
+  let list = packinglist
+  let result = [
+    200,
+    {
+      data: '',
+      status: 1,
+      message: ''
+    }
+  ]
+
+  if (
+    typeof res.params.declarationid !== 'undefined' &&
+    res.params.declarationid !== ''
+  ) {
+    list = list.filter(val => val.declarationid == res.params.declarationid)
+    result[1].data = list
+  }
+  return result
+})
+
+axiosMock
+  .onPut(/api\/declaration\/packinglist\/.+$/)
+  .reply(200, { status: 1, message: '修改成功' })
+
+axiosMock
+  .onDelete(/api\/declaration\/packinglist\/.+$/)
+  .reply(200, { status: 1, message: '删除成功' })
+
+axiosMock.onPost('/api/declaration/packinglist').reply(200, {
+  status: 1,
+  message: '添加成功'
+})
+
+axiosMock
+  .onPut(/api\/declaration\/auditing\/.+$/)
+  .reply(200, { status: 1, message: '审核成功' })
+
 axiosMock
   .onPut(/api\/declaration\/.+$/)
-  .reply(200, { status: 1, message: '编辑成功' })
+  .reply(200, { status: 1, message: '修改成功' })
 
 axiosMock
   .onDelete(/api\/declaration\/.+$/)

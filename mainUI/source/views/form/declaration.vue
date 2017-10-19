@@ -1,4 +1,4 @@
-<template slot-scope="scope">
+<template>
   <div v-if="!declarationDialogmodel" :style="{width:clientWidth+'px'}">
     <el-toolbar>
       <el-button class="z-toolbar-btn" :plain="true" @click="addClick">
@@ -25,12 +25,12 @@
           <el-option v-for="item in logicOptions" :key="item.key" :label="item.value" :value="item.key">
           </el-option>
         </el-select>
-        <el-button size="small" type="primary" @click="getDeclarationData" style="width: 60px;">搜索</el-button>
+        <el-button size="small" type="primary" @click="getDeclarationData" style="width:60px;">搜索</el-button>
       </div>
-      <el-table :data="declarationData" ref="declarationTable" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange" @row-click="onRowClick">
+      <el-table :data="declarationData" ref="declarationTable" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange" @expand="expandRow">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column type="expand">
-          <template scope="props">
+          <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand" label-width="160px">
               <el-form-item label="报关单类型：">
                 <span>{{props.row.declarationtypename}}</span>
@@ -149,7 +149,11 @@
               <el-form-item label="标记唛码及备注：" style="width:90%">
                 <span>{{props.row.shippingmarksandremarks}}</span>
               </el-form-item>
-              <el-form-item label="税费征收情况：">
+              <el-form-item label="商品：" label-width="60px" style="width:100%">
+                <packinglist-table :declarationID="declarationID" :declarationType="declarationType">
+                </packinglist-table>
+              </el-form-item>
+              <el-form-item label="税费征收情况：" style="width:90%">
                 <span>{{props.row.taxpaidornot}}</span>
               </el-form-item>
               <el-form-item label="录入员：">
@@ -183,7 +187,15 @@
           </template>
         </el-table-column>
         <el-table-column prop="preentrynumber" show-overflow-tooltip min-width="20%" label="预录入编号"></el-table-column>
+        <el-table-column prop="declarationtypename" show-overflow-tooltip min-width="20%" label="报关单类型"></el-table-column>
         <el-table-column prop="importorexportport" show-overflow-tooltip min-width="20%" label="进口/出口口岸"></el-table-column>
+        <el-table-column min-width="20%" label="商品详情">
+          <template slot-scope="scope">
+            <el-button type="text">
+              <span style="color:green;" @click="showPackinglist(scope.row.id,scope.row.declarationtype)">查看商品</span>
+            </el-button>
+          </template>
+        </el-table-column>
         <el-table-column prop="declarationunit" show-overflow-tooltip min-width="30%" label="申报单位"></el-table-column>
         <el-table-column prop="declarationdate" show-overflow-tooltip min-width="15%" label="申报日期"></el-table-column>
         <el-table-column prop="entrydate" show-overflow-tooltip min-width="15%" label="录入日期"></el-table-column>
@@ -193,12 +205,59 @@
         </el-pagination>
       </div>
     </div>
-
+    <el-dialog title="商品列表详情" :visible.sync="packinglistDialogModal" size="large">
+      <el-toolbar style="margin-bottom:20px;">
+        <el-button class="z-toolbar-btn" :plain="true" @click="addPackingClick" style="margin-left:10px;">
+          <i class="fa fa-plus"></i>添加</el-button>
+        <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedPackingRow.length === 0" @click="editPackingClick">
+          <i class="fa fa-edit"></i>编辑</el-button>
+        <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedPackingRow.length === 0" @click="deletePackingClick">
+          <i class="fa fa-remove"></i>删除</el-button>
+      </el-toolbar>
+      <packinglist-table :declarationID="declarationID" :declarationType="declarationType" @row-click="packingRowClick">
+      </packinglist-table>
+    </el-dialog>
+    <el-dialog :title="editMode==1? '添加商品': '编辑商品信息'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false">
+      <el-form label-position="right" :model="tmpPacking" inline label-width="200px">
+        <el-form-item label="商品编号：">
+          <el-input class="e-input" v-model="tmpPacking.id"></el-input>
+        </el-form-item>
+        <el-form-item label="商品名称、规格型号：">
+          <el-input class="e-input" type="textarea" :rows="3" v-model="tmpPacking.name"></el-input>
+        </el-form-item>
+        <el-form-item label="数量及单位：">
+          <el-input class="e-input" v-model="tmpPacking.number"></el-input>
+        </el-form-item>
+        <el-form-item label="单价：">
+          <el-input class="e-input" v-model="tmpPacking.singleprice"></el-input>
+        </el-form-item>
+        <el-form-item label="总价：">
+          <el-input class="e-input" v-model="tmpPacking.totalprice"></el-input>
+        </el-form-item>
+        <el-form-item v-if="this.declarationType == 'import'" label="原产国：">
+          <el-input class="e-input" v-model="tmpPacking.productcountry"></el-input>
+        </el-form-item>
+        <el-form-item v-else label="最终目的国：">
+          <el-input class="e-input" v-model="tmpPacking.productcountry"></el-input>
+        </el-form-item>
+        <el-form-item label="币制：">
+          <el-input class="e-input" v-model="tmpPacking.currency"></el-input>
+        </el-form-item>
+        <el-form-item label="征免：">
+          <el-input class="e-input" v-model="tmpPacking.exemption"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="packingdetailDialogModal = false">取 消</el-button>
+        <el-button type="primary" @click="packingdetailConfirm">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
   <div v-else>
     <el-toolbar>
       <el-button class="z-toolbar-btn" :plain="true" @click="returnMain">
-        <i class="fa fa-step-backward"></i>返回主页面</el-button>
+        <i class="fa fa-chevron-left"></i>返回</el-button>
+        <span class="button-separator"></span>
       <el-button class="z-toolbar-btn" :plain="true" @click="confirm">
         <i class="fa fa-save"></i>
         <span v-if="editMode == 1">保存编辑</span>
@@ -365,15 +424,23 @@
 
 <script>
 import declarationAPI from './api/declarationAPI.js';
+import packinglistAPI from './api/packinglistAPI.js';
 import './mock/declaration.js';
+import packinglistTable from './components/packinglistTable.vue';
 
 export default {
   data() {
     return {
+      tmpPacking: {},
+      packingdetailDialogModal: false,
+      packinglistDialogModal: false,
+      declarationType: '',
+      declarationID: '',
       clientWidth: 0,
       clientHeight: 0,
       searchword: '',
       selectedRows: [],
+      selectedPackingRow: [],
       declarationData: [],
       currentPage: 1,
       pageSizes: [10, 20, 50],
@@ -410,6 +477,87 @@ export default {
     }
   },
   methods: {
+    addPackingClick() {
+      this.editMode = 0;
+      this.tmpPacking = {};
+      this.packingdetailDialogModal = true;
+    },
+    editPackingClick() {
+      this.editMode = 1;
+      this.tmpPacking = Object.assign({}, this.selectedPackingRow);
+      this.packingdetailDialogModal = true;
+    },
+    deletePackingClick() {
+      this.$confirm('确定删除吗？删除后无法恢复。是否继续删除？', '删除确认', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        beforeClose: (action, instance, done) => {
+          if (action !== 'confirm') {
+            done();
+          }
+          instance.confirmButtonLoading = true;
+
+          return packinglistAPI.deletePackingList(this.selectedPackingRow.id).then(data => {
+            instance.confirmButtonLoading = false;
+            console.log(data);
+            done(data);
+          });
+        }
+      }).then((data) => {
+        this.selectedPackingRow = [];
+        this.$notify({
+          title: '提示',
+          message: '删除成功！',
+          type: 'success',
+          duration: 2000
+        });
+      }).catch(() => {
+        this.$notify.error({
+          title: '取消',
+          message: '操作取消！',
+          duration: 2000
+        });
+      });
+    },
+    packingdetailConfirm() {
+      if (this.editMode == 1) {
+        packinglistAPI.updatePackingList(this.tmpPacking).then(data => {
+          if (data.status == 1) {
+            this.$notify({
+              title: '成功',
+              message: data.message,
+              type: 'success',
+              duration: 2000
+            });
+          }
+          this.packingdetailDialogModal = false;
+        });
+      } else {
+        packinglistAPI.addPackingList(this.tmpPacking).then(data => {
+          if (data.status == 1) {
+            this.$notify({
+              title: '成功',
+              message: data.message,
+              type: 'success',
+              duration: 2000
+            });
+          }
+          this.packingdetailDialogModal = false;
+        })
+      }
+    },
+    packingRowClick(row) {
+      console.log(row);
+      this.selectedPackingRow = row;
+    },
+    showPackinglist(id, type) {
+      console.log(id);
+      console.log(type);
+      this.declarationID = id;
+      this.declarationType = type;
+      this.packinglistDialogModal = true;
+    },
     getDeclarationData() {
       this.dataLoading = true;
       declarationAPI.getDeclaration(this.currentPage, this.pageSize).then(data => {
@@ -422,9 +570,6 @@ export default {
     onSelectionChange(selection) {
       this.selectedRows = selection;
     },
-    onRowClick(row, event, column) {
-
-    },
     handleSizeChange(val) {
       this.pageSize = val;
       this.getDeclarationData();
@@ -432,6 +577,10 @@ export default {
     handleCurrentChange(val) {
       this.currentPage = val;
       this.getDeclarationData();
+    },
+    expandRow(row) {
+      this.declarationType = row.declarationtype;
+      this.declarationID = row.id;
     },
     addClick() {
       this.editMode = 0;
@@ -530,13 +679,16 @@ export default {
     this.clientWidth = document.documentElement.clientWidth - 200;
     this.clientHeight = document.documentElement.clientHeight - 200;
     this.getDeclarationData();
+  },
+  components: {
+    'packinglist-table': packinglistTable
   }
 }
 </script>
 
 <style scoped>
 .main-content-wrap {
-  padding: 5px;
+  padding: 10px;
 }
 
 .search-bar {

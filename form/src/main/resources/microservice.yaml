@@ -6,6 +6,8 @@ cse:
   service:
     registry:
       address: http://127.0.0.1:30100
+  rest:
+    address: 0.0.0.0:8002
   handler:
     chain:
       Consumer:
@@ -15,4 +17,14 @@ cse:
       enabled: false
   references:
     riskAnalysis:
+      version-rule: 0.0.1
+    license:
+      version-rule: 0.0.1
+    tax:
+      version-rule: 0.0.1
+    taxCutting:
+      version-rule: 0.0.1
+    manifest:
+      version-rule: 0.0.1
+    cottonQuota:
       version-rule: 0.0.1

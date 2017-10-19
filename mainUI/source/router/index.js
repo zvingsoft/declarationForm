@@ -57,6 +57,11 @@ const routes = [
         path: 'cottonQuota',
         meta: { title: '棉花配额管理', icon: 'fa fa-file-text-o' },
         component: require('../views/setting/cottonQuota.vue')
+      },
+      {
+        path: 'company',
+        meta: { title: '企业管理', icon: 'fa fa-file-text-o' },
+        component: require('../views/setting/company.vue')
       }
     ]
   },

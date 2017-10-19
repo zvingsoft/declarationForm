@@ -24,14 +24,14 @@
 
       <div :class="'navbar-collapse collapse'+ (navbarCollapsed?' in':'')">
         <el-menu mode="horizontal" theme="primary" :default-active="activeMenu">
-          <template v-for="(menu, index) in menus">
-            <el-menu-item v-if="menu.meta && menu.meta.title" :key="menu.path" :index="index" @click="getLoction(menu.path)">
+          <template v-for="menu in menus">
+            <el-menu-item v-if="menu.meta && menu.meta.title" :index="menu.path" :key="menu.path" @click="onSelectMenun(menu)">
               <i :class="menu.meta.icon"></i> {{menu.meta.title}}</el-menu-item>
           </template>
         </el-menu>
         <el-menu mode="horizontal" theme="primary" :default-active="activeMenu" class="visible-on-mobile">
           <template v-for="menu in systemMenus">
-            <el-menu-item v-if="menu.meta && menu.meta.title" :key="menu.path" :index="index" @click="getLoction(menu.path)">
+            <el-menu-item v-if="menu.meta && menu.meta.title" :key="menu.path" @click="onSelectMenun(menu)">
               <i :class="menu.meta.icon"></i> {{menu.meta.title}}</el-menu-item>
           </template>
         </el-menu>
@@ -52,11 +52,15 @@ const menus = util.assign([], routes, 'component')
 
 export default {
   data() {
+    let routePath = this.$route.path
+    if(routePath && routePath.split('/').length>2){
+      routePath = routePath.split('/').slice(0,2).join('/')
+    }
     return {
       realname: localStorage.realname || 'demo',
       routerName: this.$route.name || '/',
       menus: menus,
-      activeMenu: menus[0].path,
+      activeMenu: routePath,
       navbarCollapsed: false, // 导航是否展开
     }
   },
@@ -66,7 +70,9 @@ export default {
     }
   },
   methods: {
-    getLoction(hash) {
+    onSelectMenun(menu) {
+      let hash = menu.children && ('/' + menu.children[0].path) || ''
+      hash = menu.path + hash
       window.location.hash = hash
       if (this.navbarCollapsed) {
         this.navbarCollapsed = false

@@ -155,7 +155,7 @@ samp {
     background-color: #fff;
 }
 
-.toolbar .toolbar-btn {
+.el-toolbar .el-toolbar-btn {
     font-size: 14px;
     color: #495060;
     background-color: transparent;
@@ -164,13 +164,13 @@ samp {
     border: 1 solid transparent;
 }
 
-.toolbar .toolbar-btn.is-disabled {
+.el-toolbar .el-toolbar-btn.is-disabled {
     color: #a9b0c0;
     background-color: transparent;
 }
 
-.toolbar .toolbar-btn.is-disabled:hover,
-.toolbar .toolbar-btn:hover {
+.el-toolbar .el-toolbar-btn.is-disabled:hover,
+.el-toolbar .el-toolbar-btn:hover {
     background-color: white;
 }
 
@@ -190,14 +190,16 @@ samp {
 }
 
 .menu-wrap .is-active {
-  color: #3344FF;
-  background-color: #EAEEF8;
+    color: #3344FF;
+    background-color: #EAEEF8;
 }
 
+
 /*begin 对UI框架element的样式的覆盖*/
-.toolbar .el-button,
-.toolbar .el-button.is-disabled.is-plain{
-  border-color: transparent;
+
+.el-toolbar .el-button,
+.el-toolbar .el-button.is-disabled.is-plain {
+    border-color: transparent;
 }
 
 .el-tabs__header {
@@ -219,8 +221,13 @@ samp {
     background: none;
 }
 
-.tabs-wrap .el-tabs__header{
+.tabs-wrap .el-tabs__header {
     margin: 0;
 }
+
+
 /*end 对UI框架element的样式的覆盖*/
 
+.permission-tree-wrap .el-tree-node__content {
+    height: auto;
+}

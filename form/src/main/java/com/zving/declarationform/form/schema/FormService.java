@@ -8,6 +8,13 @@ import com.zving.declarationform.model.DeclarationForm;
  * @date 2017年10月18日
  */
 public interface FormService {
+
+	String audit(DeclarationForm form);
+
+	String check(DeclarationForm form);
+
+	String pass(DeclarationForm form);
+
 	DeclarationForm[] list();
 
 	DeclarationForm get(long id);
@@ -17,10 +24,4 @@ public interface FormService {
 	String add(DeclarationForm form);
 
 	String update(DeclarationForm form);
-
-	String audit(DeclarationForm form);
-
-	String check(DeclarationForm form);
-
-	String pass(DeclarationForm form);
 }

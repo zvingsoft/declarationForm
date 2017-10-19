@@ -14,7 +14,7 @@
         <el-input v-model="search.username" size="small" placeholder="请输入用户名/真实姓名" style="width: 200px;"></el-input>
         公司：
         <el-input v-model="search.company" size="small" placeholder="请输入公司名称" style="width: 200px;"></el-input>
-        <el-button size="small" type="primary" @click="handleSearchBtn"> 搜 索 </el-button>
+        <el-button size="small" type="primary" @click="handleSearchBtn" style="width: 60px;">搜索</el-button>
       </div>
     <el-table :data="users" border tooltip-effect="dark" @selection-change="onSelectionChange"  highlight-current-row >
       <el-table-column type="selection" width="60" align="center"/>
@@ -94,6 +94,8 @@
   </el-dialog>
     <!--编辑框-->
   <el-dialog title="编辑用户" :visible.sync="editUserModal">
+    <el-tabs class="tabs-wrap" v-model="editUserActiveNameTab">
+     <el-tab-pane label="基本信息" name="base" key="base">
       <div class="modal-wrap" v-loading="modalLoading">
         <el-form :model="tmpUser" :rules="userRules" ref="editUserForm" style="margin-top: 20px;" label-width="100px">
           <el-form-item label="用户名" prop="username">
@@ -126,7 +128,12 @@
           </div>
         </el-form>
       </div>
-
+        </el-tab-pane>
+        <el-tab-pane :label="type.name" :name="type.code" v-for="type in userPermissionTypes" :key="type.code">
+          <div style="max-height: 350px;overflow-y: auto;overflow-x: hidden;">
+            <component :is="type.code" :id="tmpUser.username" type="U"></component>
+          </div>
+        </el-tab-pane>
     </el-tabs>
 
   </el-dialog>
@@ -137,11 +144,13 @@
 import userAPI from './api/userAPI.js'
 import roleAPI from './api/roleAPI.js'
 import TreeSelect from './components/TreeSelect.vue'
+import MenuPermission from './components/MenuPermission.vue'
 import util from './components/util.js'
 require('./mock/user.js')
 export default {
   data() {
     return {
+      userPermissionTypes: [{code:'menuPermission',name:'菜单权限'}],
       currentPage: 1,
       total: 50,
       pageSize: 5,
@@ -454,7 +463,8 @@ export default {
     })
   },
   components: {
-    'tree-select': TreeSelect,
+    'menuPermission': MenuPermission,
+    'tree-select': TreeSelect
   }
 }
 </script>

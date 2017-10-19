@@ -1,8 +1,8 @@
 <template>
   <div class="layout">
     <div class="body-list" style="background-color:white;">
-      <el-toolbar style="background-color: #EEF0F4;">
-        配置
+      <el-toolbar>
+        <span><i class="fa fa-sliders"/> 配置</span>
       </el-toolbar>
       <div class="menu-wrap">
         <el-menu :default-active="activeMenu" @select="onSelectMenu">
@@ -46,6 +46,10 @@ const menus = [
       {
         path: '/setting/cottonQuota',
         meta: { title: '棉花配额管理', icon: 'fa fa-meetup' },
+      },
+      {
+        path: '/setting/company',
+        meta: { title: '企业管理', icon: 'fa fa-american-sign-language-interpreting' },
       }
     ]
 
@@ -53,7 +57,7 @@ export default {
   data() {
     return {
       menus,
-      activeMenu: menus[0].path
+      activeMenu: this.$route.path
     };
   },
   methods: {

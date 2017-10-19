@@ -1,8 +1,8 @@
 <template>
   <div class="layout">
     <div class="body-list" style="background-color:white;">
-      <el-toolbar style="background-color: #EEF0F4;">
-        <i class="fa fa-gears"/>&nbsp;系统
+      <el-toolbar>
+        <span><i class="fa fa-gears"/> 系统</span>
       </el-toolbar>
       <div class="menu-wrap">
         <el-menu :default-active="activeMenu" @select="onSelectMenu">
@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       menus,
-      activeMenu: menus[0].path
+      activeMenu: this.$route.path
     };
   },
   methods: {

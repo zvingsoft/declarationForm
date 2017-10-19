@@ -1,6 +1,6 @@
 <template>
   <div style="display: flex;">
-    <div :class="'z-body-list z-main-height sidebar-on-mobile'+(sidebarCollapsed?' collapsed':'')">
+    <div class="z-body-list z-main-height">
       <el-toolbar>
         <el-button  @click="addRoleClickHandler" >
           <i class="fa fa-plus"></i> 新建
@@ -27,7 +27,6 @@
             <div v-loading="roleInfoLoading">
               <div style="padding: 15px;">
                 <table width="100%" cellpadding="4" cellspacing="0" class="z-datagrid">
-
                   <tbody>
                     <tr style="height: 24px; line-height: 24px;">
                       <td class="noellipsis">&nbsp;</td>
@@ -142,14 +141,17 @@
   import roleAPI from './api/roleAPI.js'
   import TreeSelect from './components/TreeSelect.vue'
   import TreeGrid from './components/TreeGrid.vue'
+  import MenuPermission from './components/MenuPermission.vue'
   import util from './components/util.js'
   require('./mock/role.js')
+  require('./mock/priv.js')
 export default {
   data() {
     return {
+      rolePermissionTypes: [{code:'menuPermission',name:'菜单权限'}],
       roleLoading: false,
       roleTree: [],
-      currentRole:null,
+      currentRole:{},
       activeName: 'roleInfo',
       roleInfoLoading: false,
       userDataTableValues: [],
@@ -386,11 +388,29 @@ export default {
     }
   },
   components: {
+    'menuPermission': MenuPermission,
     'tree-select': TreeSelect,
     'tree-grid': TreeGrid
   }
 
 };
 </script>
+<style scoped>
+.z-body-detail {
+    background: #f9fbfc none;
+    box-shadow: inset 1px 0px 0px rgba(0, 0, 0, 0.04);
+    flex: 1;
+    position: relative;
+}
+
+.z-main-height {
+    height: calc(100vh - 50px);
+    position: relative;
+}
+.main-content-wrap {
+  padding: 10px;
+}
+</style>
+
 
 

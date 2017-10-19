@@ -1,11 +1,11 @@
 <template slot-scope="scope">
   <div :style="{width:clientWidth+'px'}">
     <el-toolbar>
-      <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="passClick">
+      <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="passClick()">
         <i class="fa fa-check"></i>审核通过</el-button>
-      <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="notPassClick">
+      <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="notPassClick()">
         <i class="fa fa-remove"></i>审核不通过</el-button>
-      <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="viewClick">
+      <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="viewClick()">
         <i class="fa fa-search"></i>查看详情</el-button>
     </el-toolbar>
     <div class="main-content-wrap">
@@ -30,12 +30,12 @@
           <el-option v-for="item in logicOptions" :key="item.key" :label="item.value" :value="item.key">
           </el-option>
         </el-select>
-        <el-button size="small" type="primary" @click="getDeclarationData" style="width: 60px;">搜索</el-button>
+        <el-button size="small" type="primary" @click="getDeclarationData" style="width:60px;">搜索</el-button>
       </div>
-      <el-table :data="declarationData" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange">
+      <el-table :data="declarationData" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange" @expand="expandRow">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column type="expand">
-          <template scope="props">
+          <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand" label-width="160px">
               <el-form-item label="报关单类型：">
                 <span>{{props.row.declarationtypename}}</span>
@@ -154,6 +154,10 @@
               <el-form-item label="标记唛码及备注：" style="width:90%">
                 <span>{{props.row.shippingmarksandremarks}}</span>
               </el-form-item>
+              <el-form-item label="商品：" label-width="60px" style="width:100%">
+                <packinglist-table :declarationID="declarationID" :declarationType="declarationType">
+                </packinglist-table>
+              </el-form-item>
               <el-form-item label="税费征收情况：">
                 <span>{{props.row.taxpaidornot}}</span>
               </el-form-item>
@@ -185,13 +189,20 @@
           </template>
         </el-table-column>
         <el-table-column prop="preentrynumber" show-overflow-tooltip min-width="15%" label="预录入编号"></el-table-column>
-        <el-table-column prop="importorexportport" show-overflow-tooltip min-width="15%" label="进口/出口口岸"></el-table-column>
+        <el-table-column prop="declarationtypename" show-overflow-tooltip min-width="15%" label="报关单类型"></el-table-column>
+        <el-table-column min-width="12%" label="商品详情">
+          <template slot-scope="scope">
+            <el-button type="text">
+              <span style="color:green;" @click="showPackinglist(scope.row.id,scope.row.declarationtype)">查看商品</span>
+            </el-button>
+          </template>
+        </el-table-column>
         <el-table-column prop="declarationunit" show-overflow-tooltip min-width="20%" label="申报单位"></el-table-column>
         <el-table-column prop="declarationdate" show-overflow-tooltip min-width="12%" label="申报日期"></el-table-column>
         <el-table-column prop="entrydate" show-overflow-tooltip min-width="12%" label="录入日期"></el-table-column>
         <el-table-column prop="auditstatusname" show-overflow-tooltip min-width="11%" label="审核状态"></el-table-column>
         <el-table-column min-width="15%" label="操作">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-button type="text">
               <span style="color:green;" @click="passClick(scope.row.id)">通过</span>
             </el-button>
@@ -206,16 +217,123 @@
         </el-pagination>
       </div>
     </div>
+    <el-dialog title="商品列表详情" :visible.sync="packinglistDialogModal" size="large">
+      <packinglist-table :declarationID="declarationID" :declarationType="declarationType" @row-click="packingRowClick">
+      </packinglist-table>
+    </el-dialog>
+    <el-dialog title="报关单详情" :visible.sync="declarationDetailDialogModal" size="large">
+      <table cellpadding="0" cellspacing="0" border="1" class="detail-table">
+        <tr class="t1">
+          <td colspan="5"><span>预录入编号　</span>{{tmpDeclaration.preentrynumber}}</td>
+          <td colspan="5"><span>海关编号　</span>{{tmpDeclaration.customsnumber}}</td>
+        </tr>
+        <tr class="t1">
+          <td colspan="4"><span v-if="tmpDeclaration.declarationtype == 'import'">进口口岸　</span><span v-else>出口口岸　</span>{{tmpDeclaration.importorexportport}}</td>
+          <td colspan="2"><span>备案号　</span>{{tmpDeclaration.recordnumber}}</td>
+          <td colspan="2"><span v-if="tmpDeclaration.declarationtype == 'import'">进口日期　</span><span v-else>出口日期　</span>{{tmpDeclaration.importorexportdate}}</td>
+          <td colspan="2"><span>申报日期　</span>{{tmpDeclaration.declarationdate}}</td>
+        </tr>
+        <tr class="t1">
+          <td colspan="4"><span>经营单位　</span>{{tmpDeclaration.managementunit}}</td>
+          <td colspan="2"><span>运输方式　</span>{{tmpDeclaration.shippingtype}}</td>
+          <td colspan="2"><span>运输工具名称　</span>{{tmpDeclaration.shippingtools}}</td>
+          <td colspan="2"><span>提运单号　</span>{{tmpDeclaration.shippingnumbers}}</td>
+        </tr>
+        <tr class="t1">
+          <td colspan="4"><span>发货单位　</span>{{tmpDeclaration.forwardingunit}}</td>
+          <td colspan="2"><span>贸易方式　</span>{{tmpDeclaration.tradingtype}}</td>
+          <td colspan="2"><span>征免性质　</span>{{tmpDeclaration.exemptionnature}}</td>
+          <td colspan="2"><span>结汇方式　</span>{{tmpDeclaration.settlementtype}}</td>
+        </tr>
+        <tr class="t1">
+          <td colspan="3"><span>许可证号　</span>{{tmpDeclaration.licensekey}}</td>
+          <td colspan="3"><span v-if="tmpDeclaration.declarationtype == 'import'">启运国（地区）　</span><span v-else>运抵国（地区）　</span>{{tmpDeclaration.startorarrivalcountry}}</td>
+          <td colspan="2"><span v-if="tmpDeclaration.declarationtype == 'import'">装货港　</span><span v-else>指运港　</span>{{tmpDeclaration.loadingorfingerport}}</td>
+          <td colspan="2"><span v-if="tmpDeclaration.declarationtype == 'import'">境内目的地　</span><span v-else>境内货源地　</span>{{tmpDeclaration.destinationorconsignmentplace}}</td>
+        </tr>
+        <tr class="t1">
+          <td colspan="3"><span>批准文号　</span>{{tmpDeclaration.approvalnumber}}</td>
+          <td colspan="1"><span>成交方式　</span>{{tmpDeclaration.transactionmethod}}</td>
+          <td colspan="2"><span>运费　</span>{{tmpDeclaration.freight}}</td>
+          <td colspan="2"><span>保费　</span>{{tmpDeclaration.premium}}</td>
+          <td colspan="2"><span>杂费　</span>{{tmpDeclaration.incidental}}</td>
+        </tr>
+        <tr class="t1">
+          <td colspan="3"><span>合同协议号　</span>{{tmpDeclaration.agreementnumber}}</td>
+          <td colspan="1"><span>件数　</span>{{tmpDeclaration.goodsnumber}}</td>
+          <td colspan="2"><span>包装种类　</span>{{tmpDeclaration.packagingtype}}</td>
+          <td colspan="2"><span>毛重（公斤）　</span>{{tmpDeclaration.grossweight}}</td>
+          <td colspan="2"><span>净重（公斤）　</span>{{tmpDeclaration.netweight}}</td>
+        </tr>
+        <tr class="t1">
+          <td colspan="3"><span>集装箱号　</span>{{tmpDeclaration.containernumber}}</td>
+          <td colspan="5"><span>随附单据　</span>{{tmpDeclaration.documentsattached}}</td>
+          <td colspan="2"><span v-if="tmpDeclaration.declarationtype == 'import'">用途　</span><span v-else>生产厂家　</span>{{tmpDeclaration.purposeormanufacturer}}</td>
+        </tr>
+        <tr class="t2">
+          <td colspan="10" valign="top"><span>标记唛码及备注　</span>{{tmpDeclaration.shippingmarksandremarks}}</td>
+        </tr>
+        <tr>
+          <td colspan="10" valign="top">
+            <packinglist-table :declarationID="tmpDeclaration.id" :declarationType="tmpDeclaration.declarationtype">
+            </packinglist-table>
+          </td>
+        </tr>
+        <tr class="t3">
+          <td colspan="10" valign="top"><span>税费征收情况　</span>{{tmpDeclaration.taxpaidornot}}</td>
+        </tr>
+        <tr class="t5">
+          <td colspan="10">
+            <table cellspacing="0" cellpadding="0" border="0" class="inline-table">
+              <tr class="t1">
+                <td colspan="1" class="b1"><span>录入员　</span>{{tmpDeclaration.entryclerk}}</td>
+                <td colspan="2" class="b2"><span>录入单位　</span>{{tmpDeclaration.entryunit}}</td>
+                <td colspan="3"><span>兹声明以上申报无讹并承担法律责任　</span> </td>
+                <td colspan="4" class="b4"><span>海关审批批注及放行日期　</span> </td>
+              </tr>
+              <tr class="t1" border="0">
+                <td colspan="6" border="0"><span>报关员　</span>{{tmpDeclaration.customsbroker}}</td>
+                <td colspan="4" class="b4"> </td>
+              </tr>
+              <tr class="t1" border="0">
+                <td colspan="6" border="0"><span>单位地址　</span>{{tmpDeclaration.unitaddress}}</td>
+                <td colspan="2" class="b3"><span>审单　</span> </td>
+                <td colspan="2" class="b1"><span>审价　</span> </td>
+              </tr>
+              <tr class="t1" border="0">
+                <td colspan="6" border="0"><span>申报单位　</span>{{tmpDeclaration.declarationunit}}</td>
+                <td colspan="2" class="b3"><span>征税　</span> </td>
+                <td colspan="2" class="b1"><span>统计　</span> </td>
+              </tr>
+              <tr class="t1">
+                <td colspan="2"><span>邮编　</span>{{tmpDeclaration.zipcode}}</td>
+                <td colspan="2"><span>电话　</span>{{tmpDeclaration.telephone}}</td>
+                <td colspan="2"><span>制填日期　</span>{{tmpDeclaration.fillingdate}}</td>
+                <td colspan="2" class="b4"><span>查验　</span> </td>
+                <td colspan="2"><span>放行　</span> </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import declarationAPI from './api/declarationAPI.js';
+import packinglistAPI from './api/packinglistAPI.js';
+import auditingAPI from './api/auditingAPI.js';
 import './mock/declaration.js';
+import packinglistTable from './components/packinglistTable.vue';
 
 export default {
   data() {
     return {
+      declarationDetailDialogModal: false,
+      packinglistDialogModal: false,
+      declarationID: '',
+      declarationType: '',
       clientWidth: 0,
       clientHeight: 0,
       searchword: '',
@@ -230,48 +348,68 @@ export default {
       tmpDeclaration: {},
       dataLoading: false,
       confirmLoading: false,
-      declarationTypeOptions: [{ key: 'import', value: '进口报关单' },
-      { key: 'export', value: '出口报关单' }],
+      declarationTypeOptions: [
+        { key: 'import', value: '进口报关单' },
+        { key: 'export', value: '出口报关单' },
+      ],
       sort: '',
-      sortOptions: [{ key: '', value: '请选择排序' },
-      { key: 'declarationtype', value: '报关单类型' },
-      { key: 'preentrynumber', value: '预录入编号' },
-      { key: 'importorexportport', value: '进口/出口口岸' },
-      { key: 'managementunit', value: '经营单位' },
-      { key: 'declarationunit', value: '申报单位' },
-      { key: 'declarationdate', value: '申报日期' }],
+      sortOptions: [
+        { key: '', value: '请选择排序' },
+        { key: 'declarationtype', value: '报关单类型' },
+        { key: 'preentrynumber', value: '预录入编号' },
+        { key: 'importorexportport', value: '进口/出口口岸' },
+        { key: 'managementunit', value: '经营单位' },
+        { key: 'declarationunit', value: '申报单位' },
+        { key: 'declarationdate', value: '申报日期' },
+      ],
       auditStatus: '',
-      auditStatusOptions: [{ key: '', value: '请选择审核状态' },
-      { key: 'W', value: '未审核' },
-      { key: 'Y', value: '通过' },
-      { key: 'N', value: '不通过' }],
+      auditStatusOptions: [
+        { key: '', value: '请选择审核状态' },
+        { key: 'W', value: '未审核' },
+        { key: 'Y', value: '通过' },
+        { key: 'N', value: '不通过' },
+      ],
       retrieval: '',
-      retrievalOptions: [{ key: '', value: '请选择检索字段' },
-      { key: 'declarationtype', value: '报关单类型' },
-      { key: 'preentrynumber', value: '预录入编号' },
-      { key: 'importorexportport', value: '进口/出口口岸' },
-      { key: 'managementunit', value: '经营单位' },
-      { key: 'declarationunit', value: '申报单位' },
-      { key: 'declarationdate', value: '申报日期' }],
+      retrievalOptions: [
+        { key: '', value: '请选择检索字段' },
+        { key: 'declarationtype', value: '报关单类型' },
+        { key: 'preentrynumber', value: '预录入编号' },
+        { key: 'importorexportport', value: '进口/出口口岸' },
+        { key: 'managementunit', value: '经营单位' },
+        { key: 'declarationunit', value: '申报单位' },
+        { key: 'declarationdate', value: '申报日期' },
+      ],
       logic: '',
-      logicOptions: [{ key: '', value: '请选择逻辑' },
-      { key: 'and', value: '与' },
-      { key: 'or', value: '或' },
-      { key: 'none', value: '非' }]
-    }
+      logicOptions: [
+        { key: '', value: '请选择逻辑' },
+        { key: 'and', value: '与' },
+        { key: 'or', value: '或' },
+        { key: 'none', value: '非' },
+      ],
+    };
   },
   methods: {
+    showPackinglist(id, type) {
+      this.declarationID = id;
+      this.declarationType = type;
+      this.packinglistDialogModal = true;
+    },
     getDeclarationData() {
       this.dataLoading = true;
-      declarationAPI.getDeclaration(this.currentPage, this.pageSize).then(data => {
-        console.log(data);
-        this.declarationData = data.data;
-        this.total = data.total;
-        this.dataLoading = false;
-      });
+      declarationAPI
+        .getDeclaration(this.currentPage, this.pageSize)
+        .then(data => {
+          this.declarationData = data.data;
+          this.total = data.total;
+          this.dataLoading = false;
+        });
     },
     onSelectionChange(selection) {
       this.selectedRows = selection;
+    },
+    expandRow(row) {
+      this.declarationType = row.declarationtype;
+      this.declarationID = row.id;
     },
     handleSizeChange(val) {
       this.pageSize = val;
@@ -282,19 +420,53 @@ export default {
       this.getDeclarationData();
     },
     passClick(id) {
-      this.$notify({
-        title: '提示',
-        message: '审核成功！',
-        type: 'success',
-        duration: 2000
+      let rowIds = [];
+      if (id) {
+        rowIds = [id];
+      } else {
+        this.selectedRows.forEach(function(row) {
+          rowIds.push(row.id);
+        });
+      }
+      auditingAPI.doAuditing(id, true).then(data => {
+        this.$notify({
+          title: '提示',
+          message: data.message,
+          type: 'success',
+          duration: 2000,
+        });
+        if (data.status == 1) {
+          rowIds.forEach(rowid => {
+            let index = this.declarationData.findIndex(val => val.id === rowid);
+            this.declarationData[index].auditstatus = 'Y';
+            this.declarationData[index].auditstatusname = '通过';
+          });
+        }
       });
     },
     notPassClick(id) {
-      this.$notify({
-        title: '提示',
-        message: '审核成功！',
-        type: 'success',
-        duration: 2000
+      let rowIds = [];
+      if (id) {
+        rowIds = [id];
+      } else {
+        this.selectedRows.forEach(function(row) {
+          rowIds.push(row.id);
+        });
+      }
+      auditingAPI.doAuditing(rowIds, false).then(data => {
+        this.$notify({
+          title: '提示',
+          message: data.message,
+          type: 'success',
+          duration: 2000,
+        });
+        if (data.status == 1) {
+          rowIds.forEach(rowid => {
+            let index = this.declarationData.findIndex(val => val.id === rowid);
+            this.declarationData[index].auditstatus = 'N';
+            this.declarationData[index].auditstatusname = '未通过';
+          });
+        }
       });
     },
     viewClick() {
@@ -302,57 +474,26 @@ export default {
         title: '提示',
         message: '查看详情',
         type: 'success',
-        duration: 2000
+        duration: 2000,
       });
+      this.tmpDeclaration = Object.assign({}, this.selectedRows[0]);
+      this.declarationDetailDialogModal = true;
     },
-    confirm() {
-      if (this.editMode == 1) {
-        declarationAPI.updateDeclaration(this.tmpDeclaration).then(data => {
-          if (data.status == 1) {
-            this.$notify({
-              title: '成功',
-              message: data.message,
-              type: 'success',
-              duration: 2000
-            });
-          }
-          let index = this.declarationData.findIndex(val => val.id === this.tmpDeclaration.id);
-          this.declarationData = [
-            ...this.declarationData.slice(0, index),
-            Object.assign({}, this.tmpDeclaration),
-            ...this.declarationData.slice(index + 1)
-          ];
-        });
-      } else {
-        declarationAPI.addDeclaration(this.tmpDeclaration).then(data => {
-          if (data.status == 1) {
-            this.$notify({
-              title: '成功',
-              message: data.message,
-              type: 'success',
-              duration: 2000
-            });
-          }
-          this.declarationData = [
-            ...this.declarationData,
-            Object.assign({}, this.tmpDeclaration, { id: data.declaration.id })
-          ];
-        })
-      }
-      this.declarationDialogmodel = false;
-    }
   },
   created() {
     this.clientWidth = document.documentElement.clientWidth - 200;
     this.clientHeight = document.documentElement.clientHeight - 200;
     this.getDeclarationData();
-  }
-}
+  },
+  components: {
+    'packinglist-table': packinglistTable,
+  },
+};
 </script>
 
 <style scoped>
 .main-content-wrap {
-  padding: 5px;
+  padding: 10px;
 }
 
 .search-bar {
@@ -399,5 +540,53 @@ export default {
 
 .search-select {
   width: 140px;
+}
+
+.detail-table {
+  font-size: 16px;
+  width: 100%;
+}
+
+.detail-table span {
+  font-size: 12px;
+  padding-left: 5px;
+}
+
+.detail-table .t1 {
+  height: 40px;
+}
+
+.detail-table .t2 {
+  height: 80px;
+}
+
+.detail-table .t3 {
+  height: 120px;
+}
+
+.detail-table .t4 {
+  height: 160px;
+}
+
+.detail-table .t5 {
+  height: 200px;
+}
+
+.inline-table {
+  width: 100%;
+}
+.inline-table .b1 {
+  border-bottom: 1px solid #CCC;
+}
+.inline-table .b2 {
+  border-right: 1px solid #CCC;
+  border-bottom: 1px solid #CCC;
+}
+.inline-table .b3 {
+  border-left: 1px solid #CCC;
+  border-bottom: 1px solid #CCC;
+}
+.inline-table .b4 {
+  border-left: 1px solid #CCC;
 }
 </style>

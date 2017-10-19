@@ -21,7 +21,7 @@
         &nbsp; &nbsp;委托企业:
         <el-input type="text" size="small" style="width: 150px;"></el-input>
         &nbsp; &nbsp;
-        <el-button @click="apSearch" type="primary" size="small"> 搜 索 </el-button>
+        <el-button @click="apSearch" type="primary" size="small" style="width: 60px;">搜索</el-button>
       </div>
       <!-- 列表 -->
       <el-table class="content-table" ref="ptListTable" highlight-current-row :data="ptListData" tooltip-effect="dark" @selection-change="ptOnSelectionChange">
@@ -139,6 +139,42 @@
         <el-button type="primary" @click="addAndEditOkHandler">确 定</el-button>
       </div>
     </el-dialog>
+    <!-- 商品新建、编辑框 -->
+    <el-dialog :title="goodsEditMode===1?'新建':'编辑'" :visible.sync="goodsAddAndEditDialogIsShow">
+      <el-form :model="goodsDataModel" :rules="goodsDataRules" ref="goodsDataRef" label-width="160px" style="height:400px;overflow-y:scroll;overflow-x:hidden;">
+        <el-form-item label="项号" prop="itemNum">
+          <el-input type="text" v-model="goodsDataModel.itemNum" auto-complete="off" style="width:85%"></el-input>
+        </el-form-item>
+        <el-form-item label="商品编号" prop="productNum">
+          <el-input type="text" v-model="goodsDataModel.productNum" auto-complete="off" style="width:85%"></el-input>
+        </el-form-item>
+        <el-form-item label="商品名称、规格型号" prop="nameAndSpecifications">
+          <el-input type="text" v-model="goodsDataModel.nameAndSpecifications" auto-complete="off" style="width:85%"></el-input>
+        </el-form-item>
+        <el-form-item label="数量及单位" prop="quantityAndUnit">
+          <el-input type="text" v-model="goodsDataModel.quantityAndUnit" auto-complete="off" style="width:85%"></el-input>
+        </el-form-item>
+        <el-form-item label="原产国(地区)" prop="originCountry">
+          <el-input type="text" v-model="goodsDataModel.originCountry" auto-complete="off" style="width:85%"></el-input>
+        </el-form-item>
+        <el-form-item label="单价" prop="unitPrice">
+          <el-input type="text" v-model="goodsDataModel.unitPrice" auto-complete="off" style="width:85%"></el-input>
+        </el-form-item>
+        <el-form-item label="总价" prop="totalPrice">
+          <el-input type="text" v-model="goodsDataModel.totalPrice" auto-complete="off" style="width:85%"></el-input>
+        </el-form-item>
+        <el-form-item label="币制" prop="currency">
+          <el-input type="text" v-model="goodsDataModel.currency" auto-complete="off" style="width:85%"></el-input>
+        </el-form-item>
+        <el-form-item label="征免" prop="levy">
+          <el-input type="text" v-model="goodsDataModel.levy" auto-complete="off" style="width:85%"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="goodsAddAndEditDialogIsShow=false">取 消</el-button>
+        <el-button type="primary" @click="goodsAddAndEditOkHandler">确 定</el-button>
+      </div>
+    </el-dialog>
     <!-- 文件查看框 -->
     <el-dialog :title="'文件查看'" :visible.sync="fileDialogIsShow">
       <img src="http://www.qingshengjiuye.com/UploadFiles/201610271722212414737.jpg" :style="{height:1205+'px',overflowY:'scroll',overflowX:'hidden', paddingRight:'15px'}">
@@ -149,7 +185,17 @@
     </el-dialog>
     <!-- 商品信息框 -->
     <el-dialog :title=" '商品信息' " :visible.sync="goodsDialogIsShow " size="large">
+      <!-- 工具条 -->
+      <el-toolbar>
+        <el-button @click="goodsAddClick">
+          <i class="fa fa-plus" aria-hidden="true"></i> 新建</el-button>
+        <el-button @click="goodsEditClick" :disabled="goodsSelectedRows.length !== 1">
+          <i class="fa fa-edit" aria-hidden="true"></i> 编辑</el-button>
+        <el-button @click="goodsDelClick" :disabled="goodsSelectedRows.length < 1">
+          <i class="fa fa-trash-o" aria-hidden="true"></i> 删除</el-button>
+      </el-toolbar>
       <el-table ref="goodsListTable" highlight-current-row :data="goodsListData" tooltip-effect="dark" @selection-change="goodsOnSelectionChange">
+        <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column min-width="4%" label="项号" prop="itemNum"></el-table-column>
         <el-table-column min-width="8%" label="商品编号" prop="productNum"></el-table-column>
         <el-table-column min-width="20%" label="商品名称、规格型号" prop="nameAndSpecifications"></el-table-column>
@@ -178,11 +224,14 @@ export default {
       clientWidth: 0,
       ptListData: [],
       editMode: 1,//新建1，编辑2
+      goodsEditMode: 1,//新建1，编辑2
       addAndEditDialogIsShow: false,
       fileDialogIsShow: false,
       fileUploadDialogIsShow: false,
       goodsDialogIsShow: false,
+      goodsAddAndEditDialogIsShow: false,
       ptSelectedRows: [],
+      goodsSelectedRows: [],
       ptCurrentPage: 1,
       ptPageSizes: [5, 10, 15, 20],
       ptPageSize: 10,
@@ -195,12 +244,26 @@ export default {
         material: '',
         feclaration: '',
       },
+      goodsDataModel: {
+        itemNum: '',
+        productNum: '',
+        nameAndSpecifications: '',
+        quantityAndUnit: '',
+        originCountry: '',
+        unitPrice: '',
+        totalPrice: '',
+        currency: '',
+        levy: '',
+      },
       goodsListData: [],
     }
   },
   methods: {
     ptOnSelectionChange(selection) {
       this.ptSelectedRows = selection
+    },
+    goodsOnSelectionChange(selection) {
+      this.goodsSelectedRows = selection
     },
     loadProcessingTradeList() {
       processingTradeAPI.getProcessingTradeList().then(data => {
@@ -238,6 +301,27 @@ export default {
         this.$notify({ title: '成功', message: "删除成功", type: 'success', duration: 2000 });
       })
     },
+    goodsAddClick() {
+      this.goodsEditMode = 1;
+      this.goodsDataModel = {
+
+      };
+      this.goodsAddAndEditDialogIsShow = true;
+    },
+    goodsEditClick() {
+      this.goodsEditMode = 2;
+      this.goodsDataModel = Object.assign({}, this.goodsSelectedRows[0]);
+      this.goodsAddAndEditDialogIsShow = true;
+    },
+    goodsDelClick() {
+      this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$notify({ title: '成功', message: "删除成功", type: 'success', duration: 2000 });
+      })
+    },
     ptViewGoodsClick() {
       this.goodsDialogIsShow = true;
     },
@@ -256,6 +340,10 @@ export default {
     },
     addAndEditOkHandler() {
       this.addAndEditDialogIsShow = false;
+      this.$notify({ title: '成功', message: "保存成功", type: 'success', duration: 2000 });
+    },
+    goodsAddAndEditOkHandler() {
+      this.goodsAddAndEditDialogIsShow = false;
       this.$notify({ title: '成功', message: "保存成功", type: 'success', duration: 2000 });
     },
     fileViewOkHandler() {
