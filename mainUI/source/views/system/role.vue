@@ -63,8 +63,8 @@
                   <el-table-column prop="realname" label="真实姓名" min-width="150"></el-table-column>
                   <el-table-column label="所属角色" min-width="150">
                     <template slot-scope="scope">
-                      <span v-for="role in scope.row.roles" :key="role.rolecode">
-                        {{role.name}}，
+                      <span v-for="(role,index) in scope.row.roles" :key="role.rolecode">
+                        {{role.name}}{{index+1 < scope.row.roles.length ? ',':''}}
                       </span>
                     </template>
                   </el-table-column>
