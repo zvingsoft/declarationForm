@@ -44,6 +44,12 @@
               <el-form-item label="减免税方式">
                 <span>{{ props.row.way }}</span>
               </el-form-item>
+              <el-form-item label="减免数量上限">
+                <span>{{ props.row.amountcap }}</span>
+              </el-form-item>
+              <el-form-item label="减免税率">
+                <span>{{ props.row.rate }}</span>
+              </el-form-item>
                <el-form-item label="有效期">
                 <span>{{ props.row.validitydate }}</span>
               </el-form-item>
@@ -56,11 +62,13 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="code" show-overflow-tooltip min-width="15%" label="代码"></el-table-column>
-        <el-table-column prop="largetype" show-overflow-tooltip min-width="15%" label="减免税大类"></el-table-column>
-        <el-table-column prop="smalltype" show-overflow-tooltip min-width="15%" label="减免税小类"></el-table-column>
-        <el-table-column prop="way" show-overflow-tooltip min-width="15%" label="减免税方式"></el-table-column>
-        <el-table-column show-overflow-tooltip min-width="35%" label="政策文件">
+        <el-table-column prop="code" show-overflow-tooltip min-width="20%" label="代码"></el-table-column>
+        <el-table-column prop="largetype" show-overflow-tooltip min-width="20%" label="减免税大类"></el-table-column>
+        <el-table-column prop="smalltype" show-overflow-tooltip min-width="20%" label="减免税小类"></el-table-column>
+        <el-table-column prop="way" show-overflow-tooltip min-width="20%" label="减免税方式"></el-table-column>
+        <el-table-column prop="amountcap" show-overflow-tooltip min-width="20%" label="减免数量上限"></el-table-column>
+        <el-table-column prop="rate" show-overflow-tooltip min-width="15%" label="减免税率"></el-table-column>
+        <el-table-column show-overflow-tooltip min-width="30%" label="政策文件">
            <template slot-scope="scope">
              <a @click="lookPolicyPaperClick(scope.row)" class="a-btn">{{scope.row.policypapertitle}}</a>
            </template>
