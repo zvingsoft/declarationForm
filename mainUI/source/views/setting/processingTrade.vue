@@ -11,83 +11,85 @@
       <el-button @click="ptViewGoodsClick" :disabled="ptSelectedRows.length !== 1">
         <i class="fa fa-eye" aria-hidden="true"></i> 查看商品</el-button>
     </el-toolbar>
-    <!-- 搜索工具条 -->
-    <div class="search-bar fr">
-      &nbsp; &nbsp;编号:
-      <el-input type="text" size="small" style="width: 150px;"></el-input>
-      &nbsp; &nbsp;加工企业:
-      <el-input type="text" size="small" style="width: 150px;"></el-input>
-      &nbsp; &nbsp;委托企业:
-      <el-input type="text" size="small" style="width: 150px;"></el-input>
-      &nbsp; &nbsp;
-      <el-button @click="apSearch" type="primary" size="small">搜索</el-button>
-    </div>
-    <!-- 列表 -->
-    <el-table ref="ptListTable" highlight-current-row :data="ptListData" tooltip-effect="dark" @selection-change="ptOnSelectionChange">
-      <el-table-column type="selection" width="55" align="center"></el-table-column>
-      <el-table-column type="expand">
-        <template slot-scope="props">
-          <el-form label-position="left" inline class="demo-table-expand" label-width="80px">
-            <el-form-item label="编号" style="width:50%">
-              <span>{{props.row.number}}</span>
-            </el-form-item>
-            <el-form-item label="加工企业">
-              <span>{{props.row.processCorp}}</span>
-            </el-form-item>
-            <el-form-item label="委托企业" style="width:50%">
-              <span>{{props.row.commissionedCorp}}</span>
-            </el-form-item>
-            <el-form-item label="合同备案">
-              <span>
-                <el-button @click.native.prevent="contractFileView" type="text">
-                  查看文件
-                </el-button>
-              </span>
-            </el-form-item>
-            <el-form-item label="料件备案" style="width:50%">
-              <span>
-                <el-button @click.native.prevent="materialFileView" type="text">
-                  查看文件
-                </el-button>
-              </span>
-            </el-form-item>
-            <el-form-item label="报关单">
-              <span>
-                <el-button @click.native.prevent="feclarationFileView" type="text">
-                  查看文件
-                </el-button>
-              </span>
-            </el-form-item>
-          </el-form>
-        </template>
-      </el-table-column>
-      <el-table-column prop="number" label="编号" width=""></el-table-column>
-      <el-table-column prop="processCorp" label="加工企业" width=""></el-table-column>
-      <el-table-column prop="commissionedCorp" label="委托企业" width=""></el-table-column>
-      <el-table-column label="合同备案" width="">
-        <template slot-scope="scope">
-          <el-button @click.native.prevent="contractFileView" type="text">
-            查看文件
-          </el-button>
-        </template>
-      </el-table-column>
-      <el-table-column prop="" label="料件备案" width="">
-        <template slot-scope="scope">
-          <el-button @click.native.prevent="materialFileView" type="text">
-            查看文件
-          </el-button>
-        </template>
-      </el-table-column>
-      <el-table-column prop="" label="报关单" width="">
-        <template slot-scope="scope">
-          <el-button @click.native.prevent="feclarationFileView" type="text">
-            查看文件
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class="fr" style="margin:10px;">
-      <el-pagination @size-change="ptHandleSizeChange" @current-change="ptHandleCurrentChange" :current-page="ptCurrentPage" :page-sizes="ptPageSizes" :page-size="ptPageSize" :total="ptTotal" layout="total, sizes, prev, pager, next"></el-pagination>
+    <div class="main-content-wrap">
+      <!-- 搜索工具条 -->
+      <div class="search-bar fr">
+        &nbsp; &nbsp;编号:
+        <el-input type="text" size="small" style="width: 150px;"></el-input>
+        &nbsp; &nbsp;加工企业:
+        <el-input type="text" size="small" style="width: 150px;"></el-input>
+        &nbsp; &nbsp;委托企业:
+        <el-input type="text" size="small" style="width: 150px;"></el-input>
+        &nbsp; &nbsp;
+        <el-button @click="apSearch" type="primary" size="small">搜索</el-button>
+      </div>
+      <!-- 列表 -->
+      <el-table class="content-table" ref="ptListTable" highlight-current-row :data="ptListData" tooltip-effect="dark" @selection-change="ptOnSelectionChange">
+        <el-table-column type="selection" width="55" align="center"></el-table-column>
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand" label-width="80px">
+              <el-form-item label="编号" style="width:50%">
+                <span>{{props.row.number}}</span>
+              </el-form-item>
+              <el-form-item label="加工企业">
+                <span>{{props.row.processCorp}}</span>
+              </el-form-item>
+              <el-form-item label="委托企业" style="width:50%">
+                <span>{{props.row.commissionedCorp}}</span>
+              </el-form-item>
+              <el-form-item label="合同备案">
+                <span>
+                  <el-button @click.native.prevent="contractFileView" type="text">
+                    查看文件
+                  </el-button>
+                </span>
+              </el-form-item>
+              <el-form-item label="料件备案" style="width:50%">
+                <span>
+                  <el-button @click.native.prevent="materialFileView" type="text">
+                    查看文件
+                  </el-button>
+                </span>
+              </el-form-item>
+              <el-form-item label="报关单">
+                <span>
+                  <el-button @click.native.prevent="feclarationFileView" type="text">
+                    查看文件
+                  </el-button>
+                </span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
+        <el-table-column prop="number" label="编号" width=""></el-table-column>
+        <el-table-column prop="processCorp" label="加工企业" width=""></el-table-column>
+        <el-table-column prop="commissionedCorp" label="委托企业" width=""></el-table-column>
+        <el-table-column label="合同备案" width="">
+          <template slot-scope="scope">
+            <el-button @click.native.prevent="contractFileView" type="text">
+              查看文件
+            </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="" label="料件备案" width="">
+          <template slot-scope="scope">
+            <el-button @click.native.prevent="materialFileView" type="text">
+              查看文件
+            </el-button>
+          </template>
+        </el-table-column>
+        <el-table-column prop="" label="报关单" width="">
+          <template slot-scope="scope">
+            <el-button @click.native.prevent="feclarationFileView" type="text">
+              查看文件
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="fr" style="margin-top:10px;">
+        <el-pagination @size-change="ptHandleSizeChange" @current-change="ptHandleCurrentChange" :current-page="ptCurrentPage" :page-sizes="ptPageSizes" :page-size="ptPageSize" :total="ptTotal" layout="total, sizes, prev, pager, next"></el-pagination>
+      </div>
     </div>
     <!-- 新建、编辑框 -->
     <el-dialog :title="editMode===1?'新建':'编辑'" :visible.sync="addAndEditDialogIsShow">
@@ -283,6 +285,10 @@ export default {
 
 <style scoped>
 .search-bar {
+  padding-bottom: 10px;
+}
+
+.main-content-wrap {
   padding: 10px;
 }
 </style>
