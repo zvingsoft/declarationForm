@@ -2,11 +2,11 @@
   <div v-if="!declarationDialogmodel" :style="{width:clientWidth+'px'}">
     <el-toolbar>
       <el-button class="z-toolbar-btn" :plain="true" @click="addClick">
-        <i class="fa fa-plus"></i>新建</el-button>
+        <i class="fa fa-plus"></i> 新建</el-button>
       <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length !== 1" @click="editClick">
-        <i class="fa fa-edit"></i>编辑</el-button>
+        <i class="fa fa-edit"></i> 编辑</el-button>
       <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="deleteClick">
-        <i class="fa fa-remove"></i>删除</el-button>
+        <i class="fa fa-remove"></i> 删除</el-button>
     </el-toolbar>
     <div class="main-content-wrap">
       <div class="search-bar">

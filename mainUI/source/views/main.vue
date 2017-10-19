@@ -6,7 +6,7 @@
           <i class="fa fa-align-justify"></i>
         </el-button>
         <a class="logo">
-          <img src="assets/images/logo_zh-cn.png" height="48"/>海关报关系统 <sup> demo</sup>
+          <img src="assets/images/logo_zh-cn.png" height="48"/>海关通关系统 <sup> demo</sup>
         </a>
       </div>
       <div class="other-buttons">
@@ -26,13 +26,13 @@
         <el-menu mode="horizontal" theme="primary" :default-active="activeMenu">
           <template v-for="menu in menus">
             <el-menu-item v-if="menu.meta && menu.meta.title" :index="menu.path" :key="menu.path" @click="onSelectMenun(menu)">
-              <i :class="menu.meta.icon"></i> {{menu.meta.title}}</el-menu-item>
+              <i :class="menu.meta.icon"></i> <span class="menu-title">{{menu.meta.title}}</span></el-menu-item>
           </template>
         </el-menu>
         <el-menu mode="horizontal" theme="primary" :default-active="activeMenu" class="visible-on-mobile">
           <template v-for="menu in systemMenus">
             <el-menu-item v-if="menu.meta && menu.meta.title" :key="menu.path" @click="onSelectMenun(menu)">
-              <i :class="menu.meta.icon"></i> {{menu.meta.title}}</el-menu-item>
+              <i :class="menu.meta.icon"></i> <span class="menu-title">{{menu.meta.title}}</span></el-menu-item>
           </template>
         </el-menu>
       </div>
@@ -185,5 +185,9 @@ export default {
 
 .visible-on-mobile.el-menu .el-menu-item {
   padding-left: 40px;
+}
+
+.el-menu-item .menu-title{
+  font-size:12pt;
 }
 </style>

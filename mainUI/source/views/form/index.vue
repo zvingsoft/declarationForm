@@ -2,7 +2,8 @@
   <div class="layout">
     <div class="body-list" style="background-color:white;">
       <el-toolbar style="background-color: #EEF0F4;">
-        通关
+        <span>
+          <i class="fa fa-ship" /> 通关</span>
       </el-toolbar>
       <div class="menu-wrap">
         <el-menu :default-active="activeMenu" @select="onSelectMenu">
@@ -23,19 +24,19 @@
 
 <script>
 const menus = [
-      {
-        path: '/form/declaration',
-        meta: { title: '报关单', icon: 'fa fa-file-text-o' }
-      },
-      {
-        path: '/form/declarationRetrieval',
-        meta: { title: '报关单检索', icon: 'fa fa-file-text-o' }
-      },
-      {
-        path: '/form/auditing',
-        meta: { title: '审核', icon: 'fa fa-check-square-o' }
-      }
-    ]
+  {
+    path: '/form/declaration',
+    meta: { title: '报关单', icon: 'fa fa-file-text-o' }
+  },
+  {
+    path: '/form/declarationRetrieval',
+    meta: { title: '报关单检索', icon: 'fa fa-file-text-o' }
+  },
+  {
+    path: '/form/auditing',
+    meta: { title: '审核', icon: 'fa fa-check-square-o' }
+  }
+]
 
 export default {
   data() {
@@ -54,7 +55,7 @@ export default {
     }
   },
   created() {
-    if(location.hash.split('/').length==2){
+    if (location.hash.split('/').length == 2) {
       location.hash = this.activeMenu
     }
   },
@@ -91,7 +92,13 @@ export default {
   bottom: 0;
   overflow: auto;
 }
-.el-menu{
+
+.el-menu {
   background-color: #F5F7FB;
+}
+</style>
+<style>
+.menu-wrap .el-menu{
+  width:200px;
 }
 </style>
