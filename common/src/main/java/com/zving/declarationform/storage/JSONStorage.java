@@ -23,8 +23,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @date 2017年10月19日
  */
 public class JSONStorage implements IStorage {
-	ConcurrentHashMap<Class<?>, List<?>> map;
+	ConcurrentHashMap<Class<?>, List<?>> map = new ConcurrentHashMap<>();
 	ReentrantLock lock = new ReentrantLock();
+
+	public JSONStorage() {
+		new File("appdata/json/").mkdirs();
+	}
 
 	@SuppressWarnings("unchecked")
 	<T> List<T> getList(Class<T> clazz) {
@@ -38,18 +42,21 @@ public class JSONStorage implements IStorage {
 			}
 		}
 
-		if (map.contains(clazz)) {
+		if (map.containsKey(clazz)) {
 			return (List<T>) map.get(clazz);
 		} else {
 			lock.lock();
 			try {
-				if (!map.contains(clazz)) {
+				if (!map.containsKey(clazz)) {
 					ObjectMapper om = new ObjectMapper();
 					JavaType type = om.getTypeFactory().constructParametricType(ArrayList.class, clazz);
 					try {
-						List<T> list = om.readValue(new File("appdata/json/" + clazz.getName()), type);
-						map.put(clazz, list);
-						return list;
+						File f = new File("appdata/json/" + clazz.getName());
+						if (f.exists()) {
+							List<T> list = om.readValue(f, type);
+							map.put(clazz, list);
+							return list;
+						}
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

@@ -7,6 +7,8 @@ yarn.lock
 .settings
 .svn
 node_modules/*
+appdata
+appdata/*
 WEB-INF
 /bin/
 /dist/
