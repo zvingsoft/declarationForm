@@ -28,6 +28,10 @@ const menus = [
         meta: { title: '报关单', icon: 'fa fa-file-text-o' }
       },
       {
+        path: '/form/declarationRetrieval',
+        meta: { title: '报关单检索', icon: 'fa fa-file-text-o' }
+      },
+      {
         path: '/form/auditing',
         meta: { title: '审核', icon: 'fa fa-check-square-o' }
       }
