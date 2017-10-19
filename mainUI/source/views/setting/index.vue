@@ -25,27 +25,27 @@
 const menus = [
       {
         path: '/setting/tax',
-        meta: { title: '税率管理', icon: 'fa fa-file-text-o' },
+        meta: { title: '税率管理', icon: 'fa fa-money' },
       },
       {
         path: '/setting/license',
-        meta: { title: '许可证管理', icon: 'fa fa-file-text-o' },
+        meta: { title: '许可证管理', icon: 'fa fa-compass' },
       },
       {
         path: '/setting/taxCutting',
-        meta: { title: '减免税管理', icon: 'fa fa-file-text-o' },
+        meta: { title: '减免税管理', icon: 'fa fa-hand-lizard-o' },
       },
       {
         path: '/setting/manifest',
-        meta: { title: '舱单管理', icon: 'fa fa-file-text-o' },
+        meta: { title: '舱单管理', icon: 'fa fa-dropbox' },
       },
       {
         path: '/setting/processingTrade',
-        meta: { title: '加贸管理', icon: 'fa fa-file-text-o' },
+        meta: { title: '加贸管理', icon: 'fa fa-wrench' },
       },
       {
         path: '/setting/cottonQuota',
-        meta: { title: '棉花配额管理', icon: 'fa fa-file-text-o' },
+        meta: { title: '棉花配额管理', icon: 'fa fa-meetup' },
       }
     ]
 

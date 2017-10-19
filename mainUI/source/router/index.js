@@ -7,7 +7,7 @@ const routes = [
   {
     path: '/form',
     name: 'form',
-    meta: { title: '通关', icon: 'fa fa-file-text-o' },
+    meta: { title: '通关', icon: 'fa fa-ship' },
     component: require('../views/form/index.vue'),
     children: [
       {
@@ -25,7 +25,7 @@ const routes = [
   {
     path: '/setting',
     name: 'setting',
-    meta: { title: '配置', icon: 'fa fa-file-text-o' },
+    meta: { title: '配置', icon: 'fa fa-sliders' },
     component: require('../views/setting/index.vue'),
     children: [
       {
@@ -63,7 +63,7 @@ const routes = [
   {
     path: '/system',
     name: 'system',
-    meta: { title: '系统', icon: 'fa fa-file-text-o' },
+    meta: { title: '系统', icon: 'fa fa-cogs' },
     component: require('../views/system/index.vue'),
     children: [
       {

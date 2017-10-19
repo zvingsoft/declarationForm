@@ -29,7 +29,7 @@ const menus = [
       },
       {
         path: '/form/auditing',
-        meta: { title: '审核', icon: 'fa fa-file-text-o' }
+        meta: { title: '审核', icon: 'fa fa-check-square-o' }
       }
     ]
 
