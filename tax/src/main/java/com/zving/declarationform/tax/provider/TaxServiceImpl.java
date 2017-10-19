@@ -1,5 +1,7 @@
 package com.zving.declarationform.tax.provider;
 
+import java.util.List;
+
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.zving.declarationform.model.DeclarationForm;
+import com.zving.declarationform.storage.StorageUtil;
 import com.zving.declarationform.tax.model.TaxRate;
 import com.zving.declarationform.tax.schema.TaxService;
 
@@ -27,43 +30,45 @@ public class TaxServiceImpl implements TaxService {
 	@Override
 	@RequestMapping(path = "compute", method = RequestMethod.POST)
 	public String compute(@RequestBody DeclarationForm form) {
-		return null;
+		return String.valueOf(System.currentTimeMillis());
 	}
 
 	@Override
 	@RequestMapping(path = "confirm", method = RequestMethod.POST)
 	public String confirm(@RequestBody DeclarationForm form) {
-		return null;
+		return String.valueOf(System.currentTimeMillis());
 	}
 
-	@Override
 	@RequestMapping(path = "taxrate", method = RequestMethod.POST)
 	public String addRate(@RequestBody TaxRate rate) {
-		return null;
+		StorageUtil.getInstance().add(TaxRate.class, rate);
+		return "添加成功";
 	}
 
-	@Override
 	@RequestMapping(path = "taxrate", method = RequestMethod.PUT)
 	public String updateRate(@RequestBody TaxRate rate) {
-		return null;
+		StorageUtil.getInstance().update(TaxRate.class, rate);
+		return "更新成功";
 	}
 
-	@Override
 	@RequestMapping(path = "taxrate/{goodsType}", method = RequestMethod.DELETE)
 	public String deleteRate(@PathVariable("goodsType") String goodsType) {
-		return null;
+		TaxRate rate = new TaxRate();
+		rate.setGoodsType(goodsType);
+		StorageUtil.getInstance().delete(TaxRate.class, rate);
+		return "删除成功";
 	}
 
-	@Override
 	@RequestMapping(path = "taxrate/{goodsType}", method = RequestMethod.GET)
-	public String getRate(@PathVariable("goodsType") String goodsType) {
-		return null;
+	public TaxRate getRate(@PathVariable("goodsType") String goodsType) {
+		TaxRate rate = new TaxRate();
+		rate.setGoodsType(goodsType);
+		return StorageUtil.getInstance().get(TaxRate.class, rate);
 	}
 
-	@Override
 	@RequestMapping(path = "taxrate", method = RequestMethod.GET)
-	public String listRate() {
-		return null;
+	public List<TaxRate> listRate() {
+		return StorageUtil.getInstance().find(TaxRate.class, new TaxRate());
 	}
 
 }
