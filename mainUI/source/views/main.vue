@@ -115,8 +115,8 @@ export default {
 
 .navbar .el-menu--horizontal .el-menu-item:hover,
 .navbar .el-menu--horizontal .el-menu-item.is-active {
-  background-color: #677ACE;
-  border-bottom: 5px solid #5469BC;
+  background-color: #5C71CE;
+  border-bottom: 5px solid #3B51A8;
 }
 
 
@@ -126,7 +126,8 @@ export default {
   max-width: 200px;
   display: inline-block;
   font-size: 16px;
-  color: #ffee99;
+  color: #eeee99;
+  background-color: #667CDB;
 }
 
 .navbar-collapse {
