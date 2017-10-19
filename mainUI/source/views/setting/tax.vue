@@ -11,7 +11,7 @@
         <el-input v-model="search.taxnum" size="small" placeholder="请输入税号" style="width: 200px;"></el-input>
         物品类别：
         <el-input v-model="search.taxgoodstype" size="small" placeholder="请输入物品类别" style="width: 200px;"></el-input>
-        <el-button size="small" type="primary" @click="handleSearchBtn">搜索</el-button>
+        <el-button size="small" type="primary" @click="handleSearchBtn"> 搜 索 </el-button>
       </div>
       <!--表格-->
       <div>

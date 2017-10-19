@@ -21,7 +21,7 @@
         &nbsp; &nbsp;委托企业:
         <el-input type="text" size="small" style="width: 150px;"></el-input>
         &nbsp; &nbsp;
-        <el-button @click="apSearch" type="primary" size="small">搜索</el-button>
+        <el-button @click="apSearch" type="primary" size="small"> 搜 索 </el-button>
       </div>
       <!-- 列表 -->
       <el-table class="content-table" ref="ptListTable" highlight-current-row :data="ptListData" tooltip-effect="dark" @selection-change="ptOnSelectionChange">

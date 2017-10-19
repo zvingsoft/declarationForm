@@ -24,7 +24,7 @@
         <el-date-picker v-model="searchTaxCutting.starttime" type="date" placeholder="请选择日期" size="small" style="width:150px" @change="dateStartTimeChangeClick"></el-date-picker>
         -
         <el-date-picker v-model="searchTaxCutting.endtime" type="date" placeholder="请选择日期" size="small" style="width:150px" @change="dateEndTimeChangeClick"></el-date-picker>
-        <el-button size="small" type="primary" @click="searchTaxCuttingClick">搜索</el-button>
+        <el-button size="small" type="primary" @click="searchTaxCuttingClick"> 搜 索 </el-button>
       </div>
       <!-- 列表 -->
       <el-table class="content-table" :data="taxCuttingTable" tooltip-effect="dark" highlight-current-row :height="clientHeight" @selection-change="onSelectionChange" v-loading="dataLoading">

@@ -13,7 +13,7 @@
         <el-input v-model="search.importandexportcode" size="small" placeholder="请输入进出口代码" style="width: 200px;"></el-input>
         企业名称：
         <el-input v-model="search.companyname" size="small" placeholder="请输入企业名称" style="width: 200px;"></el-input>
-        <el-button size="small" type="primary" @click="handleSearchBtn">搜索</el-button>
+        <el-button size="small" type="primary" @click="handleSearchBtn"> 搜 索 </el-button>
       </div>
 
       <el-table :data="licenseTable" :height="clientHeight" @selection-change="onSelectionChange">

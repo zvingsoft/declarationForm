@@ -30,7 +30,7 @@
           <el-option v-for="item in logicOptions" :key="item.key" :label="item.value" :value="item.key">
           </el-option>
         </el-select>
-        <el-button size="small" type="primary" @click="getDeclarationData" style="width:70px;">搜　索</el-button>
+        <el-button size="small" type="primary" @click="getDeclarationData" style="width: 60px;">搜索</el-button>
       </div>
       <el-table :data="declarationData" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange">
         <el-table-column type="selection" width="55" align="center"></el-table-column>

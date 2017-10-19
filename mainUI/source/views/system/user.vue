@@ -14,7 +14,7 @@
         <el-input v-model="search.username" size="small" placeholder="请输入用户名/真实姓名" style="width: 200px;"></el-input>
         公司：
         <el-input v-model="search.company" size="small" placeholder="请输入公司名称" style="width: 200px;"></el-input>
-        <el-button size="small" type="primary" @click="handleSearchBtn">搜索</el-button>
+        <el-button size="small" type="primary" @click="handleSearchBtn"> 搜 索 </el-button>
       </div>
     <el-table :data="users" border tooltip-effect="dark" @selection-change="onSelectionChange"  highlight-current-row >
       <el-table-column type="selection" width="60" align="center"/>

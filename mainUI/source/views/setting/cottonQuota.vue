@@ -18,7 +18,7 @@
       <el-input v-model="number" size="small" placeholder="请输入编号" style="width:200px"></el-input>&nbsp;
       <span>企业</span>&nbsp;
       <el-input v-model="companyname" size="small" placeholder="请输入企业" style="width:200px"></el-input>
-      <el-button type="primary" @click="list" size="small">搜索</el-button>
+      <el-button type="primary" @click="list" size="small"> 搜 索 </el-button>
     </div>
 
     <div class="main-content-wrap">
