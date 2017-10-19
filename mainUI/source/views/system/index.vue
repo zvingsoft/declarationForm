@@ -2,7 +2,7 @@
   <div class="layout">
     <div class="body-list" style="background-color:white;">
       <el-toolbar style="background-color: #EEF0F4;">
-        系统
+        <i class="fa fa-gears"/>&nbsp;系统
       </el-toolbar>
       <div class="menu-wrap">
         <el-menu :default-active="activeMenu" @select="onSelectMenu">
@@ -25,11 +25,11 @@
 const menus = [
       {
         path: '/system/user',
-        meta: { title: '用户管理', icon: 'fa fa-file-text-o' },
+        meta: { title: '用户管理', icon: 'fa fa-users' },
       },
       {
         path: '/system/role',
-        meta: { title: '角色管理', icon: 'fa fa-file-text-o' },
+        meta: { title: '角色管理', icon: 'fa fa-user-circle' },
       }
     ]
 
