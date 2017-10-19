@@ -273,7 +273,7 @@ var cottonquotas = {
       adduser: '张三'
     }
   ],
-  total:16,
+  total: 16,
   status: 1,
   message: ''
 }
@@ -288,3 +288,6 @@ axiosMock
 axiosMock
   .onDelete(/api\/cottonquota\/.+$/)
   .reply(200, { status: 1, message: '删除成功！' })
+axiosMock
+  .onPatch(/api\/cottonquota\/.+$/)
+  .reply(200, { status: 1, message: '审核成功！' })
