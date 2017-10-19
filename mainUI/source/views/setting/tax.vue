@@ -18,7 +18,7 @@
         <el-table :data="taxTable" @selection-change="onSelectionChange">
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column type="expand">
-            <template scope="props">
+            <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand" label-width="120px">
                 <el-form-item label="税号">
                   <span>{{props.row.taxnum}}</span>
@@ -60,12 +60,12 @@
     </div>
 
     <!-- 新建,编辑对话框 -->
-    <el-dialog :title="addOrEdit==1?'新建':'编辑'" :visible.sync="showDialog">
-      <el-form label-width="160px" :model="tmpTax">
-        <el-form-item label="税号：">
+    <el-dialog :title="addOrEdit==1?'新建':'编辑'" :visible.sync="showDialog" @close="closeAddOrEditDialog">
+      <el-form label-width="160px" :model="tmpTax" :rules="taxRules" ref="taxForm">
+        <el-form-item label="税号：" prop="taxnum">
           <el-input placeholder="请输入税号" v-model="tmpTax.taxnum" class="width-300"></el-input>
         </el-form-item>
-        <el-form-item label="物品类型：">
+        <el-form-item label="物品类型：" prop="taxgoodstype">
           <el-input placeholder="请输入物品类型" v-model="tmpTax.taxgoodstype" class="width-300"></el-input>
         </el-form-item>
         <el-form-item label="单位：">
@@ -82,7 +82,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="showDialog = false">取 消</el-button>
+        <el-button @click="resetTax">取 消</el-button>
         <el-button type="primary" @click="saveTax" :disabled="saveTaxStatus">确 定</el-button>
       </div>
     </el-dialog>
@@ -107,6 +107,14 @@ export default {
       showDialog: false,
       addOrEdit: 1,
       tmpTax: {},
+      taxRules: {
+        taxnum: [
+          { required: true, message: '请输入税号', trigger: 'blur' }
+        ],
+        taxgoodstype: [
+          { required: true, message: '请输入物品类型', trigger: 'blur' }
+        ]
+      },
       saveTaxStatus: false,
       search: { taxnum: '', taxgoodstype: '' }
     }
@@ -135,6 +143,18 @@ export default {
     currentChangeHandler(val) {
       this.currentPage = val;
     },
+    //关闭事件
+    closeAddOrEditDialog() {
+      if (!this.tmpTax.taxnum || this.tmpTax.taxnum == '' || !this.tmpTax.taxgoodstype || this.tmpTax.taxgoodstype == '') {
+        this.$refs['taxForm'].resetFields();
+      }
+      this.showDialog = false;
+    },
+    //取消
+    resetTax() {
+      this.$refs['taxForm'].resetFields();
+      this.showDialog = false;
+    },
     //新建
     addTax() {
       this.addOrEdit = 1;
@@ -145,53 +165,60 @@ export default {
     //编辑
     editTax() {
       this.addOrEdit = 2;
-      this.showDialog = true;
       this.saveTaxStatus = false;
       this.tmpTax = Object.assign({}, this.selectedRows[0]);
+      this.showDialog = true;
     },
     //新建和编辑时保存
     saveTax() {
-      this.saveTaxStatus = true;
-      if (this.addOrEdit == 1) {
-        taxAPI.addTax(this.tmpTax).then(data => {
-          if (data.status == 1) {
-            if (this.taxTable.length == 0) {
-              this.tmpTax.id = this.taxTable.length + 1;
-            } else {
-              let temArr = Object.assign([], this.taxTable);
-              temArr.sort(function(a, b) {
-                return b.id - a.id;
-              });
-              this.tmpTax.id = temArr[0].id + 1;
-            }
-            this.tmpTax.modifydate = this.formatDate(new Date(), 'yyyy-MM-dd');
-            this.taxTable.push(this.tmpTax);
-            this.temtaxTable = Object.assign([], this.taxTable);
-            this.$message.success(data.message);
-          } else {
-            this.$message.error(data.message);
+      this.$refs['taxForm'].validate((valid) => {
+        if (valid) {
+          this.saveTaxStatus = true;
+          if (this.addOrEdit == 1) {
+            taxAPI.addTax(this.tmpTax).then(data => {
+              if (data.status == 1) {
+                if (this.taxTable.length == 0) {
+                  this.tmpTax.id = this.taxTable.length + 1;
+                } else {
+                  let temArr = Object.assign([], this.taxTable);
+                  temArr.sort(function(a, b) {
+                    return b.id - a.id;
+                  });
+                  this.tmpTax.id = temArr[0].id + 1;
+                }
+                this.tmpTax.modifydate = this.formatDate(new Date(), 'yyyy-MM-dd');
+                this.taxTable.push(this.tmpTax);
+                this.temtaxTable = Object.assign([], this.taxTable);
+                this.$message.success(data.message);
+              } else {
+                this.$message.error(data.message);
+              }
+              this.saveTaxStatus = false;
+              this.showDialog = false;
+            });
+          } else if (this.addOrEdit == 2) {
+            taxAPI.editTax(this.tmpTax.id, this.tmpTax).then(data => {
+              if (data.status == 1) {
+                let index = this.taxTable.findIndex(val => val.id == this.tmpTax.id);
+                this.taxTable = [
+                  ...this.taxTable.slice(0, index),
+                  Object.assign({}, this.tmpTax),
+                  ...this.taxTable.slice(index + 1)
+                ];
+                this.temtaxTable = Object.assign([], this.taxTable);
+                this.$message.success(data.message);
+              } else {
+                this.$message.error(data.message);
+              }
+              this.saveTaxStatus = false;
+              this.showDialog = false;
+            });
           }
-          this.saveTaxStatus = false;
-          this.showDialog = false;
-        });
-      } else if (this.addOrEdit == 2) {
-        taxAPI.editTax(this.tmpTax.id, this.tmpTax).then(data => {
-          if (data.status == 1) {
-            let index = this.taxTable.findIndex(val => val.id == this.tmpTax.id);
-            this.taxTable = [
-              ...this.taxTable.slice(0, index),
-              Object.assign({}, this.tmpTax),
-              ...this.taxTable.slice(index + 1)
-            ];
-            this.temtaxTable = Object.assign([], this.taxTable);
-            this.$message.success(data.message);
-          } else {
-            this.$message.error(data.message);
-          }
-          this.saveTaxStatus = false;
-          this.showDialog = false;
-        });
-      }
+        } else {
+          this.$alert("请填写正确选项", "提示");
+          return false;
+        }
+      });
     },
     deleteTaxs() {
       let rowIds = [];

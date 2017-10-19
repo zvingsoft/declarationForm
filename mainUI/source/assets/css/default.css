@@ -195,6 +195,10 @@ samp {
 }
 
 /*begin 对UI框架element的样式的覆盖*/
+.toolbar .el-button,
+.toolbar .el-button.is-disabled.is-plain{
+  border-color: transparent;
+}
 
 .el-tabs__header {
     background-color: #fff;
