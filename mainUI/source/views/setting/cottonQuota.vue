@@ -18,7 +18,7 @@
       <el-input v-model="number" size="small" placeholder="请输入编号" style="width:200px"></el-input>&nbsp;
       <span>企业</span>&nbsp;
       <el-input v-model="companyname" size="small" placeholder="请输入企业" style="width:200px"></el-input>
-      <el-button type="primary" class="purple-btn" @click="list" size="small">搜索</el-button>
+      <el-button type="primary" @click="list" size="small">搜索</el-button>
     </div>
 
     <div class="main-content-wrap">
@@ -124,25 +124,31 @@
     </el-dialog>
 
     <!-- 企业信息对话框 -->
-    <el-dialog title="查看企业信息" :visible.sync="showCompanyDialog">
+    <el-dialog size="tiny" title="查看企业信息" :visible.sync="showCompanyDialog">
       <el-form label-width="160px" :model="tmpCottonQuota">
         <el-form-item label="名称：">
-          <el-input v-model="tmpCottonQuota.companyname" class="width-300"></el-input>
+          {{tmpCottonQuota.companyname}}
+          <!-- <el-input v-model="tmpCottonQuota.companyname" class="width-300"></el-input> -->
         </el-form-item>
         <el-form-item label="银行信用评级：">
-          <el-input v-model="tmpCottonQuota.bankcreditrating" class="width-300"></el-input>
+          {{tmpCottonQuota.bankcreditrating}}
+          <!-- <el-input v-model="tmpCottonQuota.bankcreditrating" class="width-300"></el-input> -->
         </el-form-item>
-        <el-form-item label="地址">
-          <el-input v-model="tmpCottonQuota.address" class="width-300"></el-input>
+        <el-form-item label="地址：">
+          {{tmpCottonQuota.address}}
+          <!-- <el-input v-model="tmpCottonQuota.address" class="width-300"></el-input> -->
         </el-form-item>
-        <el-form-item label="电话">
-          <el-input v-model="tmpCottonQuota.phone" class="width-300"></el-input>
+        <el-form-item label="电话：">
+          {{tmpCottonQuota.phone}}
+          <!-- <el-input v-model="tmpCottonQuota.phone" class="width-300"></el-input> -->
         </el-form-item>
-        <el-form-item label="传真">
-          <el-input v-model="tmpCottonQuota.fax" class="width-300"></el-input>
+        <el-form-item label="传真：">
+          {{tmpCottonQuota.fax}}
+          <!-- <el-input v-model="tmpCottonQuota.fax" class="width-300"></el-input> -->
         </el-form-item>
-        <el-form-item label="邮政编码">
-          <el-input v-model="tmpCottonQuota.postcode" class="width-300"></el-input>
+        <el-form-item label="邮政编码：">
+          {{tmpCottonQuota.postcode}}
+          <!-- <el-input v-model="tmpCottonQuota.postcode" class="width-300"></el-input> -->
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -339,11 +345,6 @@
     width: 50%;
   }
 
-  .purple-btn {
-    background: #7c8ee4;
-    border-color: #7c8ee4;
-  }
-
   .page-wrap {
     margin-top: 20px;
     margin-right: 20px;
@@ -354,11 +355,11 @@
   }
 
   .red-color {
-    color: red;
+    color: #FF4949;
   }
 
   .green-color {
-    color: green;
+    color: #13CE66;
   }
 
 </style>
