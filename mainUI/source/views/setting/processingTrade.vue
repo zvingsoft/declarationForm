@@ -179,12 +179,12 @@
     <el-dialog :title="'文件查看'" :visible.sync="fileDialogIsShow">
       <img src="http://www.qingshengjiuye.com/UploadFiles/201610271722212414737.jpg" :style="{height:1205+'px',overflowY:'scroll',overflowX:'hidden', paddingRight:'15px'}">
       <div slot="footer ">
-        <el-button @click="fileDialogIsShow=false ">取 消</el-button>
-        <el-button type="primary " @click="fileViewOkHandler ">确 定</el-button>
+        <el-button @click="fileDialogIsShow=false">取 消</el-button>
+        <el-button type="primary " @click="fileViewOkHandler">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 商品信息框 -->
-    <el-dialog :title=" '商品信息' " :visible.sync="goodsDialogIsShow " size="large">
+    <el-dialog :title=" '商品信息' " :visible.sync="goodsDialogIsShow" size="large">
       <!-- 工具条 -->
       <el-toolbar>
         <el-button @click="goodsAddClick">
@@ -194,21 +194,22 @@
         <el-button @click="goodsDelClick" :disabled="goodsSelectedRows.length < 1">
           <i class="fa fa-trash-o" aria-hidden="true"></i> 删除</el-button>
       </el-toolbar>
-      <el-table ref="goodsListTable" highlight-current-row :data="goodsListData" tooltip-effect="dark" @selection-change="goodsOnSelectionChange">
-        <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column min-width="4%" label="项号" prop="itemNum"></el-table-column>
-        <el-table-column min-width="8%" label="商品编号" prop="productNum"></el-table-column>
-        <el-table-column min-width="20%" label="商品名称、规格型号" prop="nameAndSpecifications"></el-table-column>
-        <el-table-column min-width="15%" label="数量及单位" prop="quantityAndUnit"></el-table-column>
-        <el-table-column min-width="5%" label="原产国(地区)" prop="originCountry"></el-table-column>
-        <el-table-column min-width="5%" label="单价" prop="unitPrice"></el-table-column>
-        <el-table-column min-width="5%" label="总价" prop="totalPrice"></el-table-column>
-        <el-table-column min-width="5%" label="币制" prop="currency"></el-table-column>
-        <el-table-column min-width="5%" label="征免" prop="levy"></el-table-column>
-      </el-table>
-      <div slot="footer ">
-        <el-button @click="goodsDialogIsShow=false ">取 消</el-button>
-        <el-button type="primary " @click="goodsDialogOkHandler ">确 定</el-button>
+      <div class="main-content-wrap">
+        <el-table ref="goodsListTable" highlight-current-row :data="goodsListData" tooltip-effect="dark" @selection-change="goodsOnSelectionChange">
+          <el-table-column type="selection" width="55" align="center"></el-table-column>
+          <el-table-column min-width="4%" label="项号" prop="itemNum"></el-table-column>
+          <el-table-column min-width="8%" label="商品编号" prop="productNum"></el-table-column>
+          <el-table-column min-width="20%" label="商品名称、规格型号" prop="nameAndSpecifications"></el-table-column>
+          <el-table-column min-width="15%" label="数量及单位" prop="quantityAndUnit"></el-table-column>
+          <el-table-column min-width="5%" label="原产国(地区)" prop="originCountry"></el-table-column>
+          <el-table-column min-width="5%" label="单价" prop="unitPrice"></el-table-column>
+          <el-table-column min-width="5%" label="总价" prop="totalPrice"></el-table-column>
+          <el-table-column min-width="5%" label="币制" prop="currency"></el-table-column>
+          <el-table-column min-width="5%" label="征免" prop="levy"></el-table-column>
+        </el-table>
+      </div>
+      <div slot="footer">
+        <el-button type="primary" @click="goodsDialogIsShow=false">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -256,6 +257,46 @@ export default {
         levy: '',
       },
       goodsListData: [],
+      ptDataRules: {
+        number: [
+          { required: true, message: '请输入编号', trigger: 'blur' }
+        ],
+        processCorp: [
+          { required: true, message: '请输入加工企业', trigger: 'blur' }
+        ],
+        commissionedCorp: [
+          { required: true, message: '请输入委托企业', trigger: 'blur' }
+        ]
+      },
+      goodsDataRules: {
+        itemNum: [
+          { required: true, message: '该项不能为空', trigger: 'blur' }
+        ],
+        productNum: [
+          { required: true, message: '该项不能为空', trigger: 'blur' }
+        ],
+        nameAndSpecifications: [
+          { required: true, message: '该项不能为空', trigger: 'blur' }
+        ],
+        quantityAndUnit: [
+          { required: true, message: '该项不能为空', trigger: 'blur' }
+        ],
+        originCountry: [
+          { required: true, message: '该项不能为空', trigger: 'blur' }
+        ],
+        unitPrice: [
+          { required: true, message: '该项不能为空', trigger: 'blur' }
+        ],
+        totalPrice: [
+          { required: true, message: '该项不能为空', trigger: 'blur' }
+        ],
+        currency: [
+          { required: true, message: '该项不能为空', trigger: 'blur' }
+        ],
+        levy: [
+          { required: true, message: '该项不能为空', trigger: 'blur' }
+        ]
+      },
     }
   },
   methods: {
