@@ -1,18 +1,26 @@
 const licenseAPI = {
-  getLicenseData () {
-    return axios.get('/api/licenses').then(data => {
-      return data.data
-    })
+  getInlicenseList (search) {
+    return axios
+      .get('/api/inlicense', {
+        params: {search}
+      })
+      .then(res => res.data)
   },
-  addLicense (license) {
-    return axios.post('/api/licenses', todo).then(res => res.data)
+
+  getOutlicenseList (search) {
+    return axios
+      .get('/api/outlicense', {
+        params: {search}
+      })
+      .then(res => res.data)
   },
-  editLicense (id, todo) {
-    return axios.put(`/api/licenses/${id}`, todo).then(res => res.data)
+
+  getfileList1 () {
+    return axios.get(`/api/filelist1`).then(res => res.data)
   },
-  deleteLicenses (ids) {
-    let strIds = ids.join(',')
-    return axios.delete(`/api/licenses/${strIds}`).then(res => res.data)
+
+  getfileList2 () {
+    return axios.get(`/api/filelist2`).then(res => res.data)
   }
 }
 
