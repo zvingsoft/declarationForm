@@ -7,6 +7,10 @@
         <i class="fa fa-edit" aria-hidden="true"></i> 编辑</el-button>
       <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="deleteClick" :disabled="selectedRows.length === 0">
         <i class="fa fa-minus" aria-hidden="true"></i> 删除</el-button>
+      <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="auditClick(true)" :disabled="selectedRows.length === 0">
+        <i class="fa fa-check" aria-hidden="true"></i> 审核通过</el-button>
+      <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="auditClick(false)" :disabled="selectedRows.length === 0">
+        <i class="fa fa-remove" aria-hidden="true"></i> 审核不通过</el-button>
     </el-toolbar>
 
     <div class="search-bar fr">
@@ -14,18 +18,34 @@
       <el-input v-model="number" size="small" placeholder="请输入编号" style="width:200px"></el-input>&nbsp;
       <span>企业</span>&nbsp;
       <el-input v-model="companyname" size="small" placeholder="请输入企业" style="width:200px"></el-input>
-      <el-button type="primary" class="purple-btn" @click="list" size="small">搜索</el-button>
+      <el-button type="primary" @click="list" size="small">搜索</el-button>
     </div>
 
     <div class="main-content-wrap">
-      <el-table :data="cottonquotas" style="width: 100%" v-loading="dataLoading" @selection-change="onSelectionChange">
+      <el-table ref="cottonquotaTable" :data="cottonquotas" style="width: 100%" v-loading="dataLoading" @selection-change="onSelectionChange"
+        @row-click="onCottonquotaTableRowClick">
         <el-table-column type="selection" width="50">
         </el-table-column>
         <el-table-column type="expand">
           <template slot-scope="props">
             <el-form label-position="left" inline class="cottonquota-table-expand">
+              <el-form-item label="编号">
+                <span>{{ props.row.number }}</span>
+              </el-form-item>
               <el-form-item label="企业名称">
-                <span>{{ props.row.companyname }}</span>
+                <el-button type="text" @click="viewCompanyClick( props.row.companyid)">{{ props.row.companyname }}</el-button>
+              </el-form-item>
+              <el-form-item label="银行信用评级">
+                <span>{{ props.row.bankcreditrating }}</span>
+              </el-form-item>
+              <el-form-item label="申请量（吨）">
+                <span>{{ props.row.application }}</span>
+              </el-form-item>
+              <el-form-item label="分配量（吨）">
+                <span>{{ props.row.allocation }}</span>
+              </el-form-item>
+              <el-form-item label="已进口（吨）">
+                <span>{{ props.row.used }}</span>
               </el-form-item>
               <el-form-item label="企业地址">
                 <span>{{ props.row.address }}</span>
@@ -63,10 +83,17 @@
         </el-table-column>
         <el-table-column label="已进口（吨）" prop="used">
         </el-table-column>
-        <el-table-column label="审核">
+        <el-table-column label="审核状态">
           <template slot-scope="scope">
-            <span v-if="scope.row.auditstatus!==''">{{ scope.row.auditstatus === "Y" ? '审核已通过' : '审核未通过' }}</span>
-            <span v-else>通过&nbsp;&nbsp;不通过</span>
+            <span v-if="scope.row.auditstatus==='Y'" class="green-color">已通过</span>
+            <span v-else-if="scope.row.auditstatus==='N'" class="red-color">未通过</span>
+            <span v-else>未审核</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button type="text" @click="auditClick( true,scope.row.id)">通过</el-button>&nbsp;
+            <el-button type="text" @click="auditClick( false,scope.row.id)">不通过</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -84,7 +111,7 @@
     <el-dialog :title="addOperate?'新建':'编辑'" :visible.sync="showDialog">
       <el-form label-width="160px" :model="tmpCottonQuota">
         <el-form-item label="企业名称：">
-          <el-input placeholder="请输入企业名称" v-model="tmpCottonQuota.companyname" class="width-300"></el-input>
+          <el-input placeholder="请输入企业名称" v-model="tmpCottonQuota.companyname" class="width-300" :disabled="!addOperate"></el-input>
         </el-form-item>
         <el-form-item label="申请量：">
           <el-input-number :min="0" placeholder="请输入申请量" v-model="tmpCottonQuota.application" class="width-300"></el-input-number>（单位：吨）
@@ -97,25 +124,31 @@
     </el-dialog>
 
     <!-- 企业信息对话框 -->
-    <el-dialog title="查看企业信息" :visible.sync="showCompanyDialog">
+    <el-dialog size="tiny" title="查看企业信息" :visible.sync="showCompanyDialog">
       <el-form label-width="160px" :model="tmpCottonQuota">
         <el-form-item label="名称：">
-          <el-input v-model="tmpCottonQuota.companyname" class="width-300"></el-input>
+          {{tmpCottonQuota.companyname}}
+          <!-- <el-input v-model="tmpCottonQuota.companyname" class="width-300"></el-input> -->
         </el-form-item>
         <el-form-item label="银行信用评级：">
-          <el-input v-model="tmpCottonQuota.bankcreditrating" class="width-300"></el-input>
+          {{tmpCottonQuota.bankcreditrating}}
+          <!-- <el-input v-model="tmpCottonQuota.bankcreditrating" class="width-300"></el-input> -->
         </el-form-item>
-        <el-form-item label="地址">
-          <el-input v-model="tmpCottonQuota.address" class="width-300"></el-input>
+        <el-form-item label="地址：">
+          {{tmpCottonQuota.address}}
+          <!-- <el-input v-model="tmpCottonQuota.address" class="width-300"></el-input> -->
         </el-form-item>
-        <el-form-item label="电话">
-          <el-input v-model="tmpCottonQuota.phone" class="width-300"></el-input>
+        <el-form-item label="电话：">
+          {{tmpCottonQuota.phone}}
+          <!-- <el-input v-model="tmpCottonQuota.phone" class="width-300"></el-input> -->
         </el-form-item>
-        <el-form-item label="传真">
-          <el-input v-model="tmpCottonQuota.fax" class="width-300"></el-input>
+        <el-form-item label="传真：">
+          {{tmpCottonQuota.fax}}
+          <!-- <el-input v-model="tmpCottonQuota.fax" class="width-300"></el-input> -->
         </el-form-item>
-        <el-form-item label="邮政编码">
-          <el-input v-model="tmpCottonQuota.postcode" class="width-300"></el-input>
+        <el-form-item label="邮政编码：">
+          {{tmpCottonQuota.postcode}}
+          <!-- <el-input v-model="tmpCottonQuota.postcode" class="width-300"></el-input> -->
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -150,6 +183,27 @@
       }
     },
     methods: {
+      //审核
+      auditClick(pass, ids) {
+        if (ids == undefined || ids == '') {
+          ids = this.getSelectedIds().join(',');
+        }
+        cottonQuotaAPI.auditCottonQuota(pass, ids).then(data => {
+          if (data.status == 1) {
+            this.$message.success(data.message);
+            this.list();
+          } else {
+            this.$message.error(data.message);
+          }
+        });
+      },
+      //单击一行选中当前行、单击多选框增加选中当前行
+      onCottonquotaTableRowClick(row, event, column) {
+        if (column.type != "selection") {
+          this.$refs.cottonquotaTable.clearSelection();
+        }
+        this.$refs.cottonquotaTable.toggleRowSelection(row);
+      },
       //选择改变
       onSelectionChange(selection) {
         this.selectedRows = selection;
@@ -184,10 +238,7 @@
       },
       //删除
       deleteClick() {
-        let rowIds = [];
-        this.selectedRows.forEach(function (row) {
-          rowIds.push(row.id);
-        });
+        let rowIds = this.getSelectedIds().join(',');
         this.$confirm("确认删除所选的数据?", '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -253,7 +304,15 @@
             this.showDialog = false;
           });
         }
-      }
+      },
+      //获取选中id数组
+      getSelectedIds() {
+        let rowIds = [];
+        this.selectedRows.forEach(function (row) {
+          rowIds.push(row.id);
+        });
+        return rowIds;
+      },
     },
     created() {
       this.list();
@@ -263,6 +322,10 @@
 </script>
 
 <style scoped>
+  .main-content-wrap {
+    padding: 10px;
+  }
+
   .search-bar {
     padding: 5px 12px;
   }
@@ -282,11 +345,6 @@
     width: 50%;
   }
 
-  .purple-btn {
-    background: #7c8ee4;
-    border-color: #7c8ee4;
-  }
-
   .page-wrap {
     margin-top: 20px;
     margin-right: 20px;
@@ -294,6 +352,14 @@
 
   .page-wrap .page {
     float: right;
+  }
+
+  .red-color {
+    color: #FF4949;
+  }
+
+  .green-color {
+    color: #13CE66;
   }
 
 </style>

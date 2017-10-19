@@ -23,7 +23,7 @@
         <el-table :data="manifestTable" @selection-change="onSelectionChange">
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column type="expand">
-            <template scope="props">
+            <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand" label-width="120px">
                 <el-form-item label="舱单编号">
                   <span>{{props.row.manifestnum}}</span>
@@ -62,12 +62,12 @@
     </div>
 
     <!-- 新建,编辑对话框 -->
-    <el-dialog :title="addOrEdit==1?'新建':'编辑'" :visible.sync="showDialog">
-      <el-form label-width="160px" :model="tmpManifest">
-        <el-form-item label="舱单编号：">
+    <el-dialog :title="addOrEdit==1?'新建':'编辑'" :visible.sync="showDialog" @close="closeAddOrEditDialog">
+      <el-form label-width="160px" :model="tmpManifest" :rules="manifestRules" ref="manifestForm">
+        <el-form-item label="舱单编号：" prop="manifestnum">
           <el-input placeholder="请输入舱单编号" v-model="tmpManifest.manifestnum" class="width-300"></el-input>
         </el-form-item>
-        <el-form-item label="收件公司：">
+        <el-form-item label="收件公司：" prop="receivecompany">
           <el-input placeholder="请输入收件公司" v-model="tmpManifest.receivecompany" class="width-300"></el-input>
         </el-form-item>
         <el-form-item label="商品：">
@@ -76,7 +76,7 @@
         <el-form-item label="发货地：">
           <el-input placeholder="请输入发货地" v-model="tmpManifest.sendaddress" class="width-230"></el-input>
         </el-form-item>
-        <el-form-item label="收货人：">
+        <el-form-item label="收货人：" prop="receiveperson">
           <el-input v-model="tmpManifest.receiveperson" placeholder="请输入收货人" class="width-230"></el-input>
         </el-form-item>
         <el-form-item label="电话：">
@@ -84,7 +84,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="showDialog = false">取 消</el-button>
+        <el-button @click="resetManifest">取 消</el-button>
         <el-button type="primary" @click="saveManifest" :disabled="saveManifestStatus">确 定</el-button>
       </div>
     </el-dialog>
@@ -122,6 +122,17 @@ export default {
       showDialog: false,
       addOrEdit: 1,
       tmpManifest: {},
+      manifestRules: {
+        manifestnum: [
+          { required: true, message: '请输入舱单编号', trigger: 'blur' }
+        ],
+        receivecompany: [
+          { required: true, message: '请输入收件公司', trigger: 'blur' }
+        ],
+        receiveperson: [
+          { required: true, message: '请输入收货人', trigger: 'blur' }
+        ]
+      },
       saveManifestStatus: false,
       search: { manifestnum: '', goodsname: '', receivecompany: '', receiveperson: '' },
       viewDialog: false,
@@ -159,6 +170,19 @@ export default {
     currentChangeHandler(val) {
       this.currentPage = val;
     },
+    //关闭事件
+    closeAddOrEditDialog() {
+      console.log(this.tmpManifest.manifestnum);
+      if (!this.tmpManifest.manifestnum || this.tmpManifest.manifestnum == '' || !this.tmpManifest.receivecompany || this.tmpManifest.receivecompany == '' || !this.tmpManifest.receiveperson || this.tmpManifest.receiveperson == '') {
+        this.$refs['manifestForm'].resetFields();
+      }
+      this.showDialog = false;
+    },
+    //取消
+    resetManifest() {
+      this.$refs['manifestForm'].resetFields();
+      this.showDialog = false;
+    },
     //新建
     addManifest() {
       this.addOrEdit = 1;
@@ -175,46 +199,54 @@ export default {
     },
     //新建和编辑时保存
     saveManifest() {
-      this.saveManifestStatus = true;
-      if (this.addOrEdit == 1) {
-        manifestAPI.addManifest(this.tmpManifest).then(data => {
-          if (data.status == 1) {
-            if (this.manifestTable.length == 0) {
-              this.tmpManifest.id = this.manifestTable.length + 1;
-            } else {
-              let temArr = Object.assign([], this.manifestTable);
-              temArr.sort(function(a, b) {
-                return b.id - a.id;
-              });
-              this.tmpManifest.id = temArr[0].id + 1;
-            }
-            this.manifestTable.push(this.tmpManifest);
-            this.temmanifestTable = Object.assign([], this.manifestTable);
-            this.$message.success(data.message);
-          } else {
-            this.$message.error(data.message);
+      this.$refs['manifestForm'].validate((valid) => {
+        if (valid) {
+          this.saveManifestStatus = true;
+          if (this.addOrEdit == 1) {
+            manifestAPI.addManifest(this.tmpManifest).then(data => {
+              if (data.status == 1) {
+                if (this.manifestTable.length == 0) {
+                  this.tmpManifest.id = this.manifestTable.length + 1;
+                } else {
+                  let temArr = Object.assign([], this.manifestTable);
+                  temArr.sort(function(a, b) {
+                    return b.id - a.id;
+                  });
+                  this.tmpManifest.id = temArr[0].id + 1;
+                }
+                this.manifestTable.push(this.tmpManifest);
+                this.temmanifestTable = Object.assign([], this.manifestTable);
+                this.$message.success(data.message);
+              } else {
+                this.$message.error(data.message);
+              }
+              this.saveManifestStatus = false;
+              this.showDialog = false;
+            });
+          } else if (this.addOrEdit == 2) {
+            manifestAPI.editManifest(this.tmpManifest.id, this.tmpManifest).then(data => {
+              if (data.status == 1) {
+                let index = this.manifestTable.findIndex(val => val.id == this.tmpManifest.id);
+                this.manifestTable = [
+                  ...this.manifestTable.slice(0, index),
+                  Object.assign({}, this.tmpManifest),
+                  ...this.manifestTable.slice(index + 1)
+                ];
+                this.temmanifestTable = Object.assign([], this.manifestTable);
+                this.$message.success(data.message);
+              } else {
+                this.$message.error(data.message);
+              }
+              this.saveManifestStatus = false;
+              this.showDialog = false;
+            });
           }
-          this.saveManifestStatus = false;
-          this.showDialog = false;
-        });
-      } else if (this.addOrEdit == 2) {
-        manifestAPI.editManifest(this.tmpManifest.id, this.tmpManifest).then(data => {
-          if (data.status == 1) {
-            let index = this.manifestTable.findIndex(val => val.id == this.tmpManifest.id);
-            this.manifestTable = [
-              ...this.manifestTable.slice(0, index),
-              Object.assign({}, this.tmpManifest),
-              ...this.manifestTable.slice(index + 1)
-            ];
-            this.temmanifestTable = Object.assign([], this.manifestTable);
-            this.$message.success(data.message);
-          } else {
-            this.$message.error(data.message);
-          }
-          this.saveManifestStatus = false;
-          this.showDialog = false;
-        });
-      }
+        } else {
+          this.$alert("请填写正确选项", "提示");
+          return false;
+        }
+      });
+
     },
     //刪除
     deleteManifests() {

@@ -20,8 +20,16 @@ const cottonQuotaAPI = {
       .then(res => res.data)
   },
   deleteCottonQuota (ids) {
-    let strIds = ids.join(',')
-    return axios.delete(`/api/cottonquota/${strIds}`).then(res => res.data)
+    return axios.delete(`/api/cottonquota/${ids}`).then(res => res.data)
+  },
+  auditCottonQuota (pass, ids) {
+    return axios
+      .patch(`/api/cottonquota/${ids}`, {
+        params: {
+          pass: pass
+        }
+      })
+      .then(res => res.data)
   }
 }
 
