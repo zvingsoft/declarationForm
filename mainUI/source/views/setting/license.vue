@@ -1,5 +1,5 @@
 <template>
-  <div :style="{width:clientWidth+'px'}">
+  <div>
     <el-tabs v-model="activeName" class="projPage">
       <!-- 进口 -->
       <el-tab-pane label='进口' name='inlicense'>
@@ -21,7 +21,7 @@
             <el-input v-model="insearch.portofclearance" size="small" placeholder="请输入报关口岸" style="width: 200px;"></el-input>
             <el-button size="small" type="primary" @click="loadInlicenseList"> 搜 索 </el-button>
           </div>
-          <el-table ref="myTabelRef" :data="myTableData" tooltip-effect="dark" style="width: 100%" :height="clientHeight" @selection-change="myOnSelectionChange">
+          <el-table ref="myTabelRef" :data="inLicenseData" tooltip-effect="dark" style="width: 100%" :height="clientHeight" @selection-change="inOnSelectionChange">
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column prop="licensekey" show-overflow-tooltip min-width="15%" label="许可证号"></el-table-column>
             <el-table-column prop="companyname" show-overflow-tooltip min-width="20%" label="进口商"></el-table-column>
@@ -53,21 +53,20 @@
             许可证号:
             <el-input v-model="outsearch.licensekey" size="small" placeholder="请输入许可证号" style="width: 200px;"></el-input>
             进口商：
-            <el-input v-model="outsearch.companyname" size="small" placeholder="请输入进口商" style="width: 200px;"></el-input>
+            <el-input v-model="outsearch.companyname" size="small" placeholder="请输入出口商" style="width: 200px;"></el-input>
             报关口岸:
             <el-input v-model="outsearch.portofclearance" size="small" placeholder="请输入报关口岸" style="width: 200px;"></el-input>
-            <el-button size="small" type="primary" @click="apSearch"> 搜 索 </el-button>
+            <el-button size="small" type="primary" @click="loadOutlicenseList"> 搜 索 </el-button>
           </div>
-          <el-table ref="apTabelRef" :data="apTableData" tooltip-effect="dark" style="width: 100%" :height="clientHeight" @selection-change="apOnSelectionChange">
+          <el-table ref="apTabelRef" :data="outLicenseData" tooltip-effect="dark" style="width: 100%" :height="clientHeight" @selection-change="outOnSelectionChange">
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column prop="licensekey" show-overflow-tooltip min-width="15%" label="许可证号"></el-table-column>
-            <el-table-column prop="companyname" show-overflow-tooltip min-width="15%" label="进口商"></el-table-column>
-            <el-table-column prop="consignee" show-overflow-tooltip min-width="15%" label="收货人"></el-table-column>
+            <el-table-column prop="companyname" show-overflow-tooltip min-width="15%" label="出口商"></el-table-column>
+            <el-table-column prop="consignor" show-overflow-tooltip min-width="15%" label="发货人"></el-table-column>
             <el-table-column prop="trademode" show-overflow-tooltip min-width="10%" label="贸易方式"></el-table-column>
-            <el-table-column prop="exportingcountry" show-overflow-tooltip min-width="12%" label="出口国"></el-table-column>
-            <el-table-column prop="countryoforigin" show-overflow-tooltip min-width="12%" label="原产国家"></el-table-column>
+            <el-table-column prop="importedcountry" show-overflow-tooltip min-width="12%" label="进口国"></el-table-column>
             <el-table-column prop="portofclearance" show-overflow-tooltip min-width="10%" label="报关口岸"></el-table-column>
-            <el-table-column prop="certificationdate" show-overflow-tooltip min-width="10%" label="发证日期"></el-table-column>
+            <el-table-column prop="certificationdate" show-overflow-tooltip min-width="15%" label="发证日期"></el-table-column>
           </el-table>
           <div class="fr" style="margin-top:5px;">
             <el-pagination @size-change="apHandleSizeChange" @current-change="apHandleCurrentChange" :current-page="apCurrentPage" :page-sizes="apPageSizes" :page-size="apPageSize" :total="apTotal" layout="total, sizes, prev, pager, next">
@@ -138,7 +137,64 @@
       </el-form>
       <div slot="footer">
         <el-button @click="inLicenseShow=false">取消</el-button>
-        <el-button type="primary" @click="myOkHandler" :loading="confirmLoading">确 定</el-button>
+        <el-button type="primary" @click="inOkHandler" :loading="confirmLoading">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 添加、编辑出口许可证 -->
+    <el-dialog :title="outeditMode===1?'添加出口许可证':'编辑出口许可证'" :visible.sync="outLicenseShow"  size="large" >
+      <el-form :model="outLicenseModel" :rules="outLicenseRules" inline ref="outLicenseRef" label-width="120px" style="height:400px;overflow-y:scroll;overflow-x:hidden;">
+        <el-form-item label="出口商" prop="companyname">
+          <el-input type="text" v-model="outLicenseModel.companyname" auto-complete="off" style="width:350px"></el-input>
+        </el-form-item>
+        <el-form-item label="发货人" prop="consignor">
+          <el-input type="text" v-model="outLicenseModel.consignee" auto-complete="off" style="width:350px"></el-input>
+        </el-form-item>
+        <el-form-item label="许可证号" prop="licensekey">
+          <el-input type="text" v-model="outLicenseModel.licensekey" auto-complete="off" class="input-230"></el-input>
+        </el-form-item>
+        <el-form-item label="贸易方式" prop="trademode">
+          <el-input type="text" v-model="outLicenseModel.trademode" auto-complete="off" class="input-230"></el-input>
+        </el-form-item>
+        <el-form-item label="进口国" prop="importedcountry">
+          <el-input type="text" v-model="outLicenseModel.importedcountry" auto-complete="off" class="input-230"></el-input>
+        </el-form-item>
+        <el-form-item label="合同号" prop="conractno">
+          <el-input type="text" v-model="outLicenseModel.conractno" auto-complete="off" class="input-230"></el-input>
+        </el-form-item>
+        <el-form-item label="报关口岸" prop="portofclearance">
+          <el-input type="text" v-model="outLicenseModel.portofclearance" auto-complete="off" class="input-230"></el-input>
+        </el-form-item>
+        <el-form-item label="付款方式" prop="paymentmethod">
+          <el-input type="text" v-model="outLicenseModel.paymentmethod" auto-complete="off" class="input-230"></el-input>
+        </el-form-item>
+        <el-form-item label="商品名称" prop="goodsname">
+          <el-input type="text" v-model="outLicenseModel.goodsname" auto-complete="off" class="input-230"></el-input>
+        </el-form-item>
+        <el-form-item label="商品编号" prop="goodscode">
+          <el-input type="text" v-model="outLicenseModel.goodscode" auto-complete="off" class="input-230"></el-input>
+        </el-form-item>
+        <el-form-item label="运输方式" prop="shippingtype">
+          <el-input type="text" v-model="outLicenseModel.shippingtype" auto-complete="off" class="input-230"></el-input>
+        </el-form-item>
+        <el-form-item label="许可证截止日期" prop="expirationdateoflicense">
+          <el-date-picker v-model="outLicenseModel.expirationdateoflicense" type="date" placeholder="选择日期" class="input-230"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="发证日期" prop="certificationdate">
+          <el-date-picker v-model="outLicenseModel.certificationdate" type="date" placeholder="选择日期" class="input-230"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="许可证文件" prop="declarationfile" v-show="editMode===1">
+          <el-upload :on-success="onUploadSuccess" class="upload-file" accept=".jpg,.png" action="" :multiple="false" :file-list="fileList">
+            <el-button size="small" type="primary">点击上传</el-button>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="备注" prop="memo">
+          <el-input type="text" v-model="outLicenseModel.memo" auto-complete="off" style="width:800px"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="outLicenseShow=false">取消</el-button>
+        <el-button type="primary" @click="outOkHandler" :loading="confirmLoading">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 文件列表查看、编辑框 -->
@@ -169,45 +225,6 @@
         <el-button type="primary" @click="fileUploadOkHandler">确 定</el-button>
       </div>
     </el-dialog>
-    <!-- 文件预览框 -->
-    <el-dialog :title="'文件预览'" :visible.sync="fileViewDialogIsShow">
-      <div class="fileView-content">
-        <h4 style="text-align:center;width:100%">关于要求核准×××项目申请报告的请示（范本）</h4>
-        <br>**发展和改革委员会：  ×××××××××××××××（综合表述项目建设的必要性）。
-        <br>　　我公司拟在**×××投资建设×××项目，该项目××××××（建设规模与主要建设内容，工业项目还需写明工艺技术流程、产品产量等），
-        <br>总投资×××万元，资金来源××××××。该项目的规划选址、用地预审、环评审批、节能审查等前期工作均已完成，现将项目申请报告及相关附件材料随文呈报你委，请予以核准。
-        <br>附件：
-        <br>　1、城市规划行政主管部门出具的该项目城市规划意见（项目选址意见书）
-        <br>　2、国土资源行政主管部门出具的该项目用地预审意见（项目用地预审文件）
-        <br>　3、环境保护行政主管部门出具的该项目环境影响评价文件的审批意见（项目环评审批文件）
-        <br>　4、水土保持行政主管部门出具的项目水保方案评价文件审批意见（水保方案审批文件，视项目建设地点决定是否需要）
-        <br>　5、发展改革部门出具的项目节能评价文件的审批意见（项目节能审查文件）<br/><br/>
-        <div style="width:100%; text-align:right;">××××公司（签章） ××年××月××日</div>
-      </div>
-    </el-dialog>
-    <!-- 审批进度框未通过 -->
-    <el-dialog :title="'审批进度：审批未通过'" :visible.sync="failDialogIsShow">
-      <el-button @click="recommit">重新提交</el-button>
-    </el-dialog>
-
-    <!-- 审批进度框通过 -->
-    <el-dialog :title="'审批进度：审批通过'" :visible.sync="passDialogIsShow">
-      <el-toolbar class="filelist-toolbar">
-        <el-button class="z-toolbar-btn" :disabled="fileSelectedRows.length < 1" :plain="true" @click="fileDownload">
-          <i class="fa fa-download"></i>下载</el-button>
-        <el-button class="z-toolbar-btn" :disabled="fileSelectedRows.length !== 1" :plain="true" @click="fileView">
-          <i class="fa fa-search"></i>预览</el-button>
-      </el-toolbar>
-      <el-table ref="fileTabelRef" :data="fileTableData" tooltip-effect="dark" style="width: 100%;margin-top:5px;" @selection-change="fileOnSelectionChange">
-        <el-table-column type="selection" width="60" align="center"></el-table-column>
-        <el-table-column prop="name" label="文件名"></el-table-column>
-      </el-table>
-    </el-dialog>
-
-    <!-- 审批进度框审批中 -->
-    <el-dialog :title="'审批进度：审批中'" :visible.sync="loadDialogIsShow">
-      <el-button @click="cancelCommit">取消申报</el-button>
-    </el-dialog>
   </div>
 </template>
 
@@ -220,11 +237,18 @@ export default {
       clientHeight: 0,
       clientWidth: 0,
       /*我的申请表格*/
-      myTableData: [],
+      inLicenseData: [],
       /*待我审批表格*/
-      apTableData: [],
+      outLicenseData: [],
       /*我的申请数据模型*/
       inLicenseModel: {
+        name: '',
+        manager: '',
+        description: '',
+        starttime: '',
+        endtime: '',
+      },
+      outLicenseModel: {
         name: '',
         manager: '',
         description: '',
@@ -256,6 +280,8 @@ export default {
       },
       /*编辑添加框是否可见 */
       inLicenseShow: false,
+      /*编辑添加框是否可见 */
+      outLicenseShow: false,
       /*文件列表查看、编辑框是否可见 */
       myFileDialogIsShow: false,
       /*文件上传框是否可见 */
@@ -266,8 +292,10 @@ export default {
       failDialogIsShow: false,
       passDialogIsShow: false,
       loadDialogIsShow: false,
-      /*编辑模式：1添加，2编辑*/
+      /*进口许可证编辑模式：1添加，2编辑*/
       editMode: 1,
+      /*出口许可证编辑模式：1添加，2编辑*/
+      outeditMode: 1,
       /*文件类型：1申报文件，2审批文件 */
       fileType: 1,
       /*表单提交等待动画*/
@@ -308,7 +336,7 @@ export default {
     }
   },
   methods: {
-    /*添加申请*/
+    /*添加进口许可证*/
     inAddClick() {
       this.editMode = 1;
       this.inLicenseModel = {
@@ -320,13 +348,13 @@ export default {
       };
       this.inLicenseShow = true;
     },
-    /*编辑申请*/
+    /*编辑进口许可证*/
     inEditClick() {
       this.editMode = 2;
       this.inLicenseModel = Object.assign({}, this.inLicenseModel, this.inSelectedRows[0]);
       this.inLicenseShow = true;
     },
-    /*删除申请*/
+    /*删除进口许可证*/
     inDeleteClick() {
       this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
         confirmButtonText: '确定',
@@ -339,20 +367,51 @@ export default {
         });
         return ids;
       }).then(ids => {
-        this.myTableData = this.myTableData.filter(val => !ids.includes(val.id));
+        this.inLicenseData = this.inLicenseData.filter(val => !ids.includes(val.id));
         this.$notify.success({ title: '成功', message: "删除成功", duration: 2000 });
       })
     },
-    /*点击待我审查搜索按钮 */
-    apSearch() {
-      this.loadOutlicenseList();
+    /*添加出口许可证*/
+    outAddClick() {
+      this.outeditMode = 1;
+      this.outLicenseModel = {
+        name: '',
+        manager: '',
+        description: '',
+        starttime: '',
+        endtime: '',
+      };
+      this.outLicenseShow = true;
     },
-    /*表格选中行改变*/
-    myOnSelectionChange(selection) {
+    /*编辑出口许可证*/
+    outEditClick() {
+      this.outeditMode = 2;
+      this.outLicenseModel = Object.assign({}, this.outLicenseModel, this.outSelectedRows[0]);
+      this.outLicenseShow = true;
+    },
+    /*删除出口许可证*/
+    outDeleteClick() {
+      this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let ids = [];
+        this.outSelectedRows.forEach(function(row) {
+          ids.push(row.id);
+        });
+        return ids;
+      }).then(ids => {
+        this.outLicenseData = this.outLicenseData.filter(val => !ids.includes(val.id));
+        this.$notify.success({ title: '成功', message: "删除成功", duration: 2000 });
+      })
+    },
+    /*进口表格选中行改变*/
+    inOnSelectionChange(selection) {
       this.inSelectedRows = selection
     },
-    /*保存我的申请表单 */
-    myOkHandler() {
+    /*保存进口许可证 */
+    inOkHandler() {
       let validateForm = () => {
         return new Promise((resolve, reject) => {
           this.$refs['inLicenseRef'].validate((valid) => {
@@ -362,18 +421,18 @@ export default {
         });
       };
       let addForm = () => {
-        this.myTableData = [
-          ...this.myTableData.slice(0),
+        this.inLicenseData = [
+          ...this.inLicenseData.slice(0),
           this.inLicenseModel,
         ];
       };
 
       let editForm = () => {
-        let index = this.myTableData.findIndex(val => val.id === this.inLicenseModel.id);
-        this.myTableData = [
-          ...this.myTableData.slice(0, index),
+        let index = this.inLicenseData.findIndex(val => val.id === this.inLicenseModel.id);
+        this.inLicenseData = [
+          ...this.inLicenseData.slice(0, index),
           this.inLicenseModel,
-          ...this.myTableData.slice(index + 1),
+          ...this.inLicenseData.slice(index + 1),
         ];
       };
 
@@ -387,57 +446,49 @@ export default {
         this.$notify({ title: '成功', message: "保存成功", type: 'success', duration: 2000 });
       })
     },
-    /*审核通过*/
-    apPassClick() {
-      let ids = [];
-      this.outSelectedRows.forEach(function(row) {
-        let index = this.apTableData.findIndex(val => val.id === row.id);
-        let tempdata = JSON.parse(JSON.stringify(row));
-        tempdata.status = '审核通过';
-        this.apTableData = [
-          ...this.apTableData.slice(0, index),
-          tempdata,
-          ...this.apTableData.slice(index + 1),
+
+    /*保存出口许可证 */
+    outOkHandler() {
+      let validateForm = () => {
+        return new Promise((resolve, reject) => {
+          this.$refs['outLicenseRef'].validate((valid) => {
+            if (valid) { return resolve(true); }
+            return reject(false);
+          });
+        });
+      };
+      let outaddForm = () => {
+        this.outLicenseData = [
+          ...this.outLicenseData.slice(0),
+          this.outLicenseModel,
         ];
-      }, this);
-      this.$notify({ title: '成功', message: "操作成功", type: 'success', duration: 2000 });
-    },
-    /*审核不予通过*/
-    apFailClick() {
-      let ids = [];
-      this.outSelectedRows.forEach(function(row) {
-        let index = this.apTableData.findIndex(val => val.id === row.id);
-        let tempdata = JSON.parse(JSON.stringify(row));
-        tempdata.status = '不予通过';
-        this.apTableData = [
-          ...this.apTableData.slice(0, index),
-          tempdata,
-          ...this.apTableData.slice(index + 1),
+      };
+
+      let outeditForm = () => {
+        let index = this.outLicenseData.findIndex(val => val.id === this.outLicenseModel.id);
+        this.outLicenseData = [
+          ...this.outLicenseData.slice(0, index),
+          this.inLicenseModel,
+          ...this.outLicenseData.slice(index + 1),
         ];
-      }, this);
-      this.$notify({ title: '成功', message: "操作成功", type: 'success', duration: 2000 });
+      };
+
+      validateForm().then(() => {
+        this.confirmLoading = true;
+        if (this.outeditMode === 1) { outaddForm(); }
+        if (this.outeditMode === 2) { outeditForm(); }
+      }).then(res => {
+        this.confirmLoading = false;
+        this.outLicenseShow = false;
+        this.$notify({ title: '成功', message: "保存成功", type: 'success', duration: 2000 });
+      })
     },
-    /*表格选中行改变*/
-    apOnSelectionChange(selection) {
+
+    /*出口表格选中行改变*/
+    outOnSelectionChange(selection) {
       this.outSelectedRows = selection;
     },
-    /*查看申报文件列表 */
-    viewDeclarationList() {
-      this.fileType = 1;
-      this.myFileDialogIsShow = true;
-      licenseAPI.getfileList1().then(data => {
-        this.fileTableData = data.data;
-      });
-    },
-    /*查看审批文件列表 */
-    viewApprovalList() {
-      this.fileType = 2;
-      this.myFileDialogIsShow = true;
-    },
-    /*文件选中行改变 */
-    fileOnSelectionChange(selection) {
-      this.fileSelectedRows = selection
-    },
+
     /*文件上传 */
     fileUpload() {
       this.fileUploadDialogIsShow = true;
@@ -476,57 +527,25 @@ export default {
         this.$notify.success({ title: '成功', message: "删除成功", duration: 2000 });
       })
     },
-    /*加载我的申请表格数据 */
+    /*加载进口许可证数据 */
     loadInlicenseList() {
       let pagedata = {pageindex:this.myCurrentPage, pagesize:this.myPageSize};
       let search = Object.assign({}, this.insearch, pagedata);
       licenseAPI.getInlicenseList(search).then(data => {
-        this.myTableData = data.data;
+        this.inLicenseData = data.data;
         this.myTotal = data.total;
       });
     },
-    /*加载待我审核表格数据 */
+    /*加载出口许可证数据 */
     loadOutlicenseList() {
       let pagedata = {pageindex:this.myCurrentPage, pagesize:this.myPageSize};
       let search = Object.assign({}, this.outsearch, pagedata);
       licenseAPI.getOutlicenseList(search).then(data => {
-        this.apTableData = data.data;
+        this.outLicenseData = data.data;
         this.apTotal = data.total;
       });
     },
-    /*提交申报、查看进度操作 */
-    option(tag, progress) {
-      if (tag === "提交申报") {
-        this.$notify.success({ title: '成功', message: "提交成功", duration: 2000 });
-      } else {
-        if (progress === '1') {
-          this.passDialogIsShow = true;
-          licenseAPI.getfileList2().then(data => {
-            this.fileTableData = data.data;
-          });
-        } else if (progress === '2') {
-          this.failDialogIsShow = true;
-        } else if (progress === '3') {
-          this.loadDialogIsShow = true;
-        }
-      }
-    },
-    /*再次提交 */
-    recommit() {
-      this.$notify.success({ title: '成功', message: "提交成功", duration: 2000 });
-      this.failDialogIsShow = false;
-    },
-    /*取消申报 */
-    cancelCommit() {
-      this.$notify.success({ title: '成功', message: "取消申报", duration: 2000 });
-      this.loadDialogIsShow = false;
-    },
-    /*加载项目文件列表数据 */
-    // loadFileList() {
-    //   licenseAPI.getloadFileList(this.filetype).then(data => {
-    //     this.fileTableData = data.data;
-    //   });
-    // },
+
     /*改变我的申请表格大小 */
     myHandleSizeChange(val) {
       this.myPageSize = val;
@@ -551,7 +570,6 @@ export default {
   },
   created() {
     this.clientHeight = document.documentElement.clientHeight - 270;
-    this.clientWidth = document.documentElement.clientWidth - 250;
     let num = Math.floor(this.clientHeight / 40) - 1;
     this.apPageSize = Math.floor(num / 5) * 5;
     this.apPageSizes = [this.apPageSize, this.apPageSize * 2, this.apPageSize * 4];
@@ -559,7 +577,6 @@ export default {
     this.myPageSizes = [this.myPageSize, this.myPageSize * 2, this.myPageSize * 4];
     this.loadInlicenseList();
     this.loadOutlicenseList();
-    // this.loadFileList();
   }
 }
 </script>
@@ -575,6 +592,9 @@ input[type=file].el-upload__input {
 </style>
 
 <style scoped>
+.main-content-wrap {
+  padding: 10px;
+}
 .search-bar {
   padding-top: 10px;
   padding-bottom: 10px;
