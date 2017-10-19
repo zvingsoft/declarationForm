@@ -74,7 +74,7 @@
       <!--分页-->
       <div class="page-wrap">
         <el-pagination class="page" @size-change="sizeChangeHandler" @current-change="list" :current-page.sync="currentPage" :page-sizes="pageSizes"
-          :page-size="pageSize" :total="total" layout="total, sizes, prev, pager, next, jumper">
+          :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
         </el-pagination>
       </div>
 
@@ -285,6 +285,15 @@
   .purple-btn {
     background: #7c8ee4;
     border-color: #7c8ee4;
+  }
+
+  .page-wrap {
+    margin-top: 20px;
+    margin-right: 20px;
+  }
+
+  .page-wrap .page {
+    float: right;
   }
 
 </style>

@@ -273,6 +273,7 @@ var cottonquotas = {
       adduser: '张三'
     }
   ],
+  total:16,
   status: 1,
   message: ''
 }
