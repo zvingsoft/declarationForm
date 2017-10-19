@@ -1,9 +1,9 @@
 <template>
-<div>
+<div :style="{width:clientWidth+'px'}">
   <el-toolbar>
-    <el-button class="z-toolbar-btn" :plain="true" icon="plus" size="small" @click="addTaxCuttingClick">新建</el-button>
-    <el-button class="z-toolbar-btn" :disabled="selectedRows.length !== 1" :plain="true" icon="edit" size="small" @click="editTaxCuttingClick">编辑</el-button>
-    <el-button class="z-toolbar-btn" :disabled="selectedRows.length === 0" :plain="true" icon="delete" size="small" @click="deleteTaxCuttingClick">删除</el-button>
+    <el-button class="z-toolbar-btn" size="small" :plain="true" icon="plus" @click="addTaxCuttingClick">新建</el-button>
+    <el-button class="z-toolbar-btn" size="small" :disabled="selectedRows.length !== 1" :plain="true" icon="edit" @click="editTaxCuttingClick">编辑</el-button>
+    <el-button class="z-toolbar-btn" size="small" :disabled="selectedRows.length === 0" :plain="true" icon="delete" @click="deleteTaxCuttingClick">删除</el-button>
   </el-toolbar>
   <div class="main-content-wrap">
     <!-- 搜索 -->
@@ -27,15 +27,42 @@
         <el-button size="small" type="primary" @click="searchTaxCuttingClick"> 搜 索 </el-button>
       </div>
       <!-- 列表 -->
-      <el-table class="content-table" :data="taxCuttingTable" tooltip-effect="dark" highlight-current-row :height="clientHeight" @selection-change="onSelectionChange" v-loading="dataLoading">
+      <el-table :data="taxCuttingTable" tooltip-effect="dark" highlight-current-row :height="clientHeight" @selection-change="onSelectionChange" v-loading="dataLoading">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="code" show-overflow-tooltip min-width="10%" label="代码"></el-table-column>
+        <el-table-column type="expand" class="column-a">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand" label-width="120px">
+              <el-form-item label="代码">
+                <span>{{ props.row.code }}</span>
+              </el-form-item>
+              <el-form-item label="减免税大类">
+                <span>{{ props.row.largetype }}</span>
+              </el-form-item>
+              <el-form-item label="减免税小类">
+                <span>{{ props.row.smalltype }}</span>
+              </el-form-item>
+              <el-form-item label="减免税方式">
+                <span>{{ props.row.way }}</span>
+              </el-form-item>
+               <el-form-item label="有效期">
+                <span>{{ props.row.validitydate }}</span>
+              </el-form-item>
+              <el-form-item label="政策文件" style="width:100%;">
+               <a @click="lookPolicyPaperClick(props.row)" class="a-btn">{{props.row.policypapertitle}}</a>
+              </el-form-item>
+              <!--<el-form-item label="政策文件内容" style="width:100%;">
+                <p style="text-indent:35px;">{{ props.row.policypapercontent }}</p>
+              </el-form-item> -->
+            </el-form>
+          </template>
+        </el-table-column>
+        <el-table-column prop="code" show-overflow-tooltip min-width="15%" label="代码"></el-table-column>
         <el-table-column prop="largetype" show-overflow-tooltip min-width="15%" label="减免税大类"></el-table-column>
         <el-table-column prop="smalltype" show-overflow-tooltip min-width="15%" label="减免税小类"></el-table-column>
         <el-table-column prop="way" show-overflow-tooltip min-width="15%" label="减免税方式"></el-table-column>
-        <el-table-column show-overflow-tooltip min-width="45%" label="政策文件">
+        <el-table-column show-overflow-tooltip min-width="35%" label="政策文件">
            <template slot-scope="scope">
-             <a  @click="lookPolicyPaperClick(scope.row)" class="a-btn name-wrapper">{{scope.row.policypapertitle}}</a>
+             <a @click="lookPolicyPaperClick(scope.row)" class="a-btn">{{scope.row.policypapertitle}}</a>
            </template>
         </el-table-column>
         <el-table-column prop="validitydate" show-overflow-tooltip min-width="20%" label="有效期"></el-table-column>
@@ -83,21 +110,13 @@
     <!-- 政策文件查看 -->
     <el-dialog title="查看政策文件" :visible.sync="showLookDialog">
       <el-card class="box-card look-card">
-      <div slot="header" class="clearfix">
-        <strong style="font-size: 18px;text-align:center; ">{{tmpTaxCutting.policypapertitle}}</strong>
-      </div>
-      <div style="text-indent:35px">
-        {{tmpTaxCutting.policypapercontent}}
-      </div>
-    </el-card>
-      <!-- <table width="100%" cellpadding="4" cellspacing="0" class="look-table">
-        <tr>
-          <td align="center" valign="middle"><strong style="font-size: 18px;">{{tmpTaxCutting.policypapertitle}}</strong></td>
-        </tr>
-        <tr>
-          <td align="left" valign="middle"><p style="text-indent:35px">{{tmpTaxCutting.policypapercontent}}</p></td>
-        </tr>
-      </table> -->
+        <div slot="header" class="clearfix">
+          <strong style="font-size: 18px;text-align:center; ">{{tmpTaxCutting.policypapertitle}}</strong>
+        </div>
+        <div style="text-indent:35px">
+          {{tmpTaxCutting.policypapercontent}}
+        </div>
+      </el-card>
       <div slot="footer" class="dialog-footer">
         <el-button @click="showLookDialog = false">关 闭</el-button>
       </div>
@@ -113,6 +132,7 @@ import './mock/taxCutting.js'
 export default {
     data() {
         return {
+          clientWidth: 0,
           showLookDialog: false,
           selectedRows: [],
           taxCuttingRules: {
@@ -403,7 +423,8 @@ export default {
       },
     },
     created() {
-      this.clientHeight = document.documentElement.clientHeight - 230;
+      this.clientWidth = document.documentElement.clientWidth - 200;
+    this.clientHeight = document.documentElement.clientHeight - 230;
       this.getTaxCuttingData();
       this.getLargeTypesData();
       this.getSmallTypesData();
@@ -417,7 +438,7 @@ export default {
       padding: 10px;
   }
   .search-bar {
-    padding-bottom: 8px;
+    padding-bottom: 10px;
   }
   .page-wrap {
     margin-top: 20px;
@@ -431,23 +452,17 @@ export default {
     text-decoration:underline;
   }
 
-  /* .look-table {
-  border: 1px solid #e3e3e3;
-  border-collapse: separate;
+  .demo-table-expand {
+    font-size: 12px;
   }
-
-  .look-table td {
-    padding: 8px 8px;
+  .demo-table-expand label {
+    color: #99a9bf;
   }
-  .content-table .el-table__body-wrapper .el-table__body {
-    table-layout: fixed;
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 45%;
   }
-
-  .content-table .el-table__body-wrapper .el-table__body tbody tr td .name-wrapper {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  } */
 </style>
 <style>
   .content .el-textarea__inner {
