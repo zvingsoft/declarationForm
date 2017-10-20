@@ -476,7 +476,7 @@ export default {
         endtime: '',
       };
       this.inLicenseShow = true;
-      this.selectedLicensegoodsRow={};
+      this.selectedLicensegoodsRow=[];
     },
     /*编辑进口许可证*/
     inEditClick() {
@@ -487,7 +487,7 @@ export default {
         this.inSelectedRows[0]
       );
       this.inLicenseShow = true;
-      this.selectedLicensegoodsRow={};
+      this.selectedLicensegoodsRow=[];
     },
     /*删除进口许可证*/
     inDeleteClick() {
@@ -525,7 +525,7 @@ export default {
         endtime: '',
       };
       this.outLicenseShow = true;
-      this.selectedLicensegoodsRow={};
+      this.selectedLicensegoodsRow=[];
     },
     /*编辑出口许可证*/
     outEditClick() {
@@ -536,7 +536,7 @@ export default {
         this.outSelectedRows[0]
       );
       this.outLicenseShow = true;
-      this.selectedLicensegoodsRow={};
+      this.selectedLicensegoodsRow=[];
     },
     /*删除出口许可证*/
     outDeleteClick() {
