@@ -77,63 +77,69 @@
     </el-tabs>
     <!-- 添加、编辑进口许可证 -->
     <el-dialog :title="editMode===1?'添加进口许可证':'编辑进口许可证'" :visible.sync="inLicenseShow"  size="large" >
-      <el-form :model="inLicenseModel" :rules="inLicenseRules" inline ref="inLicenseRef" label-width="120px" style="height:400px;overflow-y:scroll;overflow-x:hidden;">
-        <el-form-item label="进口商" prop="companyname">
-          <el-input type="text" v-model="inLicenseModel.companyname" auto-complete="off" style="width:350px"></el-input>
-        </el-form-item>
-        <el-form-item label="收货人" prop="consignee">
-          <el-input type="text" v-model="inLicenseModel.consignee" auto-complete="off" style="width:350px"></el-input>
-        </el-form-item>
-        <el-form-item label="许可证号" prop="licensekey">
-          <el-input type="text" v-model="inLicenseModel.licensekey" auto-complete="off" class="input-230"></el-input>
-        </el-form-item>
-        <el-form-item label="贸易方式" prop="trademode">
-          <el-input type="text" v-model="inLicenseModel.trademode" auto-complete="off" class="input-230"></el-input>
-        </el-form-item>
-        <el-form-item label="出口国" prop="exportingcountry">
-          <el-input type="text" v-model="inLicenseModel.exportingcountry" auto-complete="off" class="input-230"></el-input>
-        </el-form-item>
-        <el-form-item label="原产国家" prop="countryoforigin">
-          <el-input type="text" v-model="inLicenseModel.countryoforigin" auto-complete="off" class="input-230"></el-input>
-        </el-form-item>
-        <el-form-item label="报关口岸" prop="portofclearance">
-          <el-input type="text" v-model="inLicenseModel.portofclearance" auto-complete="off" class="input-230"></el-input>
-        </el-form-item>
-        <el-form-item label="外汇来源" prop="sourceofforeignexchange">
-          <el-input type="text" v-model="inLicenseModel.sourceofforeignexchange" auto-complete="off" class="input-230"></el-input>
-        </el-form-item>
-        <el-form-item label="付款方式" prop="paymentmethod">
-          <el-input type="text" v-model="inLicenseModel.paymentmethod" auto-complete="off" class="input-230"></el-input>
-        </el-form-item>
-        <el-form-item label="最终用户" prop="enduser">
-          <el-input type="text" v-model="inLicenseModel.enduser" auto-complete="off" class="input-230"></el-input>
-        </el-form-item>
-        <el-form-item label="最终用途" prop="finalpurpose">
-          <el-input type="text" v-model="inLicenseModel.finalpurpose" auto-complete="off" class="input-230"></el-input>
-        </el-form-item>
-        <el-form-item label="商品名称" prop="goodsname">
-          <el-input type="text" v-model="inLicenseModel.goodsname" auto-complete="off" class="input-230"></el-input>
-        </el-form-item>
-        <el-form-item label="商品编号" prop="goodscode">
-          <el-input type="text" v-model="inLicenseModel.goodscode" auto-complete="off" class="input-230"></el-input>
-        </el-form-item>
-        <el-form-item label="运输方式" prop="shippingtype">
-          <el-input type="text" v-model="inLicenseModel.shippingtype" auto-complete="off" class="input-230"></el-input>
-        </el-form-item>
-        <el-form-item label="许可证截止日期" prop="expirationdateoflicense">
-          <el-date-picker v-model="inLicenseModel.expirationdateoflicense" type="date" placeholder="选择日期" class="input-230"></el-date-picker>
-        </el-form-item>
-        <el-form-item label="发证日期" prop="certificationdate">
-          <el-date-picker v-model="inLicenseModel.certificationdate" type="date" placeholder="选择日期" class="input-230"></el-date-picker>
-        </el-form-item>
-        <el-form-item label="许可证文件" prop="declarationfile" v-show="editMode===1">
-          <el-upload :on-success="onUploadSuccess" class="upload-file" accept=".jpg,.png" action="" :multiple="false" :file-list="fileList">
-            <el-button size="small" type="primary">点击上传</el-button>
-          </el-upload>
-        </el-form-item>
-        <el-form-item label="备注" prop="memo">
-          <el-input type="text" v-model="inLicenseModel.memo" auto-complete="off" style="width:800px"></el-input>
-        </el-form-item>
+      <el-form :model="inLicenseModel" :rules="inLicenseRules" inline ref="inLicenseRef" label-width="140px" style="height:400px;overflow-y:scroll;overflow-x:hidden;">
+        <div class="form-title">基本信息</div>
+        <div class="form-panel">
+          <el-form-item label="进口商" prop="companyname">
+            <el-input type="text" v-model="inLicenseModel.companyname" auto-complete="off" class="input-320"></el-input>
+          </el-form-item>
+          <el-form-item label="收货人" prop="consignee">
+            <el-input type="text" v-model="inLicenseModel.consignee" auto-complete="off" class="input-320"></el-input>
+          </el-form-item>
+          <el-form-item label="许可证号" prop="licensekey">
+            <el-input type="text" v-model="inLicenseModel.licensekey" auto-complete="off" class="input-320"></el-input>
+          </el-form-item>
+          <el-form-item label="贸易方式" prop="trademode">
+            <el-input type="text" v-model="inLicenseModel.trademode" auto-complete="off" class="input-320"></el-input>
+          </el-form-item>
+          <el-form-item label="出口国" prop="exportingcountry">
+            <el-input type="text" v-model="inLicenseModel.exportingcountry" auto-complete="off" class="input-320"></el-input>
+          </el-form-item>
+          <el-form-item label="原产国家" prop="countryoforigin">
+            <el-input type="text" v-model="inLicenseModel.countryoforigin" auto-complete="off" class="input-320"></el-input>
+          </el-form-item>
+          <el-form-item label="报关口岸" prop="portofclearance">
+            <el-input type="text" v-model="inLicenseModel.portofclearance" auto-complete="off" class="input-320"></el-input>
+          </el-form-item>
+          <el-form-item label="外汇来源" prop="sourceofforeignexchange">
+            <el-input type="text" v-model="inLicenseModel.sourceofforeignexchange" auto-complete="off" class="input-320"></el-input>
+          </el-form-item>
+          <el-form-item label="付款方式" prop="paymentmethod">
+            <el-input type="text" v-model="inLicenseModel.paymentmethod" auto-complete="off" class="input-320"></el-input>
+          </el-form-item>
+          <el-form-item label="最终用户" prop="enduser">
+            <el-input type="text" v-model="inLicenseModel.enduser" auto-complete="off" class="input-320"></el-input>
+          </el-form-item>
+          <el-form-item label="最终用途" prop="finalpurpose">
+            <el-input type="text" v-model="inLicenseModel.finalpurpose" auto-complete="off" class="input-320"></el-input>
+          </el-form-item>
+          <el-form-item label="商品名称" prop="goodsname">
+            <el-input type="text" v-model="inLicenseModel.goodsname" auto-complete="off" class="input-320"></el-input>
+          </el-form-item>
+          <el-form-item label="商品编号" prop="goodscode">
+            <el-input type="text" v-model="inLicenseModel.goodscode" auto-complete="off" class="input-320"></el-input>
+          </el-form-item>
+          <el-form-item label="运输方式" prop="shippingtype">
+            <el-input type="text" v-model="inLicenseModel.shippingtype" auto-complete="off" class="input-320"></el-input>
+          </el-form-item>
+          <el-form-item label="许可证截止日期" prop="expirationdateoflicense">
+            <el-date-picker v-model="inLicenseModel.expirationdateoflicense" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
+          </el-form-item>
+          <el-form-item label="发证日期" prop="certificationdate">
+            <el-date-picker v-model="inLicenseModel.certificationdate" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
+          </el-form-item>
+          <el-form-item label="许可证文件" prop="declarationfile" v-show="editMode===1">
+            <el-upload :on-success="onUploadSuccess" class="upload-file" accept=".jpg,.png" action="" :multiple="false" :file-list="fileList">
+              <el-button size="small" type="primary">点击上传</el-button>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="备注" prop="memo">
+            <el-input type="text" v-model="inLicenseModel.memo" auto-complete="off" style="width:600px"></el-input>
+          </el-form-item>
+        </div>
+        <div class="form-title">商品信息</div>
+        <div class="form-panel">
+        </div>
       </el-form>
       <div slot="footer">
         <el-button @click="inLicenseShow=false">取消</el-button>
@@ -143,7 +149,7 @@
 
     <!-- 添加、编辑出口许可证 -->
     <el-dialog :title="outeditMode===1?'添加出口许可证':'编辑出口许可证'" :visible.sync="outLicenseShow"  size="large" >
-      <el-form :model="outLicenseModel" :rules="outLicenseRules" inline ref="outLicenseRef" label-width="120px" style="height:400px;overflow-y:scroll;overflow-x:hidden;">
+      <el-form :model="outLicenseModel" :rules="outLicenseRules" inline ref="outLicenseRef" label-width="140px" style="height:400px;overflow-y:scroll;overflow-x:hidden;">
         <el-form-item label="出口商" prop="companyname">
           <el-input type="text" v-model="outLicenseModel.companyname" auto-complete="off" style="width:350px"></el-input>
         </el-form-item>
@@ -151,37 +157,37 @@
           <el-input type="text" v-model="outLicenseModel.consignee" auto-complete="off" style="width:350px"></el-input>
         </el-form-item>
         <el-form-item label="许可证号" prop="licensekey">
-          <el-input type="text" v-model="outLicenseModel.licensekey" auto-complete="off" class="input-230"></el-input>
+          <el-input type="text" v-model="outLicenseModel.licensekey" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="贸易方式" prop="trademode">
-          <el-input type="text" v-model="outLicenseModel.trademode" auto-complete="off" class="input-230"></el-input>
+          <el-input type="text" v-model="outLicenseModel.trademode" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="进口国" prop="importedcountry">
-          <el-input type="text" v-model="outLicenseModel.importedcountry" auto-complete="off" class="input-230"></el-input>
+          <el-input type="text" v-model="outLicenseModel.importedcountry" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="合同号" prop="conractno">
-          <el-input type="text" v-model="outLicenseModel.conractno" auto-complete="off" class="input-230"></el-input>
+          <el-input type="text" v-model="outLicenseModel.conractno" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="报关口岸" prop="portofclearance">
-          <el-input type="text" v-model="outLicenseModel.portofclearance" auto-complete="off" class="input-230"></el-input>
+          <el-input type="text" v-model="outLicenseModel.portofclearance" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="付款方式" prop="paymentmethod">
-          <el-input type="text" v-model="outLicenseModel.paymentmethod" auto-complete="off" class="input-230"></el-input>
+          <el-input type="text" v-model="outLicenseModel.paymentmethod" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="商品名称" prop="goodsname">
-          <el-input type="text" v-model="outLicenseModel.goodsname" auto-complete="off" class="input-230"></el-input>
+          <el-input type="text" v-model="outLicenseModel.goodsname" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="商品编号" prop="goodscode">
-          <el-input type="text" v-model="outLicenseModel.goodscode" auto-complete="off" class="input-230"></el-input>
+          <el-input type="text" v-model="outLicenseModel.goodscode" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="运输方式" prop="shippingtype">
-          <el-input type="text" v-model="outLicenseModel.shippingtype" auto-complete="off" class="input-230"></el-input>
+          <el-input type="text" v-model="outLicenseModel.shippingtype" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="许可证截止日期" prop="expirationdateoflicense">
-          <el-date-picker v-model="outLicenseModel.expirationdateoflicense" type="date" placeholder="选择日期" class="input-230"></el-date-picker>
+          <el-date-picker v-model="outLicenseModel.expirationdateoflicense" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
         </el-form-item>
         <el-form-item label="发证日期" prop="certificationdate">
-          <el-date-picker v-model="outLicenseModel.certificationdate" type="date" placeholder="选择日期" class="input-230"></el-date-picker>
+          <el-date-picker v-model="outLicenseModel.certificationdate" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
         </el-form-item>
         <el-form-item label="许可证文件" prop="declarationfile" v-show="editMode===1">
           <el-upload :on-success="onUploadSuccess" class="upload-file" accept=".jpg,.png" action="" :multiple="false" :file-list="fileList">
@@ -631,7 +637,24 @@ input[type=file].el-upload__input {
   line-height: 20px;
 }
 
-.input-230 {
-  width: 230px;
+.input-320 {
+  width: 320px;
 }
+
+.form-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 6%;
+  padding: 10px 0 5px 0;
+}
+
+.form-panel {
+  width: 90%;
+  margin-left: 5%;
+  padding: 20px 0 0 0;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
 </style>
