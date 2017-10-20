@@ -1,5 +1,7 @@
 package com.zving.declarationform.form.consumer;
 
+import java.util.HashMap;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,26 +20,30 @@ import io.servicecomb.provider.springmvc.reference.RestTemplateBuilder;
 @Component
 public class TaxConsumer {
 
-	private static RestTemplate restTemplate = RestTemplateBuilder.create();
-
 	@RpcReference(microserviceName = "tax", schemaId = "tax")
-	private static TaxService tax;
+	private static TaxServiceSchema tax;
 
 	public static void main(String[] args) throws Exception {
 		init();
+		jsonCall();
+		schemaCall();
+	}
+
+	static void jsonCall() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("SN", "1");
+		map.put("CustomsNumber", "2");
+		RestTemplate restTemplate = RestTemplateBuilder.create();
+		System.out.println(restTemplate.postForObject("cse://tax/compute", map, String.class));
+		System.out.println(restTemplate.postForObject("cse://tax/confirm", map, String.class));
+	}
+
+	static void schemaCall() {
 		DeclarationForm form = new DeclarationForm();
-
-		// RestTemplate Consumer or POJO Consumer. You can choose whatever you like
-		// RestTemplate Consumer
-//		String sayHiResult = restTemplate.postForObject("cse://springmvc/springmvchello/sayhi?name=Java Chassis", null, String.class);
-//		String sayHelloResult = restTemplate.postForObject("cse://springmvc/springmvchello/sayhello", person, String.class);
-//		System.out.println("RestTemplate Consumer or POJO Consumer.  You can choose whatever you like.");
-//		System.out.println("RestTemplate consumer sayhi services: " + sayHiResult);
-//		System.out.println("RestTemplate consumer sayhello services: " + sayHelloResult);
-
-		// POJO Consumer
-		System.out.println("POJO consumer sayhi services: " + tax.compute(form));
-		System.out.println("POJO consumer sayhi services: " + tax.confirm(form));
+		form.SN = "1";
+		form.CustomsNumber = "2";
+		System.out.println("Schema call tax.compute(): " + tax.compute(form));
+		System.out.println("Schema call tax.confirm(): " + tax.confirm(form));
 	}
 
 	public static void init() throws Exception {

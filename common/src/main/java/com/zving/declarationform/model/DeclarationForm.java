@@ -6,5 +6,6 @@ package com.zving.declarationform.model;
  * @date 2017年10月17日
  */
 public class DeclarationForm {
-	
+	public String SN;
+	public String CustomsNumber;
 }

@@ -1,9 +1,6 @@
 package com.zving.declarationform.tax.schema;
 
-import java.util.List;
-
 import com.zving.declarationform.model.DeclarationForm;
-import com.zving.declarationform.tax.model.TaxRate;
 
 /**
  * 计税服务
@@ -23,28 +20,4 @@ public interface TaxService {
 	 */
 	String confirm(DeclarationForm form);
 
-//	/**
-//	 * 添加税率规则
-//	 */
-//	String addRate(TaxRate rate);
-//
-//	/**
-//	 * 修改税率规则
-//	 */
-//	String updateRate(TaxRate rate);
-//
-//	/**
-//	 * 删除税率规则
-//	 */
-//	String deleteRate(String goodsType);
-//
-//	/**
-//	 * 获取指定商品类型下的税率规则
-//	 */
-//	TaxRate getRate(String goodsType);
-//
-//	/**
-//	 * 获取所有税率规则
-//	 */
-//	List<TaxRate> listRate();
 }

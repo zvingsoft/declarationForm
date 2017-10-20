@@ -9,7 +9,7 @@ import com.zving.declarationform.model.DeclarationForm;
  * @mail wyuch@zving.com
  * @date 2017年10月18日
  */
-public interface TaxService {
+public interface TaxServiceSchema {
 	/**
 	 * 计算税款
 	 */
