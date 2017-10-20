@@ -21,10 +21,10 @@
           </el-option>
         </el-select>
         <el-input style="width:200px" size="small" v-model="searchword"></el-input>
-        <el-select size="small" v-model="logic" class="search-select">
+        <!--<el-select size="small" v-model="logic" class="search-select">
           <el-option v-for="item in logicOptions" :key="item.key" :label="item.value" :value="item.key">
           </el-option>
-        </el-select>
+        </el-select>-->
         <el-button size="small" type="primary" @click="getDeclarationData" style="width:60px;">搜索</el-button>
       </div>
       <el-table :data="declarationData" ref="declarationTable" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange" @expand="expandRow">
@@ -520,7 +520,7 @@ export default {
       sortOptions: [
         { key: '', value: '请选择排序' },
         { key: 'declarationtype', value: '报关单类型' },
-        { key: 'preentrynumber', value: '预录入编号' },
+        { key: 'customsnumber', value: '海关编号' },
         { key: 'importorexportport', value: '进口/出口口岸' },
         { key: 'declarationunit', value: '申报单位' },
         { key: 'declarationdate', value: '申报日期' },
@@ -529,12 +529,8 @@ export default {
       retrieval: '',
       retrievalOptions: [
         { key: '', value: '请选择检索字段' },
-        { key: 'declarationtype', value: '报关单类型' },
-        { key: 'preentrynumber', value: '预录入编号' },
-        { key: 'importorexportport', value: '进口/出口口岸' },
+        { key: 'customsnumber', value: '海关编号' },
         { key: 'declarationunit', value: '申报单位' },
-        { key: 'declarationdate', value: '申报日期' },
-        { key: 'entrydate', value: '录入日期' },
       ],
       logic: '',
       logicOptions: [
