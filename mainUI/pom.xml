@@ -33,5 +33,14 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.servicecomb</groupId>
+			<artifactId>provider-pojo</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.zving.declarationform</groupId>
+			<artifactId>common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
