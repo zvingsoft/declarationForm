@@ -1,7 +1,7 @@
-package com.zving.declarationform.license.schema;
+package com.zving.declarationform.schema;
 
-import com.zving.declarationform.license.model.License;
 import com.zving.declarationform.model.DeclarationForm;
+import com.zving.declarationform.model.License;
 
 /**
  * @author 王育春
