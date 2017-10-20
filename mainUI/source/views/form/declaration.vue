@@ -217,7 +217,7 @@
       <packinglist-table :declarationID="declarationID" :declarationType="declarationType" @row-click="packingRowClick">
       </packinglist-table>
     </el-dialog>
-    <el-dialog :title="editMode==1? '添加商品': '编辑商品信息'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false">
+    <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false">
       <el-form label-position="right" :model="tmpPacking" inline label-width="200px">
         <el-form-item label="商品编号：">
           <el-input class="e-input" v-model="tmpPacking.id"></el-input>
@@ -411,7 +411,7 @@
               <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedPackingRow.length === 0" @click="deletePackingClick">
                 <i class="fa fa-remove"></i>删除</el-button>
             </div>
-            <packinglist-table :declarationID="declarationID" :declarationType="declarationType" @row-click="packingRowClick">
+            <packinglist-table :declarationID="tmpDeclaration.id" :declarationType="tmpDeclaration.declarationtype" @row-click="packingRowClick">
             </packinglist-table>
         </div>
         <div class="form-title">操作相关</div>
@@ -445,7 +445,7 @@
         <div style="height:100px;"></div>
       </el-form>
     </div>
-    <el-dialog :title="editMode==1? '添加商品': '编辑商品信息'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false">
+    <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false">
       <el-form label-position="right" :model="tmpPacking" inline label-width="200px">
         <el-form-item label="商品编号：">
           <el-input class="e-input" v-model="tmpPacking.id"></el-input>
@@ -625,6 +625,7 @@ export default {
       console.log(type);
       this.declarationID = id;
       this.declarationType = type;
+      this.selectedPackingRow = [];
       this.packinglistDialogModal = true;
     },
     getDeclarationData() {
@@ -659,12 +660,14 @@ export default {
         declarationtype: 'import',
       };
       this.declarationDialogmodel = true;
+      this.selectedPackingRow = [];
     },
     editClick() {
       this.editMode = 1;
       this.tmpDeclaration = Object.assign({}, this.selectedRows[0]);
       console.log(this.tmpDeclaration);
       this.declarationDialogmodel = true;
+      this.selectedPackingRow = [];
     },
     deleteClick() {
       let rowIds = [];

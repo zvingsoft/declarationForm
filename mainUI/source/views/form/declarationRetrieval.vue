@@ -396,7 +396,7 @@
       <packinglist-table :declarationID="declarationID" :declarationType="declarationType" @row-click="packingRowClick">
       </packinglist-table>
     </el-dialog>
-    <el-dialog :title="editMode==1? '添加商品': '编辑商品信息'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false">
+    <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false">
       <el-form label-position="right" :model="tmpPacking" inline label-width="200px">
         <el-form-item label="商品编号：">
           <el-input class="e-input" v-model="tmpPacking.id"></el-input>
@@ -580,6 +580,19 @@
           <el-input type="textarea" v-model="tmpDeclaration.taxpaidornot" :rows="3" style="width:450px;"></el-input>
         </el-form-item>
         </div>
+        <div class="form-title">商品列表</div>
+        <div class="packinglist-panel">
+            <div style="height:50px;background-color:#f5f5f5; padding:5px;">
+              <el-button class="z-toolbar-btn" :plain="true" @click="addPackingClick" style="margin-left:10px;">
+                <i class="fa fa-plus"></i>添加</el-button>
+              <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedPackingRow.length === 0" @click="editPackingClick">
+                <i class="fa fa-edit"></i>编辑</el-button>
+              <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedPackingRow.length === 0" @click="deletePackingClick">
+                <i class="fa fa-remove"></i>删除</el-button>
+            </div>
+            <packinglist-table :declarationID="tmpDeclaration.id" :declarationType="tmpDeclaration.declarationtype" @row-click="packingRowClick">
+            </packinglist-table>
+        </div>
         <div class="form-title">操作相关</div>
         <div class="form-panel">
         <el-form-item label="录入员：">
@@ -611,6 +624,41 @@
         <div style="height:100px;"></div>
       </el-form>
     </div>
+    <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false">
+      <el-form label-position="right" :model="tmpPacking" inline label-width="200px">
+        <el-form-item label="商品编号：">
+          <el-input class="e-input" v-model="tmpPacking.id"></el-input>
+        </el-form-item>
+        <el-form-item label="商品名称、规格型号：">
+          <el-input class="e-input" type="textarea" :rows="3" v-model="tmpPacking.name"></el-input>
+        </el-form-item>
+        <el-form-item label="数量及单位：">
+          <el-input class="e-input" v-model="tmpPacking.number"></el-input>
+        </el-form-item>
+        <el-form-item label="单价：">
+          <el-input class="e-input" v-model="tmpPacking.singleprice"></el-input>
+        </el-form-item>
+        <el-form-item label="总价：">
+          <el-input class="e-input" v-model="tmpPacking.totalprice"></el-input>
+        </el-form-item>
+        <el-form-item v-if="this.declarationType == 'import'" label="原产国：">
+          <el-input class="e-input" v-model="tmpPacking.productcountry"></el-input>
+        </el-form-item>
+        <el-form-item v-else label="最终目的国：">
+          <el-input class="e-input" v-model="tmpPacking.productcountry"></el-input>
+        </el-form-item>
+        <el-form-item label="币制：">
+          <el-input class="e-input" v-model="tmpPacking.currency"></el-input>
+        </el-form-item>
+        <el-form-item label="征免：">
+          <el-input class="e-input" v-model="tmpPacking.exemption"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="packingdetailDialogModal = false">取 消</el-button>
+        <el-button type="primary" @click="packingdetailConfirm">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -675,7 +723,7 @@ export default {
     };
   },
   methods: {
-    advanceSearch(){
+    advanceSearch() {
       this.advancedSearchModal = true;
     },
     doAdvanceSearch() {
@@ -764,6 +812,7 @@ export default {
       console.log(type);
       this.declarationID = id;
       this.declarationType = type;
+      this.selectedPackingRow = [];
       this.packinglistDialogModal = true;
     },
     getDeclarationData() {
@@ -798,12 +847,13 @@ export default {
         declarationtype: 'import',
       };
       this.declarationDialogmodel = true;
+      this.selectedPackingRow = [];
     },
     editClick() {
       this.editMode = 1;
       this.tmpDeclaration = Object.assign({}, this.selectedRows[0]);
-      console.log(this.tmpDeclaration);
       this.declarationDialogmodel = true;
+      this.selectedPackingRow = [];
     },
     deleteClick() {
       let rowIds = [];
@@ -947,7 +997,7 @@ export default {
   font-size: 24px;
   font-weight: bold;
   margin-left: 6%;
-  padding: 10px 0 5px 0;
+  padding: 20px 0 5px 0;
 }
 .form-panel {
   width: 80%;
@@ -964,5 +1014,12 @@ export default {
 
 .search-form-title {
   padding: 20px 0;
+}
+.packinglist-panel {
+  width: 80%;
+  margin-left: 5%;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
 }
 </style>
