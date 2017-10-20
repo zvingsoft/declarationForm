@@ -138,7 +138,16 @@
           </el-form-item>
         </div>
         <div class="form-title">商品信息</div>
-        <div class="form-panel">
+        <div class="goods-panel">
+          <div style="height:50px;background-color:#f5f5f5; padding:5px;">
+            <el-button class="z-toolbar-btn" :plain="true" @click="addGoodsClick" style="margin-left:10px;">
+              <i class="fa fa-plus"></i>添加</el-button>
+            <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedLicensegoodsRow.length === 0" @click="editGoodsClick">
+              <i class="fa fa-edit"></i>编辑</el-button>
+            <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedLicensegoodsRow.length === 0" @click="deleteGoodsClick">
+              <i class="fa fa-remove"></i>删除</el-button>
+          </div>
+          <licensegoods-table :licenseID = "inLicenseModel.id" @row-click="licensegoodsTableRowClick"></licensegoods-table>
         </div>
       </el-form>
       <div slot="footer">
@@ -197,6 +206,18 @@
         <el-form-item label="备注" prop="memo">
           <el-input type="text" v-model="outLicenseModel.memo" auto-complete="off" style="width:800px"></el-input>
         </el-form-item>
+        <div class="form-title">商品信息</div>
+        <div class="goods-panel">
+          <div style="height:50px;background-color:#f5f5f5; padding:5px;">
+            <el-button class="z-toolbar-btn" :plain="true" @click="addGoodsClick" style="margin-left:10px;">
+              <i class="fa fa-plus"></i>添加</el-button>
+            <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedLicensegoodsRow.length === 0" @click="editGoodsClick">
+              <i class="fa fa-edit"></i>编辑</el-button>
+            <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedLicensegoodsRow.length === 0" @click="deleteGoodsClick">
+              <i class="fa fa-remove"></i>删除</el-button>
+          </div>
+          <licensegoods-table :licenseID = "outLicenseModel.id" @row-click="licensegoodsTableRowClick"></licensegoods-table>
+        </div>
       </el-form>
       <div slot="footer">
         <el-button @click="outLicenseShow=false">取消</el-button>
@@ -231,12 +252,39 @@
         <el-button type="primary" @click="fileUploadOkHandler">确 定</el-button>
       </div>
     </el-dialog>
+    <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="licensegoodsDialogModal" :close-on-click-modal="false">
+      <el-form label-position="right" :model="tmpLicensegoods" inline label-width="200px">
+        <el-form-item label="规格、等级：">
+          <el-input class="e-input" v-model="tmpLicensegoods.specification"></el-input>
+        </el-form-item>
+        <el-form-item label="单位：">
+          <el-input class="e-input" v-model="tmpLicensegoods.unit"></el-input>
+        </el-form-item>
+        <el-form-item label="数量：">
+          <el-input class="e-input" v-model="tmpLicensegoods.quantity"></el-input>
+        </el-form-item>
+        <el-form-item label="单价（USD）：">
+          <el-input class="e-input" v-model="tmpLicensegoods.unitprice"></el-input>
+        </el-form-item>
+        <el-form-item label="总值（USD）：">
+          <el-input class="e-input" v-model="tmpLicensegoods.amount"></el-input>
+        </el-form-item>
+        <el-form-item label="总值折美元：">
+          <el-input class="e-input" v-model="tmpLicensegoods.amountinusd"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="licensegoodsDialogModal = false">取 消</el-button>
+        <el-button type="primary" @click="licensegoodsConfirm">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import './mock/license.js'
+import './mock/license.js';
 import licenseAPI from './api/licenseAPI.js';
+import licensegoodsTable from './components/licensegoodsTable.vue';
 export default {
   data() {
     return {
@@ -277,12 +325,8 @@ export default {
       activeName: 'inlicense',
       /*我的申请表单校验规则 */
       inLicenseRules: {
-        name: [
-          { required: true, message: '请输入项目名称', trigger: 'blur' }
-        ],
-        manager: [
-          { required: true, message: '请输入项目负责人', trigger: 'blur' }
-        ],
+        name: [{ required: true, message: '请输入项目名称', trigger: 'blur' }],
+        manager: [{ required: true, message: '请输入项目负责人', trigger: 'blur' }],
       },
       /*编辑添加框是否可见 */
       inLicenseShow: false,
@@ -339,9 +383,88 @@ export default {
       /*进度条百分比 */
       percentage: 0,
       // i: 0,
-    }
+      selectedLicensegoodsRow: {},
+      tmpLicensegoods: {},
+      licensegoodsDialogModal: false,
+    };
   },
   methods: {
+    addGoodsClick() {
+      this.editMode = 0;
+      this.tmpLicensegoods = {};
+      this.licensegoodsDialogModal = true;
+    },
+    editGoodsClick() {
+      this.editMode = 1;
+      this.tmpLicensegoods = Object.assign({}, this.selectedLicensegoodsRow);
+      this.licensegoodsDialogModal = true;
+    },
+    deleteGoodsClick() {
+      this.$confirm('确定删除吗？删除后无法恢复。是否继续删除？', '删除确认', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        beforeClose: (action, instance, done) => {
+          if (action !== 'confirm') {
+            done();
+          }
+          instance.confirmButtonLoading = true;
+
+          return licenseAPI
+            .deleteLicenseGoods(this.selectedLicensegoodsRow.id)
+            .then(data => {
+              instance.confirmButtonLoading = false;
+              done(data);
+            });
+        },
+      })
+        .then(data => {
+          this.selectedLicensegoodsRow = [];
+          this.$notify({
+            title: '提示',
+            message: '删除成功！',
+            type: 'success',
+            duration: 2000,
+          });
+        })
+        .catch(() => {
+          this.$notify.error({
+            title: '取消',
+            message: '操作取消！',
+            duration: 2000,
+          });
+        });
+    },
+    licensegoodsConfirm() {
+      if (this.editMode == 1) {
+        licenseAPI.updateLicenseGoods(this.tmpLicensegoods).then(data => {
+          if (data.status == 1) {
+            this.$notify({
+              title: '成功',
+              message: data.message,
+              type: 'success',
+              duration: 2000,
+            });
+          }
+          this.licensegoodsDialogModal = false;
+        });
+      } else {
+        licenseAPI.addLicenseGoods(this.tmpLicensegoods).then(data => {
+          if (data.status == 1) {
+            this.$notify({
+              title: '成功',
+              message: data.message,
+              type: 'success',
+              duration: 2000,
+            });
+          }
+          this.licensegoodsDialogModal = false;
+        });
+      }
+    },
+    licensegoodsTableRowClick(row) {
+      this.selectedLicensegoodsRow = row;
+    },
     /*添加进口许可证*/
     inAddClick() {
       this.editMode = 1;
@@ -353,29 +476,43 @@ export default {
         endtime: '',
       };
       this.inLicenseShow = true;
+      this.selectedLicensegoodsRow={};
     },
     /*编辑进口许可证*/
     inEditClick() {
       this.editMode = 2;
-      this.inLicenseModel = Object.assign({}, this.inLicenseModel, this.inSelectedRows[0]);
+      this.inLicenseModel = Object.assign(
+        {},
+        this.inLicenseModel,
+        this.inSelectedRows[0]
+      );
       this.inLicenseShow = true;
+      this.selectedLicensegoodsRow={};
     },
     /*删除进口许可证*/
     inDeleteClick() {
       this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        let ids = [];
-        this.inSelectedRows.forEach(function(row) {
-          ids.push(row.id);
-        });
-        return ids;
-      }).then(ids => {
-        this.inLicenseData = this.inLicenseData.filter(val => !ids.includes(val.id));
-        this.$notify.success({ title: '成功', message: "删除成功", duration: 2000 });
+        type: 'warning',
       })
+        .then(() => {
+          let ids = [];
+          this.inSelectedRows.forEach(function(row) {
+            ids.push(row.id);
+          });
+          return ids;
+        })
+        .then(ids => {
+          this.inLicenseData = this.inLicenseData.filter(
+            val => !ids.includes(val.id)
+          );
+          this.$notify.success({
+            title: '成功',
+            message: '删除成功',
+            duration: 2000,
+          });
+        });
     },
     /*添加出口许可证*/
     outAddClick() {
@@ -388,40 +525,56 @@ export default {
         endtime: '',
       };
       this.outLicenseShow = true;
+      this.selectedLicensegoodsRow={};
     },
     /*编辑出口许可证*/
     outEditClick() {
       this.outeditMode = 2;
-      this.outLicenseModel = Object.assign({}, this.outLicenseModel, this.outSelectedRows[0]);
+      this.outLicenseModel = Object.assign(
+        {},
+        this.outLicenseModel,
+        this.outSelectedRows[0]
+      );
       this.outLicenseShow = true;
+      this.selectedLicensegoodsRow={};
     },
     /*删除出口许可证*/
     outDeleteClick() {
       this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        let ids = [];
-        this.outSelectedRows.forEach(function(row) {
-          ids.push(row.id);
-        });
-        return ids;
-      }).then(ids => {
-        this.outLicenseData = this.outLicenseData.filter(val => !ids.includes(val.id));
-        this.$notify.success({ title: '成功', message: "删除成功", duration: 2000 });
+        type: 'warning',
       })
+        .then(() => {
+          let ids = [];
+          this.outSelectedRows.forEach(function(row) {
+            ids.push(row.id);
+          });
+          return ids;
+        })
+        .then(ids => {
+          this.outLicenseData = this.outLicenseData.filter(
+            val => !ids.includes(val.id)
+          );
+          this.$notify.success({
+            title: '成功',
+            message: '删除成功',
+            duration: 2000,
+          });
+        });
     },
     /*进口表格选中行改变*/
     inOnSelectionChange(selection) {
-      this.inSelectedRows = selection
+      this.inSelectedRows = selection;
     },
     /*保存进口许可证 */
     inOkHandler() {
       let validateForm = () => {
         return new Promise((resolve, reject) => {
-          this.$refs['inLicenseRef'].validate((valid) => {
-            if (valid) { return resolve(true); }
+          this.$refs['inLicenseRef'].validate(valid => {
+            if (valid) {
+              return resolve(true);
+            }
             return reject(false);
           });
         });
@@ -434,7 +587,9 @@ export default {
       };
 
       let editForm = () => {
-        let index = this.inLicenseData.findIndex(val => val.id === this.inLicenseModel.id);
+        let index = this.inLicenseData.findIndex(
+          val => val.id === this.inLicenseModel.id
+        );
         this.inLicenseData = [
           ...this.inLicenseData.slice(0, index),
           this.inLicenseModel,
@@ -442,23 +597,36 @@ export default {
         ];
       };
 
-      validateForm().then(() => {
-        this.confirmLoading = true;
-        if (this.editMode === 1) { addForm(); }
-        if (this.editMode === 2) { editForm(); }
-      }).then(res => {
-        this.confirmLoading = false;
-        this.inLicenseShow = false;
-        this.$notify({ title: '成功', message: "保存成功", type: 'success', duration: 2000 });
-      })
+      validateForm()
+        .then(() => {
+          this.confirmLoading = true;
+          if (this.editMode === 1) {
+            addForm();
+          }
+          if (this.editMode === 2) {
+            editForm();
+          }
+        })
+        .then(res => {
+          this.confirmLoading = false;
+          this.inLicenseShow = false;
+          this.$notify({
+            title: '成功',
+            message: '保存成功',
+            type: 'success',
+            duration: 2000,
+          });
+        });
     },
 
     /*保存出口许可证 */
     outOkHandler() {
       let validateForm = () => {
         return new Promise((resolve, reject) => {
-          this.$refs['outLicenseRef'].validate((valid) => {
-            if (valid) { return resolve(true); }
+          this.$refs['outLicenseRef'].validate(valid => {
+            if (valid) {
+              return resolve(true);
+            }
             return reject(false);
           });
         });
@@ -471,7 +639,9 @@ export default {
       };
 
       let outeditForm = () => {
-        let index = this.outLicenseData.findIndex(val => val.id === this.outLicenseModel.id);
+        let index = this.outLicenseData.findIndex(
+          val => val.id === this.outLicenseModel.id
+        );
         this.outLicenseData = [
           ...this.outLicenseData.slice(0, index),
           this.inLicenseModel,
@@ -479,15 +649,26 @@ export default {
         ];
       };
 
-      validateForm().then(() => {
-        this.confirmLoading = true;
-        if (this.outeditMode === 1) { outaddForm(); }
-        if (this.outeditMode === 2) { outeditForm(); }
-      }).then(res => {
-        this.confirmLoading = false;
-        this.outLicenseShow = false;
-        this.$notify({ title: '成功', message: "保存成功", type: 'success', duration: 2000 });
-      })
+      validateForm()
+        .then(() => {
+          this.confirmLoading = true;
+          if (this.outeditMode === 1) {
+            outaddForm();
+          }
+          if (this.outeditMode === 2) {
+            outeditForm();
+          }
+        })
+        .then(res => {
+          this.confirmLoading = false;
+          this.outLicenseShow = false;
+          this.$notify({
+            title: '成功',
+            message: '保存成功',
+            type: 'success',
+            duration: 2000,
+          });
+        });
     },
 
     /*出口表格选中行改变*/
@@ -501,16 +682,31 @@ export default {
     },
     /*点击确定文件上传 */
     fileUploadOkHandler() {
-      this.$notify({ title: '成功', message: "上传成功", type: 'success', duration: 2000 });
+      this.$notify({
+        title: '成功',
+        message: '上传成功',
+        type: 'success',
+        duration: 2000,
+      });
       this.fileUploadDialogIsShow = false;
     },
     /*文件上传成功 */
     onUploadSuccess(response, file) {
-      this.$notify({ title: file.name, message: "上传成功", type: 'success', duration: 2000 });
+      this.$notify({
+        title: file.name,
+        message: '上传成功',
+        type: 'success',
+        duration: 2000,
+      });
     },
     /*文件下载 */
     fileDownload() {
-      this.$notify({ title: '成功', message: "下载成功", type: 'success', duration: 2000 });
+      this.$notify({
+        title: '成功',
+        message: '下载成功',
+        type: 'success',
+        duration: 2000,
+      });
     },
     /*文件预览 */
     fileView() {
@@ -521,21 +717,32 @@ export default {
       this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        let ids = [];
-        this.fileSelectedRows.forEach(function(row) {
-          ids.push(row.id);
-        });
-        return ids;
-      }).then(ids => {
-        this.fileTableData =this.fileTableData.filter(val => !ids.includes(val.id));
-        this.$notify.success({ title: '成功', message: "删除成功", duration: 2000 });
+        type: 'warning',
       })
+        .then(() => {
+          let ids = [];
+          this.fileSelectedRows.forEach(function(row) {
+            ids.push(row.id);
+          });
+          return ids;
+        })
+        .then(ids => {
+          this.fileTableData = this.fileTableData.filter(
+            val => !ids.includes(val.id)
+          );
+          this.$notify.success({
+            title: '成功',
+            message: '删除成功',
+            duration: 2000,
+          });
+        });
     },
     /*加载进口许可证数据 */
     loadInlicenseList() {
-      let pagedata = {pageindex:this.myCurrentPage, pagesize:this.myPageSize};
+      let pagedata = {
+        pageindex: this.myCurrentPage,
+        pagesize: this.myPageSize,
+      };
       let search = Object.assign({}, this.insearch, pagedata);
       licenseAPI.getInlicenseList(search).then(data => {
         this.inLicenseData = data.data;
@@ -544,7 +751,10 @@ export default {
     },
     /*加载出口许可证数据 */
     loadOutlicenseList() {
-      let pagedata = {pageindex:this.myCurrentPage, pagesize:this.myPageSize};
+      let pagedata = {
+        pageindex: this.myCurrentPage,
+        pagesize: this.myPageSize,
+      };
       let search = Object.assign({}, this.outsearch, pagedata);
       licenseAPI.getOutlicenseList(search).then(data => {
         this.outLicenseData = data.data;
@@ -572,26 +782,36 @@ export default {
       this.apCurrentPage = val;
       this.loadOutlicenseList();
     },
-
   },
   created() {
     this.clientHeight = document.documentElement.clientHeight - 270;
     let num = Math.floor(this.clientHeight / 40) - 1;
     this.apPageSize = Math.floor(num / 5) * 5;
-    this.apPageSizes = [this.apPageSize, this.apPageSize * 2, this.apPageSize * 4];
+    this.apPageSizes = [
+      this.apPageSize,
+      this.apPageSize * 2,
+      this.apPageSize * 4,
+    ];
     this.myPageSize = Math.floor(num / 5) * 5;
-    this.myPageSizes = [this.myPageSize, this.myPageSize * 2, this.myPageSize * 4];
+    this.myPageSizes = [
+      this.myPageSize,
+      this.myPageSize * 2,
+      this.myPageSize * 4,
+    ];
     this.loadInlicenseList();
     this.loadOutlicenseList();
-  }
-}
+  },
+  components: {
+    'licensegoods-table': licensegoodsTable,
+  },
+};
 </script>
 <style>
 .projPage .el-tabs__header {
   margin-bottom: 0;
 }
 
-input[type=file].el-upload__input {
+input[type='file'].el-upload__input {
   display: none !important;
   margin-bottom: -20px;
 }
@@ -632,7 +852,7 @@ input[type=file].el-upload__input {
 
 .fileView-content {
   width: 100%;
-  border: 1px solid #CCC;
+  border: 1px solid #ccc;
   padding: 5px;
   line-height: 20px;
 }
@@ -657,4 +877,11 @@ input[type=file].el-upload__input {
   background-color: #fff;
 }
 
+.goods-panel {
+  width: 90%;
+  margin-left: 5%;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+}
 </style>

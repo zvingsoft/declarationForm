@@ -293,3 +293,119 @@ axiosMock.onGet(`/api/filelist2`).reply(200, {
   message: ''
 })
 
+const licensegoods = [
+  {
+    id: '1',
+    licenseid: '1',
+    specification:'110CC',
+    unit:'台',
+    quantity:'*110.0',
+    unitprice:'*200',
+    amount:'*22 000',
+    amountinusd:'$22 000'
+  },
+  {
+    id: '2',
+    licenseid: '1',
+    specification:'110CC',
+    unit:'台',
+    quantity:'*100.0',
+    unitprice:'*131.5000',
+    amount:'*13 150',
+    amountinusd:'$13 150'
+  },
+  {
+    id: '3',
+    licenseid: '2',
+    specification:'110CC',
+    unit:'台',
+    quantity:'*110.0',
+    unitprice:'*200',
+    amount:'*22 000',
+    amountinusd:'$22 000'
+  },
+  {
+    id: '4',
+    licenseid: '3',
+    specification:'110CC',
+    unit:'台',
+    quantity:'*100.0',
+    unitprice:'*131.5000',
+    amount:'*13 150',
+    amountinusd:'$13 150'
+  },
+  {
+    id: '5',
+    licenseid: '4',
+    specification:'110CC',
+    unit:'台',
+    quantity:'*110.0',
+    unitprice:'*200',
+    amount:'*22 000',
+    amountinusd:'$22 000'
+  },
+  {
+    id: '6',
+    licenseid: '4',
+    specification:'110CC',
+    unit:'台',
+    quantity:'*100.0',
+    unitprice:'*131.5000',
+    amount:'*13 150',
+    amountinusd:'$13 150'
+  },
+  {
+    id: '7',
+    licenseid: '4',
+    specification:'110CC',
+    unit:'台',
+    quantity:'*110.0',
+    unitprice:'*200',
+    amount:'*22 000',
+    amountinusd:'$22 000'
+  },
+  {
+    id: '8',
+    licenseid: '5',
+    specification:'110CC',
+    unit:'台',
+    quantity:'*100.0',
+    unitprice:'*131.5000',
+    amount:'*13 150',
+    amountinusd:'$13 150'
+  }
+]
+
+axiosMock.onGet(/api\/license\/goods+$/).reply(res => {
+  let list = licensegoods
+  let result = [
+    200,
+    {
+      data: '',
+      status: 1,
+      message: ''
+    }
+  ]
+
+  if (
+    typeof res.params.licenseid !== 'undefined' &&
+    res.params.licenseid !== ''
+  ) {
+    list = list.filter(val => val.licenseid == res.params.licenseid)
+    result[1].data = list
+  }
+  return result
+})
+
+axiosMock
+  .onPut(/api\/license\/goods\/.+$/)
+  .reply(200, { status: 1, message: '修改成功' })
+
+axiosMock
+  .onDelete(/api\/license\/goods\/.+$/)
+  .reply(200, { status: 1, message: '删除成功' })
+
+axiosMock.onPost('/api/license/goods').reply(200, {
+  status: 1,
+  message: '添加成功'
+})
