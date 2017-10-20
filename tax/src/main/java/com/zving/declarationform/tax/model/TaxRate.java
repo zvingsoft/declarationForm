@@ -9,6 +9,7 @@ package com.zving.declarationform.tax.model;
  */
 public class TaxRate {
 	String goodsType;
+	float rate;
 
 	public String getGoodsType() {
 		return goodsType;
@@ -25,6 +26,4 @@ public class TaxRate {
 	public void setRate(float rate) {
 		this.rate = rate;
 	}
-
-	float rate;
 }

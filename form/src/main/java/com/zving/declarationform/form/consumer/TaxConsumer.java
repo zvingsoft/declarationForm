@@ -27,6 +27,7 @@ public class TaxConsumer {
 		init();
 		jsonCall();
 		schemaCall();
+		addRate();
 	}
 
 	static void jsonCall() {
@@ -44,6 +45,14 @@ public class TaxConsumer {
 		form.CustomsNumber = "2";
 		System.out.println("Schema call tax.compute(): " + tax.compute(form));
 		System.out.println("Schema call tax.confirm(): " + tax.confirm(form));
+	}
+
+	static void addRate() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("goodsType", "1");
+		map.put("rate", "0.1");
+		RestTemplate restTemplate = RestTemplateBuilder.create();
+		System.out.println(restTemplate.postForObject("cse://tax/taxrate", map, String.class));
 	}
 
 	public static void init() throws Exception {

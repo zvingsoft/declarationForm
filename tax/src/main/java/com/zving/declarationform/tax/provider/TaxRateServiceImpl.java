@@ -23,7 +23,7 @@ import io.servicecomb.provider.rest.common.RestSchema;
  * @date 2017年10月18日
  */
 @RestSchema(schemaId = "taxRate")
-@RequestMapping(path = "/taxRate", produces = MediaType.APPLICATION_JSON)
+@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
 public class TaxRateServiceImpl implements TaxRateService {
 
 	@RequestMapping(path = "taxrate", method = RequestMethod.POST)
