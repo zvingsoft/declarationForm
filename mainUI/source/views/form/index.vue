@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <div class="body-list" style="background-color:white;">
-      <el-toolbar style="background-color: #EEF0F4;">
+      <el-toolbar>
         <span>
           <i class="fa fa-ship" /> 通关</span>
       </el-toolbar>
