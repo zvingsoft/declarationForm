@@ -92,6 +92,9 @@ public class JSONStorage implements IStorage {
 	@Override
 	public <T> List<T> find(Class<T> clazz, T bean) {
 		List<T> list = getList(clazz);
+		if (bean == null) {
+			return list;
+		}
 		BeanMap map1 = new BeanMap(bean);
 		bean.getClass().getDeclaredMethods();
 		return list.stream().filter(item -> {
