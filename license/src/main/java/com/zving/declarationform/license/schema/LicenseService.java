@@ -1,4 +1,6 @@
-package com.zving.declarationform.schema;
+package com.zving.declarationform.license.schema;
+
+import java.util.List;
 
 import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.model.License;
@@ -23,5 +25,5 @@ public interface LicenseService {
 
 	String delete(long id);
 
-	License[] list();
+	List<License> list();
 }

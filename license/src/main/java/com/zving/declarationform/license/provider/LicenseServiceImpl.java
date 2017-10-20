@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.zving.declarationform.license.schema.LicenseService;
 import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.model.License;
-import com.zving.declarationform.schema.LicenseService;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 
@@ -81,9 +81,7 @@ public class LicenseServiceImpl implements LicenseService {
 
 	@Override
 	@RequestMapping(path = "license", method = RequestMethod.GET)
-	public License[] list() {
-		List<License> find = StorageUtil.getInstance().find(License.class, null);
-		License[] licenses = new License[find.size()];
-		return find.toArray(licenses);
+	public List<License> list() {
+		return StorageUtil.getInstance().find(License.class, null);
 	}
 }
