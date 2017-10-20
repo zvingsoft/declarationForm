@@ -28,7 +28,7 @@ public class TaxRateServiceImpl implements TaxRateService {
 
 	@RequestMapping(path = "taxrate", method = RequestMethod.POST)
 	public String addRate(@RequestBody TaxRate rate) {
-		StorageUtil.getInstance().add(TaxRate.class, rate);
+//		StorageUtil.getInstance().add(TaxRate.class, rate);
 		return "添加成功";
 	}
 
