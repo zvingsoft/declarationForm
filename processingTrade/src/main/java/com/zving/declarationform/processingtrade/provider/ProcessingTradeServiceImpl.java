@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.zving.declarationform.processingtrade.model.ProcessingTrade;
+import com.zving.declarationform.model.ProcessingTrade;
 import com.zving.declarationform.processingtrade.schema.ProcessingTradeService;
 import com.zving.declarationform.storage.StorageUtil;
 
@@ -48,7 +48,7 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	@RequestMapping(path = "taxrate/{number}", method = RequestMethod.GET)
+	@RequestMapping(path = "processingTrade/{number}", method = RequestMethod.GET)
 	public ProcessingTrade get(@PathVariable("number") String number) {
 		ProcessingTrade processingTrade = new ProcessingTrade();
 		processingTrade.setNumber(number);

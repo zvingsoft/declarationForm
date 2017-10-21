@@ -2,7 +2,7 @@ package com.zving.declarationform.processingtrade.schema;
 
 import java.util.List;
 
-import com.zving.declarationform.processingtrade.model.ProcessingTrade;
+import com.zving.declarationform.model.ProcessingTrade;
 
 /**
  * @author zhaochangjin

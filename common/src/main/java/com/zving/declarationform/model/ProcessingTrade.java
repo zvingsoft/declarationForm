@@ -1,4 +1,4 @@
-package com.zving.declarationform.processingtrade.model;
+package com.zving.declarationform.model;
 
 /**
  * @author zhaochangjin
