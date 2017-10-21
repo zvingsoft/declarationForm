@@ -15,25 +15,8 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<!--让服务运行于微服务sdk容器中 -->
 			<groupId>io.servicecomb</groupId>
-			<artifactId>
-				spring-boot-starter-provider
-			</artifactId>
-		</dependency>
-		<dependency>
-			<!--使用服务中心 -->
-			<groupId>io.servicecomb</groupId>
-			<artifactId>
-				spring-boot-starter-discovery
-			</artifactId>
-		</dependency>
-		<dependency>
-			<!--让服务运行于Spring boot embeded tomat中 -->
-			<groupId>io.servicecomb</groupId>
-			<artifactId>
-				spring-boot-starter-transport
-			</artifactId>
+			<artifactId>spring-boot-starter-provider</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
