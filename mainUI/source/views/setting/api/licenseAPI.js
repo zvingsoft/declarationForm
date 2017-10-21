@@ -7,11 +7,31 @@ const licenseAPI = {
       .then(res => res.data)
   },
 
+  addLicense (license) {
+    return axios
+      .post('/api/license', license)
+      .then(res => res.data)
+  },
+
+  updateLicense (license) {
+    return axios({
+      method: 'put',
+      url: '/api/license/' + license.id,
+      data: license
+    }).then(res => res.data)
+  },
+
   getOutlicenseList (search) {
     return axios
       .get('/api/outlicense', {
         params: {search}
       })
+      .then(res => res.data)
+  },
+
+  deleteLicense (ids) {
+    return axios
+      .delete('/api/license/' + ids)
       .then(res => res.data)
   },
 

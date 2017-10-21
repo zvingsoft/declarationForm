@@ -314,12 +314,14 @@ export default {
         licensekey: '',
         importandexportcode: '',
         companyname: '',
+        type: 'in',
       },
       /*出口搜索*/
       outsearch: {
         licensekey: '',
         importandexportcode: '',
         companyname: '',
+        type: 'out',
       },
       /*激活的tab页 */
       activeName: 'inlicense',
@@ -417,8 +419,7 @@ export default {
               done(data);
             });
         },
-      })
-        .then(data => {
+      }).then(data => {
           this.selectedLicensegoodsRow = [];
           this.$notify({
             title: '提示',
@@ -426,8 +427,7 @@ export default {
             type: 'success',
             duration: 2000,
           });
-        })
-        .catch(() => {
+        }).catch(() => {
           this.$notify.error({
             title: '取消',
             message: '操作取消！',
@@ -474,6 +474,7 @@ export default {
         description: '',
         starttime: '',
         endtime: '',
+        type: 'in',
       };
       this.inLicenseShow = true;
       this.selectedLicensegoodsRow=[];
@@ -491,29 +492,41 @@ export default {
     },
     /*删除进口许可证*/
     inDeleteClick() {
-      this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
+      this.$confirm('确定删除吗？删除后无法恢复。是否继续删除？', '删除确认', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
-      })
-        .then(() => {
-          let ids = [];
-          this.inSelectedRows.forEach(function(row) {
-            ids.push(row.id);
-          });
-          return ids;
-        })
-        .then(ids => {
-          this.inLicenseData = this.inLicenseData.filter(
-            val => !ids.includes(val.id)
-          );
-          this.$notify.success({
-            title: '成功',
-            message: '删除成功',
+        beforeClose: (action, instance, done) => {
+          if (action !== 'confirm') {
+            done();
+            return;
+          }
+          this.confirmLoading = true;
+          return licenseAPI.deleteLicense(this.inSelectedRows.id)
+            .then(data => {
+              this.confirmLoading = false;
+              done(data);
+              let ids = [];
+              this.inSelectedRows.forEach(function(row) {
+                ids.push(row.id);
+              });
+              this.inLicenseData = this.inLicenseData.filter(
+                val => !ids.includes(val.id)
+              );
+            });
+        },
+      }).then(data => {
+          this.inSelectedRows = [];
+          this.loadInlicenseList();
+          this.$notify({
+            title: '提示',
+            message: '删除成功！',
+            type: 'success',
             duration: 2000,
           });
-        });
+        })
     },
+
     /*添加出口许可证*/
     outAddClick() {
       this.outeditMode = 1;
@@ -523,6 +536,7 @@ export default {
         description: '',
         starttime: '',
         endtime: '',
+        type: 'out',
       };
       this.outLicenseShow = true;
       this.selectedLicensegoodsRow=[];
@@ -540,29 +554,41 @@ export default {
     },
     /*删除出口许可证*/
     outDeleteClick() {
-      this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
+      this.$confirm('确定删除吗？删除后无法恢复。是否继续删除？', '删除确认', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
-      })
-        .then(() => {
-          let ids = [];
-          this.outSelectedRows.forEach(function(row) {
-            ids.push(row.id);
-          });
-          return ids;
-        })
-        .then(ids => {
-          this.outLicenseData = this.outLicenseData.filter(
-            val => !ids.includes(val.id)
-          );
-          this.$notify.success({
-            title: '成功',
-            message: '删除成功',
+        beforeClose: (action, instance, done) => {
+          if (action !== 'confirm') {
+            done();
+            return;
+          }
+          this.confirmLoading = true;
+          return licenseAPI.deleteLicense(this.outSelectedRows.id)
+            .then(data => {
+              this.confirmLoading = false;
+              done(data);
+              let ids = [];
+              this.outSelectedRows.forEach(function(row) {
+                ids.push(row.id);
+              });
+              this.outLicenseData = this.outLicenseData.filter(
+                val => !ids.includes(val.id)
+              );
+            });
+        },
+      }).then(data => {
+          this.outSelectedRows = [];
+          this.loadOutlicenseList();
+          this.$notify({
+            title: '提示',
+            message: '删除成功！',
+            type: 'success',
             duration: 2000,
           });
-        });
+        })
     },
+
     /*进口表格选中行改变*/
     inOnSelectionChange(selection) {
       this.inSelectedRows = selection;
@@ -579,43 +605,62 @@ export default {
           });
         });
       };
-      let addForm = () => {
-        this.inLicenseData = [
-          ...this.inLicenseData.slice(0),
-          this.inLicenseModel,
-        ];
+      let addForm = (res) => {
+        licenseAPI.addLicense(this.inLicenseModel).then(data => {
+          if (data.status == 1) {
+            this.$notify({
+              title: '成功',
+              message: '保存成功',
+              type: 'success',
+              duration: 2000,
+            });
+          } else {
+            this.$notify({
+              title: '失败',
+              message: data.message,
+              type: 'error',
+              duration: 2000
+            });
+          }
+        });
       };
 
-      let editForm = () => {
+      let editForm = (res) => {
         let index = this.inLicenseData.findIndex(
           val => val.id === this.inLicenseModel.id
         );
-        this.inLicenseData = [
-          ...this.inLicenseData.slice(0, index),
-          this.inLicenseModel,
-          ...this.inLicenseData.slice(index + 1),
-        ];
+        licenseAPI.updateLicense(this.inLicenseModel).then(data => {
+          if (data.status == 1) {
+            this.$notify({
+              title: '成功',
+              message: '修改成功',
+              type: 'success',
+              duration: 2000,
+            });
+          } else {
+            this.$notify({
+              title: '失败',
+              message: data.message,
+              type: 'error',
+              duration: 2000
+            });
+          }
+        });
       };
 
-      validateForm()
-        .then(() => {
+      validateForm().then(() => {
           this.confirmLoading = true;
           if (this.editMode === 1) {
-            addForm();
+            return addForm();
           }
           if (this.editMode === 2) {
-            editForm();
+            return editForm();
           }
-        })
-        .then(res => {
+        }).then(res =>{
           this.confirmLoading = false;
           this.inLicenseShow = false;
-          this.$notify({
-            title: '成功',
-            message: '保存成功',
-            type: 'success',
-            duration: 2000,
-          });
+          this.inLicenseShow = false;
+          this.loadInlicenseList();
         });
     },
 
@@ -632,42 +677,63 @@ export default {
         });
       };
       let outaddForm = () => {
-        this.outLicenseData = [
-          ...this.outLicenseData.slice(0),
-          this.outLicenseModel,
-        ];
+        licenseAPI.addLicense(this.outLicenseModel).then(data => {
+          if (data.status == 1) {
+            this.$notify({
+              title: '成功',
+              message: '保存成功',
+              type: 'success',
+              duration: 2000,
+            });
+          } else {
+            this.$notify({
+              title: '失败',
+              message: data.message,
+              type: 'error',
+              duration: 2000
+            });
+          }
+        });
       };
 
       let outeditForm = () => {
         let index = this.outLicenseData.findIndex(
           val => val.id === this.outLicenseModel.id
         );
-        this.outLicenseData = [
-          ...this.outLicenseData.slice(0, index),
-          this.inLicenseModel,
-          ...this.outLicenseData.slice(index + 1),
-        ];
+        licenseAPI.updateLicense(this.outLicenseModel).then(data => {
+          if (data.status == 1) {
+            this.$notify({
+              title: '成功',
+              message: '修改成功',
+              type: 'success',
+              duration: 2000,
+            });
+          } else {
+            this.$notify({
+              title: '失败',
+              message: data.message,
+              type: 'error',
+              duration: 2000
+            });
+          }
+        });
       };
 
       validateForm()
         .then(() => {
           this.confirmLoading = true;
           if (this.outeditMode === 1) {
-            outaddForm();
+            return outaddForm();
           }
           if (this.outeditMode === 2) {
-            outeditForm();
+            return outeditForm();
           }
         })
         .then(res => {
           this.confirmLoading = false;
           this.outLicenseShow = false;
-          this.$notify({
-            title: '成功',
-            message: '保存成功',
-            type: 'success',
-            duration: 2000,
-          });
+          this.outLicenseShow = false;
+           this.loadOutlicenseList();
         });
     },
 
