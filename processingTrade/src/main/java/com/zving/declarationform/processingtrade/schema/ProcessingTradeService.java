@@ -19,5 +19,5 @@ public interface ProcessingTradeService {
 
 	ProcessingTrade get(String number);
 
-	List<ProcessingTrade> list();
+	List<ProcessingTrade> list(String pageIndex, String pageSize);
 }

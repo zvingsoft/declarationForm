@@ -1,8 +1,10 @@
 const processingTradeAPI = {
-  getProcessingTradeList () {
-    return axios.get(`/api/processingtrade`).then(res => res.data)
+  getProcessingTradeList (pageIndex, pageSize) {
+    return axios
+      .get(`/api/processingtrade/${pageIndex}/${pageSize}`)
+      .then(res => res.data)
   },
-  getGoodsList(){
+  getGoodsList () {
     return axios.get(`/api/goodslist`).then(res => res.data)
   }
 }

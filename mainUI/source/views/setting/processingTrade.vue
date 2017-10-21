@@ -216,7 +216,7 @@
 </template>
 
 <script>
-import './mock/processingTrade.js'
+// import './mock/processingTrade.js'
 import processingTradeAPI from './api/processingTradeAPI.js';
 export default {
   data() {
@@ -224,8 +224,8 @@ export default {
       clientHeight: 0,
       clientWidth: 0,
       ptListData: [],
-      editMode: 1,//新建1，编辑2
-      goodsEditMode: 1,//新建1，编辑2
+      editMode: 1, //新建1，编辑2
+      goodsEditMode: 1, //新建1，编辑2
       addAndEditDialogIsShow: false,
       fileDialogIsShow: false,
       fileUploadDialogIsShow: false,
@@ -258,58 +258,42 @@ export default {
       },
       goodsListData: [],
       ptDataRules: {
-        number: [
-          { required: true, message: '请输入编号', trigger: 'blur' }
-        ],
-        processCorp: [
-          { required: true, message: '请输入加工企业', trigger: 'blur' }
-        ],
+        number: [{ required: true, message: '请输入编号', trigger: 'blur' }],
+        processCorp: [{ required: true, message: '请输入加工企业', trigger: 'blur' }],
         commissionedCorp: [
-          { required: true, message: '请输入委托企业', trigger: 'blur' }
-        ]
+          { required: true, message: '请输入委托企业', trigger: 'blur' },
+        ],
       },
       goodsDataRules: {
-        itemNum: [
-          { required: true, message: '该项不能为空', trigger: 'blur' }
-        ],
-        productNum: [
-          { required: true, message: '该项不能为空', trigger: 'blur' }
-        ],
+        itemNum: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
+        productNum: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
         nameAndSpecifications: [
-          { required: true, message: '该项不能为空', trigger: 'blur' }
+          { required: true, message: '该项不能为空', trigger: 'blur' },
         ],
         quantityAndUnit: [
-          { required: true, message: '该项不能为空', trigger: 'blur' }
+          { required: true, message: '该项不能为空', trigger: 'blur' },
         ],
-        originCountry: [
-          { required: true, message: '该项不能为空', trigger: 'blur' }
-        ],
-        unitPrice: [
-          { required: true, message: '该项不能为空', trigger: 'blur' }
-        ],
-        totalPrice: [
-          { required: true, message: '该项不能为空', trigger: 'blur' }
-        ],
-        currency: [
-          { required: true, message: '该项不能为空', trigger: 'blur' }
-        ],
-        levy: [
-          { required: true, message: '该项不能为空', trigger: 'blur' }
-        ]
+        originCountry: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
+        unitPrice: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
+        totalPrice: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
+        currency: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
+        levy: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
       },
-    }
+    };
   },
   methods: {
     ptOnSelectionChange(selection) {
-      this.ptSelectedRows = selection
+      this.ptSelectedRows = selection;
     },
     goodsOnSelectionChange(selection) {
-      this.goodsSelectedRows = selection
+      this.goodsSelectedRows = selection;
     },
     loadProcessingTradeList() {
-      processingTradeAPI.getProcessingTradeList().then(data => {
-        this.ptListData = data.data;
-      });
+      processingTradeAPI
+        .getProcessingTradeList(this.ptCurrentPage, this.ptPageSize)
+        .then(data => {
+          this.ptListData = data.data;
+        });
     },
     loadGoodsList() {
       processingTradeAPI.getGoodsList().then(data => {
@@ -337,16 +321,19 @@ export default {
       this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
       }).then(() => {
-        this.$notify({ title: '成功', message: "删除成功", type: 'success', duration: 2000 });
-      })
+        this.$notify({
+          title: '成功',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000,
+        });
+      });
     },
     goodsAddClick() {
       this.goodsEditMode = 1;
-      this.goodsDataModel = {
-
-      };
+      this.goodsDataModel = {};
       this.goodsAddAndEditDialogIsShow = true;
     },
     goodsEditClick() {
@@ -358,10 +345,15 @@ export default {
       this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
+        type: 'warning',
       }).then(() => {
-        this.$notify({ title: '成功', message: "删除成功", type: 'success', duration: 2000 });
-      })
+        this.$notify({
+          title: '成功',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000,
+        });
+      });
     },
     ptViewGoodsClick() {
       this.goodsDialogIsShow = true;
@@ -377,19 +369,39 @@ export default {
     },
     goodsDialogOkHandler() {
       this.goodsDialogIsShow = false;
-      this.$notify({ title: '成功', message: "保存成功", type: 'success', duration: 2000 });
+      this.$notify({
+        title: '成功',
+        message: '保存成功',
+        type: 'success',
+        duration: 2000,
+      });
     },
     addAndEditOkHandler() {
       this.addAndEditDialogIsShow = false;
-      this.$notify({ title: '成功', message: "保存成功", type: 'success', duration: 2000 });
+      this.$notify({
+        title: '成功',
+        message: '保存成功',
+        type: 'success',
+        duration: 2000,
+      });
     },
     goodsAddAndEditOkHandler() {
       this.goodsAddAndEditDialogIsShow = false;
-      this.$notify({ title: '成功', message: "保存成功", type: 'success', duration: 2000 });
+      this.$notify({
+        title: '成功',
+        message: '保存成功',
+        type: 'success',
+        duration: 2000,
+      });
     },
     fileViewOkHandler() {
       this.fileDialogIsShow = false;
-      this.$notify({ title: '成功', message: "保存成功", type: 'success', duration: 2000 });
+      this.$notify({
+        title: '成功',
+        message: '保存成功',
+        type: 'success',
+        duration: 2000,
+      });
     },
     ptHandleSizeChange(val) {
       this.ptPageSize = val;
@@ -407,9 +419,13 @@ export default {
     this.clientWidth = document.documentElement.clientWidth - 250;
     let num = Math.floor(this.clientHeight / 40) - 1;
     this.ptPageSize = Math.floor(num / 5) * 5;
-    this.ptPageSizes = [this.ptPageSize, this.ptPageSize * 2, this.ptPageSize * 4];
-  }
-}
+    this.ptPageSizes = [
+      this.ptPageSize,
+      this.ptPageSize * 2,
+      this.ptPageSize * 4,
+    ];
+  },
+};
 </script>
 
 <style scoped>
