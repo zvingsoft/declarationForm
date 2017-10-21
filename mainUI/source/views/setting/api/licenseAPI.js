@@ -1,7 +1,7 @@
 const licenseAPI = {
   getInlicenseList (search) {
     return axios
-      .get('/api/inlicense', {
+      .get('/api/license', {
         params: {search}
       })
       .then(res => res.data)
@@ -23,7 +23,7 @@ const licenseAPI = {
 
   getOutlicenseList (search) {
     return axios
-      .get('/api/outlicense', {
+      .get('/api/license', {
         params: {search}
       })
       .then(res => res.data)

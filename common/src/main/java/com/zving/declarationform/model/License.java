@@ -27,6 +27,7 @@ public class License {
 	private String competentdepartment;
 	private String certificationdate;
 	private String status;
+	private String type;
 
 	public long getId() {
 		return id;
@@ -178,6 +179,14 @@ public class License {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

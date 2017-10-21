@@ -282,7 +282,7 @@
 </template>
 
 <script>
-import './mock/license.js';
+//import './mock/license.js';
 import licenseAPI from './api/licenseAPI.js';
 import licensegoodsTable from './components/licensegoodsTable.vue';
 export default {
