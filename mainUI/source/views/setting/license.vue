@@ -502,14 +502,15 @@ export default {
             return;
           }
           this.confirmLoading = true;
-          return licenseAPI.deleteLicense(this.inSelectedRows.id)
+          let ids = [];
+          this.inSelectedRows.forEach(function(row) {
+            ids.push(row.id);
+          });
+          let idstr = ids.join();
+          return licenseAPI.deleteLicense(idstr)
             .then(data => {
               this.confirmLoading = false;
               done(data);
-              let ids = [];
-              this.inSelectedRows.forEach(function(row) {
-                ids.push(row.id);
-              });
               this.inLicenseData = this.inLicenseData.filter(
                 val => !ids.includes(val.id)
               );
@@ -564,14 +565,14 @@ export default {
             return;
           }
           this.confirmLoading = true;
-          return licenseAPI.deleteLicense(this.outSelectedRows.id)
+          this.inSelectedRows.forEach(function(row) {
+            ids.push(row.id);
+          });
+          let idstr = ids.join();
+          return licenseAPI.deleteLicense(idstr)
             .then(data => {
               this.confirmLoading = false;
               done(data);
-              let ids = [];
-              this.outSelectedRows.forEach(function(row) {
-                ids.push(row.id);
-              });
               this.outLicenseData = this.outLicenseData.filter(
                 val => !ids.includes(val.id)
               );
