@@ -10,37 +10,49 @@
 	<artifactId>mainUI</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>io.servicecomb</groupId>
-			<artifactId>handler-bizkeeper</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.servicecomb</groupId>
-			<artifactId>handler-loadbalance</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.servicecomb</groupId>
-			<artifactId>transport-rest-vertx</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.servicecomb</groupId>
-			<artifactId>handler-flowcontrol-qps</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.servicecomb</groupId>
-			<artifactId>provider-springmvc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.servicecomb</groupId>
-			<artifactId>provider-pojo</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.zving.declarationform</groupId>
 			<artifactId>common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<!--让服务运行于微服务sdk容器中 -->
+			<groupId>io.servicecomb</groupId>
+			<artifactId>
+				spring-boot-starter-provider
+			</artifactId>
+		</dependency>
+		<dependency>
+			<!--使用服务中心 -->
+			<groupId>io.servicecomb</groupId>
+			<artifactId>
+				spring-boot-starter-discovery
+			</artifactId>
+		</dependency>
+		<dependency>
+			<!--让服务运行于Spring boot embeded tomat中 -->
+			<groupId>io.servicecomb</groupId>
+			<artifactId>
+				spring-boot-starter-transport
+			</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.servicecomb</groupId>
+				<artifactId>java-chassis-dependencies</artifactId>
+				<version>0.1.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>
