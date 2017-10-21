@@ -14,11 +14,9 @@ const licenseAPI = {
   },
 
   updateLicense (license) {
-    return axios({
-      method: 'put',
-      url: '/api/license/' + license.id,
-      data: license
-    }).then(res => res.data)
+    return axios
+      .put('/api/license', license)
+      .then(res => res.data)
   },
 
   getOutlicenseList (search) {
