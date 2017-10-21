@@ -28,7 +28,7 @@ public interface IStorage {
 	/**
 	 * 更新一个对象
 	 */
-	<T> void update(Class<T> clazz, T bean);
+	<T> void update(Class<T> clazz, T bean, T newBean);
 
 	/**
 	 * 删除一个对象
