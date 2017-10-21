@@ -24,6 +24,7 @@ const inlicensesData = [
     competentdepartment: '',
     registeredcapital: '',
     certificationdate: '2010年02月5日',
+    type: 'in',
     status: '核查无误'
   },
   {
@@ -46,6 +47,7 @@ const inlicensesData = [
     competentdepartment: '',
     registeredcapital: '',
     certificationdate: '2012年02月15日',
+    type: 'in',
     status: '待核查'
   },
   {
@@ -68,6 +70,7 @@ const inlicensesData = [
     competentdepartment: '',
     registeredcapital: '',
     certificationdate: '2012年12月5日',
+    type: 'in',
     status: '核查无误'
   },
   {
@@ -90,6 +93,7 @@ const inlicensesData = [
     competentdepartment: '',
     registeredcapital: '',
     certificationdate: '2011年11月6日',
+    type: 'in',
     status: '核查无误'
   },
   {
@@ -112,13 +116,14 @@ const inlicensesData = [
     competentdepartment: '',
     registeredcapital: '',
     certificationdate: '2009年11月6日',
+    type: 'in',
     status: '核查不实'
   }
 ]
 
 const outlicensesData = [
   {
-    id: '1',
+    id: 11,
     licensekey: '0039237',
     importandexportcode: '4401708383545',
     companyname: '华南信息产业集团有限公司',
@@ -137,10 +142,11 @@ const outlicensesData = [
     competentdepartment: '',
     registeredcapital: '',
     certificationdate: '2010年02月5日',
+    type: 'out',
     status: '核查无误'
   },
   {
-    id: 2,
+    id: 12,
     licensekey: '0039238',
     importandexportcode: '4401708383546',
     companyname: '青岛啤酒集团有限公司',
@@ -159,10 +165,11 @@ const outlicensesData = [
     competentdepartment: '',
     registeredcapital: '',
     certificationdate: '2012年02月15日',
+    type: 'out',
     status: '待核查'
   },
   {
-    id: 3,
+    id: 13,
     licensekey: '0039239',
     importandexportcode: '4401708383547',
     companyname: '包钢集团国际经济贸易有限公司',
@@ -181,10 +188,11 @@ const outlicensesData = [
     competentdepartment: '',
     registeredcapital: '',
     certificationdate: '2012年12月5日',
+    type: 'out',
     status: '核查无误'
   },
   {
-    id: 4,
+    id: 14,
     licensekey: '0039240',
     importandexportcode: '4401708383548',
     companyname: '广东万事泰集团有限公司',
@@ -203,10 +211,11 @@ const outlicensesData = [
     competentdepartment: '',
     registeredcapital: '',
     certificationdate: '2011年11月6日',
+    type: 'out',
     status: '核查无误'
   },
   {
-    id: 5,
+    id: 15,
     licensekey: '0039237',
     importandexportcode: '4401708383549',
     companyname: '合肥鑫晟光电科技有限公司',
@@ -225,6 +234,7 @@ const outlicensesData = [
     competentdepartment: '',
     registeredcapital: '',
     certificationdate: '2009年11月6日',
+    type: 'out',
     status: '核查不实'
   }
 ]
@@ -266,6 +276,19 @@ axiosMock.onGet(/api\/inlicense+$/).reply(res => {
   ]
   return result
 })
+
+axiosMock.onPost('/api/license').reply(200, {
+  status: 1,
+  message: '添加成功'
+})
+
+axiosMock.onPut(/api\/license\/.+$/)
+.reply(200, { status: 1, message: '修改成功' })
+
+axiosMock
+.onDelete(/api\/license\/.+$/)
+.reply(200, { status: 1, message: '删除成功' })
+
 axiosMock.onGet(/api\/outlicense+$/).reply(res => {
   let list = outlicensesData
   let total = outlicensesData.length
