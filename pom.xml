@@ -21,6 +21,8 @@
 		<module>taxCuttingUI</module>
 		<module>manifestUI</module>
 		<module>cottonQuotaUI</module>
+		<module>processingTrade</module>
+		<module>processingTradeUI</module>
 	</modules>
 
 	<dependencyManagement>
