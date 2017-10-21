@@ -1,7 +1,5 @@
 package com.zving.declarationform.processingtrade.rest;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.zving.declarationform.base.BaseUI;
@@ -28,42 +25,37 @@ import io.servicecomb.provider.springmvc.reference.RestTemplateBuilder;
  * @date 2017年10月20日
  */
 @Controller
-@RestSchema(schemaId = "ProcessingTradeUI")
+@RestSchema(schemaId = "processingTradeUI")
 @RequestMapping(path = "api/", produces = MediaType.APPLICATION_JSON)
 public class ProcessingTradeUI extends BaseUI {
 
 	@RequestMapping(path = "processingtrade", method = RequestMethod.POST)
-	public String add(@RequestBody ProcessingTrade processingTrade) {
-		return null;
+	public @ResponseBody ResponseDTO add(@RequestBody ProcessingTrade processingTrade) {
+		RestTemplate restTemplate = RestTemplateBuilder.create();
+		restTemplate.postForObject("cse://processingTrade/api/processingtrade", processingTrade, ProcessingTrade.class);
+		return success("添加成功");
 	}
 
 	@RequestMapping(path = "processingtrade", method = RequestMethod.PUT)
-	public String update(@RequestBody ProcessingTrade processingTrade) {
-		System.out.println("processingTrade.getNumber():" + processingTrade.getNumber());
-		System.out.println("processingTrade.getCommissionedCorp():" + processingTrade.getCommissionedCorp());
-		System.out.println("processingTrade.getProcessCorp():" + processingTrade.getProcessCorp());
+	public @ResponseBody ResponseDTO update(@RequestBody ProcessingTrade processingTrade) {
 		RestTemplate restTemplate = RestTemplateBuilder.create();
 		restTemplate.put("cse://processingTrade/api/processingtrade", processingTrade);
-		return "更新成功";
+		return success("更新成功");
 	}
 
 	@RequestMapping(path = "processingtrade/{number}", method = RequestMethod.DELETE)
-	public String delete(@PathVariable String number) {
+	public @ResponseBody ResponseDTO delete(@PathVariable String number) {
 		RestTemplate restTemplate = RestTemplateBuilder.create();
-		try {
-			restTemplate.delete(new URI("cse://processingTrade/api/processingtrade/" + number));
-		} catch (RestClientException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		return "删除成功";
+		restTemplate.delete("cse://processingTrade/api/processingtrade/{number}", number);
+		return success("删除成功");
 	}
 
 	@RequestMapping(path = "processingtrade/{number}", method = RequestMethod.GET)
-	public ProcessingTrade get(@PathVariable String number) {
+	public @ResponseBody ResponseDTO get(@PathVariable String number) {
 		RestTemplate restTemplate = RestTemplateBuilder.create();
-		return restTemplate.getForObject("cse://processingTrade/api/processingtrade/" + number, ProcessingTrade.class);
+		ProcessingTrade processingTrade = restTemplate.getForObject("cse://processingTrade/api/processingtrade/{number}",
+				ProcessingTrade.class, number);
+		return success("执行成功", processingTrade);
 	}
 
 	@SuppressWarnings("unchecked")
