@@ -1,6 +1,9 @@
 const taxCuttingAPI = {
-  getTaxCuttingData(pageindex,pagesize,largettype,smalltype,way,starttime,endtime) {
-    return axios.get( `/api/taxcuttng`,{
+  getTaxCuttingData() {
+    return axios.get( `/api/taxcutting`).then(res => res.data)
+  },
+ /*  getTaxCuttingData(pageindex,pagesize,largettype,smalltype,way,starttime,endtime) {
+    return axios.get( `/api/taxcutting`,{
         params: {
           pageindex,
           pagesize,
@@ -14,25 +17,25 @@ const taxCuttingAPI = {
         }
       }
     ).then(res => res.data)
-  },
-  getLargeTypesData() {
-    return axios.get( `/api/taxcuttng/largettypes`).then(res => res.data)
+  }, */
+ /*  getLargeTypesData() {
+    return axios.get( `/api/taxcutting/largettypes`).then(res => res.data)
   },
   getSmallTypesData() {
-    return axios.get( `/api/taxcuttng/smalltypes`).then(res => res.data)
+    return axios.get( `/api/taxcutting/smalltypes`).then(res => res.data)
   },
   getWaysData() {
-    return axios.get( `/api/taxcuttng/ways`).then(res => res.data)
+    return axios.get( `/api/taxcutting/ways`).then(res => res.data)
+  }, */
+  addTaxCuttingData(taxcutting) {
+    return axios.post(`/api/taxcutting`,taxcutting).then(res => res.data)
   },
-  addTaxCuttingData(taxcuttng) {
-    return axios.post(`/api/taxcuttng`,taxcuttng).then(res => res.data)
-  },
-  editTaxCuttingData(taxcuttng) {
-    return axios.put(`/api/taxcuttng/${taxcuttng.id}`,taxcuttng).then(res => res.data)
+  editTaxCuttingData(taxcutting) {
+    return axios.put(`/api/taxcutting`,taxcutting).then(res => res.data)
   },
   deleteTaxCuttingData(ids) {
     let strIds = ids.join(',')
-    return axios.delete(`/api/taxcuttng/${strIds}`).then(res => res.data)
+    return axios.delete(`/api/taxcutting/${strIds}`).then(res => res.data)
 
   },
 }
