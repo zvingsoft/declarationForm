@@ -104,9 +104,9 @@ public class JSONStorage implements IStorage {
 					continue;
 				} else {
 					if (e.getValue().equals(map2.get(e.getKey()))) {
-						return false;
-					} else {
 						return true;
+					} else {
+						return false;
 					}
 				}
 			}
@@ -123,7 +123,7 @@ public class JSONStorage implements IStorage {
 
 	@Override
 	public <T> void update(Class<T> clazz, T bean, T newBean) {
-		T dest = get(clazz, null);
+		T dest = get(clazz, bean);
 		try {
 			BeanUtils.copyProperties(dest, newBean);
 		} catch (Exception e) {
