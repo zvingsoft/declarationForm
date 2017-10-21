@@ -17,7 +17,7 @@
 
 <script>
 import packinglistAPI from '../api/packinglistAPI.js';
-import '../mock/declaration.js';
+//import '../mock/declaration.js';
 
 export default {
   data() {

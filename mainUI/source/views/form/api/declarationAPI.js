@@ -1,23 +1,25 @@
 const declarationAPI = {
-  getDeclaration (pageindex, pagesize) {
+  getDeclaration (obj) {
+    for(let i in obj){
+      obj[i] = encodeURI(encodeURI(obj[i]))
+    }
     return axios
-      .get('/api/declaration', {
-        params: {
-          pageindex,
-          pagesize
-        }
-      })
+      .get('/api/declaration/list/' + JSON.stringify(obj))
       .then(res => res.data)
   },
+  getDeclarationById (id) {
+    return axios.get('/api/declaration/' + id).then(res => res.data)
+  },
   addDeclaration (declaration) {
-    return axios.post('/api/declaration', declaration).then(res => res.data)
+    console.log(declaration)
+    return axios
+      .post('/api/declaration', JSON.parse(JSON.stringify(declaration)))
+      .then(res => res.data)
   },
   updateDeclaration (declaration) {
-    return axios({
-      method: 'put',
-      url: '/api/declaration/' + declaration.id,
-      data: declaration
-    }).then(res => res.data)
+    return axios
+      .put('/api/declaration', JSON.parse(JSON.stringify(declaration)))
+      .then(res => res.data)
   },
   deleteDeclaration (ids) {
     let strIds = ids.join(',')

@@ -188,7 +188,7 @@
         </el-table-column>
         <el-table-column prop="customsnumber" show-overflow-tooltip min-width="20%" label="海关编号"></el-table-column>
         <el-table-column prop="declarationtypename" show-overflow-tooltip min-width="20%" label="报关单类型"></el-table-column>
-        <el-table-column prop="importorexportport" show-overflow-tooltip min-width="20%" label="进口/出口口岸"></el-table-column>
+        <el-table-column prop="importorexportport" show-overflow-tooltip min-width="20%" label="海关口岸"></el-table-column>
         <el-table-column min-width="20%" label="商品详情">
           <template slot-scope="scope">
             <el-button type="text">
@@ -219,9 +219,6 @@
     </el-dialog>
     <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false">
       <el-form label-position="right" :model="tmpPacking" inline label-width="200px">
-        <el-form-item label="商品编号：">
-          <el-input class="e-input" v-model="tmpPacking.id"></el-input>
-        </el-form-item>
         <el-form-item label="商品名称、规格型号：">
           <el-input class="e-input" type="textarea" :rows="3" v-model="tmpPacking.name"></el-input>
         </el-form-item>
@@ -447,9 +444,6 @@
     </div>
     <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false">
       <el-form label-position="right" :model="tmpPacking" inline label-width="200px">
-        <el-form-item label="商品编号：">
-          <el-input class="e-input" v-model="tmpPacking.id"></el-input>
-        </el-form-item>
         <el-form-item label="商品名称、规格型号：">
           <el-input class="e-input" type="textarea" :rows="3" v-model="tmpPacking.name"></el-input>
         </el-form-item>
@@ -486,7 +480,7 @@
 <script>
 import declarationAPI from './api/declarationAPI.js';
 import packinglistAPI from './api/packinglistAPI.js';
-import './mock/declaration.js';
+//import './mock/declaration.js';
 import packinglistTable from './components/packinglistTable.vue';
 
 export default {
@@ -548,9 +542,12 @@ export default {
       this.packingdetailDialogModal = true;
     },
     editPackingClick() {
+      packinglistAPI.getPackingListById(this.selectedPackingRow.id).then(data=>{
+        console.log(data);
       this.editMode = 1;
-      this.tmpPacking = Object.assign({}, this.selectedPackingRow);
+      this.tmpPacking = data.data;
       this.packingdetailDialogModal = true;
+      })
     },
     deletePackingClick() {
       this.$confirm('确定删除吗？删除后无法恢复。是否继续删除？', '删除确认', {
@@ -603,6 +600,8 @@ export default {
           this.packingdetailDialogModal = false;
         });
       } else {
+        Vue.set(this.tmpPacking,'id',Math.floor(Math.random()*999999)+1);
+        Vue.set(this.tmpPacking,'declarationid',this.declarationID);
         packinglistAPI.addPackingList(this.tmpPacking).then(data => {
           if (data.status == 1) {
             this.$notify({
@@ -630,8 +629,11 @@ export default {
     },
     getDeclarationData() {
       this.dataLoading = true;
+      let obj={
+        "declarationtypename":"出口报关单"
+      }
       declarationAPI
-        .getDeclaration(this.currentPage, this.pageSize)
+        .getDeclaration({})
         .then(data => {
           console.log(data);
           this.declarationData = data.data;
@@ -659,15 +661,18 @@ export default {
       this.tmpDeclaration = {
         declarationtype: 'import',
       };
+      this.declarationID = Math.floor(Math.random()*999999)+1;
       this.declarationDialogmodel = true;
       this.selectedPackingRow = [];
     },
     editClick() {
-      this.editMode = 1;
-      this.tmpDeclaration = Object.assign({}, this.selectedRows[0]);
-      console.log(this.tmpDeclaration);
-      this.declarationDialogmodel = true;
-      this.selectedPackingRow = [];
+      declarationAPI.getDeclarationById(this.selectedRows[0].id).then(data => {
+        console.log(data);
+        this.editMode = 1;
+        this.tmpDeclaration = data.data;
+        this.declarationDialogmodel = true;
+        this.selectedPackingRow = [];
+      });
     },
     deleteClick() {
       let rowIds = [];
@@ -687,33 +692,36 @@ export default {
           return declarationAPI.deleteDeclaration(rowIds).then(data => {
             instance.confirmButtonLoading = false;
             done(data);
+            if (data.status == 1) {
+              this.$notify({
+                title: '成功',
+                message: data.message,
+                type: 'success',
+                duration: 2000,
+              });
+              this.getDeclarationData();
+            }
           });
         },
-      })
-        .then(data => {
-          this.declarationData = this.declarationData.filter(
-            val => !rowIds.includes(val.id)
-          );
-          this.selectedRows = [];
-          this.$notify({
-            title: '提示',
-            message: '删除成功！',
-            type: 'success',
-            duration: 2000,
-          });
-        })
-        .catch(() => {
-          this.$notify.error({
-            title: '取消',
-            message: '操作取消！',
-            duration: 2000,
-          });
+      }).catch(() => {
+        this.$notify.error({
+          title: '取消',
+          message: '操作取消！',
+          duration: 2000,
         });
+      });
     },
     returnMain() {
+      this.getDeclarationData();
       this.declarationDialogmodel = false;
     },
     confirm() {
+      this.declarationTypeOptions.forEach(o => {
+        if (o.key == this.tmpDeclaration.declarationtype) {
+          Vue.set(this.tmpDeclaration, 'declarationtypename', o.value);
+          return;
+        }
+      });
       if (this.editMode == 1) {
         declarationAPI.updateDeclaration(this.tmpDeclaration).then(data => {
           if (data.status == 1) {
@@ -724,16 +732,9 @@ export default {
               duration: 2000,
             });
           }
-          let index = this.declarationData.findIndex(
-            val => val.id === this.tmpDeclaration.id
-          );
-          this.declarationData = [
-            ...this.declarationData.slice(0, index),
-            Object.assign({}, this.tmpDeclaration),
-            ...this.declarationData.slice(index + 1),
-          ];
         });
       } else {
+        Vue.set(this.tmpDeclaration,'id',this.declarationID);
         declarationAPI.addDeclaration(this.tmpDeclaration).then(data => {
           if (data.status == 1) {
             this.$notify({
@@ -743,13 +744,8 @@ export default {
               duration: 2000,
             });
           }
-          this.declarationData = [
-            ...this.declarationData,
-            Object.assign({}, this.tmpDeclaration, { id: data.declaration.id }),
-          ];
-
           this.tmpDeclaration = {
-            declarationtype: 'import',
+            declarationtype: this.tmpDeclaration.declarationtype,
           };
         });
       }

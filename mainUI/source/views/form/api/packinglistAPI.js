@@ -1,24 +1,29 @@
 const packinglistAPI = {
   getPackingList (declarationid) {
+    console.log(declarationid)
     return axios
-      .get('/api/declaration/packinglist', {
-        params: {
-          declarationid
-        }
-      })
+      .get('/api/declaration/packinglist/list/' + declarationid)
       .then(res => res.data)
   },
+  getPackingListById (id) {
+    return axios.get('/api/declaration/packinglist/' + id).then(res => res.data)
+  },
   addPackingList (packinglist) {
+    console.log(packinglist)
     return axios
-      .post('/api/declaration/packinglist', packinglist)
+      .post(
+        '/api/declaration/packinglist',
+        JSON.parse(JSON.stringify(packinglist))
+      )
       .then(res => res.data)
   },
   updatePackingList (packinglist) {
-    return axios({
-      method: 'put',
-      url: '/api/declaration/packinglist/' + packinglist.id,
-      data: packinglist
-    }).then(res => res.data)
+    return axios
+      .put(
+        '/api/declaration/packinglist',
+        JSON.parse(JSON.stringify(packinglist))
+      )
+      .then(res => res.data)
   },
   deletePackingList (ids) {
     let strIds = ids.join(',')

@@ -117,16 +117,6 @@ axiosMock.onGet(/api\/declaration+$/).reply(res => {
     }
   ]
 
-  if (
-    typeof res.params.searchword !== 'undefined' &&
-    res.params.searchword !== ''
-  ) {
-    list = list.filter(val => val.name == res.params.searchword)
-    result[1].data = list
-  }
-  let pagesize = res.params.pagesize
-  let pageindex = res.params.pageindex
-  list = list.slice((pageindex - 1) * pagesize, pagesize * pageindex)
   result[1].data = list
   return result
 })

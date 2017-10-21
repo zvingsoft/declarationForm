@@ -324,7 +324,7 @@
 import declarationAPI from './api/declarationAPI.js';
 import packinglistAPI from './api/packinglistAPI.js';
 import auditingAPI from './api/auditingAPI.js';
-import './mock/declaration.js';
+//import './mock/declaration.js';
 import packinglistTable from './components/packinglistTable.vue';
 
 export default {
@@ -397,7 +397,7 @@ export default {
     getDeclarationData() {
       this.dataLoading = true;
       declarationAPI
-        .getDeclaration(this.currentPage, this.pageSize)
+        .getDeclaration({})
         .then(data => {
           this.declarationData = data.data;
           this.total = data.total;
