@@ -67,15 +67,42 @@ var companysforselect = {
   data: [
     {
       companyid: '100',
-      companyname: '湖南顺风纺织厂'
+      companyname: '湖南顺风纺织厂',
+      bankcreditrating: 'A+',
+      allocation: '5000',
+      used: '3000',
+      address: '湖南省长沙市岳麓区麓谷企业广场',
+      phone: '18887988987',
+      fax: '86 519-85125379',
+      postcode: '410000',
+      companyaddtime: '2017-10-18 19:23:23',
+      companyadduser: '张三'
     },
     {
       companyid: '101',
-      companyname: '河南顺风纺织厂'
+      companyname: '河南顺风纺织厂',
+      bankcreditrating: 'A+',
+      allocation: '0',
+      used: '0',
+      address: '河南省长沙市岳麓区麓谷企业广场',
+      phone: '13265748795',
+      fax: '86 519-85125379',
+      postcode: '488000',
+      companyaddtime: '2017-10-18 19:23:23',
+      companyadduser: '张三'
     },
     {
       companyid: '102',
-      companyname: '海南顺风纺织厂'
+      companyname: '海南顺风纺织厂',
+      bankcreditrating: 'B',
+      allocation: '10000',
+      used: '0',
+      address: '海南省长沙市岳麓区麓谷企业广场',
+      phone: '18779543209',
+      fax: '86 519-85125379',
+      postcode: '434000',
+      companyaddtime: '2017-10-18 19:23:23',
+      companyadduser: '张三'
     }
   ],
   status: 1,

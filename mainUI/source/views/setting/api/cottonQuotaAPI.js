@@ -1,7 +1,7 @@
 const cottonQuotaAPI = {
   getCottonQuota (number, companyName, pageIndex, pageSize) {
     return axios
-      .get('/api/cottonquota', {
+      .get('/api/cottonQuota', {
         params: {
           number: number,
           companyName: companyName,
@@ -12,23 +12,17 @@ const cottonQuotaAPI = {
       .then(res => res.data)
   },
   addCottonQuota (cottonquota) {
-    return axios.post('/api/cottonquota', cottonquota).then(res => res.data)
+    return axios.post('/api/cottonQuota', cottonquota).then(res => res.data)
   },
   editCottonQuota (cottonquota) {
-    return axios
-      .put(`/api/cottonquota/${cottonquota.id}`, cottonquota)
-      .then(res => res.data)
+    return axios.put(`/api/cottonQuota/`, cottonquota).then(res => res.data)
   },
   deleteCottonQuota (ids) {
-    return axios.delete(`/api/cottonquota/${ids}`).then(res => res.data)
+    return axios.delete(`/api/cottonQuota/${ids}`).then(res => res.data)
   },
   auditCottonQuota (pass, ids) {
     return axios
-      .patch(`/api/cottonquota/${ids}`, {
-        params: {
-          pass: pass
-        }
-      })
+      .patch(`/api/cottonQuota/audit/${ids}/${pass}`)
       .then(res => res.data)
   }
 }

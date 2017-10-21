@@ -7,9 +7,9 @@
         <i class="fa fa-edit" aria-hidden="true"></i> 编辑</el-button>
       <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="deleteClick" :disabled="selectedRows.length === 0">
         <i class="fa fa-minus" aria-hidden="true"></i> 删除</el-button>
-      <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="auditClick(true)" :disabled="selectedRows.length === 0">
+      <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="auditClick('Y')" :disabled="selectedRows.length === 0">
         <i class="fa fa-check" aria-hidden="true"></i> 审核通过</el-button>
-      <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="auditClick(false)" :disabled="selectedRows.length === 0">
+      <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="auditClick('N')" :disabled="selectedRows.length === 0">
         <i class="fa fa-remove" aria-hidden="true"></i> 审核不通过</el-button>
     </el-toolbar>
 
@@ -92,8 +92,8 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="text" @click="auditClick( true,scope.row.id)">通过</el-button>&nbsp;
-            <el-button type="text" @click="auditClick( false,scope.row.id)">不通过</el-button>
+            <el-button type="text" @click="auditClick( 'Y',scope.row.id)">通过</el-button>&nbsp;
+            <el-button type="text" @click="auditClick( 'N',scope.row.id)">不通过</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -108,11 +108,11 @@
     </div>
 
     <!-- 新建,编辑对话框 -->
-    <el-dialog :title="addOperate?'新建':'编辑'" :visible.sync="showDialog">
+    <el-dialog size="tiny" :title="addOperate?'新建':'编辑'" :visible.sync="showDialog">
       <el-form label-width="160px" :model="tmpCottonQuota">
-        <el-form-item label="企业名称：">
-          <el-select v-model="tmpCottonQuota.companyname" clearable placeholder="请选择" @change="onCompanyChange" :disabled="!addOperate">
-            <el-option v-for="item in companys" :key="item.companyid" :label="item.companyname" :value="item.companyid">
+        <el-form-item label="企业名称：" v-if="addOperate">
+          <el-select v-model="tmpCottonQuota" clearable placeholder="请选择" @change="onCompanyChange" :disabled="!addOperate">
+            <el-option v-for="item in companys" :key="item.companyid" :label="item.companyname" :value="item">
             </el-option>
           </el-select>
         </el-form-item>
@@ -133,7 +133,7 @@
 </template>
 
 <script>
-  require('./mock/cottonQuota.js')
+  // require('./mock/cottonQuota.js')
   require('./mock/company.js')
   import companyAPI from './api/companyAPI.js';
   import cottonQuotaAPI from './api/cottonQuotaAPI.js';
@@ -192,7 +192,7 @@
       },
       //列表
       list() {
-        this.dataLoading = true;
+        this.dataLoading = false;
         cottonQuotaAPI.getCottonQuota(this.number, this.companyName, this.currentPage, this.pageSize).then(data => {
           this.cottonquotas = data.data;
           this.total = data.total;

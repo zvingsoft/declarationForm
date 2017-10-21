@@ -1,7 +1,8 @@
 package com.zving.declarationform.cottonquota.schema;
 
-import com.zving.declarationform.cottonquota.model.CottonQuota;
-import com.zving.declarationform.model.DeclarationForm;
+import java.util.List;
+
+import com.zving.declarationform.model.CottonQuota;
 
 /**
  * @author 王育春
@@ -9,20 +10,16 @@ import com.zving.declarationform.model.DeclarationForm;
  * @date 2017年10月18日
  */
 public interface CottonQuotaService {
-	CottonQuota[] list();
+    List<CottonQuota> list(String number, String companyName, String pageIndex, String pageSize);
 
-	CottonQuota get(long id);
+    CottonQuota get(long id);
 
-	String delete(long id);
+    String delete(String ids);
 
-	String add(CottonQuota form);
+    String add(CottonQuota form);
 
-	String update(CottonQuota form);
+    String update(CottonQuota form);
 
-	String confirm(DeclarationForm form);
-
-	String check(DeclarationForm form);
-
-	String compensate(DeclarationForm form);
+    String audit(String ids, String status);
 
 }
