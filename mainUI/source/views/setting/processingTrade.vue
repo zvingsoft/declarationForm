@@ -364,6 +364,7 @@ export default {
               this.ptListData = this.ptListData.filter(
                 val => !ids.includes(val.id)
               );
+              this.loadProcessingTradeList();
               this.ptTotal = this.ptTotal - ids.length;
               this.$notify.success({
                 title: '成功',
