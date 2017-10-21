@@ -116,10 +116,10 @@ public class JSONStorage implements IStorage {
 	}
 
 	@Override
-	public <T> void update(Class<T> clazz, T bean) {
-		T dest = get(clazz, bean);
+	public <T> void update(Class<T> clazz, T bean, T newBean) {
+		T dest = get(clazz, null);
 		try {
-			BeanUtils.copyProperties(bean, dest);
+			BeanUtils.copyProperties(dest, newBean);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -131,5 +131,4 @@ public class JSONStorage implements IStorage {
 		getList(clazz).remove(bean);
 		write(clazz);
 	}
-
 }
