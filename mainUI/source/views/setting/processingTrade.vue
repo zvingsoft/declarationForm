@@ -317,7 +317,7 @@ export default {
       this.ptDataModel = Object.assign({}, this.ptSelectedRows[0]);
       this.addAndEditDialogIsShow = true;
     },
-    ptDelClick() {
+    goodsDelClick() {
       this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -341,19 +341,44 @@ export default {
       this.goodsDataModel = Object.assign({}, this.goodsSelectedRows[0]);
       this.goodsAddAndEditDialogIsShow = true;
     },
-    goodsDelClick() {
+    ptDelClick() {
       this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
-      }).then(() => {
-        this.$notify({
-          title: '成功',
-          message: '删除成功',
-          type: 'success',
-          duration: 2000,
+      })
+        .then(() => {
+          let rowIds = [];
+          this.ptSelectedRows.forEach(function(row) {
+            rowIds.push(row.number);
+          });
+          return rowIds;
+        })
+        .then(ids => {
+          if (!ids) {
+            return;
+          }
+          processingTradeAPI.deleteDataList(ids).then(data => {
+            this.ptSelectedRows = [];
+            if (data.status == 1) {
+              this.ptListData = this.ptListData.filter(
+                val => !ids.includes(val.id)
+              );
+              this.ptTotal = this.ptTotal - ids.length;
+              this.$notify.success({
+                title: '成功',
+                message: data.message,
+                duration: 2000,
+              });
+            } else {
+              this.$notify.fail({
+                title: '失败',
+                message: data.message,
+                duration: 2000,
+              });
+            }
+          });
         });
-      });
     },
     ptViewGoodsClick() {
       this.goodsDialogIsShow = true;
@@ -377,13 +402,65 @@ export default {
       });
     },
     addAndEditOkHandler() {
-      this.addAndEditDialogIsShow = false;
-      this.$notify({
-        title: '成功',
-        message: '保存成功',
-        type: 'success',
-        duration: 2000,
-      });
+      let validateForm = () => {
+        return new Promise((resolve, reject) => {
+          this.$refs['ptDataRef'].validate(valid => {
+            if (valid) {
+              return resolve(true);
+            }
+            return reject(false);
+          });
+        });
+      };
+
+      let addForm = () => {
+        return processingTradeAPI.addFormData(this.ptDataModel).then(data => {
+          this.loadProcessingTradeList();
+          return data;
+        });
+      };
+
+      let editForm = () => {
+        return processingTradeAPI.editFormData(this.ptDataModel).then(data => {
+          this.loadProcessingTradeList();
+          return data;
+        });
+      };
+
+      validateForm()
+        .then(() => {
+          if (this.editMode === 1) {
+            return addForm();
+          }
+          if (this.editMode === 2) {
+            return editForm();
+          }
+        })
+        .then(res => {
+          if (res.status === 1) {
+            this.addAndEditDialogIsShow = false;
+            this.$notify({
+              title: '成功',
+              message: res.message,
+              type: 'success',
+              duration: 2000,
+            });
+          } else {
+            this.$notify.error({
+              title: '失败',
+              message: res.message,
+              duration: 2000,
+            });
+          }
+        })
+        .catch(e => {
+          console.log(e);
+          this.$notify.error({
+            title: '输入错误',
+            message: '没有正确填写表单项！',
+            duration: 2000,
+          });
+        });
     },
     goodsAddAndEditOkHandler() {
       this.goodsAddAndEditDialogIsShow = false;

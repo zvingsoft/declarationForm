@@ -47,8 +47,11 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@RequestMapping(path = "processingtrade/{number}", method = RequestMethod.DELETE)
 	public String delete(@PathVariable String number) {
 		ProcessingTrade processingTrade = new ProcessingTrade();
-		processingTrade.setNumber(number);
-		StorageUtil.getInstance().delete(ProcessingTrade.class, processingTrade);
+		System.out.println(number);
+		for (String s : number.split(",")) {
+			processingTrade.setNumber(s);
+			StorageUtil.getInstance().delete(ProcessingTrade.class, processingTrade);
+		}
 		return "删除成功";
 	}
 
