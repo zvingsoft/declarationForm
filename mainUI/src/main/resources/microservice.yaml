@@ -1,6 +1,6 @@
 APPLICATION_ID: declarationForm
 service_description:
-  name: tax
+  name: main
   version: 0.0.1
 cse:
   service:
