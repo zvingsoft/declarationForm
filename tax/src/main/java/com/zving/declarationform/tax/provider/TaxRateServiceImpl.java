@@ -34,7 +34,7 @@ public class TaxRateServiceImpl implements TaxRateService {
 
 	@RequestMapping(path = "taxrate", method = RequestMethod.PUT)
 	public String updateRate(@RequestBody TaxRate rate) {
-		StorageUtil.getInstance().update(TaxRate.class, rate);
+		//StorageUtil.getInstance().update(TaxRate.class, rate);
 		return "更新成功";
 	}
 

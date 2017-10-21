@@ -22,16 +22,18 @@ import io.servicecomb.provider.rest.common.RestSchema;
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
 public class TaxServiceImpl implements TaxService {
 
-	@Override
-	@RequestMapping(path = "compute", method = RequestMethod.POST)
-	public String compute(@RequestBody DeclarationForm form) {
-		return "报关单" + form.SN + "税费：" + System.currentTimeMillis() / 1000000;
-	}
+    @Override
+    @RequestMapping(path = "compute", method = RequestMethod.POST)
+    public String compute(@RequestBody DeclarationForm form) {
+        // return "报关单" + form.SN + "税费：" + System.currentTimeMillis() / 1000000;
+        return "";
+    }
 
-	@Override
-	@RequestMapping(path = "confirm", method = RequestMethod.POST)
-	public String confirm(@RequestBody DeclarationForm form) {
-		return "报关单" + form.SN + "缴税确认";
-	}
+    @Override
+    @RequestMapping(path = "confirm", method = RequestMethod.POST)
+    public String confirm(@RequestBody DeclarationForm form) {
+        // return "报关单" + form.SN + "缴税确认";
+        return "";
+    }
 
 }
