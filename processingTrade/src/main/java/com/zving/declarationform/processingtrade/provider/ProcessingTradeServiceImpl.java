@@ -36,13 +36,16 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@Override
 	@RequestMapping(path = "processingtrade", method = RequestMethod.PUT)
 	public String update(@RequestBody ProcessingTrade processingTrade) {
+		System.out.println(processingTrade.getNumber());
+		System.out.println(processingTrade.getProcessCorp());
+		System.out.println(processingTrade.getCommissionedCorp());
 		StorageUtil.getInstance().update(ProcessingTrade.class, processingTrade);
 		return "更新成功";
 	}
 
 	@Override
 	@RequestMapping(path = "processingtrade/{number}", method = RequestMethod.DELETE)
-	public String delete(@PathVariable("number") String number) {
+	public String delete(@PathVariable String number) {
 		ProcessingTrade processingTrade = new ProcessingTrade();
 		processingTrade.setNumber(number);
 		StorageUtil.getInstance().delete(ProcessingTrade.class, processingTrade);
@@ -51,7 +54,7 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 
 	@Override
 	@RequestMapping(path = "processingtrade/{number}", method = RequestMethod.GET)
-	public ProcessingTrade get(@PathVariable("number") String number) {
+	public ProcessingTrade get(@PathVariable String number) {
 		ProcessingTrade processingTrade = new ProcessingTrade();
 		processingTrade.setNumber(number);
 		return StorageUtil.getInstance().get(ProcessingTrade.class, processingTrade);
