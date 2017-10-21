@@ -100,8 +100,14 @@ public class JSONStorage implements IStorage {
 		return list.stream().filter(item -> {
 			BeanMap map2 = new BeanMap(item);
 			for (Entry<?, ?> e : map1.entrySet()) {
-				if (e.getValue() != null && e.getValue() != map2.get(e.getKey())) {
-					return false;
+				if (e.getValue() == null) {
+					continue;
+				} else {
+					if (e.getValue().equals(map2.get(e.getKey()))) {
+						return false;
+					} else {
+						return true;
+					}
 				}
 			}
 			return true;
@@ -116,10 +122,10 @@ public class JSONStorage implements IStorage {
 	}
 
 	@Override
-	public <T> void update(Class<T> clazz, T bean) {
-		T dest = get(clazz, bean);
+	public <T> void update(Class<T> clazz, T bean, T newBean) {
+		T dest = get(clazz, null);
 		try {
-			BeanUtils.copyProperties(bean, dest);
+			BeanUtils.copyProperties(dest, newBean);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -131,5 +137,4 @@ public class JSONStorage implements IStorage {
 		getList(clazz).remove(bean);
 		write(clazz);
 	}
-
 }

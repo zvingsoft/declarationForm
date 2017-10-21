@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.zving.declarationform.model.ProcessingTrade;
 import com.zving.declarationform.processingtrade.schema.ProcessingTradeService;
+import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 
 import io.servicecomb.provider.rest.common.RestSchema;
@@ -36,22 +37,36 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@Override
 	@RequestMapping(path = "processingtrade", method = RequestMethod.PUT)
 	public String update(@RequestBody ProcessingTrade processingTrade) {
-		StorageUtil.getInstance().update(ProcessingTrade.class, processingTrade);
-		return "更新成功";
+		final IStorage storage = StorageUtil.getInstance();
+		List<ProcessingTrade> processingTrades = storage.find(ProcessingTrade.class, null);
+		for (ProcessingTrade item : processingTrades) {
+			if (processingTrade.getNumber().equals(item.getNumber())) {
+				StorageUtil.getInstance().update(ProcessingTrade.class, item, processingTrade);
+				return "更新成功";
+			}
+		}
+		return "更新失败";
 	}
 
 	@Override
 	@RequestMapping(path = "processingtrade/{number}", method = RequestMethod.DELETE)
-	public String delete(@PathVariable("number") String number) {
-		ProcessingTrade processingTrade = new ProcessingTrade();
-		processingTrade.setNumber(number);
-		StorageUtil.getInstance().delete(ProcessingTrade.class, processingTrade);
+	public String delete(@PathVariable String number) {
+		System.out.println(number);
+		for (String s : number.split(",")) {
+			final IStorage storage = StorageUtil.getInstance();
+			List<ProcessingTrade> processingTrades = storage.find(ProcessingTrade.class, null);
+			for (ProcessingTrade item : processingTrades) {
+				if (item.getNumber().equals(s)) {
+					storage.delete(ProcessingTrade.class, item);
+				}
+			}
+		}
 		return "删除成功";
 	}
 
 	@Override
 	@RequestMapping(path = "processingtrade/{number}", method = RequestMethod.GET)
-	public ProcessingTrade get(@PathVariable("number") String number) {
+	public ProcessingTrade get(@PathVariable String number) {
 		ProcessingTrade processingTrade = new ProcessingTrade();
 		processingTrade.setNumber(number);
 		return StorageUtil.getInstance().get(ProcessingTrade.class, processingTrade);

@@ -13,7 +13,7 @@
 
 <script>
 import licenseAPI from '../api/licenseAPI.js';
-import '../mock/license.js';
+//import '../mock/license.js';
 
 export default {
   data() {
