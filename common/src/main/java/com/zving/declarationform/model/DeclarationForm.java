@@ -1,5 +1,7 @@
 package com.zving.declarationform.model;
 
+import java.util.ArrayList;
+
 /**
  * 报关单
  * 
@@ -55,6 +57,9 @@ public class DeclarationForm {
 	String auditstatus;
 	String auditstatusname;
 	String entrydate;
+
+	ArrayList<Document> documents = new ArrayList<>();// 单证信息
+	ArrayList<PackingItem> packingList = new ArrayList<>();// 装箱清单
 
 	public String getDeclarationtype() {
 		return declarationtype;
@@ -432,5 +437,4 @@ public class DeclarationForm {
 		this.id = id;
 	}
 
-	
 }

@@ -1,27 +1,40 @@
 package com.zving.declarationform.form.schema;
 
+import java.util.List;
+
 import com.zving.declarationform.model.DeclarationForm;
 
 /**
- * @author 王育春
- * @mail wyuch@zving.com
+ * 报关单
+ * 
+ * @author 徐俊豪
+ * @mail xujunhao@zving.com
  * @date 2017年10月18日
  */
 public interface FormService {
+	/**
+	 * 获取报关单列表
+	 */
+	List<DeclarationForm> list();
 
-	String audit(DeclarationForm form);
+	/**
+	 * 获取报关单
+	 */
+	DeclarationForm get(String id);
 
-	String check(DeclarationForm form);
-
-	String pass(DeclarationForm form);
-
-	DeclarationForm[] list();
-
-	DeclarationForm get(long id);
-
-	String delete(long id);
-
+	/**
+	 * 添加报关单
+	 */
 	String add(DeclarationForm form);
 
+	/**
+	 * 更新报关单
+	 */
 	String update(DeclarationForm form);
+
+	/**
+	 * 删除报关单
+	 */
+	String delete(String id);
+
 }

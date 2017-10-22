@@ -4,11 +4,14 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 import com.zving.declarationform.tax.model.TaxRate;
 import com.zving.declarationform.tax.schema.TaxRateService;
@@ -24,37 +27,50 @@ import io.servicecomb.provider.rest.common.RestSchema;
  */
 @RestSchema(schemaId = "taxRate")
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
+@Controller
 public class TaxRateServiceImpl implements TaxRateService {
 
 	@RequestMapping(path = "taxrate", method = RequestMethod.POST)
-	public String addRate(@RequestBody TaxRate rate) {
-//		StorageUtil.getInstance().add(TaxRate.class, rate);
+	@ResponseBody
+	public String add(@RequestBody TaxRate rate) {
+		StorageUtil.getInstance().add(TaxRate.class, rate);
 		return "添加成功";
 	}
 
 	@RequestMapping(path = "taxrate", method = RequestMethod.PUT)
-	public String updateRate(@RequestBody TaxRate rate) {
-		//StorageUtil.getInstance().update(TaxRate.class, rate);
+	@ResponseBody
+	public String update(@RequestBody TaxRate rate) {
+		StorageUtil.getInstance().update(TaxRate.class, get(rate.getSKU()), rate);
 		return "更新成功";
 	}
 
-	@RequestMapping(path = "taxrate/{goodsType}", method = RequestMethod.DELETE)
-	public String deleteRate(@PathVariable("goodsType") String goodsType) {
-		TaxRate rate = new TaxRate();
-		rate.setGoodsType(goodsType);
-		StorageUtil.getInstance().delete(TaxRate.class, rate);
+	@RequestMapping(path = "taxrate/{SKUs}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public String delete(@PathVariable("SKUs") String ids) {
+		String[] strId = ids.split(",");
+		IStorage iStorage = StorageUtil.getInstance();
+		List<TaxRate> list = iStorage.find(TaxRate.class, null);
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = 0; j < strId.length; j++) {
+				if (list.get(i).getSKU().equals(strId[j])) {
+					iStorage.delete(TaxRate.class, list.get(i));
+				}
+			}
+		}
 		return "删除成功";
 	}
 
-	@RequestMapping(path = "taxrate/{goodsType}", method = RequestMethod.GET)
-	public TaxRate getRate(@PathVariable("goodsType") String goodsType) {
+	@RequestMapping(path = "taxrate/{SKU}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public TaxRate get(@PathVariable("SKU") String sku) {
 		TaxRate rate = new TaxRate();
-		rate.setGoodsType(goodsType);
+		rate.setSKU(sku);
 		return StorageUtil.getInstance().get(TaxRate.class, rate);
 	}
 
 	@RequestMapping(path = "taxrate", method = RequestMethod.GET)
-	public List<TaxRate> listRate() {
+	@ResponseBody
+	public List<TaxRate> list() {
 		return StorageUtil.getInstance().find(TaxRate.class, new TaxRate());
 	}
 

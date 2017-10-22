@@ -1,4 +1,4 @@
-package com.zving.declarationform.license;
+package com.zving.declarationform;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,10 +10,10 @@ import io.servicecomb.springboot.starter.provider.EnableServiceComb;
 @SpringBootApplication
 @EnableServiceComb
 @EnableDiscoveryClient
-public class BootLicense {
+public class Boot {
 
 	public static void main(String[] args) throws Exception {
 		Log4jUtils.init();
-		SpringApplication.run(BootLicense.class, args);
+		SpringApplication.run(Boot.class, args);
 	}
 }

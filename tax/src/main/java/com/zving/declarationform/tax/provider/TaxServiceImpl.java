@@ -2,9 +2,11 @@ package com.zving.declarationform.tax.provider;
 
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.tax.schema.TaxService;
@@ -20,20 +22,21 @@ import io.servicecomb.provider.rest.common.RestSchema;
  */
 @RestSchema(schemaId = "tax")
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
+@Controller
 public class TaxServiceImpl implements TaxService {
 
-    @Override
-    @RequestMapping(path = "compute", method = RequestMethod.POST)
-    public String compute(@RequestBody DeclarationForm form) {
-        // return "报关单" + form.SN + "税费：" + System.currentTimeMillis() / 1000000;
-        return "";
-    }
+	@Override
+	@RequestMapping(path = "compute", method = RequestMethod.POST)
+	@ResponseBody
+	public String compute(@RequestBody DeclarationForm form) {
+		return "报关单税费：" + System.currentTimeMillis() / 1000000;
+	}
 
-    @Override
-    @RequestMapping(path = "confirm", method = RequestMethod.POST)
-    public String confirm(@RequestBody DeclarationForm form) {
-        // return "报关单" + form.SN + "缴税确认";
-        return "";
-    }
+	@Override
+	@RequestMapping(path = "confirm", method = RequestMethod.POST)
+	@ResponseBody
+	public String confirm(@RequestBody DeclarationForm form) {
+		return "报关单缴税确认";
+	}
 
 }

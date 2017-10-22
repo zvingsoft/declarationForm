@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.zving.declarationform.model.ProcessingTrade;
+import com.zving.declarationform.processingtrade.model.ProcessingTrade;
 import com.zving.declarationform.processingtrade.schema.ProcessingTradeService;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
@@ -24,11 +25,12 @@ import io.servicecomb.provider.rest.common.RestSchema;
  */
 @Controller
 @RestSchema(schemaId = "processingTrade")
-@RequestMapping(path = "api/", produces = MediaType.APPLICATION_JSON)
+@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
 public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 
 	@Override
 	@RequestMapping(path = "processingtrade", method = RequestMethod.POST)
+	@ResponseBody
 	public String add(@RequestBody ProcessingTrade processingTrade) {
 		StorageUtil.getInstance().add(ProcessingTrade.class, processingTrade);
 		return "添加成功";
@@ -36,27 +38,22 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 
 	@Override
 	@RequestMapping(path = "processingtrade", method = RequestMethod.PUT)
+	@ResponseBody
 	public String update(@RequestBody ProcessingTrade processingTrade) {
-		final IStorage storage = StorageUtil.getInstance();
-		List<ProcessingTrade> processingTrades = storage.find(ProcessingTrade.class, null);
-		for (ProcessingTrade item : processingTrades) {
-			if (processingTrade.getNumber().equals(item.getNumber())) {
-				StorageUtil.getInstance().update(ProcessingTrade.class, item, processingTrade);
-				return "更新成功";
-			}
-		}
+		ProcessingTrade old = get(processingTrade.getId());
+		StorageUtil.getInstance().update(ProcessingTrade.class, old, processingTrade);
 		return "更新失败";
 	}
 
 	@Override
-	@RequestMapping(path = "processingtrade/{number}", method = RequestMethod.DELETE)
-	public String delete(@PathVariable String number) {
-		System.out.println(number);
-		for (String s : number.split(",")) {
+	@RequestMapping(path = "processingtrade/{ids}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public String delete(@PathVariable String ids) {
+		for (String s : ids.split(",")) {
 			final IStorage storage = StorageUtil.getInstance();
 			List<ProcessingTrade> processingTrades = storage.find(ProcessingTrade.class, null);
 			for (ProcessingTrade item : processingTrades) {
-				if (item.getNumber().equals(s)) {
+				if (item.getId() == Long.parseLong(s)) {
 					storage.delete(ProcessingTrade.class, item);
 				}
 			}
@@ -65,17 +62,19 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	@RequestMapping(path = "processingtrade/{number}", method = RequestMethod.GET)
-	public ProcessingTrade get(@PathVariable String number) {
+	@RequestMapping(path = "processingtrade/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public ProcessingTrade get(@PathVariable long id) {
 		ProcessingTrade processingTrade = new ProcessingTrade();
-		processingTrade.setNumber(number);
+		processingTrade.setId(id);
 		return StorageUtil.getInstance().get(ProcessingTrade.class, processingTrade);
 	}
 
 	@Override
-	@RequestMapping(path = "processingtrade/{pageIndex}/{pageSize}", method = RequestMethod.GET)
-	public List<ProcessingTrade> list(@PathVariable String pageIndex, @PathVariable String pageSize) {
-		return StorageUtil.getInstance().find(ProcessingTrade.class, new ProcessingTrade());
+	@RequestMapping(path = "processingtrade", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ProcessingTrade> list() {
+		return StorageUtil.getInstance().find(ProcessingTrade.class, null);
 	}
 
 }

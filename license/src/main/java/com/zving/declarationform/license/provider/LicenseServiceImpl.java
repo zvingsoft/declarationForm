@@ -33,24 +33,28 @@ public class LicenseServiceImpl implements LicenseService {
 
 	@Override
 	@RequestMapping(path = "check/{id}", method = RequestMethod.POST)
+	@ResponseBody
 	public String check(@RequestBody DeclarationForm form) {
 		return null;
 	}
 
 	@Override
 	@RequestMapping(path = "confirm/{id}", method = RequestMethod.POST)
+	@ResponseBody
 	public String confirm(@RequestBody DeclarationForm form) {
 		return null;
 	}
 
 	@Override
 	@RequestMapping(path = "compensate/{id}", method = RequestMethod.POST)
+	@ResponseBody
 	public String compensate(@RequestBody DeclarationForm form) {
 		return null;
 	}
 
 	@Override
 	@RequestMapping(path = "license", method = RequestMethod.POST)
+	@ResponseBody
 	public String add(@RequestBody License license) {
 		license.setId(new Random().nextInt(1000000));
 		StorageUtil.getInstance().add(License.class, license);
@@ -59,6 +63,7 @@ public class LicenseServiceImpl implements LicenseService {
 
 	@Override
 	@RequestMapping(path = "license", method = RequestMethod.PUT)
+	@ResponseBody
 	public String update(@RequestBody License license) {
 		final IStorage storage = StorageUtil.getInstance();
 		List<License> licenses = storage.find(License.class, null);
@@ -73,6 +78,7 @@ public class LicenseServiceImpl implements LicenseService {
 
 	@Override
 	@RequestMapping(path = "license/{id}", method = RequestMethod.DELETE)
+	@ResponseBody
 	public String delete(@PathVariable("id") long id) {
 		final IStorage storage = StorageUtil.getInstance();
 		List<License> licenses = storage.find(License.class, null);
@@ -87,6 +93,7 @@ public class LicenseServiceImpl implements LicenseService {
 
 	@Override
 	@RequestMapping(path = "license/{id}", method = RequestMethod.GET)
+	@ResponseBody
 	public License get(@PathVariable("id") long id) {
 		List<License> licenses = StorageUtil.getInstance().find(License.class, null);
 		for (License license : licenses) {

@@ -15,25 +15,25 @@ public interface TaxRateService {
 	/**
 	 * 添加税率规则
 	 */
-	String addRate(TaxRate rate);
+	String add(TaxRate rate);
 
 	/**
 	 * 修改税率规则
 	 */
-	String updateRate(TaxRate rate);
+	String update(TaxRate rate);
 
 	/**
 	 * 删除税率规则
 	 */
-	String deleteRate(String goodsType);
+	String delete(String goodsType);
 
 	/**
 	 * 获取指定商品类型下的税率规则
 	 */
-	TaxRate getRate(String goodsType);
+	TaxRate get(String goodsType);
 
 	/**
 	 * 获取所有税率规则
 	 */
-	List<TaxRate> listRate();
+	List<TaxRate> list();
 }

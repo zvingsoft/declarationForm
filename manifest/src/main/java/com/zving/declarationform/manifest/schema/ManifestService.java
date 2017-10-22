@@ -1,8 +1,12 @@
 package com.zving.declarationform.manifest.schema;
 
+import java.util.List;
+
 import com.zving.declarationform.manifest.model.Manifest;
 
 /**
+ * 舱单服务
+ * 
  * @author 王育春
  * @mail wyuch@zving.com
  * @date 2017年10月18日
@@ -20,7 +24,7 @@ public interface ManifestService {
 
 	Manifest get(long id);
 
-	String delete(long id);
+	String delete(String ids);
 
-	Manifest[] list();
+	List<Manifest> list();
 }

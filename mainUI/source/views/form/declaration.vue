@@ -22,9 +22,9 @@
         </el-select>
         <el-input style="width:200px" size="small" v-model="searchword"></el-input>
         <!--<el-select size="small" v-model="logic" class="search-select">
-          <el-option v-for="item in logicOptions" :key="item.key" :label="item.value" :value="item.key">
-          </el-option>
-        </el-select>-->
+            <el-option v-for="item in logicOptions" :key="item.key" :label="item.value" :value="item.key">
+            </el-option>
+          </el-select>-->
         <el-button size="small" type="primary" @click="getDeclarationData" style="width:60px;">搜索</el-button>
       </div>
       <el-table :data="declarationData" ref="declarationTable" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange" @expand="expandRow">
@@ -254,7 +254,7 @@
     <el-toolbar>
       <el-button class="z-toolbar-btn" :plain="true" @click="returnMain">
         <i class="fa fa-chevron-left"></i>返回</el-button>
-        <span class="button-separator"></span>
+      <span class="button-separator"></span>
       <el-button class="z-toolbar-btn" :plain="true" @click="confirm">
         <i class="fa fa-save"></i>
         <span v-if="editMode == 1">保存编辑</span>
@@ -265,179 +265,173 @@
       <el-form label-position="right" :model="tmpDeclaration" label-width="160px" class="e-form">
         <div class="form-title">基本信息</div>
         <div class="form-panel">
-        <el-form-item label="报关单类型：">
-          <el-select class="e-input" v-model="tmpDeclaration.declarationtype" placeholder="请选择">
-            <el-option v-for="item in declarationTypeOptions" :key="item.key" :label="item.value" :value="item.key">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="预录入编号：">
-          <el-input class="e-input" v-model="tmpDeclaration.preentrynumber"></el-input>
-        </el-form-item>
-        <el-form-item label="海关编号：">
-          <el-input class="e-input" v-model="tmpDeclaration.customsnumber"></el-input>
-        </el-form-item>
-        <el-form-item v-if="tmpDeclaration.declarationtype == 'import'" label="进口口岸：">
-          <el-input class="e-input" v-model="tmpDeclaration.importorexportport"></el-input>
-        </el-form-item>
-        <el-form-item v-else label="出口口岸：">
-          <el-input class="e-input" v-model="tmpDeclaration.importorexportport"></el-input>
-        </el-form-item>
-        <el-form-item label="备案号：">
-          <el-input class="e-input" v-model="tmpDeclaration.recordnumber"></el-input>
-        </el-form-item>
-        <el-form-item v-if="tmpDeclaration.declarationtype == 'import'" label="进口日期：">
-          <el-date-picker v-model="tmpDeclaration.importorexportdate" type="date" class="e-input" placeholder="选择进口日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item v-else label="出口日期：">
-          <el-date-picker v-model="tmpDeclaration.importorexportdate" type="date" class="e-input" placeholder="选择出口日期">
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item label="申报日期：">
-          <el-date-picker v-model="tmpDeclaration.declarationdate" type="date" class="e-input" placeholder="选择申报日期">
-          </el-date-picker>
-        </el-form-item>
+          <el-form-item label="报关单类型：">
+            <el-select class="e-input" v-model="tmpDeclaration.declarationtype" placeholder="请选择">
+              <el-option v-for="item in declarationTypeOptions" :key="item.key" :label="item.value" :value="item.key">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="预录入编号：">
+            <el-input class="e-input" v-model="tmpDeclaration.preentrynumber"></el-input>
+          </el-form-item>
+          <el-form-item label="海关编号：">
+            <el-input class="e-input" v-model="tmpDeclaration.customsnumber"></el-input>
+          </el-form-item>
+          <el-form-item v-if="tmpDeclaration.declarationtype == 'import'" label="进口口岸：">
+            <el-input class="e-input" v-model="tmpDeclaration.importorexportport"></el-input>
+          </el-form-item>
+          <el-form-item v-if="tmpDeclaration.declarationtype == 'import'" label="进口日期：">
+            <el-date-picker v-model="tmpDeclaration.importorexportdate" type="date" class="e-input" placeholder="选择进口日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item v-else label="出口日期：">
+            <el-date-picker v-model="tmpDeclaration.importorexportdate" type="date" class="e-input" placeholder="选择出口日期">
+            </el-date-picker>
+          </el-form-item>
+          <el-form-item label="申报日期：">
+            <el-date-picker v-model="tmpDeclaration.declarationdate" type="date" class="e-input" placeholder="选择申报日期">
+            </el-date-picker>
+          </el-form-item>
         </div>
         <div class="form-title">单位信息</div>
         <div class="form-panel">
-        <el-form-item label="经营单位：">
-          <el-input class="e-input" v-model="tmpDeclaration.managementunit"></el-input>
-        </el-form-item>
-        <el-form-item label="运输方式：">
-          <el-input class="e-input" v-model="tmpDeclaration.shippingtype"></el-input>
-        </el-form-item>
-        <el-form-item label="运输工具名称：">
-          <el-input class="e-input" v-model="tmpDeclaration.shippingtools"></el-input>
-        </el-form-item>
-        <el-form-item label="提运单号：">
-          <el-input class="e-input" v-model="tmpDeclaration.shippingnumbers"></el-input>
-        </el-form-item>
-        <el-form-item label="收货单位：">
-          <el-input class="e-input" v-model="tmpDeclaration.forwardingunit"></el-input>
-        </el-form-item>
-        <el-form-item label="贸易方式：">
-          <el-input class="e-input" v-model="tmpDeclaration.tradingtype"></el-input>
-        </el-form-item>
-        <el-form-item label="征免性质：">
-          <el-input class="e-input" v-model="tmpDeclaration.exemptionnature"></el-input>
-        </el-form-item>
-        <el-form-item label="征税比例：">
-          <el-input class="e-input" v-model="tmpDeclaration.settlementtype"></el-input>
-        </el-form-item>
+          <el-form-item label="经营单位：">
+            <el-input class="e-input" v-model="tmpDeclaration.managementunit"></el-input>
+          </el-form-item>
+          <el-form-item label="运输方式：">
+            <el-input class="e-input" v-model="tmpDeclaration.shippingtype"></el-input>
+          </el-form-item>
+          <el-form-item label="运输工具名称：">
+            <el-input class="e-input" v-model="tmpDeclaration.shippingtools"></el-input>
+          </el-form-item>
+          <el-form-item label="提运单号：">
+            <el-input class="e-input" v-model="tmpDeclaration.shippingnumbers"></el-input>
+          </el-form-item>
+          <el-form-item label="收货单位：">
+            <el-input class="e-input" v-model="tmpDeclaration.forwardingunit"></el-input>
+          </el-form-item>
+          <el-form-item label="贸易方式：">
+            <el-input class="e-input" v-model="tmpDeclaration.tradingtype"></el-input>
+          </el-form-item>
+          <el-form-item label="征免性质：">
+            <el-input class="e-input" v-model="tmpDeclaration.exemptionnature"></el-input>
+          </el-form-item>
+          <el-form-item label="征税比例：">
+            <el-input class="e-input" v-model="tmpDeclaration.settlementtype"></el-input>
+          </el-form-item>
         </div>
         <div class="form-title">货物信息</div>
         <div class="form-panel">
-        <el-form-item label="许可证号：">
-          <el-input class="e-input" v-model="tmpDeclaration.licensekey"></el-input>
-        </el-form-item>
-        <el-form-item v-if="tmpDeclaration.declarationtype == 'import'" label="启运国：">
-          <el-input class="e-input" v-model="tmpDeclaration.startorarrivalcountry"></el-input>
-        </el-form-item>
-        <el-form-item v-else label="运抵国：">
-          <el-input class="e-input" v-model="tmpDeclaration.startorarrivalcountry"></el-input>
-        </el-form-item>
-        <el-form-item v-if="tmpDeclaration.declarationtype == 'import'" label="装货港：">
-          <el-input class="e-input" v-model="tmpDeclaration.loadingorfingerport"></el-input>
-        </el-form-item>
-        <el-form-item v-else label="指运港：">
-          <el-input class="e-input" v-model="tmpDeclaration.loadingorfingerport"></el-input>
-        </el-form-item>
-        <el-form-item v-if="tmpDeclaration.declarationtype == 'import'" label="境内目的地：">
-          <el-input class="e-input" v-model="tmpDeclaration.destinationorconsignmentplace"></el-input>
-        </el-form-item>
-        <el-form-item v-else label="境内货源地：">
-          <el-input class="e-input" v-model="tmpDeclaration.destinationorconsignmentplace"></el-input>
-        </el-form-item>
-        <el-form-item label="批准文号：">
-          <el-input class="e-input" v-model="tmpDeclaration.approvalnumber"></el-input>
-        </el-form-item>
-        <el-form-item label="成交方式：">
-          <el-input class="e-input" v-model="tmpDeclaration.transactionmethod"></el-input>
-        </el-form-item>
-        <el-form-item label="运费：">
-          <el-input class="e-input" v-model="tmpDeclaration.freight"></el-input>
-        </el-form-item>
-        <el-form-item label="保费：">
-          <el-input class="e-input" v-model="tmpDeclaration.premium"></el-input>
-        </el-form-item>
-        <el-form-item label="杂费：">
-          <el-input class="e-input" v-model="tmpDeclaration.incidental"></el-input>
-        </el-form-item>
-        <el-form-item label="合同协议号：">
-          <el-input class="e-input" v-model="tmpDeclaration.agreementnumber"></el-input>
-        </el-form-item>
-        <el-form-item label="件数：">
-          <el-input class="e-input" v-model="tmpDeclaration.goodsnumber"></el-input>
-        </el-form-item>
-        <el-form-item label="包装种类：">
-          <el-input class="e-input" v-model="tmpDeclaration.packagingtype"></el-input>
-        </el-form-item>
-        <el-form-item label="毛重（千克）：">
-          <el-input class="e-input" v-model="tmpDeclaration.grossweight"></el-input>
-        </el-form-item>
-        <el-form-item label="净重（千克）：">
-          <el-input class="e-input" v-model="tmpDeclaration.netweight"></el-input>
-        </el-form-item>
-        <el-form-item label="集装箱号：">
-          <el-input class="e-input" v-model="tmpDeclaration.containernumber"></el-input>
-        </el-form-item>
-        <el-form-item label="随附单证：">
-          <el-input class="e-input" v-model="tmpDeclaration.documentsattached"></el-input>
-        </el-form-item>
-        <el-form-item v-if="tmpDeclaration.declarationtype == 'import'" label="用途：">
-          <el-input class="e-input" v-model="tmpDeclaration.purposeormanufacturer"></el-input>
-        </el-form-item>
-        <el-form-item v-else label="生产厂家：">
-          <el-input class="e-input" v-model="tmpDeclaration.purposeormanufacturer"></el-input>
-        </el-form-item>
-        <el-form-item label="标记唛码及备注：" style="width:90%">
-          <el-input type="textarea" v-model="tmpDeclaration.shippingmarksandremarks" :rows="3" style="width:450px;"></el-input>
-        </el-form-item>
-        <el-form-item label="税费征收情况：" style="width:90%">
-          <el-input type="textarea" v-model="tmpDeclaration.taxpaidornot" :rows="3" style="width:450px;"></el-input>
-        </el-form-item>
+          <el-form-item label="许可证号：">
+            <el-input class="e-input" v-model="tmpDeclaration.licensekey"></el-input>
+          </el-form-item>
+          <el-form-item v-if="tmpDeclaration.declarationtype == 'import'" label="启运国：">
+            <el-input class="e-input" v-model="tmpDeclaration.startorarrivalcountry"></el-input>
+          </el-form-item>
+          <el-form-item v-else label="运抵国：">
+            <el-input class="e-input" v-model="tmpDeclaration.startorarrivalcountry"></el-input>
+          </el-form-item>
+          <el-form-item v-if="tmpDeclaration.declarationtype == 'import'" label="装货港：">
+            <el-input class="e-input" v-model="tmpDeclaration.loadingorfingerport"></el-input>
+          </el-form-item>
+          <el-form-item v-else label="指运港：">
+            <el-input class="e-input" v-model="tmpDeclaration.loadingorfingerport"></el-input>
+          </el-form-item>
+          <el-form-item v-if="tmpDeclaration.declarationtype == 'import'" label="境内目的地：">
+            <el-input class="e-input" v-model="tmpDeclaration.destinationorconsignmentplace"></el-input>
+          </el-form-item>
+          <el-form-item v-else label="境内货源地：">
+            <el-input class="e-input" v-model="tmpDeclaration.destinationorconsignmentplace"></el-input>
+          </el-form-item>
+          <el-form-item label="批准文号：">
+            <el-input class="e-input" v-model="tmpDeclaration.approvalnumber"></el-input>
+          </el-form-item>
+          <el-form-item label="成交方式：">
+            <el-input class="e-input" v-model="tmpDeclaration.transactionmethod"></el-input>
+          </el-form-item>
+          <el-form-item label="运费：">
+            <el-input class="e-input" v-model="tmpDeclaration.freight"></el-input>
+          </el-form-item>
+          <el-form-item label="保费：">
+            <el-input class="e-input" v-model="tmpDeclaration.premium"></el-input>
+          </el-form-item>
+          <el-form-item label="杂费：">
+            <el-input class="e-input" v-model="tmpDeclaration.incidental"></el-input>
+          </el-form-item>
+          <el-form-item label="合同协议号：">
+            <el-input class="e-input" v-model="tmpDeclaration.agreementnumber"></el-input>
+          </el-form-item>
+          <el-form-item label="件数：">
+            <el-input class="e-input" v-model="tmpDeclaration.goodsnumber"></el-input>
+          </el-form-item>
+          <el-form-item label="包装种类：">
+            <el-input class="e-input" v-model="tmpDeclaration.packagingtype"></el-input>
+          </el-form-item>
+          <el-form-item label="毛重（千克）：">
+            <el-input class="e-input" v-model="tmpDeclaration.grossweight"></el-input>
+          </el-form-item>
+          <el-form-item label="净重（千克）：">
+            <el-input class="e-input" v-model="tmpDeclaration.netweight"></el-input>
+          </el-form-item>
+          <el-form-item label="集装箱号：">
+            <el-input class="e-input" v-model="tmpDeclaration.containernumber"></el-input>
+          </el-form-item>
+          <el-form-item label="随附单证：">
+            <el-input class="e-input" v-model="tmpDeclaration.documentsattached"></el-input>
+          </el-form-item>
+          <el-form-item v-if="tmpDeclaration.declarationtype == 'import'" label="用途：">
+            <el-input class="e-input" v-model="tmpDeclaration.purposeormanufacturer"></el-input>
+          </el-form-item>
+          <el-form-item v-else label="生产厂家：">
+            <el-input class="e-input" v-model="tmpDeclaration.purposeormanufacturer"></el-input>
+          </el-form-item>
+          <el-form-item label="标记唛码及备注：" style="width:90%">
+            <el-input type="textarea" v-model="tmpDeclaration.shippingmarksandremarks" :rows="3" style="width:450px;"></el-input>
+          </el-form-item>
+          <el-form-item label="税费征收情况：" style="width:90%">
+            <el-input type="textarea" v-model="tmpDeclaration.taxpaidornot" :rows="3" style="width:450px;"></el-input>
+          </el-form-item>
         </div>
         <div class="form-title">商品列表</div>
         <div class="packinglist-panel">
-            <div style="height:50px;background-color:#f5f5f5; padding:5px;">
-              <el-button class="z-toolbar-btn" :plain="true" @click="addPackingClick" style="margin-left:10px;">
-                <i class="fa fa-plus"></i>添加</el-button>
-              <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedPackingRow.length === 0" @click="editPackingClick">
-                <i class="fa fa-edit"></i>编辑</el-button>
-              <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedPackingRow.length === 0" @click="deletePackingClick">
-                <i class="fa fa-remove"></i>删除</el-button>
-            </div>
-            <packinglist-table :declarationID="tmpDeclaration.id" :declarationType="tmpDeclaration.declarationtype" @row-click="packingRowClick">
-            </packinglist-table>
+          <div style="height:50px;background-color:#f5f5f5; padding:5px;">
+            <el-button class="z-toolbar-btn" :plain="true" @click="addPackingClick" style="margin-left:10px;">
+              <i class="fa fa-plus"></i>添加</el-button>
+            <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedPackingRow.length === 0" @click="editPackingClick">
+              <i class="fa fa-edit"></i>编辑</el-button>
+            <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedPackingRow.length === 0" @click="deletePackingClick">
+              <i class="fa fa-remove"></i>删除</el-button>
+          </div>
+          <packinglist-table :declarationID="tmpDeclaration.id" :declarationType="tmpDeclaration.declarationtype" @row-click="packingRowClick">
+          </packinglist-table>
         </div>
         <div class="form-title">操作相关</div>
         <div class="form-panel">
-        <el-form-item label="录入员：">
-          <el-input class="e-input" v-model="tmpDeclaration.entryclerk"></el-input>
-        </el-form-item>
-        <el-form-item label="录入单位：">
-          <el-input class="e-input" v-model="tmpDeclaration.entryunit"></el-input>
-        </el-form-item>
-        <el-form-item label="报关员：">
-          <el-input class="e-input" v-model="tmpDeclaration.customsbroker"></el-input>
-        </el-form-item>
-        <el-form-item label="申报单位：">
-          <el-input class="e-input" v-model="tmpDeclaration.declarationunit"></el-input>
-        </el-form-item>
-        <el-form-item label="单位地址：">
-          <el-input class="e-input" v-model="tmpDeclaration.unitaddress"></el-input>
-        </el-form-item>
-        <el-form-item label="邮编：">
-          <el-input class="e-input" v-model="tmpDeclaration.zipcode"></el-input>
-        </el-form-item>
-        <el-form-item label="电话：">
-          <el-input class="e-input" v-model="tmpDeclaration.telephone"></el-input>
-        </el-form-item>
-        <el-form-item label="制填日期：">
-          <el-date-picker v-model="tmpDeclaration.fillingdate" type="date" class="e-input" placeholder="选择制填日期">
-          </el-date-picker>
-        </el-form-item>
+          <el-form-item label="录入员：">
+            <el-input class="e-input" v-model="tmpDeclaration.entryclerk"></el-input>
+          </el-form-item>
+          <el-form-item label="录入单位：">
+            <el-input class="e-input" v-model="tmpDeclaration.entryunit"></el-input>
+          </el-form-item>
+          <el-form-item label="报关员：">
+            <el-input class="e-input" v-model="tmpDeclaration.customsbroker"></el-input>
+          </el-form-item>
+          <el-form-item label="申报单位：">
+            <el-input class="e-input" v-model="tmpDeclaration.declarationunit"></el-input>
+          </el-form-item>
+          <el-form-item label="单位地址：">
+            <el-input class="e-input" v-model="tmpDeclaration.unitaddress"></el-input>
+          </el-form-item>
+          <el-form-item label="邮编：">
+            <el-input class="e-input" v-model="tmpDeclaration.zipcode"></el-input>
+          </el-form-item>
+          <el-form-item label="电话：">
+            <el-input class="e-input" v-model="tmpDeclaration.telephone"></el-input>
+          </el-form-item>
+          <el-form-item label="制填日期：">
+            <el-date-picker v-model="tmpDeclaration.fillingdate" type="date" class="e-input" placeholder="选择制填日期">
+            </el-date-picker>
+          </el-form-item>
         </div>
         <div style="height:100px;"></div>
       </el-form>
@@ -542,11 +536,11 @@ export default {
       this.packingdetailDialogModal = true;
     },
     editPackingClick() {
-      packinglistAPI.getPackingListById(this.selectedPackingRow.id).then(data=>{
+      packinglistAPI.getPackingListById(this.selectedPackingRow.id).then(data => {
         console.log(data);
-      this.editMode = 1;
-      this.tmpPacking = data.data;
-      this.packingdetailDialogModal = true;
+        this.editMode = 1;
+        this.tmpPacking = data.data;
+        this.packingdetailDialogModal = true;
       })
     },
     deletePackingClick() {
@@ -600,8 +594,8 @@ export default {
           this.packingdetailDialogModal = false;
         });
       } else {
-        Vue.set(this.tmpPacking,'id',Math.floor(Math.random()*999999)+1);
-        Vue.set(this.tmpPacking,'declarationid',this.declarationID);
+        Vue.set(this.tmpPacking, 'id', Math.floor(Math.random() * 999999) + 1);
+        Vue.set(this.tmpPacking, 'declarationid', this.declarationID);
         packinglistAPI.addPackingList(this.tmpPacking).then(data => {
           if (data.status == 1) {
             this.$notify({
@@ -629,8 +623,8 @@ export default {
     },
     getDeclarationData() {
       this.dataLoading = true;
-      let obj={
-        "declarationtypename":"出口报关单"
+      let obj = {
+        "declarationtypename": "出口报关单"
       }
       declarationAPI
         .getDeclaration({})
@@ -661,7 +655,7 @@ export default {
       this.tmpDeclaration = {
         declarationtype: 'import',
       };
-      this.declarationID = Math.floor(Math.random()*999999)+1;
+      this.declarationID = Math.floor(Math.random() * 999999) + 1;
       this.declarationDialogmodel = true;
       this.selectedPackingRow = [];
     },
@@ -734,7 +728,7 @@ export default {
           }
         });
       } else {
-        Vue.set(this.tmpDeclaration,'id',this.declarationID);
+        Vue.set(this.tmpDeclaration, 'id', this.declarationID);
         declarationAPI.addDeclaration(this.tmpDeclaration).then(data => {
           if (data.status == 1) {
             this.$notify({
@@ -809,6 +803,7 @@ export default {
   margin-left: 6%;
   padding: 20px 0 5px 0;
 }
+
 .form-panel {
   width: 80%;
   margin-left: 5%;
@@ -817,6 +812,7 @@ export default {
   border-radius: 4px;
   background-color: #fff;
 }
+
 .packinglist-panel {
   width: 80%;
   margin-left: 5%;

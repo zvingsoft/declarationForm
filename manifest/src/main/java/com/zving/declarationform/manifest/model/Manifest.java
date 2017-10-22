@@ -1,5 +1,7 @@
 package com.zving.declarationform.manifest.model;
 
+import java.util.ArrayList;
+
 /**
  * 舱单
  * 
@@ -8,9 +10,10 @@ package com.zving.declarationform.manifest.model;
  * @date 2017年10月18日
  */
 public class Manifest {
-	String location;
-	long id;
-	String status;
+	String location;// 位置
+	long id;// id
+	String status;// 状态，0为未处理，1为己处理
+	ArrayList<ManifestItem> items = new ArrayList<>();
 
 	public String getLocation() {
 		return location;
@@ -34,6 +37,14 @@ public class Manifest {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public ArrayList<ManifestItem> getItems() {
+		return items;
+	}
+
+	public void setItems(ArrayList<ManifestItem> items) {
+		this.items = items;
 	}
 
 }

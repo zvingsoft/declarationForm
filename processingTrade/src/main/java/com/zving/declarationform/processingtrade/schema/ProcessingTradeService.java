@@ -2,7 +2,7 @@ package com.zving.declarationform.processingtrade.schema;
 
 import java.util.List;
 
-import com.zving.declarationform.model.ProcessingTrade;
+import com.zving.declarationform.processingtrade.model.ProcessingTrade;
 
 /**
  * @author zhaochangjin
@@ -11,13 +11,13 @@ import com.zving.declarationform.model.ProcessingTrade;
  */
 public interface ProcessingTradeService {
 
-	String add(ProcessingTrade license);
+	String add(ProcessingTrade processingTrade);
 
 	String update(ProcessingTrade processingTrade);
 
-	String delete(String number);
+	String delete(String ids);
 
-	ProcessingTrade get(String number);
+	ProcessingTrade get(long id);
 
-	List<ProcessingTrade> list(String pageIndex, String pageSize);
+	List<ProcessingTrade> list();
 }

@@ -8,22 +8,40 @@ package com.zving.declarationform.tax.model;
  * @date 2017年10月18日
  */
 public class TaxRate {
-	String goodsType;
-	float rate;
+	String SKU;// 货号
+	String SKUName;// 货号名称，冗余字段
+	double rate;// 税率
+	double exemption;// 免征额
 
-	public String getGoodsType() {
-		return goodsType;
+	public String getSKU() {
+		return SKU;
 	}
 
-	public void setGoodsType(String goodsType) {
-		this.goodsType = goodsType;
+	public void setSKU(String sKU) {
+		SKU = sKU;
 	}
 
-	public float getRate() {
+	public String getSKUName() {
+		return SKUName;
+	}
+
+	public void setSKUName(String sKUName) {
+		SKUName = sKUName;
+	}
+
+	public double getRate() {
 		return rate;
 	}
 
-	public void setRate(float rate) {
+	public void setRate(double rate) {
 		this.rate = rate;
+	}
+
+	public double getExemption() {
+		return exemption;
+	}
+
+	public void setExemption(double exemption) {
+		this.exemption = exemption;
 	}
 }

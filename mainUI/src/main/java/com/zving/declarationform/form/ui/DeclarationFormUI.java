@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import com.zving.declarationform.base.BaseUI;
 import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.model.DeclarationForm;
-import com.zving.declarationform.model.PackingList;
+import com.zving.declarationform.model.PackingItem;
 
 import io.servicecomb.provider.rest.common.RestSchema;
 import io.servicecomb.provider.springmvc.reference.RestTemplateBuilder;
@@ -72,26 +72,26 @@ public class DeclarationFormUI extends BaseUI {
 	public @ResponseBody ResponseDTO getListPacking(@PathVariable("declarationid") String declarationid) {
 		RestTemplate restTemplate = RestTemplateBuilder.create();
 		System.out.println(declarationid);
-		List<PackingList> list = restTemplate.getForObject("cse://form/declaration/packinglist/list/{declarationid}", List.class,declarationid);
+		List<PackingItem> list = restTemplate.getForObject("cse://form/declaration/packinglist/list/{declarationid}", List.class,declarationid);
 		return success("", list, list.size());
 	}
 
 	@RequestMapping(path = "declaration/packinglist/{id}", method = RequestMethod.GET)
 	public @ResponseBody  ResponseDTO getPacking(@PathVariable("id") String id) {
 		RestTemplate restTemplate = RestTemplateBuilder.create();
-		PackingList packinglist = restTemplate.getForObject("cse://form/declaration/packinglist/" + id, PackingList.class);
+		PackingItem packinglist = restTemplate.getForObject("cse://form/declaration/packinglist/" + id, PackingItem.class);
 		return success("",packinglist);
 	}
 
 	@RequestMapping(path = "declaration/packinglist", method = RequestMethod.POST)
-	public @ResponseBody ResponseDTO addPacking(@RequestBody PackingList pacingList) {
+	public @ResponseBody ResponseDTO addPacking(@RequestBody PackingItem pacingList) {
 		RestTemplate restTemplate = RestTemplateBuilder.create();
 		String message=restTemplate.postForObject("cse://form/declaration/packinglist", pacingList, String.class);
 		return success(message);
 	}
 
 	@RequestMapping(path = "declaration/packinglist", method = RequestMethod.PUT)
-	public @ResponseBody  ResponseDTO updatePacking(@RequestBody PackingList pacingList) {
+	public @ResponseBody  ResponseDTO updatePacking(@RequestBody PackingItem pacingList) {
 		RestTemplate restTemplate = RestTemplateBuilder.create();
 		restTemplate.put("cse://form/declaration/packinglist", pacingList, DeclarationForm.class);
 		return success("更新成功");
