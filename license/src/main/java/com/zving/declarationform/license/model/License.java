@@ -1,4 +1,4 @@
-package com.zving.declarationform.model;
+package com.zving.declarationform.license.model;
 
 /**
  * 许可证

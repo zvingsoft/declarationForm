@@ -1,8 +1,5 @@
 package com.zving.declarationform.license.provider;
 
-import io.servicecomb.provider.rest.common.RestSchema;
-import io.servicecomb.swagger.invocation.converter.impl.ConverterCommon;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,20 +9,26 @@ import java.util.Random;
 
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.zving.declarationform.license.model.License;
 import com.zving.declarationform.license.schema.LicenseService;
 import com.zving.declarationform.model.DeclarationForm;
-import com.zving.declarationform.model.License;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 
+import io.servicecomb.provider.rest.common.RestSchema;
+import io.servicecomb.swagger.invocation.converter.impl.ConverterCommon;
+
 @RestSchema(schemaId = "license")
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
+@Controller
 public class LicenseServiceImpl implements LicenseService {
 
 	@Override
@@ -96,6 +99,7 @@ public class LicenseServiceImpl implements LicenseService {
 
 	@Override
 	@RequestMapping(path = "license", method = RequestMethod.GET)
+	@ResponseBody
 	public List<License> list() {
 		return StorageUtil.getInstance().find(License.class, null);
 	}

@@ -2,8 +2,8 @@ package com.zving.declarationform.license.schema;
 
 import java.util.List;
 
+import com.zving.declarationform.license.model.License;
 import com.zving.declarationform.model.DeclarationForm;
-import com.zving.declarationform.model.License;
 
 /**
  * @author 王育春
