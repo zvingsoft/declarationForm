@@ -1,6 +1,13 @@
 const taxAPI = {
-  getTaxData () {
-    return axios.get('/api/taxs').then(res => {
+  getTaxData (taxnum,taxgoodstype,pageSize,pageIndex) {
+    return axios.get('/api/taxs', {
+      params: {
+        taxnum: taxnum,
+        taxgoodstype: taxgoodstype,
+        pageSize:pageSize,
+        pageIndex:pageIndex,
+      }
+    }).then(res => {
       return res.data
     })
   },
@@ -8,7 +15,7 @@ const taxAPI = {
     return axios.post('/api/taxs', tax).then(res => res.data)
   },
   editTax (id, tax) {
-    return axios.put(`/api/taxs/${id}`, tax).then(res => res.data)
+    return axios.put('/api/taxs', tax).then(res => res.data)
   },
   deleteTaxs (ids) {
     let strIds = ids.join(',')

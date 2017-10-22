@@ -45,11 +45,11 @@
             </template>
           </el-table-column>
           <el-table-column prop="taxnum" min-width="20%" label="税号"></el-table-column>
-          <el-table-column prop="taxgoodstype" min-width="35%" label="物品类型"></el-table-column>
+          <el-table-column prop="taxgoodstype" min-width="30%" label="物品类型"></el-table-column>
           <el-table-column prop="unit" min-width="10%" label="单位"></el-table-column>
           <el-table-column prop="taxrate" min-width="10%" label="税率"></el-table-column>
           <el-table-column prop="freemoney" min-width="10%" label="免征额"></el-table-column>
-          <el-table-column prop="modifydate" min-width="15%" label="最后修改"></el-table-column>
+          <el-table-column prop="modifydate" min-width="20%" label="最后修改"></el-table-column>
         </el-table>
       </div>
       <!--分页-->
@@ -91,8 +91,8 @@
 </template>
 
 <script>
-import taxAPI from './api/taxAPI.js'
-import './mock/tax.js'
+import taxAPI from './api/taxAPI.js';
+// import './mock/tax.js';
 
 export default {
   data() {
@@ -108,34 +108,35 @@ export default {
       addOrEdit: 1,
       tmpTax: {},
       taxRules: {
-        taxnum: [
-          { required: true, message: '请输入税号', trigger: 'blur' }
-        ],
-        taxgoodstype: [
-          { required: true, message: '请输入物品类型', trigger: 'blur' }
-        ]
+        taxnum: [{ required: true, message: '请输入税号', trigger: 'blur' }],
+        taxgoodstype: [{ required: true, message: '请输入物品类型', trigger: 'blur' }],
       },
       saveTaxStatus: false,
-      search: { taxnum: '', taxgoodstype: '' }
-    }
+      search: { taxnum: '', taxgoodstype: '' },
+    };
   },
   methods: {
     onSelectionChange(selection) {
       this.selectedRows = selection;
     },
     handleSearchBtn() {
-      this.taxTable = Object.assign([], this.temtaxTable);
-      let temTaxnum = this.search.taxnum;
-      let temTaxGoodsType = this.search.taxgoodstype;
-      if (temTaxnum != '' || temTaxGoodsType != '') {
-        if (temTaxnum != '') {
-          this.taxTable = this.taxTable.filter(val => val.taxnum.indexOf(temTaxnum) != -1);
-
-        }
-        if (temTaxGoodsType != '') {
-          this.taxTable = this.taxTable.filter(val => val.taxgoodstype.indexOf(temTaxGoodsType) != -1);
-        }
-      }
+      this.currentPage=1;
+      this.getTaxData();
+      // this.taxTable = Object.assign([], this.temtaxTable);
+      // let temTaxnum = this.search.taxnum;
+      // let temTaxGoodsType = this.search.taxgoodstype;
+      // if (temTaxnum != '' || temTaxGoodsType != '') {
+      //   if (temTaxnum != '') {
+      //     this.taxTable = this.taxTable.filter(
+      //       val => val.taxnum.indexOf(temTaxnum) != -1
+      //     );
+      //   }
+      //   if (temTaxGoodsType != '') {
+      //     this.taxTable = this.taxTable.filter(
+      //       val => val.taxgoodstype.indexOf(temTaxGoodsType) != -1
+      //     );
+      //   }
+      // }
     },
     sizeChangeHandler(val) {
       this.pageSize = val;
@@ -145,7 +146,12 @@ export default {
     },
     //关闭事件
     closeAddOrEditDialog() {
-      if (!this.tmpTax.taxnum || this.tmpTax.taxnum == '' || !this.tmpTax.taxgoodstype || this.tmpTax.taxgoodstype == '') {
+      if (
+        !this.tmpTax.taxnum ||
+        this.tmpTax.taxnum == '' ||
+        !this.tmpTax.taxgoodstype ||
+        this.tmpTax.taxgoodstype == ''
+      ) {
         this.$refs['taxForm'].resetFields();
       }
       this.showDialog = false;
@@ -171,24 +177,13 @@ export default {
     },
     //新建和编辑时保存
     saveTax() {
-      this.$refs['taxForm'].validate((valid) => {
+      this.$refs['taxForm'].validate(valid => {
         if (valid) {
           this.saveTaxStatus = true;
           if (this.addOrEdit == 1) {
             taxAPI.addTax(this.tmpTax).then(data => {
               if (data.status == 1) {
-                if (this.taxTable.length == 0) {
-                  this.tmpTax.id = this.taxTable.length + 1;
-                } else {
-                  let temArr = Object.assign([], this.taxTable);
-                  temArr.sort(function(a, b) {
-                    return b.id - a.id;
-                  });
-                  this.tmpTax.id = temArr[0].id + 1;
-                }
-                this.tmpTax.modifydate = this.formatDate(new Date(), 'yyyy-MM-dd');
-                this.taxTable.push(this.tmpTax);
-                this.temtaxTable = Object.assign([], this.taxTable);
+                this.getTaxData();
                 this.$message.success(data.message);
               } else {
                 this.$message.error(data.message);
@@ -199,11 +194,13 @@ export default {
           } else if (this.addOrEdit == 2) {
             taxAPI.editTax(this.tmpTax.id, this.tmpTax).then(data => {
               if (data.status == 1) {
-                let index = this.taxTable.findIndex(val => val.id == this.tmpTax.id);
+                let index = this.taxTable.findIndex(
+                  val => val.id == this.tmpTax.id
+                );
                 this.taxTable = [
                   ...this.taxTable.slice(0, index),
                   Object.assign({}, this.tmpTax),
-                  ...this.taxTable.slice(index + 1)
+                  ...this.taxTable.slice(index + 1),
                 ];
                 this.temtaxTable = Object.assign([], this.taxTable);
                 this.$message.success(data.message);
@@ -215,7 +212,7 @@ export default {
             });
           }
         } else {
-          this.$alert("请填写正确选项", "提示");
+          this.$alert('请填写正确选项', '提示');
           return false;
         }
       });
@@ -226,7 +223,7 @@ export default {
         rowIds.push(row.id);
       });
 
-      this.$confirm("确认删除所选的数据?", '提示', {
+      this.$confirm('确认删除所选的数据?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
@@ -235,7 +232,9 @@ export default {
             instance.confirmButtonLoading = true;
             return taxAPI.deleteTaxs(rowIds).then(data => {
               if (data.status == 1) {
-                this.taxTable = this.taxTable.filter(val => !rowIds.includes(val.id));
+                this.taxTable = this.taxTable.filter(
+                  val => !rowIds.includes(val.id)
+                );
                 this.temtaxTable = Object.assign([], this.taxTable);
                 this.$notify({
                   title: '成功',
@@ -252,12 +251,12 @@ export default {
           } else {
             done();
           }
-        }
+        },
       }).catch(() => {
         this.$notify.info({
           title: '取消',
           message: '操作取消！',
-          duration: 2000
+          duration: 2000,
         });
       });
     },
@@ -267,34 +266,38 @@ export default {
         fmt = fmt.replace(
           RegExp.$1,
           (date.getFullYear() + '').substr(4 - RegExp.$1.length)
-        )
+        );
       }
       let o = {
         'M+': date.getMonth() + 1,
         'd+': date.getDate(),
         'h+': date.getHours(),
         'm+': date.getMinutes(),
-        's+': date.getSeconds()
-      }
+        's+': date.getSeconds(),
+      };
       for (let k in o) {
         if (new RegExp(`(${k})`).test(fmt)) {
-          let str = o[k] + ''
+          let str = o[k] + '';
           fmt = fmt.replace(
             RegExp.$1,
             RegExp.$1.length === 1 ? str : ('00' + str).substr(str.length)
-          )
+          );
         }
       }
-      return fmt
+      return fmt;
+    },
+    getTaxData() {
+      taxAPI.getTaxData(this.search.taxnum,this.search.taxgoodstype,this.pageSize,this.currentPage).then(data => {
+        this.taxTable = data.data;
+        this.total=data.total;
+        this.temtaxTable = Object.assign([], this.taxTable);
+      });
     },
   },
   created() {
-    taxAPI.getTaxData().then(data => {
-      this.taxTable = data.data;
-      this.temtaxTable = Object.assign([], this.taxTable);
-    });
-  }
-}
+    this.getTaxData();
+  },
+};
 </script>
 
 <style scoped>
@@ -314,7 +317,6 @@ export default {
   margin-top: 20px;
 }
 
-
 .page-wrap .page {
   float: right;
 }
@@ -322,7 +324,6 @@ export default {
 .search-bar {
   padding-bottom: 10px;
 }
-
 
 .demo-table-expand {
   font-size: 12px;
