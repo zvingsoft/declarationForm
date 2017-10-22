@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zving.declarationform.form.consumer.TaxConsumer;
 import com.zving.declarationform.form.schema.FormService;
 import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.storage.IStorage;
@@ -76,6 +77,11 @@ public class FormServiceImpl implements FormService {
 	@RequestMapping(path = "form", method = RequestMethod.GET)
 	@ResponseBody
 	public List<DeclarationForm> list() {
+		try {
+			TaxConsumer.main(null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		List<DeclarationForm> list = StorageUtil.getInstance().find(DeclarationForm.class, null);
 		return list;
 	}

@@ -104,7 +104,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-		<start-class>com.zving.declarationform.Boot</start-class>
+		<start-class>com.zving.declarationform.BootRiskAnalysis</start-class>
 		<main.basedir>${basedir}/../..</main.basedir>
 	</properties>
 

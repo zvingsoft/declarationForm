@@ -1,18 +1,19 @@
-package com.zving.declarationform.mainui;
+package com.zving.declarationform;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 import io.servicecomb.foundation.common.utils.Log4jUtils;
 import io.servicecomb.springboot.starter.provider.EnableServiceComb;
 
 @SpringBootApplication
 @EnableServiceComb
-public class BootMainUI {
+@EnableDiscoveryClient
+public class BootManifest {
 
 	public static void main(String[] args) throws Exception {
 		Log4jUtils.init();
-		// BeanUtils.init();
-		SpringApplication.run(BootMainUI.class, args);
+		SpringApplication.run(BootManifest.class, args);
 	}
 }

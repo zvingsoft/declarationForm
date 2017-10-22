@@ -10,10 +10,10 @@ import io.servicecomb.springboot.starter.provider.EnableServiceComb;
 @SpringBootApplication
 @EnableServiceComb
 @EnableDiscoveryClient
-public class Boot {
+public class BootLicense {
 
 	public static void main(String[] args) throws Exception {
 		Log4jUtils.init();
-		SpringApplication.run(Boot.class, args);
+		SpringApplication.run(BootLicense.class, args);
 	}
 }
