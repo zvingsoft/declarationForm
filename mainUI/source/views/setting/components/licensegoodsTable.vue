@@ -21,18 +21,6 @@ export default {
       licensegoodsData: [],
     };
   },
-  watch: {
-    declarationID() {
-      licenseAPI.getLicenseGoods(this.licenseID).then(data => {
-        this.licensegoodsData = data.data;
-      });
-    },
-  },
-  mounted() {
-    licenseAPI.getLicenseGoods(this.licenseID).then(data => {
-      this.licensegoodsData = data.data;
-    });
-  },
   methods: {
     rowClick(row) {
       this.$emit('row-click', row);
