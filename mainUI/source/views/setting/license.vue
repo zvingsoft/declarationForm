@@ -159,7 +159,7 @@
           <el-input type="text" v-model="outLicenseModel.companyName" auto-complete="off" style="width:350px"></el-input>
         </el-form-item>
         <el-form-item label="发货人" prop="consignor">
-          <el-input type="text" v-model="outLicenseModel.consignee" auto-complete="off" style="width:350px"></el-input>
+          <el-input type="text" v-model="outLicenseModel.consignor" auto-complete="off" style="width:350px"></el-input>
         </el-form-item>
         <el-form-item label="许可证号" prop="licenseKey">
           <el-input type="text" v-model="outLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
