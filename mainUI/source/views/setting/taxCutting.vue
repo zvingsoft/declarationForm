@@ -104,7 +104,7 @@
           </el-select>
         </el-form-item>
         <el-form-item  label="货号：">
-         <el-input v-model="tmpTaxCutting.sku" style="width:215px;" ></el-input>
+         <el-input v-model="tmpTaxCutting.sku" style="width:215px;" :readonly="true"></el-input>
          <el-button @click="addGoodsClick">添加</el-button>
         </el-form-item>
         <el-form-item label="减免数量上限：">
@@ -455,11 +455,19 @@ export default {
       },
       //起始时间格式转换事件
       dateStartTimeChangeClick() {
-        this.searchTaxCutting.startTime = this.formatDate(new Date(this.searchTaxCutting.startTime), 'yyyy-MM-dd');
+        if (this.searchTaxCutting.startTime) {
+          this.searchTaxCutting.startTime = this.formatDate(new Date(this.searchTaxCutting.startTime), 'yyyy-MM-dd');
+        } else {
+          this.searchTaxCutting.startTime = '';
+        }
       },
       //截止时间格式转换事件
       dateEndTimeChangeClick() {
-        this.searchTaxCutting.endTime = this.formatDate(new Date(this.searchTaxCutting.endTime), 'yyyy-MM-dd');
+        if (this.searchTaxCutting.endTime) {
+          this.searchTaxCutting.endTime = this.formatDate(new Date(this.searchTaxCutting.endTime), 'yyyy-MM-dd');
+        } else {
+           this.searchTaxCutting.endTime = '';
+        }
       },
       //有效期
       dateStartDateChangeClick() {
