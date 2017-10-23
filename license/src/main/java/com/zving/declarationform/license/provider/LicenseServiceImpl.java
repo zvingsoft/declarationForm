@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zving.declarationform.license.exception.LicenseOptionFailedException;
 import com.zving.declarationform.license.model.License;
 import com.zving.declarationform.license.schema.LicenseService;
 import com.zving.declarationform.model.DeclarationForm;
@@ -40,14 +41,46 @@ public class LicenseServiceImpl implements LicenseService {
 	@RequestMapping(path = "confirm", method = RequestMethod.POST)
 	@ResponseBody
 	public String confirm(@RequestBody DeclarationForm form) {
+		String licenseKey = form.getLicenseKey();
+		try {
+			double count = Double.parseDouble(form.getGoodsNumber());
+			List<License> licenses = list();
+			for (License license : licenses) {
+				if (license.getLicenseKey().equals(licenseKey)) {
+					if (license.getCount() >= count) {
+						license.setCount(license.getCount() - count);
+						update(license);
+						return "confirm成功：license";
+					} else {
+						throw new LicenseOptionFailedException();
+					}
+				}
+			}
+		} catch (NumberFormatException e) {
+			throw new LicenseOptionFailedException();
+		}
 		return "confirm成功：license";
 	}
 
 	@Override
-	@RequestMapping(path = "compensate/{id}", method = RequestMethod.POST)
+	@RequestMapping(path = "compensate", method = RequestMethod.POST)
 	@ResponseBody
 	public String compensate(@RequestBody DeclarationForm form) {
-		return null;
+		String licenseKey = form.getLicenseKey();
+		try {
+			double count = Double.parseDouble(form.getGoodsNumber());
+			List<License> licenses = list();
+			for (License license : licenses) {
+				if (license.getLicenseKey().equals(licenseKey)) {
+					license.setCount(license.getCount() + count);
+					update(license);
+					return "compensate成功：license";
+				}
+			}
+		} catch (NumberFormatException e) {
+			throw new LicenseOptionFailedException();
+		}
+		return "compensate成功：license";
 	}
 
 	@Override
