@@ -15,13 +15,13 @@
       <!-- 搜索工具条 -->
       <div class="search-bar fr">
         &nbsp; &nbsp;货号:
-        <el-input type="text" size="small" style="width: 150px;"></el-input>
+        <el-input type="text" v-model="searchModel.sku" size="small" style="width: 150px;"></el-input>
         &nbsp; &nbsp;接单企业:
-        <el-input type="text" size="small" style="width: 150px;"></el-input>
+        <el-input type="text" v-model="searchModel.processCompanyName" size="small" style="width: 150px;"></el-input>
         &nbsp; &nbsp;委托企业:
-        <el-input type="text" size="small" style="width: 150px;"></el-input>
+        <el-input type="text" v-model="searchModel.commissionedCompnayName" size="small" style="width: 150px;"></el-input>
         &nbsp; &nbsp;
-        <el-button @click="apSearch" type="primary" size="small" style="width: 60px;">搜索</el-button>
+        <el-button @click="loadProcessingTradeList" type="primary" size="small" style="width: 60px;">搜索</el-button>
       </div>
       <!-- 列表 -->
       <el-table class="content-table" ref="ptListTable" highlight-current-row :data="ptListData" tooltip-effect="dark" @selection-change="ptOnSelectionChange">
@@ -29,26 +29,26 @@
         <el-table-column type="expand">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand" label-width="80px">
-              <el-form-item label="货号" style="">
+              <el-form-item label="货号" style="width:50%">
                 <span>{{props.row.sku}}</span>
               </el-form-item>
               <el-form-item label="限额">
                 <span>{{props.row.amount}}</span>
               </el-form-item>
-              <el-form-item label="己用量" style="">
+              <el-form-item label="己用量" style="width:50%">
                 <span>{{props.row.used}}</span>
               </el-form-item>
               <el-form-item label="接单企业ID" style="">
                 <span>{{props.row.processCompany}}</span>
               </el-form-item>
-              <el-form-item label="接单企业名称" style="">
+              <el-form-item label="接单企业" style="width:50%">
                 <span>{{props.row.processCompanyName}}</span>
               </el-form-item>
-              <el-form-item label="委托企业名称" style="">
+              <el-form-item label="委托企业" style="">
                 <span>{{props.row.commissionedCompnayName}}</span>
               </el-form-item>
 
-              <el-form-item label="合同备案" style="">
+              <el-form-item label="合同备案" style="width:50%">
                 <span>
                   <el-button @click.native.prevent="contractFileView" type="text">
                     查看文件
@@ -62,7 +62,7 @@
                   </el-button>
                 </span>
               </el-form-item>
-              <el-form-item label="报关单" style="">
+              <el-form-item label="报关单" style="width:50%">
                 <span>
                   <el-button @click.native.prevent="feclarationFileView" type="text">
                     查看文件
@@ -76,8 +76,8 @@
         <el-table-column prop="amount" label="限额" width=""></el-table-column>
         <el-table-column prop="used" label="己用量" width=""></el-table-column>
         <el-table-column prop="processCompany" label="接单企业ID" width=""></el-table-column>
-        <el-table-column prop="processCompanyName" label="接单企业名称" width=""></el-table-column>
-        <el-table-column prop="commissionedCompnayName" label="委托企业名称" width=""></el-table-column>
+        <el-table-column prop="processCompanyName" label="接单企业" width=""></el-table-column>
+        <el-table-column prop="commissionedCompnayName" label="委托企业" width=""></el-table-column>
 
         <el-table-column label="合同备案" width="">
           <template slot-scope="scope">
@@ -120,11 +120,16 @@
         <el-form-item label="接单企业ID" prop="processCompany">
           <el-input type="text" v-model="ptDataModel.processCompany" auto-complete="off" style="width:85%"></el-input>
         </el-form-item>
-        <el-form-item label="接单企业名称" prop="processCompanyName">
+        <el-form-item label="接单企业" prop="processCompanyName">
           <el-input type="text" v-model="ptDataModel.processCompanyName" auto-complete="off" style="width:85%"></el-input>
         </el-form-item>
-        <el-form-item label="委托企业名称" prop="commissionedCompnayName">
+        <el-form-item label="委托企业" prop="commissionedCompnayName">
           <el-input type="text" v-model="ptDataModel.commissionedCompnayName" auto-complete="off" style="width:85%"></el-input>
+        </el-form-item>
+        <el-form-item label="商品">
+          <el-button @click.native.prevent="ptViewGoodsClick">
+            编辑商品
+          </el-button>
         </el-form-item>
         <el-form-item label="合同备案" prop="contract" v-show="editMode===1">
           <el-upload :on-success="onUploadSuccess" class="upload-file" action="" :multiple="false" :file-list="fileList">
@@ -141,17 +146,17 @@
             <el-button size="small" type="primary">点击上传</el-button>
           </el-upload>
         </el-form-item>
-        <el-form-item label="合同备案" prop="contract" v-show="editMode===2">
+        <el-form-item label="合同备案" v-show="editMode===2">
           <el-button @click.native.prevent="contractFileView">
             查看文件
           </el-button>
         </el-form-item>
-        <el-form-item label="料件备案" prop="material" v-show="editMode===2">
+        <el-form-item label="料件备案" v-show="editMode===2">
           <el-button @click.native.prevent="materialFileView">
             查看文件
           </el-button>
         </el-form-item>
-        <el-form-item label="报关单" prop="feclaration" v-show="editMode===2">
+        <el-form-item label="报关单" v-show="editMode===2">
           <el-button @click.native.prevent="feclarationFileView">
             查看文件
           </el-button>
@@ -163,34 +168,22 @@
       </div>
     </el-dialog>
     <!-- 商品新建、编辑框 -->
-    <el-dialog :title="goodsEditMode===1?'新建':'编辑'" :visible.sync="goodsAddAndEditDialogIsShow">
-      <el-form :model="goodsDataModel" :rules="goodsDataRules" ref="goodsDataRef" label-width="160px" style="height:400px;overflow-y:scroll;overflow-x:hidden;">
-        <el-form-item label="项号" prop="itemNum">
-          <el-input type="text" v-model="goodsDataModel.itemNum" auto-complete="off" style="width:85%"></el-input>
+    <el-dialog :title="goodsEditMode===1?'添加商品':'编辑商品'" :visible.sync="goodsAddAndEditDialogIsShow">
+      <el-form :model="goodsDataModel" :rules="goodsDataRules" ref="goodsDataRef" label-width="160px">
+        <el-form-item label="编号" prop="sn">
+          <el-input type="text" v-model="goodsDataModel.sn" auto-complete="off" style="width:85%"></el-input>
         </el-form-item>
-        <el-form-item label="商品编号" prop="productNum">
-          <el-input type="text" v-model="goodsDataModel.productNum" auto-complete="off" style="width:85%"></el-input>
+        <el-form-item label="商品类型" prop="goodsType">
+          <el-input type="text" v-model="goodsDataModel.goodsType" auto-complete="off" style="width:85%"></el-input>
         </el-form-item>
-        <el-form-item label="商品名称、规格型号" prop="nameAndSpecifications">
-          <el-input type="text" v-model="goodsDataModel.nameAndSpecifications" auto-complete="off" style="width:85%"></el-input>
+        <el-form-item label="商品名称" prop="name">
+          <el-input type="text" v-model="goodsDataModel.name" auto-complete="off" style="width:85%"></el-input>
         </el-form-item>
-        <el-form-item label="数量及单位" prop="quantityAndUnit">
-          <el-input type="text" v-model="goodsDataModel.quantityAndUnit" auto-complete="off" style="width:85%"></el-input>
+        <el-form-item label="商品规格" prop="spec">
+          <el-input type="text" v-model="goodsDataModel.spec" auto-complete="off" style="width:85%"></el-input>
         </el-form-item>
-        <el-form-item label="原产国(地区)" prop="originCountry">
-          <el-input type="text" v-model="goodsDataModel.originCountry" auto-complete="off" style="width:85%"></el-input>
-        </el-form-item>
-        <el-form-item label="单价" prop="unitPrice">
-          <el-input type="text" v-model="goodsDataModel.unitPrice" auto-complete="off" style="width:85%"></el-input>
-        </el-form-item>
-        <el-form-item label="总价" prop="totalPrice">
-          <el-input type="text" v-model="goodsDataModel.totalPrice" auto-complete="off" style="width:85%"></el-input>
-        </el-form-item>
-        <el-form-item label="币制" prop="currency">
-          <el-input type="text" v-model="goodsDataModel.currency" auto-complete="off" style="width:85%"></el-input>
-        </el-form-item>
-        <el-form-item label="征免" prop="levy">
-          <el-input type="text" v-model="goodsDataModel.levy" auto-complete="off" style="width:85%"></el-input>
+        <el-form-item label="商品单位" prop="unit">
+          <el-input type="text" v-model="goodsDataModel.unit" auto-complete="off" style="width:85%"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -199,8 +192,8 @@
       </div>
     </el-dialog>
     <!-- 文件查看框 -->
-    <el-dialog :title="'文件查看'" :visible.sync="fileDialogIsShow">
-      <img src="http://www.qingshengjiuye.com/UploadFiles/201610271722212414737.jpg" :style="{height:1205+'px',overflowY:'scroll',overflowX:'hidden', paddingRight:'15px'}">
+    <el-dialog :title="'文件查看'" :visible.sync="fileDialogIsShow" class="file-dialog">
+      <img src="http://www.qingshengjiuye.com/UploadFiles/201610271722212414737.jpg" :style="{height:900+'px',overflowY:'scroll',overflowX:'hidden', paddingRight:'15px'}">
       <div slot="footer ">
         <el-button @click="fileDialogIsShow=false">取 消</el-button>
         <el-button type="primary " @click="fileViewOkHandler">确 定</el-button>
@@ -220,15 +213,20 @@
       <div class="main-content-wrap">
         <el-table ref="goodsListTable" highlight-current-row :data="goodsListData" tooltip-effect="dark" @selection-change="goodsOnSelectionChange">
           <el-table-column type="selection" width="55" align="center"></el-table-column>
-          <el-table-column min-width="4%" label="项号" prop="itemNum"></el-table-column>
-          <el-table-column min-width="8%" label="商品编号" prop="productNum"></el-table-column>
-          <el-table-column min-width="20%" label="商品名称、规格型号" prop="nameAndSpecifications"></el-table-column>
-          <el-table-column min-width="15%" label="数量及单位" prop="quantityAndUnit"></el-table-column>
-          <el-table-column min-width="5%" label="原产国(地区)" prop="originCountry"></el-table-column>
-          <el-table-column min-width="5%" label="单价" prop="unitPrice"></el-table-column>
-          <el-table-column min-width="5%" label="总价" prop="totalPrice"></el-table-column>
-          <el-table-column min-width="5%" label="币制" prop="currency"></el-table-column>
-          <el-table-column min-width="5%" label="征免" prop="levy"></el-table-column>
+          <el-table-column min-width="4%" label="编号" prop="sn"></el-table-column>
+          <el-table-column min-width="4%" label="商品类型" prop="goodsType"></el-table-column>
+          <el-table-column min-width="4%" label="商品名称" prop="name"></el-table-column>
+          <el-table-column min-width="4%" label="商品规格" prop="spec"></el-table-column>
+          <el-table-column min-width="4%" label="商品单位" prop="unit"></el-table-column>
+          <!-- <el-table-column min-width="4%" label="项号" prop="itemNum"></el-table-column> -->
+          <!-- <el-table-column min-width="8%" label="商品编号" prop="productNum"></el-table-column> -->
+          <!-- <el-table-column min-width="20%" label="商品名称、规格型号" prop="nameAndSpecifications"></el-table-column> -->
+          <!-- <el-table-column min-width="15%" label="数量及单位" prop="quantityAndUnit"></el-table-column> -->
+          <!-- <el-table-column min-width="5%" label="原产国(地区)" prop="originCountry"></el-table-column> -->
+          <!-- <el-table-column min-width="5%" label="单价" prop="unitPrice"></el-table-column> -->
+          <!-- <el-table-column min-width="5%" label="总价" prop="totalPrice"></el-table-column> -->
+          <!-- <el-table-column min-width="5%" label="币制" prop="currency"></el-table-column> -->
+          <!-- <el-table-column min-width="5%" label="征免" prop="levy"></el-table-column> -->
         </el-table>
       </div>
       <div slot="footer">
@@ -269,24 +267,20 @@ export default {
         commissionedCompnayName: '',
       },
       goodsDataModel: {
-        itemNum: '',
-        productNum: '',
-        nameAndSpecifications: '',
-        quantityAndUnit: '',
-        originCountry: '',
-        unitPrice: '',
-        totalPrice: '',
-        currency: '',
-        levy: '',
+        sn: '',
+        goodsType: '',
+        name: '',
+        spec: '',
+        unit: '',
+      },
+      searchModel: {
+        sku: '',
+        processCompanyName: '',
+        commissionedCompnayName: '',
       },
       goodsListData: [],
       ptDataRules: {
         sku: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
-        amount: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
-        used: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
-        processCompany: [
-          { required: true, message: '该项不能为空', trigger: 'blur' },
-        ],
         processCompanyName: [
           { required: true, message: '该项不能为空', trigger: 'blur' },
         ],
@@ -323,11 +317,38 @@ export default {
         .getProcessingTradeList(this.ptCurrentPage, this.ptPageSize)
         .then(data => {
           this.ptListData = data;
+          if (this.searchModel.sku !== '') {
+            this.ptListData = this.ptListData.filter(
+              val => val.sku.indexOf(this.searchModel.sku) != -1
+            );
+          }
+          if (this.searchModel.processCompanyName !== '') {
+            this.ptListData = this.ptListData.filter(
+              val =>
+                val.processCompanyName.indexOf(
+                  this.searchModel.processCompanyName
+                ) != -1
+            );
+          }
+          if (this.searchModel.commissionedCompnayName !== '') {
+            this.ptListData = this.ptListData.filter(
+              val =>
+                val.commissionedCompnayName.indexOf(
+                  this.searchModel.commissionedCompnayName
+                ) != -1
+            );
+          }
+          this.ptListData = this.ptListData.slice(
+            (this.ptCurrentPage - 1) * this.ptPageSize,
+            this.ptPageSize * this.ptCurrentPage
+          );
+          this.ptTotal = this.ptListData.length;
         });
     },
     loadGoodsList() {
       processingTradeAPI.getGoodsList().then(data => {
         this.goodsListData = data;
+        this.goodsTotal = data.length;
       });
     },
     ptAddClick() {
@@ -402,8 +423,7 @@ export default {
                 message: '删除成功',
                 duration: 2000,
               });
-            }
-            else {
+            } else {
               this.$notify.fail({
                 title: '失败',
                 message: '删除失败',
@@ -546,5 +566,9 @@ export default {
 
 .main-content-wrap {
   padding: 10px;
+}
+
+.file-dialog {
+  text-align: center;
 }
 </style>
