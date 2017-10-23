@@ -264,6 +264,7 @@ export default {
         })
       }
     },
+
     beforeDialogOpen() {
       this.loadCompany();
       if (!this.SKUData.length > 0) {
