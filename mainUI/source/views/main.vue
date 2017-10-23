@@ -6,7 +6,7 @@
           <i class="fa fa-align-justify"></i>
         </el-button>
         <a class="logo">
-          <img src="assets/images/logo_zh-cn.png" height="48"/>海关通关系统 <sup> demo</sup>
+          <img src="assets/images/logo_zh-cn.png" height="48"/>
         </a>
       </div>
       <div class="other-buttons">
