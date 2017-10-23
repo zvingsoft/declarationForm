@@ -19,6 +19,8 @@ zuul:
       serviceId: cottonQuota
     processingTrade:
       serviceId: processingTrade
+    baseData:
+      serviceId: baseData
 
 # disable netflix eurkea since it's not used for service discovery
 ribbon:

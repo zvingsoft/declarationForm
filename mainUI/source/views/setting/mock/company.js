@@ -1,3 +1,8 @@
+import axios from 'axios'
+import AxiosMockAdapter from 'axios-mock-adapter'
+window.axiosMock =
+  window.axiosMock || new AxiosMockAdapter(axios, { delayResponse: 10 })
+
 var companys = {
   data: [
     {

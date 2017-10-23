@@ -58,8 +58,8 @@ public class DeclarationForm {
 	String auditStatusName;
 	String entryDate;
 
-	ArrayList<Document> documents = new ArrayList<>();// 单证信息
-	ArrayList<PackingItem> packingList = new ArrayList<>();// 装箱清单
+	ArrayList<Document> documents;// 单证信息
+	ArrayList<PackingItem> packingList;// 装箱清单
 
 
 	public String getId() {
