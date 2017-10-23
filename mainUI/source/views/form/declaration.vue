@@ -150,8 +150,8 @@
                 <span>{{props.row.shippingMarksAndRemarks}}</span>
               </el-form-item>
               <el-form-item label="商品：" label-width="60px" style="width:100%">
-                <packinglist-table :declarationID="declarationID" :declarationType="declarationType">
-                </packinglist-table>
+                <packing-item :packinglistData.sync="packingListData" :declarationType="declarationType" :onlyView="true">
+                </packing-item>
               </el-form-item>
               <el-form-item label="税费征收情况：" style="width:90%">
                 <span>{{props.row.taxpaidOrNot}}</span>
@@ -186,7 +186,7 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="customsNumber" show-overflow-tooltip min-width="20%" label="海关111编号"></el-table-column>
+        <el-table-column prop="customsNumber" show-overflow-tooltip min-width="20%" label="海关编号"></el-table-column>
         <el-table-column prop="declarationTypeName" show-overflow-tooltip min-width="20%" label="报关单类型"></el-table-column>
         <el-table-column prop="importOrExportPort" show-overflow-tooltip min-width="20%" label="海关口岸"></el-table-column>
         <el-table-column min-width="20%" label="商品详情">
@@ -209,38 +209,7 @@
       <packing-item :packinglistData.sync="packingListData" :declarationType="declarationType" :onlyView="true">
           </packing-item>
     </el-dialog>
-    <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false">
-      <el-form label-position="right" :model="tmpPacking" inline label-width="200px">
-        <el-form-item label="商品名称、规格型号：">
-          <el-input class="e-input" type="textarea" :rows="3" v-model="tmpPacking.name"></el-input>
-        </el-form-item>
-        <el-form-item label="数量及单位：">
-          <el-input class="e-input" v-model="tmpPacking.number"></el-input>
-        </el-form-item>
-        <el-form-item label="单价：">
-          <el-input class="e-input" v-model="tmpPacking.singleprice"></el-input>
-        </el-form-item>
-        <el-form-item label="总价：">
-          <el-input class="e-input" v-model="tmpPacking.totalprice"></el-input>
-        </el-form-item>
-        <el-form-item v-if="this.declarationType == 'import'" label="原产国：">
-          <el-input class="e-input" v-model="tmpPacking.productcountry"></el-input>
-        </el-form-item>
-        <el-form-item v-else label="最终目的国：">
-          <el-input class="e-input" v-model="tmpPacking.productcountry"></el-input>
-        </el-form-item>
-        <el-form-item label="币制：">
-          <el-input class="e-input" v-model="tmpPacking.currency"></el-input>
-        </el-form-item>
-        <el-form-item label="征免：">
-          <el-input class="e-input" v-model="tmpPacking.exemption"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer">
-        <el-button @click="packingdetailDialogModal = false">取 消</el-button>
-        <el-button type="primary" @click="packingdetailConfirm">确 定</el-button>
-      </div>
-    </el-dialog>
+
   </div>
   <div v-else>
     <el-toolbar>
@@ -420,38 +389,6 @@
         <div style="height:100px;"></div>
       </el-form>
     </div>
-    <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false">
-      <el-form label-position="right" :model="tmpPacking" inline label-width="200px">
-        <el-form-item label="商品名称、规格型号：">
-          <el-input class="e-input" type="textarea" :rows="3" v-model="tmpPacking.name"></el-input>
-        </el-form-item>
-        <el-form-item label="数量及单位：">
-          <el-input class="e-input" v-model="tmpPacking.number"></el-input>
-        </el-form-item>
-        <el-form-item label="单价：">
-          <el-input class="e-input" v-model="tmpPacking.singleprice"></el-input>
-        </el-form-item>
-        <el-form-item label="总价：">
-          <el-input class="e-input" v-model="tmpPacking.totalprice"></el-input>
-        </el-form-item>
-        <el-form-item v-if="this.declarationType == 'import'" label="原产国：">
-          <el-input class="e-input" v-model="tmpPacking.productcountry"></el-input>
-        </el-form-item>
-        <el-form-item v-else label="最终目的国：">
-          <el-input class="e-input" v-model="tmpPacking.productcountry"></el-input>
-        </el-form-item>
-        <el-form-item label="币制：">
-          <el-input class="e-input" v-model="tmpPacking.currency"></el-input>
-        </el-form-item>
-        <el-form-item label="征免：">
-          <el-input class="e-input" v-model="tmpPacking.exemption"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer">
-        <el-button @click="packingdetailDialogModal = false">取 消</el-button>
-        <el-button type="primary" @click="packingdetailConfirm">确 定</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -464,7 +401,7 @@ import packing from './components/packing.vue';
 export default {
   data() {
     return {
-      packingListData:[],
+      packingListData: [],
       tmpPacking: {},
       packingdetailDialogModal: false,
       packinglistDialogModal: false,
@@ -511,14 +448,14 @@ export default {
         { key: 'and', value: '与' },
         { key: 'or', value: '或' },
         { key: 'none', value: '非' },
-      ],
+      ]
     };
   },
   methods: {
     showPackinglist(packingList, type) {
       console.log(packingList);
       console.log(type);
-      this.packingListData=packingList;
+      this.packingListData = packingList;
       this.declarationType = type;
       this.selectedPackingRow = [];
       this.packinglistDialogModal = true;
@@ -548,12 +485,13 @@ export default {
     },
     expandRow(row) {
       this.declarationType = row.declarationType;
-      this.declarationID = row.id;
+      this.packingListData = row.packingList;
     },
     addClick() {
       this.editMode = 0;
       this.tmpDeclaration = {
         declarationType: 'import',
+        packingList: [],
       };
       this.declarationID = Math.floor(Math.random() * 999999) + 1;
       this.declarationDialogmodel = true;

@@ -4,14 +4,18 @@ import io.servicecomb.provider.rest.common.RestSchema;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.core.MediaType;
+
+import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.license.model.License;
@@ -99,9 +103,27 @@ public class LicenseServiceImpl implements LicenseService {
 	}
 
 	@Override
-	@RequestMapping(path = "license", method = RequestMethod.GET)
-	@ResponseBody
 	public List<License> list() {
 		return StorageUtil.getInstance().find(License.class, null);
+	}
+
+	@RequestMapping(path = "license", method = RequestMethod.GET)
+	@ResponseBody
+	public List<License> searchList(@RequestParam(value = "search", defaultValue = "{}", required = false) String search) {
+		JSONObject jo = JSONObject.fromObject(search);
+		String type = "in";
+		if (jo.containsKey("type")) {
+			type = jo.getString("type");
+		}
+		final String t = type;
+		List<License> list = list();
+		list = list.stream().filter(item -> {
+			if (item.getType().equals(t)) {
+				return true;
+			} else {
+				return false;
+			}
+		}).collect(Collectors.toList());
+		return list;
 	}
 }

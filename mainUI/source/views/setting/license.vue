@@ -156,10 +156,10 @@
     <el-dialog :title="outeditMode===1?'添加出口许可证':'编辑出口许可证'" :visible.sync="outLicenseShow"  size="large" >
       <el-form :model="outLicenseModel" :rules="outLicenseRules" inline ref="outLicenseRef" label-width="140px" style="height:400px;overflow-y:scroll;overflow-x:hidden;">
         <el-form-item label="出口商" prop="companyName">
-          <el-input type="text" v-model="outLicenseModel.companyName" auto-complete="off" style="width:350px"></el-input>
+          <el-input type="text" v-model="outLicenseModel.companyName" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="发货人" prop="consignor">
-          <el-input type="text" v-model="outLicenseModel.consignor" auto-complete="off" style="width:350px"></el-input>
+          <el-input type="text" v-model="outLicenseModel.consignor" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="许可证号" prop="licenseKey">
           <el-input type="text" v-model="outLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
@@ -170,8 +170,8 @@
         <el-form-item label="进口国" prop="importedCountry">
           <el-input type="text" v-model="outLicenseModel.importedCountry" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
-        <el-form-item label="合同号" prop="conractno">
-          <el-input type="text" v-model="outLicenseModel.conractno" auto-complete="off" class="input-320"></el-input>
+        <el-form-item label="合同号" prop="conractNo">
+          <el-input type="text" v-model="outLicenseModel.conractNo" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="报关口岸" prop="portOfClearance">
           <el-input type="text" v-model="outLicenseModel.portOfClearance" auto-complete="off" class="input-320"></el-input>
@@ -552,7 +552,8 @@ export default {
             return;
           }
           this.confirmLoading = true;
-          this.inSelectedRows.forEach(function(row) {
+          let ids = [];
+          this.outSelectedRows.forEach(function(row) {
             ids.push(row.id);
           });
           let idstr = ids.join();
@@ -811,8 +812,8 @@ export default {
       };
       let search = Object.assign({}, this.outsearch, pagedata);
       licenseAPI.getOutlicenseList(search).then(data => {
-        this.outLicenseData = data.data;
-        this.apTotal = data.total;
+        this.outLicenseData = data;
+        this.apTotal = data.length;
       });
     },
 
