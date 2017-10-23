@@ -8,8 +8,8 @@
   <div class="main-content-wrap">
     <!-- 搜索 -->
       <div class="search-bar fr">
-        编号：
-        <el-input v-model="searchTaxCutting.id" placeholder="请输入编号" size="small" style="width:150px"></el-input>
+       <!--  编号：
+        <el-input v-model="searchTaxCutting.id" placeholder="请输入编号" size="small" style="width:150px"></el-input> -->
         货号：
         <el-input v-model="searchTaxCutting.sku" placeholder="请输入货号" size="small" style="width:150px"></el-input>
         货品名称：
@@ -21,14 +21,14 @@
         <el-button size="small" type="primary" @click="searchTaxCuttingClick" style="width: 60px;">搜索</el-button>
       </div>
       <!-- 列表 -->
-      <el-table :data="taxCuttingTable" tooltip-effect="dark" highlight-current-row :height="clientHeight" @selection-change="onSelectionChange" @row-dblclick="dbEditClick" v-loading="dataLoading">
+      <el-table ref="taxCuttingRefTable" :data="taxCuttingTable" tooltip-effect="dark" highlight-current-row :height="clientHeight" @selection-change="onSelectionChange" @row-click="onRowClick" @row-dblclick="dbEditClick" v-loading="dataLoading">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="expand">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand" label-width="120px">
-              <el-form-item label="编号">
+              <!-- <el-form-item label="编号">
                 <span>{{ props.row.id }}</span>
-              </el-form-item>
+              </el-form-item> -->
                <el-form-item label="货号">
                 <span>{{ props.row.sku }}</span>
               </el-form-item>
@@ -50,7 +50,7 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="id" show-overflow-tooltip min-width="15%" label="编号"></el-table-column>
+        <el-table-column prop="sku" show-overflow-tooltip min-width="15%" label="货号"></el-table-column>
          <el-table-column prop="skuName" show-overflow-tooltip min-width="30%" label="货品名称"></el-table-column>
         <el-table-column prop="topLmit" show-overflow-tooltip min-width="20%" label="减免上限"></el-table-column>
         <el-table-column prop="rate" show-overflow-tooltip min-width="20%" label="减免税率"></el-table-column>
@@ -219,9 +219,17 @@ export default {
         }
     },
     methods: {
+      //单击一行选中当前行、单击多选框增加选中当前行
+      onRowClick(row, event, column) {
+        if (column.type != "selection") {
+          this.$refs.taxCuttingRefTable.clearSelection();
+        }
+        this.$refs.taxCuttingRefTable.toggleRowSelection(row);
+      },
       //双击
-      dbEditClick(row){
+      dbEditClick(row) {
         this.showAddDialog = true;
+        this.showTitleMode = 1;
         this.tmpTaxCutting = Object.assign({}, row);
       },
       //查看政策文件
@@ -419,9 +427,9 @@ export default {
         taxCuttingAPI.getTaxCuttingData(this.currentPage,this.pageSize,this.searchTaxCutting.id,this.searchTaxCutting.sku,this.searchTaxCutting.skuName,this.searchTaxCutting.startTime,this.searchTaxCutting.endTime).then(data => {
          this.taxCuttingTable = data;
           this.total = data.length;
-           if (this.searchTaxCutting.id != '') {
+          /*  if (this.searchTaxCutting.id != '') {
             this.taxCuttingTable = this.taxCuttingTable.filter(val => val.id.indexOf(this.searchTaxCutting.id) != -1)
-          }
+          } */
           if (this.searchTaxCutting.sku != '') {
             this.taxCuttingTable = this.taxCuttingTable.filter(val => val.sku.indexOf(this.searchTaxCutting.sku) != -1)
           }
