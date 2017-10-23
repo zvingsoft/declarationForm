@@ -13,22 +13,22 @@ const routes = [
       {
         path: 'declaration',
         meta: { title: '报关单', icon: 'fa fa-file-text-o' },
-        component: require('../views/form/declaration.vue')
+        component: resolve => require.ensure([], () => resolve(require('../views/form/declaration.vue')), 'formUI-declaration')
       },
       {
         path: 'declarationRetrieval',
         meta: { title: '报关单检索', icon: 'fa fa-file-text-o' },
-        component: require('../views/form/declarationRetrieval.vue')
+        component: resolve => require.ensure([], () => resolve(require('../views/form/declarationRetrieval.vue')), 'formUI-declarationRetrieval')
       },
       {
         path: 'sku',
         meta: { title: '商品管理', icon: 'fa fa-file-text-o' },
-        component: require('../views/form/sku.vue')
+        component: resolve => require.ensure([], () => resolve(require('../views/form/sku.vue')), 'formUI-sku')
       },
       {
         path: 'auditing',
         meta: { title: '审核', icon: 'fa fa-file-text-o' },
-        component: require('../views/form/auditing.vue')
+        component: resolve => require.ensure([], () => resolve(require('../views/form/auditing.vue')), 'formUI-auditing')
       }
     ]
   },
@@ -41,37 +41,37 @@ const routes = [
       {
         path: 'tax',
         meta: { title: '税率管理', icon: 'fa fa-file-text-o' },
-        component: require('../views/setting/tax.vue')
+        component: resolve => require.ensure([], () => resolve(require('../views/setting/tax.vue')), 'settingUI-tax')
       },
       {
         path: 'license',
         meta: { title: '许可证管理', icon: 'fa fa-file-text-o' },
-        component: require('../views/setting/license.vue')
+        component: resolve => require.ensure([], () => resolve(require('../views/setting/license.vue')), 'settingUI-license')
       },
       {
         path: 'taxCutting',
         meta: { title: '减免税管理', icon: 'fa fa-file-text-o' },
-        component: require('../views/setting/taxCutting.vue')
+        component: resolve => require.ensure([], () => resolve(require('../views/setting/taxCutting.vue')), 'settingUI-taxCutting')
       },
       {
         path: 'manifest',
         meta: { title: '舱单管理', icon: 'fa fa-file-text-o' },
-        component: require('../views/setting/manifest.vue')
+        component: resolve => require.ensure([], () => resolve(require('../views/setting/manifest.vue')), 'settingUI-manifest')
       },
       {
         path: 'processingTrade',
         meta: { title: '加贸管理', icon: 'fa fa-file-text-o' },
-        component: require('../views/setting/processingTrade.vue')
+        component: resolve => require.ensure([], () => resolve(require('../views/setting/processingTrade.vue')), 'settingUI-processingTrade')
       },
       {
         path: 'cottonQuota',
         meta: { title: '棉花配额管理', icon: 'fa fa-file-text-o' },
-        component: require('../views/setting/cottonQuota.vue')
+        component: resolve => require.ensure([], () => resolve(require('../views/setting/cottonQuota.vue')), 'settingUI-cottonQuota')
       },
       {
         path: 'company',
         meta: { title: '企业管理', icon: 'fa fa-file-text-o' },
-        component: require('../views/setting/company.vue')
+        component: resolve => require.ensure([], () => resolve(require('../views/setting/company.vue')), 'settingUI-company')
       }
     ]
   },
@@ -84,12 +84,12 @@ const routes = [
       {
         path: 'user',
         meta: { title: '用户管理', icon: 'fa fa-file-text-o' },
-        component: require('../views/system/user.vue')
+        component: resolve => require.ensure([], () => resolve(require('../views/system/user.vue')), 'systemUI-user')
       },
       {
         path: 'role',
         meta: { title: '角色管理', icon: 'fa fa-file-text-o' },
-        component: require('../views/system/role.vue')
+        component: resolve => require.ensure([], () => resolve(require('../views/system/role.vue')), 'systemUI-role')
       }
     ]
   },
