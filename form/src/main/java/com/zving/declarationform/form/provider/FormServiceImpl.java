@@ -32,6 +32,8 @@ import net.sf.json.JSONObject;
 @Controller
 public class FormServiceImpl implements FormService {
 
+	IStorage storage = StorageUtil.getInstance();
+
 	@Override
 	@RequestMapping(path = "form", method = RequestMethod.POST)
 	@ResponseBody
@@ -44,9 +46,13 @@ public class FormServiceImpl implements FormService {
 	@RequestMapping(path = "form", method = RequestMethod.PUT)
 	@ResponseBody
 	public String update(@RequestBody DeclarationForm form) {
-		DeclarationForm old = new DeclarationForm();
-		old.setId(form.getId());
-		StorageUtil.getInstance().update(DeclarationForm.class, old, form);
+		List<DeclarationForm> list = storage.find(DeclarationForm.class, null);
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getId() == form.getId()) {
+				storage.delete(DeclarationForm.class, list.get(i));
+			}
+		}
+		storage.add(DeclarationForm.class, form);
 		return "更新成功";
 	}
 

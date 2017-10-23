@@ -1,5 +1,8 @@
 const skuAPI = {
   getSKU (searchWord) {
+    if (typeof searchWord === 'undefined') {
+      searchWord = ''
+    }
     return axios
       .get('baseData/sku', {
         params: {

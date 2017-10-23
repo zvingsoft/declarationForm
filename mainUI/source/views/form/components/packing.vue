@@ -10,7 +10,8 @@
     </div>
     <el-table :data.sync="packinglistData" tooltip-effect="dark" class="pack-table" highlight-current-row @selection-change="onSelectionChange">
       <el-table-column type="index" label="项号" width="60px"></el-table-column>
-      <el-table-column prop="SKU" min-width="90px" label="商品编号"></el-table-column>
+      <el-table-column type="selection"  width="60px" v-if="!onlyView"></el-table-column>
+      <el-table-column prop="sku" min-width="90px" label="商品编号"></el-table-column>
       <el-table-column prop="name" min-width="200px" label="商品名称、规格型号"></el-table-column>
       <el-table-column prop="amount" min-width="80px" label="数量及单位"></el-table-column>
       <el-table-column prop="singlePrice" min-width="60px" label="单价"></el-table-column>
@@ -20,12 +21,12 @@
       <el-table-column prop="currency" min-width="60px" label="币制"></el-table-column>
       <el-table-column prop="exemption" min-width="60px" label="征免"></el-table-column>
     </el-table>
-    <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false" @open="beforeDialogOpen">
-      <el-form label-position="right" :model="tmpPacking" inline label-width="200px">
-        <el-form-item label="SKU编号：">
-          <el-select class="e-input" v-model="tmpPacking.SKU" placeholder="请选择">
-              <el-option v-for="item in SKUData" :key="item.SN" :label="item.SN" :value="item.SN">
-                <span style="float: left">{{ item.SN }}</span>
+    <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal"  size="tiny" :close-on-click-modal="false" @open="beforeDialogOpen">
+      <el-form label-position="right" :model="tmpPacking" label-width="160px">
+        <el-form-item label="商品编号：">
+          <el-select class="e-input" filterable v-model="tmpPacking.sku" placeholder="请选择">
+              <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
+                <span style="float: left">{{ item.sn }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
               </el-option>
             </el-select>
@@ -37,16 +38,16 @@
           <el-input class="e-input" v-model="tmpPacking.number"></el-input>
         </el-form-item>
         <el-form-item label="单价：">
-          <el-input class="e-input" v-model="tmpPacking.singleprice"></el-input>
+          <el-input class="e-input" v-model="tmpPacking.singlePrice"></el-input>
         </el-form-item>
         <el-form-item label="总价：">
           <el-input class="e-input" v-model="tmpPacking.totalprice"></el-input>
         </el-form-item>
         <el-form-item v-if="this.declarationType == 'import'" label="原产国：">
-          <el-input class="e-input" v-model="tmpPacking.productcountry"></el-input>
+          <el-input class="e-input" v-model="tmpPacking.country"></el-input>
         </el-form-item>
         <el-form-item v-else label="最终目的国：">
-          <el-input class="e-input" v-model="tmpPacking.productcountry"></el-input>
+          <el-input class="e-input" v-model="tmpPacking.country"></el-input>
         </el-form-item>
         <el-form-item label="币制：">
           <el-input class="e-input" v-model="tmpPacking.currency"></el-input>
@@ -65,6 +66,7 @@
 
 <script>
 import packinglistAPI from '../api/packinglistAPI.js';
+import skuAPI from '../api/skuAPI.js';
 //import '../mock/declaration.js';
 
 export default {
@@ -75,31 +77,38 @@ export default {
       selectedRows: [],
       packinglistData: [],
       editMode: 0,
-      SKUData:[]
+      SKUData: [],
     };
   },
-  watch: {
-    packinglistData() {
-      this.$emit('listdataChange', this.packinglistData);
-    },
-  },
   methods: {
-    beforeDialogOpen(){
-
+    beforeDialogOpen() {
+      skuAPI
+        .getSKU()
+        .then(data => {
+          this.SKUData = data;
+          console.log(data);
+        })
+        .then(() => {
+          if (this.editMode == 0) {
+            this.tmpPacking = {
+              id: Math.floor(Math.random() * 999999),
+              sku: '',
+            };
+          }
+          if (this.editMode == 1) {
+            this.tmpPacking = Object.assign({}, this.selectedRows[0]);
+          }
+        });
     },
     onSelectionChange(selection) {
       this.selectedRows = selection;
     },
     addClick() {
       this.editMode = 0;
-      this.tmpPacking = {
-        id:Math.floor(Math.random() * 999999)
-      };
       this.packingdetailDialogModal = true;
     },
     editClick() {
       this.editMode = 1;
-      this.tmpPacking = Object.assign({}, this.selectedRows[0]);
       this.packingdetailDialogModal = true;
     },
     deleteClick() {
@@ -148,7 +157,7 @@ export default {
       if (this.editMode == 1) {
         this.$notify({
           title: '成功',
-          message: '添加成功',
+          message: '修改成功',
           type: 'success',
           duration: 2000,
         });
@@ -161,12 +170,14 @@ export default {
           ...this.packinglistData.slice(index + 1),
         ];
       }
+      this.$emit('update:packinglistData', this.packinglistData);
+      this.packingdetailDialogModal = false;
     },
     rowClick(row) {
       this.$emit('row-click', row);
     },
   },
-  props: ['packinglistData', 'declarationType','onlyView'],
+  props: ['packinglistData', 'declarationType', 'onlyView'],
 };
 </script>
 
@@ -174,5 +185,8 @@ export default {
 .pack-table {
   font-size: 10px;
   min-width: 100%;
+}
+.e-input {
+  width: 270px;
 }
 </style>
