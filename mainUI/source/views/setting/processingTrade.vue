@@ -24,7 +24,7 @@
         <el-button @click="loadProcessingTradeList" type="primary" size="small" style="width: 60px;">搜索</el-button>
       </div>
       <!-- 列表 -->
-      <el-table class="content-table" ref="ptListTable" highlight-current-row :data="ptListData" tooltip-effect="dark" @selection-change="ptOnSelectionChange">
+      <el-table class="content-table" ref="ptListTable" highlight-current-row :data="ptListData" tooltip-effect="dark" @selection-change="ptOnSelectionChange" @row-dblclick="dbptEditClick">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column type="expand">
           <template slot-scope="props">
@@ -69,7 +69,11 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="sku" label="货号" width=""></el-table-column>
+        <el-table-column prop="sku" label="货号" width="">
+          <template slot-scope="scope">
+                <a @click="dbptEditClick(scope.row)" class="a-btn">{{scope.row.sku}}</a>
+          </template>
+        </el-table-column>
         <el-table-column prop="amount" label="限额" width=""></el-table-column>
         <el-table-column prop="used" label="己用量" width=""></el-table-column>
         <el-table-column prop="processCompany" label="接单企业ID" width=""></el-table-column>
@@ -367,6 +371,15 @@ export default {
       this.sku = this.ptDataModel.sku.split(',');
       this.addAndEditDialogIsShow = true;
     },
+    //双击
+    dbptEditClick(row) {
+      this.loadCompanyList();
+      this.loadGoodsList();
+      this.editMode = 2;
+      this.ptDataModel = Object.assign({}, row);
+      this.sku = this.ptDataModel.sku.split(',');
+      this.addAndEditDialogIsShow = true;
+    },
     loadCompanyList() {
       processingTradeAPI.getCompanyList().then(data => {
         this.processCompanyList = data;
@@ -447,9 +460,9 @@ export default {
         let flag = false;
         let goodsno = val.sn;
         skus.forEach(value => {
-          flag = (value === goodsno)||flag;
+          flag = value === goodsno || flag;
         });
-        return flag
+        return flag;
       });
       this.goodsDialogIsShow = true;
     },
