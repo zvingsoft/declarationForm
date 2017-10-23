@@ -72,7 +72,9 @@ public class ManifestServiceImpl implements ManifestService {
 		List<Manifest> list = storage.find(Manifest.class, null);
 		for (Manifest item : list) {
 			if (manifest.getId() == item.getId()) {
-				StorageUtil.getInstance().update(Manifest.class, item, manifest);
+				Manifest mf = new Manifest();
+				mf.setId(manifest.getId());
+				StorageUtil.getInstance().update(Manifest.class, mf, manifest);
 				return "更新成功";
 			}
 		}
