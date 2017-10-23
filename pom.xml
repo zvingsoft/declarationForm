@@ -23,6 +23,7 @@
 		<module>cottonQuotaUI</module>
 		<module>processingTrade</module>
 		<module>processingTradeUI</module>
+		<module>sagaCheck</module>
 	</modules>
 
 	<dependencyManagement>
