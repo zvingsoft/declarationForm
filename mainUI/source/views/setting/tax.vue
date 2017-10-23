@@ -8,9 +8,9 @@
     <div class="main-content-wrap">
       <div class="search-bar fr">
         税号:
-        <el-input v-model="search.taxnum" size="small" placeholder="请输入税号" style="width: 200px;"></el-input>
+        <el-input v-model="search.taxNum" size="small" placeholder="请输入税号" style="width: 200px;"></el-input>
         物品类别：
-        <el-input v-model="search.taxgoodstype" size="small" placeholder="请输入物品类别" style="width: 200px;"></el-input>
+        <el-input v-model="search.taxGoodsType" size="small" placeholder="请输入物品类别" style="width: 200px;"></el-input>
         <el-button size="small" type="primary" @click="handleSearchBtn" style="width: 60px;">搜索</el-button>
       </div>
       <!--表格-->
@@ -21,22 +21,22 @@
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand" label-width="120px">
                 <el-form-item label="税号">
-                  <span>{{props.row.taxnum}}</span>
+                  <span>{{props.row.taxNum}}</span>
                 </el-form-item>
                 <el-form-item label="物品类型">
-                  <span>{{props.row.taxgoodstype}}</span>
+                  <span>{{props.row.taxGoodsType}}</span>
                 </el-form-item>
                 <el-form-item label="单位">
                   <span>{{props.row.unit}}</span>
                 </el-form-item>
                 <el-form-item label="税率">
-                  <span>{{props.row.taxrate}}</span>
+                  <span>{{props.row.rate}}</span>
                 </el-form-item>
                 <el-form-item label="免征额">
-                  <span>{{props.row.freemoney}}</span>
+                  <span>{{props.row.exemption}}</span>
                 </el-form-item>
                 <el-form-item label="最后修改">
-                  <span>{{props.row.modifydate}}</span>
+                  <span>{{props.row.modifyDate}}</span>
                 </el-form-item>
                 <el-form-item label="范围" style="width:100%;">
                   <span>{{props.row.range}}</span>
@@ -44,12 +44,12 @@
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column prop="taxnum" min-width="20%" label="税号"></el-table-column>
-          <el-table-column prop="taxgoodstype" min-width="30%" label="物品类型"></el-table-column>
+          <el-table-column prop="taxNum" min-width="20%" label="税号"></el-table-column>
+          <el-table-column prop="taxGoodsType" min-width="30%" label="物品类型"></el-table-column>
           <el-table-column prop="unit" min-width="10%" label="单位"></el-table-column>
-          <el-table-column prop="taxrate" min-width="10%" label="税率"></el-table-column>
-          <el-table-column prop="freemoney" min-width="10%" label="免征额"></el-table-column>
-          <el-table-column prop="modifydate" min-width="20%" label="最后修改"></el-table-column>
+          <el-table-column prop="rate" min-width="10%" label="税率"></el-table-column>
+          <el-table-column prop="exemption" min-width="10%" label="免征额"></el-table-column>
+          <el-table-column prop="modifyDate" min-width="20%" label="最后修改"></el-table-column>
         </el-table>
       </div>
       <!--分页-->
@@ -62,20 +62,20 @@
     <!-- 新建,编辑对话框 -->
     <el-dialog :title="addOrEdit==1?'新建':'编辑'" :visible.sync="showDialog" @close="closeAddOrEditDialog">
       <el-form label-width="160px" :model="tmpTax" :rules="taxRules" ref="taxForm">
-        <el-form-item label="税号：" prop="taxnum">
-          <el-input placeholder="请输入税号" v-model="tmpTax.taxnum" class="width-300"></el-input>
+        <el-form-item label="税号：" prop="taxNum">
+          <el-input placeholder="请输入税号" v-model="tmpTax.taxNum" class="width-300"></el-input>
         </el-form-item>
-        <el-form-item label="物品类型：" prop="taxgoodstype">
-          <el-input placeholder="请输入物品类型" v-model="tmpTax.taxgoodstype" class="width-300"></el-input>
+        <el-form-item label="物品类型：" prop="taxGoodsType">
+          <el-input placeholder="请输入物品类型" v-model="tmpTax.taxGoodsType" class="width-300"></el-input>
         </el-form-item>
         <el-form-item label="单位：">
           <el-input placeholder="请输入单位" v-model="tmpTax.unit" class="width-230"></el-input>
         </el-form-item>
         <el-form-item label="税率：">
-          <el-input placeholder="请输入税率" v-model="tmpTax.taxrate" class="width-230"></el-input>
+          <el-input placeholder="请输入税率" v-model="tmpTax.rate" class="width-230"></el-input>
         </el-form-item>
         <el-form-item label="免征额：">
-          <el-input-number v-model="tmpTax.freemoney" :min="0" class="width-230"></el-input-number>
+          <el-input-number v-model="tmpTax.exemption" :min="0" class="width-230"></el-input-number>
         </el-form-item>
         <el-form-item label="范围：">
           <el-input placeholder="请填写范围" type="textarea" autosize="true" v-model="tmpTax.range"></el-input>
@@ -108,11 +108,11 @@ export default {
       addOrEdit: 1,
       tmpTax: {},
       taxRules: {
-        taxnum: [{ required: true, message: '请输入税号', trigger: 'blur' }],
-        taxgoodstype: [{ required: true, message: '请输入物品类型', trigger: 'blur' }],
+        taxNum: [{ required: true, message: '请输入税号', trigger: 'blur' }],
+        taxGoodsType: [{ required: true, message: '请输入物品类型', trigger: 'blur' }],
       },
       saveTaxStatus: false,
-      search: { taxnum: '', taxgoodstype: '' },
+      search: { taxNum: '', taxGoodsType: '' },
     };
   },
   methods: {
@@ -120,23 +120,23 @@ export default {
       this.selectedRows = selection;
     },
     handleSearchBtn() {
-      this.currentPage=1;
-      this.getTaxData();
-      // this.taxTable = Object.assign([], this.temtaxTable);
-      // let temTaxnum = this.search.taxnum;
-      // let temTaxGoodsType = this.search.taxgoodstype;
-      // if (temTaxnum != '' || temTaxGoodsType != '') {
-      //   if (temTaxnum != '') {
-      //     this.taxTable = this.taxTable.filter(
-      //       val => val.taxnum.indexOf(temTaxnum) != -1
-      //     );
-      //   }
-      //   if (temTaxGoodsType != '') {
-      //     this.taxTable = this.taxTable.filter(
-      //       val => val.taxgoodstype.indexOf(temTaxGoodsType) != -1
-      //     );
-      //   }
-      // }
+      // this.currentPage=1;
+      // this.getTaxData();
+      this.taxTable = Object.assign([], this.temtaxTable);
+      let temTaxnum = this.search.taxNum;
+      let temTaxGoodsType = this.search.taxGoodsType;
+      if (temTaxnum != '' || temTaxGoodsType != '') {
+        if (temTaxnum != '') {
+          this.taxTable = this.taxTable.filter(
+            val => val.taxNum.indexOf(temTaxnum) != -1
+          );
+        }
+        if (temTaxGoodsType != '') {
+          this.taxTable = this.taxTable.filter(
+            val => val.taxGoodsType.indexOf(temTaxGoodsType) != -1
+          );
+        }
+      }
     },
     sizeChangeHandler(val) {
       this.pageSize = val;
@@ -147,10 +147,10 @@ export default {
     //关闭事件
     closeAddOrEditDialog() {
       if (
-        !this.tmpTax.taxnum ||
-        this.tmpTax.taxnum == '' ||
-        !this.tmpTax.taxgoodstype ||
-        this.tmpTax.taxgoodstype == ''
+        !this.tmpTax.taxNum ||
+        this.tmpTax.taxNum == '' ||
+        !this.tmpTax.taxGoodsType ||
+        this.tmpTax.taxGoodsType == ''
       ) {
         this.$refs['taxForm'].resetFields();
       }
@@ -287,9 +287,8 @@ export default {
       return fmt;
     },
     getTaxData() {
-      taxAPI.getTaxData(this.search.taxnum,this.search.taxgoodstype,this.pageSize,this.currentPage).then(data => {
+      taxAPI.getTaxData().then(data => {
         this.taxTable = data.data;
-        this.total=data.total;
         this.temtaxTable = Object.assign([], this.taxTable);
       });
     },
