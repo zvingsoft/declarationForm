@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -97,9 +96,9 @@ public class CompanyServiceImpl implements CompanyService {
 
     private Company getCompany(long id) {
         List<Company> list = storage.find(Company.class, null);
-        for (Company cottonQuota : list) {
-            if (cottonQuota.getId() == id) {
-                return cottonQuota;
+        for (Company company : list) {
+            if (company.getId() == id) {
+                return company;
             }
         }
         return null;

@@ -115,11 +115,12 @@
     <!-- 新建,编辑对话框 -->
     <el-dialog size="tiny" :title="addOperate?'新建':'编辑'" :visible.sync="showDialog">
       <el-form label-width="160px" :model="tmpCottonQuota">
-        <el-form-item label="企业名称：" v-if="addOperate">
-          <el-select v-model="tmpCompany" clearable placeholder="请选择" @change="onCompanyChange" :disabled="!addOperate">
+        <el-form-item label="企业名称：">
+          <el-select v-model="tmpCompany" clearable placeholder="请选择" @change="onCompanyChange" :disabled="!addOperate" v-if="addOperate">
             <el-option v-for="item in companys" :key="item.id" :label="item.name" :value="item">
             </el-option>
           </el-select>
+          <span v-else>{{tmpCottonQuota.companyName}}</span>
         </el-form-item>
         <el-form-item label="分配量：">
           <el-input-number :min="0" placeholder="请输入分配量" v-model="tmpCottonQuota.quota" class="width-300"></el-input-number>（单位：吨）

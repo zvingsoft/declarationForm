@@ -13,7 +13,7 @@
 
     <div class="search-bar fr">
       <span>名称</span>&nbsp;
-      <el-input v-model="companyName" size="small" placeholder="请输入企业名称" style="width:200px"></el-input>
+      <el-input v-model="name" size="small" placeholder="请输入企业名称" style="width:200px"></el-input>
       <el-button type="primary" @click="list" size="small">搜索</el-button>
     </div>
 
