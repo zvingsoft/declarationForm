@@ -76,7 +76,6 @@
         </el-table-column>
         <el-table-column prop="amount" label="限额" width=""></el-table-column>
         <el-table-column prop="used" label="己用量" width=""></el-table-column>
-        <el-table-column prop="processCompany" label="接单企业ID" width=""></el-table-column>
         <el-table-column prop="processCompanyName" label="接单企业" width=""></el-table-column>
         <el-table-column prop="commissionedCompnayName" label="委托企业" width=""></el-table-column>
 
