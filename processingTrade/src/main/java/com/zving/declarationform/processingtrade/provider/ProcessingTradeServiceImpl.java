@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.processingtrade.model.ProcessingTrade;
 import com.zving.declarationform.processingtrade.schema.ProcessingTradeService;
 import com.zving.declarationform.storage.IStorage;
@@ -27,6 +28,20 @@ import io.servicecomb.provider.rest.common.RestSchema;
 @RestSchema(schemaId = "processingTrade")
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
 public class ProcessingTradeServiceImpl implements ProcessingTradeService {
+
+	@Override
+	@RequestMapping(path = "check", method = RequestMethod.POST)
+	@ResponseBody
+	public String check(@RequestBody DeclarationForm form) {
+		return "check成功：processingTrade";
+	}
+
+	@Override
+	@RequestMapping(path = "confirm", method = RequestMethod.POST)
+	@ResponseBody
+	public String confirm(@RequestBody DeclarationForm form) {
+		return "confirm成功：processingTrade";
+	}
 
 	@Override
 	@RequestMapping(path = "processingtrade", method = RequestMethod.POST)
