@@ -171,7 +171,6 @@ export default {
       this.showDialog = true;
       skuAPI.getSKU().then(data => {
         this.SKUData = data;
-        console.log(data);
       });
     },
     //编辑
@@ -180,6 +179,9 @@ export default {
       this.saveTaxStatus = false;
       this.tmpTax = Object.assign({}, this.selectedRows[0]);
       this.showDialog = true;
+      skuAPI.getSKU().then(data => {
+        this.SKUData = data;
+      });
     },
     //新建和编辑时保存
     saveTax() {
