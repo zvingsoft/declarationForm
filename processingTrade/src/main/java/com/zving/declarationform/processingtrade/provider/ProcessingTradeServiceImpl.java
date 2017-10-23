@@ -33,7 +33,7 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@ResponseBody
 	public String add(@RequestBody ProcessingTrade processingTrade) {
 		StorageUtil.getInstance().add(ProcessingTrade.class, processingTrade);
-		return "添加成功";
+		return "1";
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	public String update(@RequestBody ProcessingTrade processingTrade) {
 		ProcessingTrade old = get(processingTrade.getId());
 		StorageUtil.getInstance().update(ProcessingTrade.class, old, processingTrade);
-		return "更新失败";
+		return "1";
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 				}
 			}
 		}
-		return "删除成功";
+		return "1";
 	}
 
 	@Override

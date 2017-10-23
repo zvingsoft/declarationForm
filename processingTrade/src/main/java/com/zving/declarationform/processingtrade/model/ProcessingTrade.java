@@ -7,7 +7,7 @@ package com.zving.declarationform.processingtrade.model;
  */
 public class ProcessingTrade {
 	long id;
-	String SKU;// 货号
+	String sku;// 货号
 	double amount; // 限额
 	double used;// 己用量
 	long processCompany;// 接单企业ID
@@ -22,12 +22,12 @@ public class ProcessingTrade {
 		this.id = id;
 	}
 
-	public String getSKU() {
-		return SKU;
+	public String getSku() {
+		return sku;
 	}
 
-	public void setSKU(String sKU) {
-		SKU = sKU;
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 
 	public double getAmount() {
