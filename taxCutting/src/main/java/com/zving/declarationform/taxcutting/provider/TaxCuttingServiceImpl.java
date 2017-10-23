@@ -26,8 +26,20 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 	@RequestMapping(path = "taxcutting", method = RequestMethod.POST)
 	@ResponseBody
 	public String add(@RequestBody TaxCuttingRule taxCuttingRule) {
+		if ("large".equals(taxCuttingRule.getLargeType())) {
+			taxCuttingRule.setLargeTypeName("鼓励高新技术");
+		}
+		if ("technology".equals(taxCuttingRule.getSmallType())) {
+			taxCuttingRule.setSmallTypeName("支持科技事业");
+		}
+		if ("approval".equals(taxCuttingRule.getWay())) {
+			taxCuttingRule.setWayName("免税");
+		} else if ("filing".equals(taxCuttingRule.getWay())) {
+			taxCuttingRule.setWayName("税率减免");
+		}
+
 		StorageUtil.getInstance().add(TaxCuttingRule.class, taxCuttingRule);
-		return "添加成功";
+		return "新建成功";
 	}
 
 	@RequestMapping(path = "taxcutting", method = RequestMethod.PUT)
@@ -37,6 +49,17 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 		List<TaxCuttingRule> taxCuttingRuleList = storage.find(TaxCuttingRule.class, null);
 		for (TaxCuttingRule tcr : taxCuttingRuleList) {
 			if (tcr.getId().equals(taxCuttingRule.getId())) {
+				if ("large".equals(taxCuttingRule.getLargeType())) {
+					taxCuttingRule.setLargeTypeName("鼓励高新技术");
+				}
+				if ("technology".equals(taxCuttingRule.getSmallType())) {
+					taxCuttingRule.setSmallTypeName("支持科技事业");
+				}
+				if ("approval".equals(taxCuttingRule.getWay())) {
+					taxCuttingRule.setWayName("免税");
+				} else if ("filing".equals(taxCuttingRule.getWay())) {
+					taxCuttingRule.setWayName("税率减免");
+				}
 				StorageUtil.getInstance().update(TaxCuttingRule.class, tcr, taxCuttingRule);
 				return "编辑成功";
 			}
@@ -63,14 +86,23 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 	@RequestMapping(path = "taxcutting", method = RequestMethod.GET)
 	@ResponseBody
 	public List<TaxCuttingRule> list() {
-		return StorageUtil.getInstance().find(TaxCuttingRule.class, null);
+		List<TaxCuttingRule> list = StorageUtil.getInstance().find(TaxCuttingRule.class, null);
+		for (TaxCuttingRule taxCuttingRule : list) {
+			taxCuttingRule.setValidityDate(taxCuttingRule.getStartTime() + " - " + taxCuttingRule.getEndTime());
+		}
+		return list;
 	}
 
 	@RequestMapping(path = "taxcutting/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public TaxCuttingRule get(@PathVariable("id") String id) {
-		TaxCuttingRule taxCuttingRule = new TaxCuttingRule();
-		taxCuttingRule.setId(id);
-		return StorageUtil.getInstance().get(TaxCuttingRule.class, taxCuttingRule);
+		List<TaxCuttingRule> taxCuttingRuleList = StorageUtil.getInstance().find(TaxCuttingRule.class, null);
+		for (TaxCuttingRule taxCuttingRule : taxCuttingRuleList) {
+			if (taxCuttingRule.getId().equals(id)) {
+				taxCuttingRule.setValidityDate(taxCuttingRule.getStartTime() + " - " + taxCuttingRule.getEndTime());
+				return taxCuttingRule;
+			}
+		}
+		return null;
 	}
 }
