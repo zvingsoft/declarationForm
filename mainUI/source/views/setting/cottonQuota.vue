@@ -23,7 +23,7 @@
 
     <div class="main-content-wrap">
       <el-table ref="cottonquotaTable" :data="cottonquotas" style="width: 100%" v-loading="dataLoading" @selection-change="onSelectionChange"
-        @row-click="onCottonquotaTableRowClick">
+        @row-click="onCottonquotaTableRowClick" @row-dblclick="editClick">
         <el-table-column type="selection" width="50">
         </el-table-column>
         <el-table-column type="expand">

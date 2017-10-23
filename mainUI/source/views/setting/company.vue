@@ -19,7 +19,7 @@
 
     <div class="main-content-wrap">
       <el-table ref="companyTable" :data="companys" style="width: 100%" v-loading="dataLoading" @selection-change="onSelectionChange"
-        @row-click="onCompanyTableRowClick">
+        @row-click="onCompanyTableRowClick" @row-dblclick="editClick">
         <el-table-column type="selection" width="50">
         </el-table-column>
         <el-table-column type="expand">
@@ -89,29 +89,29 @@
 
     <!-- 新建,编辑对话框 -->
     <el-dialog :title="addOperate?'新建':'编辑'" :visible.sync="showDialog">
-      <el-form label-width="160px" :model="tmpCompany">
-        <el-form-item label="名称：">
+      <el-form label-width="160px" :model="tmpCompany" :rules="rules" ref="companyFrom">
+        <el-form-item label="名称：" prop="name">
           <el-input placeholder="请输入企业名称" v-model="tmpCompany.name" class="width-300"></el-input>
         </el-form-item>
-        <el-form-item label="银行信用评级：">
+        <el-form-item label="银行信用评级：" prop="bankCreditRating">
           <el-input placeholder="请输入银行信用评级" v-model="tmpCompany.bankCreditRating" class="width-300"></el-input>
         </el-form-item>
-        <el-form-item label="地址：">
+        <el-form-item label="地址：" prop="address">
           <el-input placeholder="请输入地址：" v-model="tmpCompany.address" class="width-300"></el-input>
         </el-form-item>
-        <el-form-item label="电话：">
+        <el-form-item label="电话：" prop="phone">
           <el-input placeholder="请输入电话" v-model="tmpCompany.phone" class="width-300"></el-input>
         </el-form-item>
-        <el-form-item label="传真：">
+        <el-form-item label="传真：" prop="fax">
           <el-input placeholder="请输入传真" v-model="tmpCompany.fax" class="width-300"></el-input>
         </el-form-item>
-        <el-form-item label="邮政编码：">
+        <el-form-item label="邮政编码：" prop="postCode">
           <el-input placeholder="请输入邮政编码" v-model="tmpCompany.postCode" class="width-300"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="showDialog = false">取 消</el-button>
-        <el-button type="primary" @click="save" :disabled="saveStatus">确 定</el-button>
+        <el-button type="primary" @click="submitForm('companyFrom','save')" :disabled="saveStatus">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -143,6 +143,15 @@
 
   export default {
     data() {
+      var validatePhone = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入电话'));
+        } else if (value !== this.ruleForm2.pass) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
       return {
         dataLoading: true,
         companys: [],
@@ -159,10 +168,51 @@
         total: 0,
         pageSize: 15,
         currentPage: 1,
-        pageSizes: [15, 20, 30, 40, 50]
+        pageSizes: [15, 20, 30, 40, 50],
+        rules: {
+          name: [{
+            required: true,
+            message: '请输入名称',
+            trigger: 'blur'
+          }],
+          bankCreditRating: [{
+            required: true,
+            message: '请输入银行信用评级',
+            trigger: 'blur'
+          }],
+          address: [{
+            required: true,
+            message: '请输入地址',
+            trigger: 'blur'
+          }],
+          phone: [{
+            required: true,
+            message: '请输入电话',
+            trigger: 'blur'
+          }],
+          fax: [{
+            required: true,
+            message: '请输入传真',
+            trigger: 'blur'
+          }],
+          postCode: [{
+            required: true,
+            message: '请输入邮政编码',
+            trigger: 'blur'
+          }]
+        }
       }
     },
     methods: {
+      submitForm(formName, method) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this[method]();
+          } else {
+            return false;
+          }
+        });
+      },
       //设置棉花配额
       setConttonQuotaClick() {
         this.showConttonQuotaDialog = true;
