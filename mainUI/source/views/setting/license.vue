@@ -23,7 +23,7 @@
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column prop="licenseKey" show-overflow-tooltip min-width="30%" label="许可证号"></el-table-column>
             <el-table-column prop="companyName" show-overflow-tooltip min-width="30%" label="进口商"></el-table-column>
-            <el-table-column prop="goodsCode" show-overflow-tooltip min-width="20%" label="商品编号"></el-table-column>
+            <el-table-column prop="sku" show-overflow-tooltip min-width="20%" label="商品编号"></el-table-column>
             <el-table-column prop="expirationDateOfLicense" show-overflow-tooltip min-width="20%" label="许可证截止日期"></el-table-column>
           </el-table>
           <div class="fr" style="margin-top:5px;">
@@ -54,7 +54,7 @@
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column prop="licenseKey" show-overflow-tooltip min-width="15%" label="许可证号"></el-table-column>
             <el-table-column prop="companyName" show-overflow-tooltip min-width="15%" label="出口商"></el-table-column>
-            <el-table-column prop="goodsCode" show-overflow-tooltip min-width="20%" label="商品编号"></el-table-column>
+            <el-table-column prop="sku" show-overflow-tooltip min-width="20%" label="商品编号"></el-table-column>
             <el-table-column prop="expirationDateOfLicense" show-overflow-tooltip min-width="20%" label="许可证截止日期"></el-table-column>
           </el-table>
           <div class="fr" style="margin-top:5px;">
@@ -74,15 +74,15 @@
             </el-option>
           </el-select>
           </el-form-item>
-          <el-form-item label="进口商" v-if="editMode===1?false:ture">
+          <el-form-item label="进口商" v-if="editMode===2">
             <el-input type="text" v-model="inLicenseModel.companyName" auto-complete="off" class="input-320" :disabled="ture"></el-input>
           </el-select>
           </el-form-item>
           <el-form-item label="许可证号" prop="licenseKey">
             <el-input type="text" v-model="inLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
           </el-form-item>
-          <el-form-item label="商品编号" prop="goodsCode">
-            <el-select class="e-input" filterable v-model="inLicenseModel.goodsCode" placeholder="请选择" style="width:320px" >
+          <el-form-item label="商品编号" prop="sku">
+            <el-select class="e-input" filterable v-model="inLicenseModel.sku" placeholder="请选择" style="width:320px" >
               <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
                 <span style="float: left">{{ item.sn }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
@@ -112,15 +112,15 @@
             </el-option>
           </el-select>
           </el-form-item>
-          <el-form-item label="进口商" v-if="outeditMode===1?false:ture">
+          <el-form-item label="进口商" v-if="outeditMode===2">
             <el-input type="text" v-model="outLicenseModel.companyName" auto-complete="off" class="input-320" :disabled="ture"></el-input>
           </el-select>
           </el-form-item>
         <el-form-item label="许可证号" prop="licenseKey">
           <el-input type="text" v-model="outLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
-        <el-form-item label="商品编号" prop="goodsCode">
-          <el-select class="e-input" filterable v-model="outLicenseModel.goodsCode" placeholder="请选择"  style="width:320px" >
+        <el-form-item label="商品编号" prop="sku">
+          <el-select class="e-input" filterable v-model="outLicenseModel.sku" placeholder="请选择"  style="width:320px" >
               <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
                 <span style="float: left">{{ item.sn }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
@@ -470,10 +470,9 @@ export default {
             return editForm();
           }
         }).then(res =>{
+          this.loadInlicenseList();
           this.confirmLoading = false;
           this.inLicenseShow = false;
-          this.inLicenseShow = false;
-          this.loadInlicenseList();
         });
     },
 
@@ -544,7 +543,6 @@ export default {
         })
         .then(res => {
           this.confirmLoading = false;
-          this.outLicenseShow = false;
           this.outLicenseShow = false;
            this.loadOutlicenseList();
         });
