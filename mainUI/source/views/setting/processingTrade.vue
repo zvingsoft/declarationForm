@@ -171,52 +171,14 @@
         <el-button type="primary" @click="addAndEditOkHandler">确 定</el-button>
       </div>
     </el-dialog>
-    <!-- 商品新建、编辑框 -->
-    <el-dialog :title="goodsEditMode===1?'添加商品':'编辑商品'" :visible.sync="goodsAddAndEditDialogIsShow">
-      <el-form :model="goodsDataModel" :rules="goodsDataRules" ref="goodsDataRef" label-width="160px">
-        <el-form-item label="编号" prop="sn">
-          <el-input type="text" v-model="goodsDataModel.sn" auto-complete="off" style="width:320px"></el-input>
-        </el-form-item>
-        <el-form-item label="商品类型" prop="goodsType">
-          <el-input type="text" v-model="goodsDataModel.goodsType" auto-complete="off" style="width:320px"></el-input>
-        </el-form-item>
-        <el-form-item label="商品名称" prop="name">
-          <el-input type="text" v-model="goodsDataModel.name" auto-complete="off" style="width:320px"></el-input>
-        </el-form-item>
-        <el-form-item label="商品规格" prop="spec">
-          <el-input type="text" v-model="goodsDataModel.spec" auto-complete="off" style="width:320px"></el-input>
-        </el-form-item>
-        <el-form-item label="商品单位" prop="unit">
-          <el-input type="text" v-model="goodsDataModel.unit" auto-complete="off" style="width:320px"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer">
-        <el-button @click="goodsAddAndEditDialogIsShow=false">取 消</el-button>
-        <el-button type="primary" @click="goodsAddAndEditOkHandler">确 定</el-button>
-      </div>
-    </el-dialog>
     <!-- 文件查看框 -->
     <el-dialog :title="'文件查看'" :visible.sync="fileDialogIsShow" class="file-dialog">
       <img src="http://www.qingshengjiuye.com/UploadFiles/201610271722212414737.jpg" :style="{height:900+'px',overflowY:'scroll',overflowX:'hidden', paddingRight:'15px'}">
-      <div slot="footer ">
-        <el-button @click="fileDialogIsShow=false">取 消</el-button>
-        <el-button type="primary " @click="fileViewOkHandler">确 定</el-button>
-      </div>
     </el-dialog>
     <!-- 商品信息框 -->
-    <el-dialog :title=" '商品信息' " :visible.sync="goodsDialogIsShow" size="large">
-      <!-- 工具条 -->
-      <!-- <el-toolbar>
-        <el-button @click="goodsAddClick">
-          <i class="fa fa-plus" aria-hidden="true"></i> 新建</el-button>
-        <el-button @click="goodsEditClick" :disabled="goodsSelectedRows.length !== 1">
-          <i class="fa fa-edit" aria-hidden="true"></i> 编辑</el-button>
-        <el-button @click="goodsDelClick" :disabled="goodsSelectedRows.length < 1">
-          <i class="fa fa-trash-o" aria-hidden="true"></i> 删除</el-button>
-      </el-toolbar> -->
+    <el-dialog :title=" '商品信息' " :visible.sync="goodsDialogIsShow">
       <div class="main-content-wrap">
         <el-table ref="goodsListTable" highlight-current-row :data="goodsList" tooltip-effect="dark" @selection-change="goodsOnSelectionChange">
-          <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column min-width="4%" label="编号" prop="sn"></el-table-column>
           <el-table-column min-width="4%" label="商品类型" prop="goodsType"></el-table-column>
           <el-table-column min-width="4%" label="商品名称" prop="name"></el-table-column>
@@ -232,7 +194,6 @@
 </template>
 
 <script>
-// import './mock/processingTrade.js'
 import processingTradeAPI from './api/processingTradeAPI.js';
 export default {
   data() {
@@ -241,14 +202,11 @@ export default {
       clientWidth: 0,
       ptListData: [],
       editMode: 1, //新建1，编辑2
-      goodsEditMode: 1, //新建1，编辑2
       addAndEditDialogIsShow: false,
       fileDialogIsShow: false,
       fileUploadDialogIsShow: false,
       goodsDialogIsShow: false,
-      goodsAddAndEditDialogIsShow: false,
       ptSelectedRows: [],
-      goodsSelectedRows: [],
       ptCurrentPage: 1,
       ptPageSizes: [5, 10, 15, 20],
       ptPageSize: 10,
@@ -261,36 +219,13 @@ export default {
         processCompanyName: '',
         commissionedCompnayName: '',
       },
-      goodsDataModel: {
-        sn: '',
-        goodsType: '',
-        name: '',
-        spec: '',
-        unit: '',
-      },
       searchModel: {
         sku: '',
         processCompanyName: '',
         commissionedCompnayName: '',
       },
-      // goodsData: [],
       ptDataRules: {
         // sku: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
-      },
-      goodsDataRules: {
-        itemNum: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
-        productNum: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
-        nameAndSpecifications: [
-          { required: true, message: '该项不能为空', trigger: 'blur' },
-        ],
-        quantityAndUnit: [
-          { required: true, message: '该项不能为空', trigger: 'blur' },
-        ],
-        originCountry: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
-        unitPrice: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
-        totalPrice: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
-        currency: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
-        levy: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
       },
       processCompanyList: [],
       goodsList: [],
@@ -300,9 +235,6 @@ export default {
   methods: {
     ptOnSelectionChange(selection) {
       this.ptSelectedRows = selection;
-    },
-    goodsOnSelectionChange(selection) {
-      this.goodsSelectedRows = selection;
     },
     loadProcessingTradeList() {
       processingTradeAPI
@@ -343,15 +275,11 @@ export default {
         this.sku = value.sku.split(',');
       }, this);
     },
-    // loadGoodsList() {
-    //   processingTradeAPI.getGoodsList().then(data => {
-    //     this.goodsListData = data;
-    //   });
-    // },
     ptAddClick() {
       this.loadCompanyList();
       this.loadGoodsList();
       this.editMode = 1;
+      this.sku = [];
       this.ptDataModel = {
         id: '',
         sku: [],
@@ -389,30 +317,6 @@ export default {
       processingTradeAPI.getGoodsList().then(data => {
         this.goodsList = data;
       });
-    },
-    goodsDelClick() {
-      this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }).then(() => {
-        this.$notify({
-          title: '成功',
-          message: '删除成功',
-          type: 'success',
-          duration: 2000,
-        });
-      });
-    },
-    goodsAddClick() {
-      this.goodsEditMode = 1;
-      this.goodsDataModel = {};
-      this.goodsAddAndEditDialogIsShow = true;
-    },
-    goodsEditClick() {
-      this.goodsEditMode = 2;
-      this.goodsDataModel = Object.assign({}, this.goodsSelectedRows[0]);
-      this.goodsAddAndEditDialogIsShow = true;
     },
     ptDelClick() {
       this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
@@ -474,15 +378,6 @@ export default {
     },
     feclarationFileView() {
       this.fileDialogIsShow = true;
-    },
-    goodsDialogOkHandler() {
-      this.goodsDialogIsShow = false;
-      this.$notify({
-        title: '成功',
-        message: '保存成功',
-        type: 'success',
-        duration: 2000,
-      });
     },
     addAndEditOkHandler() {
       let validateForm = () => {
@@ -554,15 +449,6 @@ export default {
           this.ptDataModel.processCompany = value.id;
         }
       }, this);
-    },
-    goodsAddAndEditOkHandler() {
-      this.goodsAddAndEditDialogIsShow = false;
-      this.$notify({
-        title: '成功',
-        message: '保存成功',
-        type: 'success',
-        duration: 2000,
-      });
     },
     fileViewOkHandler() {
       this.fileDialogIsShow = false;
