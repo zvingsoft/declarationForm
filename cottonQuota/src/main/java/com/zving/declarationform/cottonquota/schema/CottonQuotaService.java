@@ -3,6 +3,7 @@ package com.zving.declarationform.cottonquota.schema;
 import java.util.List;
 
 import com.zving.declarationform.cottonquota.model.CottonQuota;
+import com.zving.declarationform.model.DeclarationForm;
 
 /**
  * @author 王育春
@@ -22,6 +23,8 @@ public interface CottonQuotaService {
 
     String audit(String ids, String status);
 
-    String check();
+    String confirm(DeclarationForm form);
+
+    String check(DeclarationForm form);
 
 }

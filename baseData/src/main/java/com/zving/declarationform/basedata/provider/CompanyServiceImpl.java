@@ -94,13 +94,6 @@ public class CompanyServiceImpl implements CompanyService {
         return "更新失败";
     }
 
-    @Override
-    @RequestMapping(path = "check", method = RequestMethod.PATCH)
-    @ResponseBody
-    public String check() {
-        return "审核成功";
-    }
-
     private Company getCompany(long id) {
         List<Company> list = storage.find(Company.class, null);
         for (Company company : list) {

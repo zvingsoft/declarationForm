@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.cottonquota.model.CottonQuota;
 import com.zving.declarationform.cottonquota.schema.CottonQuotaService;
+import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 
@@ -119,10 +120,17 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
     }
 
     @Override
-    @RequestMapping(path = "check", method = RequestMethod.PATCH)
+    @RequestMapping(path = "check", method = RequestMethod.POST)
     @ResponseBody
-    public String check() {
-        return "审核成功";
+    public String check(@RequestBody DeclarationForm form) {
+        return "check成功：cottonQuota";
+    }
+
+    @Override
+    @RequestMapping(path = "confirm", method = RequestMethod.POST)
+    @ResponseBody
+    public String confirm(@RequestBody DeclarationForm form) {
+        return "confirm成功：cottonQuota";
     }
 
     private CottonQuota getCottonQuota(long id) {
