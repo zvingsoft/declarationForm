@@ -552,6 +552,7 @@ export default {
             return;
           }
           this.confirmLoading = true;
+          let ids = [];
           this.inSelectedRows.forEach(function(row) {
             ids.push(row.id);
           });
