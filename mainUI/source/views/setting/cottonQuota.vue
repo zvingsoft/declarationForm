@@ -206,7 +206,13 @@
         this.dataLoading = false;
         cottonQuotaAPI.getCottonQuota(this.number, this.companyName, this.currentPage, this.pageSize).then(data => {
           this.cottonquotas = data.data;
-          this.total = data.total;
+          if (this.number != '') {
+            this.cottonquotas = this.cottonquotas.filter(val => val.number.indexOf(this.number) != -1)
+          }
+          if (this.companyName != '') {
+            this.cottonquotas = this.cottonquotas.filter(val => val.companyName.indexOf(this.companyName) != -1)
+          }
+          this.total = this.cottonquotas.length;
           this.dataLoading = false;
         })
       },

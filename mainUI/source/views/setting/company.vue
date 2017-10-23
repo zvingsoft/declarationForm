@@ -254,7 +254,10 @@
         this.dataLoading = true;
         companyAPI.getCompany(this.name, this.currentPage, this.pageSize).then(data => {
           this.companys = data.data;
-          this.total = data.total;
+          if (this.name != '') {
+            this.companys = this.companys.filter(val => val.name.indexOf(this.name) != -1)
+          }
+          this.total = this.companys.length;
           this.dataLoading = false;
         })
       },
