@@ -264,7 +264,7 @@ export default {
         })
       }
     },
-
+    //加载SKU
     beforeDialogOpen() {
       this.loadCompany();
       if (!this.SKUData.length > 0) {
