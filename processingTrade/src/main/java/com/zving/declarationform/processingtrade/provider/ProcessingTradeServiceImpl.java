@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.model.DeclarationForm;
+import com.zving.declarationform.model.PackingItem;
 import com.zving.declarationform.processingtrade.model.ProcessingTrade;
 import com.zving.declarationform.processingtrade.schema.ProcessingTradeService;
 import com.zving.declarationform.storage.IStorage;
@@ -44,6 +45,13 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@ResponseBody
 	public String confirm(@RequestBody DeclarationForm form) {
 		return "confirm成功：processingTrade";
+	}
+
+	@Override
+	@RequestMapping(path = "compensate", method = RequestMethod.POST)
+	@ResponseBody
+	public String compensate(@RequestBody DeclarationForm form) {
+		return null;
 	}
 
 	@Override
@@ -95,6 +103,25 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@ResponseBody
 	public List<ProcessingTrade> list() {
 		return storage.find(ProcessingTrade.class, null);
+	}
+
+	@SuppressWarnings("unused")
+	private String myConfirm(DeclarationForm form) {
+		List<ProcessingTrade> processingTrades = list();
+		for (ProcessingTrade processingTrade : processingTrades) {
+			if (processingTrade.getProcessCompanyName().equals(form.getDeclarationUnit())) {
+				for (PackingItem item : form.getPackingList()) {
+					if (processingTrade.getSku().equals(item.getSKU())) {
+						if (processingTrade.getUsed() < processingTrade.getAmount()) {
+							processingTrade.setUsed(processingTrade.getUsed() + Double.parseDouble(form.getGoodsNumber()));
+							update(processingTrade);
+							return "compensate成功：processingTrade";
+						}
+					}
+				}
+			}
+		}
+		return "compensate失败：processingTrade";
 	}
 
 }

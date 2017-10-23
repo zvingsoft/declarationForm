@@ -117,10 +117,10 @@
           </el-select>
         </el-form-item>
         <el-form-item label="限额" prop="amount">
-          <el-input-number v-model="ptDataModel.amount" :min="1" style="width:320px"></el-input-number>
+          <el-input-number v-model="ptDataModel.amount" :min="0" style="width:320px"></el-input-number>
         </el-form-item>
         <el-form-item label="己用量" prop="used">
-          <el-input-number v-model="ptDataModel.used" :min="1" style="width:320px"></el-input-number>
+          <el-input-number v-model="ptDataModel.used" :min="0" style="width:320px"></el-input-number>
         </el-form-item>
         <el-form-item label="接单企业ID" prop="processCompany" v-show="false">
           <el-input type="text" v-model="ptDataModel.processCompany" auto-complete="off" style="width:320px"></el-input>

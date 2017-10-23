@@ -25,4 +25,6 @@ public interface ProcessingTradeService {
 	String check(DeclarationForm form);
 
 	String confirm(DeclarationForm form);
+
+	String compensate(DeclarationForm form);
 }
