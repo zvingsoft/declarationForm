@@ -17,20 +17,14 @@
             <el-input v-model="insearch.licenseKey" size="small" placeholder="请输入许可证号" style="width: 200px;"></el-input>
             进口商：
             <el-input v-model="insearch.companyName" size="small" placeholder="请输入进口商" style="width: 200px;"></el-input>
-            报关口岸:
-            <el-input v-model="insearch.portOfClearance" size="small" placeholder="请输入报关口岸" style="width: 200px;"></el-input>
             <el-button size="small" type="primary" @click="loadInlicenseList"> 搜 索 </el-button>
           </div>
           <el-table ref="myTabelRef" :data="inLicenseData" tooltip-effect="dark" style="width: 100%" :height="clientHeight" @selection-change="inOnSelectionChange">
             <el-table-column type="selection" width="55" align="center"></el-table-column>
-            <el-table-column prop="licenseKey" show-overflow-tooltip min-width="15%" label="许可证号"></el-table-column>
-            <el-table-column prop="companyName" show-overflow-tooltip min-width="20%" label="进口商"></el-table-column>
-            <el-table-column prop="consignee" show-overflow-tooltip min-width="15%" label="收货人"></el-table-column>
-            <el-table-column prop="tradeMode" show-overflow-tooltip min-width="10%" label="贸易方式"></el-table-column>
-            <el-table-column prop="exportingCountry" show-overflow-tooltip min-width="10%" label="出口国"></el-table-column>
-            <el-table-column prop="countryOfOrigin" show-overflow-tooltip min-width="10%" label="原产国家"></el-table-column>
-            <el-table-column prop="portOfClearance" show-overflow-tooltip min-width="10%" label="报关口岸"></el-table-column>
-            <el-table-column prop="shippingType" show-overflow-tooltip min-width="10%" label="运输方式"></el-table-column>
+            <el-table-column prop="licenseKey" show-overflow-tooltip min-width="30%" label="许可证号"></el-table-column>
+            <el-table-column prop="companyName" show-overflow-tooltip min-width="30%" label="进口商"></el-table-column>
+            <el-table-column prop="goodsCode" show-overflow-tooltip min-width="20%" label="商品编号"></el-table-column>
+            <el-table-column prop="expirationDateOfLicense" show-overflow-tooltip min-width="20%" label="许可证截止日期"></el-table-column>
           </el-table>
           <div class="fr" style="margin-top:5px;">
             <el-pagination @size-change="myHandleSizeChange" @current-change="myHandleCurrentChange" :current-page="myCurrentPage" :page-sizes="myPageSizes" :page-size="myPageSize" :total="myTotal" layout="total, sizes, prev, pager, next">
@@ -52,21 +46,16 @@
           <div class="search-bar fr">
             许可证号:
             <el-input v-model="outsearch.licenseKey" size="small" placeholder="请输入许可证号" style="width: 200px;"></el-input>
-            进口商：
+            出口商：
             <el-input v-model="outsearch.companyName" size="small" placeholder="请输入出口商" style="width: 200px;"></el-input>
-            报关口岸:
-            <el-input v-model="outsearch.portOfClearance" size="small" placeholder="请输入报关口岸" style="width: 200px;"></el-input>
             <el-button size="small" type="primary" @click="loadOutlicenseList"> 搜 索 </el-button>
           </div>
           <el-table ref="apTabelRef" :data="outLicenseData" tooltip-effect="dark" style="width: 100%" :height="clientHeight" @selection-change="outOnSelectionChange">
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column prop="licenseKey" show-overflow-tooltip min-width="15%" label="许可证号"></el-table-column>
             <el-table-column prop="companyName" show-overflow-tooltip min-width="15%" label="出口商"></el-table-column>
-            <el-table-column prop="consignor" show-overflow-tooltip min-width="15%" label="发货人"></el-table-column>
-            <el-table-column prop="tradeMode" show-overflow-tooltip min-width="10%" label="贸易方式"></el-table-column>
-            <el-table-column prop="importedCountry" show-overflow-tooltip min-width="12%" label="进口国"></el-table-column>
-            <el-table-column prop="portOfClearance" show-overflow-tooltip min-width="10%" label="报关口岸"></el-table-column>
-            <el-table-column prop="certificationDate" show-overflow-tooltip min-width="15%" label="发证日期"></el-table-column>
+            <el-table-column prop="goodsCode" show-overflow-tooltip min-width="20%" label="商品编号"></el-table-column>
+            <el-table-column prop="expirationDateOfLicense" show-overflow-tooltip min-width="20%" label="许可证截止日期"></el-table-column>
           </el-table>
           <div class="fr" style="margin-top:5px;">
             <el-pagination @size-change="apHandleSizeChange" @current-change="apHandleCurrentChange" :current-page="apCurrentPage" :page-sizes="apPageSizes" :page-size="apPageSize" :total="apTotal" layout="total, sizes, prev, pager, next">
@@ -76,75 +65,30 @@
       </el-tab-pane>
     </el-tabs>
     <!-- 添加、编辑进口许可证 -->
-    <el-dialog :title="editMode===1?'添加进口许可证':'编辑进口许可证'" :visible.sync="inLicenseShow"  size="large" >
-      <el-form :model="inLicenseModel" :rules="inLicenseRules" inline ref="inLicenseRef" label-width="140px" style="height:400px;overflow-y:scroll;overflow-x:hidden;">
-        <div class="form-title">基本信息</div>
-        <div class="form-panel">
+    <el-dialog :title="editMode===1?'添加进口许可证':'编辑进口许可证'" :visible.sync="inLicenseShow"  @open="beforeDialogOpen">
+      <el-form :model="inLicenseModel" :rules="inLicenseRules" inline ref="inLicenseRef" label-width="140px" style="overflow-y:hidden;overflow-x:hidden;">
+
           <el-form-item label="进口商" prop="companyName">
             <el-input type="text" v-model="inLicenseModel.companyName" auto-complete="off" class="input-320"></el-input>
-          </el-form-item>
-          <el-form-item label="收货人" prop="consignee">
-            <el-input type="text" v-model="inLicenseModel.consignee" auto-complete="off" class="input-320"></el-input>
           </el-form-item>
           <el-form-item label="许可证号" prop="licenseKey">
             <el-input type="text" v-model="inLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
           </el-form-item>
-          <el-form-item label="贸易方式" prop="tradeMode">
-            <el-input type="text" v-model="inLicenseModel.tradeMode" auto-complete="off" class="input-320"></el-input>
-          </el-form-item>
-          <el-form-item label="出口国" prop="exportingCountry">
-            <el-input type="text" v-model="inLicenseModel.exportingCountry" auto-complete="off" class="input-320"></el-input>
-          </el-form-item>
-          <el-form-item label="原产国家" prop="countryOfOrigin">
-            <el-input type="text" v-model="inLicenseModel.countryOfOrigin" auto-complete="off" class="input-320"></el-input>
-          </el-form-item>
-          <el-form-item label="报关口岸" prop="portOfClearance">
-            <el-input type="text" v-model="inLicenseModel.portOfClearance" auto-complete="off" class="input-320"></el-input>
-          </el-form-item>
-          <el-form-item label="外汇来源" prop="sourceOffOreignExchange">
-            <el-input type="text" v-model="inLicenseModel.sourceOffOreignExchange" auto-complete="off" class="input-320"></el-input>
-          </el-form-item>
-          <el-form-item label="付款方式" prop="paymentMethod">
-            <el-input type="text" v-model="inLicenseModel.paymentMethod" auto-complete="off" class="input-320"></el-input>
-          </el-form-item>
-          <el-form-item label="最终用户" prop="endUser">
-            <el-input type="text" v-model="inLicenseModel.endUser" auto-complete="off" class="input-320"></el-input>
-          </el-form-item>
-          <el-form-item label="最终用途" prop="finalPurpose">
-            <el-input type="text" v-model="inLicenseModel.finalPurpose" auto-complete="off" class="input-320"></el-input>
-          </el-form-item>
-          <el-form-item label="商品名称" prop="goodsName">
-            <el-input type="text" v-model="inLicenseModel.goodsName" auto-complete="off" class="input-320"></el-input>
-          </el-form-item>
           <el-form-item label="商品编号" prop="goodsCode">
-            <el-input type="text" v-model="inLicenseModel.goodsCode" auto-complete="off" class="input-320"></el-input>
-          </el-form-item>
-          <el-form-item label="运输方式" prop="shippingType">
-            <el-input type="text" v-model="inLicenseModel.shippingType" auto-complete="off" class="input-320"></el-input>
+            <el-select class="e-input" filterable v-model="inLicenseModel.goodsCode" placeholder="请选择" style="width:320px" >
+              <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
+                <span style="float: left">{{ item.sn }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="许可证截止日期" prop="expirationDateOfLicense">
             <el-date-picker v-model="inLicenseModel.expirationDateOfLicense" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
           </el-form-item>
-          <el-form-item label="发证日期" prop="certificationDate">
-            <el-date-picker v-model="inLicenseModel.certificationDate" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
+          <el-form-item label="备注" prop="memo">
+            <el-input type="text" v-model="inLicenseModel.memo" auto-complete="off" style="width:320px"></el-input>
           </el-form-item>
 
-          <el-form-item label="备注" prop="memo">
-            <el-input type="text" v-model="inLicenseModel.memo" auto-complete="off" style="width:600px"></el-input>
-          </el-form-item>
-        </div>
-        <div class="form-title">商品信息</div>
-        <div class="goods-panel">
-          <div style="height:50px;background-color:#f5f5f5; padding:5px;">
-            <el-button class="z-toolbar-btn" :plain="true" @click="addGoodsClick" style="margin-left:10px;">
-              <i class="fa fa-plus"></i>添加</el-button>
-            <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedLicensegoodsRow.length === 0" @click="editGoodsClick">
-              <i class="fa fa-edit"></i>编辑</el-button>
-            <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedLicensegoodsRow.length === 0" @click="deleteGoodsClick">
-              <i class="fa fa-remove"></i>删除</el-button>
-          </div>
-          <licensegoods-table :licenseID = "inLicenseModel.id" @row-click="licensegoodsTableRowClick"></licensegoods-table>
-        </div>
       </el-form>
       <div slot="footer">
         <el-button @click="inLicenseShow=false">取消</el-button>
@@ -153,129 +97,44 @@
     </el-dialog>
 
     <!-- 添加、编辑出口许可证 -->
-    <el-dialog :title="outeditMode===1?'添加出口许可证':'编辑出口许可证'" :visible.sync="outLicenseShow"  size="large" >
-      <el-form :model="outLicenseModel" :rules="outLicenseRules" inline ref="outLicenseRef" label-width="140px" style="height:400px;overflow-y:scroll;overflow-x:hidden;">
+    <el-dialog :title="outeditMode===1?'添加出口许可证':'编辑出口许可证'" :visible.sync="outLicenseShow"   @open="beforeDialogOpen">
+      <el-form :model="outLicenseModel" :rules="outLicenseRules" inline ref="outLicenseRef" label-width="140px" style="overflow-y:hidden;overflow-x:hidden;">
         <el-form-item label="出口商" prop="companyName">
           <el-input type="text" v-model="outLicenseModel.companyName" auto-complete="off" class="input-320"></el-input>
-        </el-form-item>
-        <el-form-item label="发货人" prop="consignor">
-          <el-input type="text" v-model="outLicenseModel.consignor" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="许可证号" prop="licenseKey">
           <el-input type="text" v-model="outLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
-        <el-form-item label="贸易方式" prop="tradeMode">
-          <el-input type="text" v-model="outLicenseModel.tradeMode" auto-complete="off" class="input-320"></el-input>
-        </el-form-item>
-        <el-form-item label="进口国" prop="importedCountry">
-          <el-input type="text" v-model="outLicenseModel.importedCountry" auto-complete="off" class="input-320"></el-input>
-        </el-form-item>
-        <el-form-item label="合同号" prop="conractNo">
-          <el-input type="text" v-model="outLicenseModel.conractNo" auto-complete="off" class="input-320"></el-input>
-        </el-form-item>
-        <el-form-item label="报关口岸" prop="portOfClearance">
-          <el-input type="text" v-model="outLicenseModel.portOfClearance" auto-complete="off" class="input-320"></el-input>
-        </el-form-item>
-        <el-form-item label="付款方式" prop="paymentMethod">
-          <el-input type="text" v-model="outLicenseModel.paymentMethod" auto-complete="off" class="input-320"></el-input>
-        </el-form-item>
-        <el-form-item label="商品名称" prop="goodsName">
-          <el-input type="text" v-model="outLicenseModel.goodsName" auto-complete="off" class="input-320"></el-input>
-        </el-form-item>
         <el-form-item label="商品编号" prop="goodsCode">
-          <el-input type="text" v-model="outLicenseModel.goodsCode" auto-complete="off" class="input-320"></el-input>
-        </el-form-item>
-        <el-form-item label="运输方式" prop="shippingType">
-          <el-input type="text" v-model="outLicenseModel.shippingType" auto-complete="off" class="input-320"></el-input>
+          <el-select class="e-input" filterable v-model="outLicenseModel.goodsCode" placeholder="请选择"  style="width:320px" >
+              <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
+                <span style="float: left">{{ item.sn }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
+              </el-option>
+            </el-select>
         </el-form-item>
         <el-form-item label="许可证截止日期" prop="expirationDateOfLicense">
           <el-date-picker v-model="outLicenseModel.expirationDateOfLicense" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
         </el-form-item>
-        <el-form-item label="发证日期" prop="certificationDate">
-          <el-date-picker v-model="outLicenseModel.certificationDate" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
-        </el-form-item>
         <el-form-item label="备注" prop="memo">
-          <el-input type="text" v-model="outLicenseModel.memo" auto-complete="off" style="width:800px"></el-input>
+          <el-input type="text" v-model="outLicenseModel.memo" auto-complete="off" style="width:320px"></el-input>
         </el-form-item>
-        <div class="form-title">商品信息</div>
-        <div class="goods-panel">
-          <div style="height:50px;background-color:#f5f5f5; padding:5px;">
-            <el-button class="z-toolbar-btn" :plain="true" @click="addGoodsClick" style="margin-left:10px;">
-              <i class="fa fa-plus"></i>添加</el-button>
-            <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedLicensegoodsRow.length === 0" @click="editGoodsClick">
-              <i class="fa fa-edit"></i>编辑</el-button>
-            <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedLicensegoodsRow.length === 0" @click="deleteGoodsClick">
-              <i class="fa fa-remove"></i>删除</el-button>
-          </div>
-          <licensegoods-table :licenseID = "outLicenseModel.id" @row-click="licensegoodsTableRowClick"></licensegoods-table>
-        </div>
       </el-form>
       <div slot="footer">
         <el-button @click="outLicenseShow=false">取消</el-button>
         <el-button type="primary" @click="outOkHandler" :loading="confirmLoading">确 定</el-button>
       </div>
     </el-dialog>
-    <!-- 文件列表查看、编辑框 -->
-    <el-dialog :title="fileType===1?'申报文件':'审批文件'" :visible.sync="myFileDialogIsShow">
-      <el-toolbar class="filelist-toolbar">
-        <el-button class="z-toolbar-btn" :plain="true" @click="fileUpload">
-          <i class="fa fa-upload"></i>上传</el-button>
-        <el-button class="z-toolbar-btn" :disabled="fileSelectedRows.length < 1" :plain="true" @click="fileDownload">
-          <i class="fa fa-download"></i>下载</el-button>
-        <el-button class="z-toolbar-btn" :disabled="fileSelectedRows.length !== 1" :plain="true" @click="fileView">
-          <i class="fa fa-search"></i>预览</el-button>
-        <el-button class="z-toolbar-btn" :plain="true" :disabled="fileSelectedRows.length < 1" @click="fileDelete">
-          <i class="fa fa-trash-o"></i>删除</el-button>
-      </el-toolbar>
-      <el-table ref="fileTabelRef" :data="fileTableData" tooltip-effect="dark" style="width: 100%;margin-top:5px;" @selection-change="fileOnSelectionChange">
-        <el-table-column type="selection" width="60" align="center"></el-table-column>
-        <el-table-column prop="name" label="文件名"></el-table-column>
-      </el-table>
-    </el-dialog>
-    <!-- 文件上传 -->
-    <el-dialog :title="'文件上传'" :visible.sync="fileUploadDialogIsShow">
-      <el-upload :on-success="onUploadSuccess" class="upload-file" accept=".jpg,.png" action="" :multiple="false" :file-list="fileList">
-        <el-button size="small" type="primary">点击上传</el-button>
-        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-      </el-upload>
-      <div slot="footer">
-        <el-button @click="fileUploadDialogIsShow=false">取消</el-button>
-        <el-button type="primary" @click="fileUploadOkHandler">确 定</el-button>
-      </div>
-    </el-dialog>
-    <el-dialog :title="goodseditMode==1? '编辑商品信息': '添加商品'" :visible.sync="licensegoodsDialogModal" :close-on-click-modal="false">
-      <el-form label-position="right" :model="tmpLicensegoods" inline label-width="200px">
-        <el-form-item label="规格、等级：">
-          <el-input class="e-input" v-model="tmpLicensegoods.specification"></el-input>
-        </el-form-item>
-        <el-form-item label="单位：">
-          <el-input class="e-input" v-model="tmpLicensegoods.unit"></el-input>
-        </el-form-item>
-        <el-form-item label="数量：">
-          <el-input class="e-input" v-model="tmpLicensegoods.quantity"></el-input>
-        </el-form-item>
-        <el-form-item label="单价（USD）：">
-          <el-input class="e-input" v-model="tmpLicensegoods.unitprice"></el-input>
-        </el-form-item>
-        <el-form-item label="总值（USD）：">
-          <el-input class="e-input" v-model="tmpLicensegoods.amount"></el-input>
-        </el-form-item>
-        <el-form-item label="总值折美元：">
-          <el-input class="e-input" v-model="tmpLicensegoods.amountinusd"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer">
-        <el-button @click="licensegoodsDialogModal = false">取 消</el-button>
-        <el-button type="primary" @click="licensegoodsConfirm">确 定</el-button>
-      </div>
-    </el-dialog>
+
+
   </div>
 </template>
 
 <script>
-//import './mock/license.js';
+import './mock/license.js';
 import licenseAPI from './api/licenseAPI.js';
 import licensegoodsTable from './components/licensegoodsTable.vue';
+import skuAPI from '../form/api/skuAPI.js';
 export default {
   data() {
     return {
@@ -339,8 +198,6 @@ export default {
       editMode: 1,
       /*出口许可证编辑模式：1添加，2编辑*/
       outeditMode: 1,
-      /*商品编辑模式：1添加，2编辑*/
-      goodseditMode: 0,
       /*文件类型：1申报文件，2审批文件 */
       fileType: 1,
       /*表单提交等待动画*/
@@ -378,79 +235,17 @@ export default {
       /*进度条百分比 */
       percentage: 0,
       // i: 0,
-      selectedLicensegoodsRow: {},
-      tmpLicensegoods: {},
-      licensegoodsDialogModal: false,
+      SKUData: [],
+
     };
   },
   methods: {
-    addGoodsClick() {
-      this.goodseditMode = 0;
-      this.tmpLicensegoods = {id:1};
-      this.licensegoodsDialogModal = true;
-    },
-    editGoodsClick() {
-      this.goodseditMode = 1;
-      this.tmpLicensegoods = Object.assign({}, this.selectedLicensegoodsRow);
-      this.licensegoodsDialogModal = true;
-    },
-    deleteGoodsClick() {
-      this.$confirm('确定删除吗？删除后无法恢复。是否继续删除？', '删除确认', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        beforeClose: (action, instance, done) => {
-          if (action !== 'confirm') {
-            done();
-          }
-          instance.confirmButtonLoading = true;
-
-          return licenseAPI
-            .deleteLicenseGoods(this.selectedLicensegoodsRow.id)
-            .then(data => {
-              instance.confirmButtonLoading = false;
-              done(data);
-            });
-        },
-      }).then(data => {
-          this.selectedLicensegoodsRow = [];
-          this.$notify({
-            title: '提示',
-            message: '删除成功！',
-            type: 'success',
-            duration: 2000,
-          });
-        }).catch(() => {
-          this.$notify.error({
-            title: '取消',
-            message: '操作取消！',
-            duration: 2000,
-          });
+    beforeDialogOpen() {
+      skuAPI
+        .getSKU()
+        .then(data => {
+          this.SKUData = data;
         });
-    },
-    licensegoodsConfirm() {
-      if (this.goodseditMode == 0) {
-        this.$notify({
-          title: '成功',
-          message: '成功',
-          type: 'success',
-          duration: 2000,
-        });
-        this.licensegoodsDialogModal = false;
-      } else {
-        let index = this.licensegoodsData.findIndex(
-          val => val.id === this.tmpLicensegoods.id
-        );
-        this.licensegoodsData = [
-          ...this.licensegoodsData.slice(0, index),
-          this.tmpLicensegoods,
-          ...this.licensegoodsData.slice(index + 1),
-        ];
-        this.licensegoodsDialogModal = false;
-      }
-    },
-    licensegoodsTableRowClick(row) {
-      this.selectedLicensegoodsRow = row;
     },
     /*添加进口许可证*/
     inAddClick() {
@@ -731,67 +526,6 @@ export default {
       this.outSelectedRows = selection;
     },
 
-    /*文件上传 */
-    fileUpload() {
-      this.fileUploadDialogIsShow = true;
-    },
-    /*点击确定文件上传 */
-    fileUploadOkHandler() {
-      this.$notify({
-        title: '成功',
-        message: '上传成功',
-        type: 'success',
-        duration: 2000,
-      });
-      this.fileUploadDialogIsShow = false;
-    },
-    /*文件上传成功 */
-    onUploadSuccess(response, file) {
-      this.$notify({
-        title: file.name,
-        message: '上传成功',
-        type: 'success',
-        duration: 2000,
-      });
-    },
-    /*文件下载 */
-    fileDownload() {
-      this.$notify({
-        title: '成功',
-        message: '下载成功',
-        type: 'success',
-        duration: 2000,
-      });
-    },
-    /*文件预览 */
-    fileView() {
-      this.fileViewDialogIsShow = true;
-    },
-    /*文件删除 */
-    fileDelete() {
-      this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      })
-        .then(() => {
-          let ids = [];
-          this.fileSelectedRows.forEach(function(row) {
-            ids.push(row.id);
-          });
-          return ids;
-        })
-        .then(ids => {
-          this.fileTableData = this.fileTableData.filter(
-            val => !ids.includes(val.id)
-          );
-          this.$notify.success({
-            title: '成功',
-            message: '删除成功',
-            duration: 2000,
-          });
-        });
-    },
     /*加载进口许可证数据 */
     loadInlicenseList() {
       let pagedata = {
@@ -839,7 +573,6 @@ export default {
     },
   },
   created() {
-    this.clientHeight = document.documentElement.clientHeight - 270;
     let num = Math.floor(this.clientHeight / 40) - 1;
     this.apPageSize = Math.floor(num / 5) * 5;
     this.apPageSizes = [
