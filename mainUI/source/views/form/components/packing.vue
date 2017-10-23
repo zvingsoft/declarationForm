@@ -1,0 +1,178 @@
+<template>
+  <div>
+    <div style="height:50px;background-color:#f5f5f5; padding:5px;" v-if="!onlyView">
+      <el-button class="z-toolbar-btn" :plain="true" @click="addClick">
+        <i class="fa fa-plus"></i>添加</el-button>
+          <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="editClick">
+            <i class="fa fa-edit"></i>编辑</el-button>
+            <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="deleteClick">
+        <i class="fa fa-remove"></i>删除</el-button>
+    </div>
+    <el-table :data.sync="packinglistData" tooltip-effect="dark" class="pack-table" highlight-current-row @selection-change="onSelectionChange">
+      <el-table-column type="index" label="项号" width="60px"></el-table-column>
+      <el-table-column prop="SKU" min-width="90px" label="商品编号"></el-table-column>
+      <el-table-column prop="name" min-width="200px" label="商品名称、规格型号"></el-table-column>
+      <el-table-column prop="amount" min-width="80px" label="数量及单位"></el-table-column>
+      <el-table-column prop="singlePrice" min-width="60px" label="单价"></el-table-column>
+      <el-table-column prop="totalPrice" min-width="60px" label="总价"></el-table-column>
+      <el-table-column v-if="declarationType == 'import'" min-width="80px" prop="country" label="原产国"></el-table-column>
+      <el-table-column v-else prop="country" min-width="80px" label="最终目的国"></el-table-column>
+      <el-table-column prop="currency" min-width="60px" label="币制"></el-table-column>
+      <el-table-column prop="exemption" min-width="60px" label="征免"></el-table-column>
+    </el-table>
+    <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false" @open="beforeDialogOpen">
+      <el-form label-position="right" :model="tmpPacking" inline label-width="200px">
+        <el-form-item label="SKU编号：">
+          <el-select class="e-input" v-model="tmpPacking.SKU" placeholder="请选择">
+              <el-option v-for="item in SKUData" :key="item.SN" :label="item.SN" :value="item.SN">
+                <span style="float: left">{{ item.SN }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
+              </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="商品名称、规格型号：">
+          <el-input class="e-input" type="textarea" :rows="3" v-model="tmpPacking.name"></el-input>
+        </el-form-item>
+        <el-form-item label="数量及单位：">
+          <el-input class="e-input" v-model="tmpPacking.number"></el-input>
+        </el-form-item>
+        <el-form-item label="单价：">
+          <el-input class="e-input" v-model="tmpPacking.singleprice"></el-input>
+        </el-form-item>
+        <el-form-item label="总价：">
+          <el-input class="e-input" v-model="tmpPacking.totalprice"></el-input>
+        </el-form-item>
+        <el-form-item v-if="this.declarationType == 'import'" label="原产国：">
+          <el-input class="e-input" v-model="tmpPacking.productcountry"></el-input>
+        </el-form-item>
+        <el-form-item v-else label="最终目的国：">
+          <el-input class="e-input" v-model="tmpPacking.productcountry"></el-input>
+        </el-form-item>
+        <el-form-item label="币制：">
+          <el-input class="e-input" v-model="tmpPacking.currency"></el-input>
+        </el-form-item>
+        <el-form-item label="征免：">
+          <el-input class="e-input" v-model="tmpPacking.exemption"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="packingdetailDialogModal = false">取 消</el-button>
+        <el-button type="primary" @click="packingdetailConfirm">确 定</el-button>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import packinglistAPI from '../api/packinglistAPI.js';
+//import '../mock/declaration.js';
+
+export default {
+  data() {
+    return {
+      packingdetailDialogModal: false,
+      tmpPacking: {},
+      selectedRows: [],
+      packinglistData: [],
+      editMode: 0,
+      SKUData:[]
+    };
+  },
+  watch: {
+    packinglistData() {
+      this.$emit('listdataChange', this.packinglistData);
+    },
+  },
+  methods: {
+    beforeDialogOpen(){
+
+    },
+    onSelectionChange(selection) {
+      this.selectedRows = selection;
+    },
+    addClick() {
+      this.editMode = 0;
+      this.tmpPacking = {
+        id:Math.floor(Math.random() * 999999)
+      };
+      this.packingdetailDialogModal = true;
+    },
+    editClick() {
+      this.editMode = 1;
+      this.tmpPacking = Object.assign({}, this.selectedRows[0]);
+      this.packingdetailDialogModal = true;
+    },
+    deleteClick() {
+      let rowIds = [];
+      this.selectedRows.forEach(function(row) {
+        rowIds.push(row.id);
+      });
+      this.$confirm('确定删除吗？删除后无法恢复。是否继续删除？', '删除确认', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(() => {
+          this.packinglistData = this.packinglistData.filter(
+            val => !rowIds.includes(val.id)
+          );
+          this.selectedRows = [];
+          this.$notify({
+            title: '提示',
+            message: '删除成功！',
+            type: 'success',
+            duration: 2000,
+          });
+        })
+        .catch(() => {
+          this.$notify.error({
+            title: '取消',
+            message: '操作取消！',
+            duration: 2000,
+          });
+        });
+    },
+    packingdetailConfirm() {
+      if (this.editMode == 0) {
+        this.$notify({
+          title: '成功',
+          message: '添加成功',
+          type: 'success',
+          duration: 2000,
+        });
+        this.packinglistData = [
+          ...this.packinglistData,
+          Object.assign({}, this.tmpPacking),
+        ];
+      }
+      if (this.editMode == 1) {
+        this.$notify({
+          title: '成功',
+          message: '添加成功',
+          type: 'success',
+          duration: 2000,
+        });
+        let index = this.packinglistData.findIndex(
+          val => val.id === this.tmpPacking.id
+        );
+        this.packinglistData = [
+          ...this.packinglistData.slice(0, index),
+          Object.assign({}, this.tmpPacking),
+          ...this.packinglistData.slice(index + 1),
+        ];
+      }
+    },
+    rowClick(row) {
+      this.$emit('row-click', row);
+    },
+  },
+  props: ['packinglistData', 'declarationType','onlyView'],
+};
+</script>
+
+<style scoped>
+.pack-table {
+  font-size: 10px;
+  min-width: 100%;
+}
+</style>

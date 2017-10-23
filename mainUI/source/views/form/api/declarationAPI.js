@@ -9,18 +9,14 @@ const declarationAPI = {
       .then(res => res.data)
   },
   getDeclarationById (id) {
-    return axios.get('/form/form/'+ id).then(res => res.data)
+    return axios.get('/form/form/' + id).then(res => res.data)
   },
   addDeclaration (declaration) {
     console.log(declaration)
-    return axios
-      .post('/form/form', JSON.parse(JSON.stringify(declaration)))
-      .then(res => res.data)
+    return axios.post('/form/form', JSON.parse(JSON.stringify(declaration)))
   },
   updateDeclaration (declaration) {
-    return axios
-      .put('/form/form', JSON.parse(JSON.stringify(declaration)))
-      .then(res => res.data)
+    return axios.put('/form/form', JSON.parse(JSON.stringify(declaration)))
   },
   deleteDeclaration (ids) {
     let strIds = ids.join(',')
