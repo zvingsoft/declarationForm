@@ -66,8 +66,8 @@ var company = {
 var companysforselect = {
   data: [
     {
-      companyid: '100',
-      companyname: '湖南顺风纺织厂',
+      companyId: '100',
+      companyName: '湖南顺风纺织厂',
       bankcreditrating: 'A+',
       allocation: '5000',
       used: '3000',
@@ -75,12 +75,12 @@ var companysforselect = {
       phone: '18887988987',
       fax: '86 519-85125379',
       postcode: '410000',
-      companyaddtime: '2017-10-18 19:23:23',
-      companyadduser: '张三'
+      companyAddTime: '2017-10-18 19:23:23',
+      companyAddUser: '张三'
     },
     {
-      companyid: '101',
-      companyname: '河南顺风纺织厂',
+      companyId: '101',
+      companyName: '河南顺风纺织厂',
       bankcreditrating: 'A+',
       allocation: '0',
       used: '0',
@@ -88,12 +88,12 @@ var companysforselect = {
       phone: '13265748795',
       fax: '86 519-85125379',
       postcode: '488000',
-      companyaddtime: '2017-10-18 19:23:23',
-      companyadduser: '张三'
+      companyAddTime: '2017-10-18 19:23:23',
+      companyAddUser: '张三'
     },
     {
-      companyid: '102',
-      companyname: '海南顺风纺织厂',
+      companyId: '102',
+      companyName: '海南顺风纺织厂',
       bankcreditrating: 'B',
       allocation: '10000',
       used: '0',
@@ -101,8 +101,8 @@ var companysforselect = {
       phone: '18779543209',
       fax: '86 519-85125379',
       postcode: '434000',
-      companyaddtime: '2017-10-18 19:23:23',
-      companyadduser: '张三'
+      companyAddTime: '2017-10-18 19:23:23',
+      companyAddUser: '张三'
     }
   ],
   status: 1,

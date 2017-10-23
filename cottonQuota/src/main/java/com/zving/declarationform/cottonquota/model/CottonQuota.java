@@ -10,86 +10,114 @@ import java.util.Date;
  * @date 2017年10月20日
  */
 public class CottonQuota {
-	private long id; // 主键
-	private long companyId;// 公司ID
-	private String companyName;// 公司名称，这是一个冗余字段
-	private double quota;// 配额
-	private double used;// 己用配额
-	private Date addTime;// 添加时间
-	private String addUser;// 添加人
-	private Date modifyTime;// 修改时间
-	private String modifyUser;// 修改人
+    private long id; // 主键
+    private long companyId;// 公司ID
+    private String companyName;// 公司名称，这是一个冗余字段
+    private double quota;// 配额
+    private double used;// 己用配额
+    private Date addTime;// 添加时间
+    private String addUser;// 添加人
+    private Date modifyTime;// 修改时间
+    private String modifyUser;// 修改人
 
-	public long getId() {
-		return id;
-	}
+    private String number;// 编号
+    private double application;// 申请配额
+    private String auditStatus;// 审核状态
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public String getNumber() {
+        return number;
+    }
 
-	public long getCompanyId() {
-		return companyId;
-	}
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
-	public void setCompanyId(long companyId) {
-		this.companyId = companyId;
-	}
+    public double getApplication() {
+        return application;
+    }
 
-	public String getCompanyName() {
-		return companyName;
-	}
+    public void setApplication(double application) {
+        this.application = application;
+    }
 
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
+    public String getAuditStatus() {
+        return auditStatus;
+    }
 
-	public double getQuota() {
-		return quota;
-	}
+    public void setAuditStatus(String auditStatus) {
+        this.auditStatus = auditStatus;
+    }
 
-	public void setQuota(double quota) {
-		this.quota = quota;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public double getUsed() {
-		return used;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public void setUsed(double used) {
-		this.used = used;
-	}
+    public long getCompanyId() {
+        return companyId;
+    }
 
-	public Date getAddTime() {
-		return addTime;
-	}
+    public void setCompanyId(long companyId) {
+        this.companyId = companyId;
+    }
 
-	public void setAddTime(Date addTime) {
-		this.addTime = addTime;
-	}
+    public String getCompanyName() {
+        return companyName;
+    }
 
-	public String getAddUser() {
-		return addUser;
-	}
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
 
-	public void setAddUser(String addUser) {
-		this.addUser = addUser;
-	}
+    public double getQuota() {
+        return quota;
+    }
 
-	public Date getModifyTime() {
-		return modifyTime;
-	}
+    public void setQuota(double quota) {
+        this.quota = quota;
+    }
 
-	public void setModifyTime(Date modifyTime) {
-		this.modifyTime = modifyTime;
-	}
+    public double getUsed() {
+        return used;
+    }
 
-	public String getModifyUser() {
-		return modifyUser;
-	}
+    public void setUsed(double used) {
+        this.used = used;
+    }
 
-	public void setModifyUser(String modifyUser) {
-		this.modifyUser = modifyUser;
-	}
+    public Date getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
+    }
+
+    public String getAddUser() {
+        return addUser;
+    }
+
+    public void setAddUser(String addUser) {
+        this.addUser = addUser;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
+    public String getModifyUser() {
+        return modifyUser;
+    }
+
+    public void setModifyUser(String modifyUser) {
+        this.modifyUser = modifyUser;
+    }
 
 }

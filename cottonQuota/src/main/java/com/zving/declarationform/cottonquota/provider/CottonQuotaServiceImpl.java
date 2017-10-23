@@ -26,103 +26,103 @@ import io.servicecomb.provider.rest.common.RestSchema;
 @Controller
 public class CottonQuotaServiceImpl implements CottonQuotaService {
 
-	private long getId() {
-		return (long) ((Math.random() * 100000) + 1);
-	}
+    IStorage storage = StorageUtil.getInstance();
 
-	@Override
-	@RequestMapping(path = "cottonQuota", method = RequestMethod.POST)
-	@ResponseBody
-	public String add(@RequestBody CottonQuota cottonQuota) {
-		IStorage storage = StorageUtil.getInstance();
-		cottonQuota.setId(getId());
-		cottonQuota.setAddTime(new Date());
-		cottonQuota.setAddUser("demo");
-		storage.add(CottonQuota.class, cottonQuota);
-		return "添加成功";
-	}
+    private long getId() {
+        return (long) ((Math.random() * 100000) + 1);
+    }
 
-	@Override
-	@RequestMapping(path = "cottonQuota", method = RequestMethod.PUT)
-	@ResponseBody
-	public String update(@RequestBody CottonQuota cottonQuota) {
-		try {
-			IStorage storage = StorageUtil.getInstance();
-			CottonQuota cottonQuotaOrigin = getCottonQuota(storage, cottonQuota.getId());
-			CottonQuota cottonQuotaNew = new CottonQuota();
-			BeanUtils.copyProperties(cottonQuotaNew, cottonQuotaOrigin);
-			cottonQuotaNew.setModifyTime(new Date());
-			cottonQuotaNew.setModifyUser("demo");
-			storage.update(CottonQuota.class, cottonQuotaOrigin, cottonQuotaNew);
-			return "更新成功";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "更新失败";
-	}
+    @Override
+    @RequestMapping(path = "cottonQuota", method = RequestMethod.POST)
+    @ResponseBody
+    public String add(@RequestBody CottonQuota cottonQuota) {
+        cottonQuota.setNumber(String.valueOf(new Date().getTime()));
+        cottonQuota.setAuditStatus("");
+        cottonQuota.setId(getId());
+        cottonQuota.setAddTime(new Date());
+        cottonQuota.setAddUser("demo");
+        storage.add(CottonQuota.class, cottonQuota);
+        return "添加成功";
+    }
 
-	@Override
-	@RequestMapping(path = "cottonQuota/{ids}", method = RequestMethod.DELETE)
-	@ResponseBody
-	public String delete(@PathVariable("ids") String ids) {
-		IStorage storage = StorageUtil.getInstance();
-		String[] idArray = ids.split(",");
-		for (String id : idArray) {
-			if (NumberUtils.isNumber(id)) {
-				CottonQuota cottonQuota = getCottonQuota(storage, Long.valueOf(id));
-				storage.delete(CottonQuota.class, cottonQuota);
-			}
-		}
-		return "删除成功";
-	}
+    @Override
+    @RequestMapping(path = "cottonQuota", method = RequestMethod.PUT)
+    @ResponseBody
+    public String update(@RequestBody CottonQuota cottonQuota) {
+        try {
+            CottonQuota cottonQuotaOrigin = getCottonQuota(cottonQuota.getId());
+            CottonQuota cottonQuotaNew = new CottonQuota();
+            BeanUtils.copyProperties(cottonQuotaNew, cottonQuotaOrigin);
+            cottonQuotaNew.setApplication(cottonQuota.getApplication());
+            cottonQuotaNew.setModifyTime(new Date());
+            cottonQuotaNew.setModifyUser("demo");
+            storage.update(CottonQuota.class, cottonQuotaOrigin, cottonQuotaNew);
+            return "更新成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "更新失败";
+    }
 
-	@Override
-	@RequestMapping(path = "cottonQuota/{id}", method = RequestMethod.GET)
-	@ResponseBody
-	public CottonQuota get(@PathVariable("id") long id) {
-		IStorage storage = StorageUtil.getInstance();
-		return getCottonQuota(storage, id);
-	}
+    @Override
+    @RequestMapping(path = "cottonQuota/{ids}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public String delete(@PathVariable("ids") String ids) {
+        String[] idArray = ids.split(",");
+        for (String id : idArray) {
+            if (NumberUtils.isNumber(id)) {
+                CottonQuota cottonQuota = getCottonQuota(Long.valueOf(id));
+                storage.delete(CottonQuota.class, cottonQuota);
+            }
+        }
+        return "删除成功";
+    }
 
-	@Override
-	@RequestMapping(path = "cottonQuota", method = RequestMethod.GET)
-	@ResponseBody
-	public List<CottonQuota> list() {
-		IStorage storage = StorageUtil.getInstance();
-		return storage.find(CottonQuota.class, null);
-	}
+    @Override
+    @RequestMapping(path = "cottonQuota/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CottonQuota get(@PathVariable("id") long id) {
+        return getCottonQuota(id);
+    }
 
-	@Override
-	@RequestMapping(path = "cottonQuota/audit/{ids}/{status}", method = RequestMethod.PUT)
-	@ResponseBody
-	public String audit(@PathVariable("ids") String ids, @PathVariable("status") String status) {
-		String[] idArray = ids.split(",");
-		try {
-			for (String id : idArray) {
-				if (NumberUtils.isNumber(id)) {
-					IStorage storage = StorageUtil.getInstance();
-					CottonQuota cottonQuotaOrigin = getCottonQuota(storage, Long.valueOf(id));
-					CottonQuota cottonQuota = new CottonQuota();
-					BeanUtils.copyProperties(cottonQuota, cottonQuotaOrigin);
-					cottonQuota.setModifyTime(new Date());
-					cottonQuota.setModifyUser("demo");
-					storage.update(CottonQuota.class, cottonQuotaOrigin, cottonQuota);
-				}
-			}
-			return "审核成功";
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "审核失败";
-	}
+    @Override
+    @RequestMapping(path = "cottonQuota", method = RequestMethod.GET)
+    @ResponseBody
+    public List<CottonQuota> list() {
+        return storage.find(CottonQuota.class, null);
+    }
 
-	private CottonQuota getCottonQuota(IStorage storage, long id) {
-		List<CottonQuota> list = storage.find(CottonQuota.class, null);
-		for (CottonQuota cottonQuota : list) {
-			if (cottonQuota.getId() == id) {
-				return cottonQuota;
-			}
-		}
-		return null;
-	}
+    @Override
+    @RequestMapping(path = "cottonQuota/audit/{ids}/{status}", method = RequestMethod.PATCH)
+    @ResponseBody
+    public String audit(@PathVariable("ids") String ids, @PathVariable("status") String status) {
+        String[] idArray = ids.split(",");
+        try {
+            for (String id : idArray) {
+                if (NumberUtils.isNumber(id)) {
+                    CottonQuota cottonQuotaOrigin = getCottonQuota(Long.valueOf(id));
+                    CottonQuota cottonQuota = new CottonQuota();
+                    BeanUtils.copyProperties(cottonQuota, cottonQuotaOrigin);
+                    cottonQuota.setAuditStatus(status);
+                    cottonQuota.setModifyTime(new Date());
+                    cottonQuota.setModifyUser("demo");
+                    storage.update(CottonQuota.class, cottonQuotaOrigin, cottonQuota);
+                }
+            }
+            return "审核成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "审核失败";
+    }
+
+    private CottonQuota getCottonQuota(long id) {
+        List<CottonQuota> list = storage.find(CottonQuota.class, null);
+        for (CottonQuota cottonQuota : list) {
+            if (cottonQuota.getId() == id) {
+                return cottonQuota;
+            }
+        }
+        return null;
+    }
 }
