@@ -1,10 +1,13 @@
-APPLICATION_ID: declarationForm
+﻿APPLICATION_ID: declarationForm
 service_description:
   name: processingTradeUI
-  version: 0.0.1
+  version: 0.0.2
 cse:
   service:
     registry:
       address: http://127.0.0.1:30100
   rest:
-    address: 0.0.0.0:8008
+    address: 0.0.0.0:7008
+  isolation:
+    Consumer:
+      enabled: false

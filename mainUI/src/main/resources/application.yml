@@ -5,20 +5,34 @@ zuul:
   routes:
     tax:
       serviceId: tax
+    taxUI:
+      serviceId: taxUI
     taxCutting:
       serviceId: taxCutting
+    taxCuttingUI:
+      serviceId: taxCuttingUI
     license:
       serviceId: license
+    licenseUI:
+      serviceId: licenseUI
     form:
       serviceId: form
+    formUI:
+      serviceId: formUI
     manifest:
       serviceId: manifest
+    manifestUI:
+      serviceId: manifestUI
     riskAnalysis:
       serviceId: riskAnalysis
     cottonQuota:
       serviceId: cottonQuota
+    cottonQuotaUI:
+      serviceId: cottonQuotaUI
     processingTrade:
       serviceId: processingTrade
+    processingTradeUI:
+      serviceId: processingTradeUI
     baseData:
       serviceId: baseData
 

@@ -1,0 +1,13 @@
+﻿APPLICATION_ID: declarationForm
+service_description:
+  name: taxCuttingUI
+  version: 0.0.2
+cse:
+  service:
+    registry:
+      address: http://127.0.0.1:30100
+  rest:
+    address: 0.0.0.0:7005
+  isolation:
+    Consumer:
+      enabled: false
