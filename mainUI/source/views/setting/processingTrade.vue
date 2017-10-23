@@ -113,17 +113,15 @@
           <el-select v-model="sku" filterable multiple class="businesstype-select" @change="onProcessCompanyChange" style="width:320px">
             <el-option v-for="item in goodsList" :key="item.sn" :label="item.sn" :value="item.sn">
               <span style="float: left">{{ item.sn }}</span>
-              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px;margin-right: 20px;">{{ item.name }}</span>
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="限额" prop="amount">
           <el-input-number v-model="ptDataModel.amount" :min="1" style="width:320px"></el-input-number>
-          <!-- <el-input type="text" v-model="ptDataModel.amount" auto-complete="off" style="width:320px"></el-input> -->
         </el-form-item>
         <el-form-item label="己用量" prop="used">
           <el-input-number v-model="ptDataModel.used" :min="1" style="width:320px"></el-input-number>
-          <!-- <el-input type="text" v-model="ptDataModel.used" auto-complete="off" style="width:320px"></el-input> -->
         </el-form-item>
         <el-form-item label="接单企业ID" prop="processCompany" v-show="false">
           <el-input type="text" v-model="ptDataModel.processCompany" auto-complete="off" style="width:320px"></el-input>
