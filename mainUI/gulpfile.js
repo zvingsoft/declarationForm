@@ -39,29 +39,29 @@ gulp.task('copyAssets', function () {
 
 // 复制js到其他的目录下去
 gulp.task('copyJsToOtherApp', function () {
-  const data = fs.readFileSync('./source/router/index.js', 'utf-8')
-  let appContent = fs.readFileSync(dist + 'app.js', 'utf-8')
-  let files = {}
-  data.replace(/resolve\(require\('(\.[^']+\.vue)'\)\), '(([^']+)-[^']+)'\)/g, (a, b, c, d) => {
-    files[c] = d
-  })
-  let result = []
-  for (let p in files) {
-    let buildedJs = path.join(dist, p + '.js')
-    if (fs.existsSync(buildedJs)) {
-      let classPath = '../' + files[p] + '/target/classes/static'
-      let javaPath = '../' + files[p] + '/src/main/resources/static'
-      gulp.src([buildedJs]).pipe(gulp.dest(classPath)).pipe(gulp.dest(javaPath))
-      appContent = appContent.replace('"' + p + '"', '"' + files[p] + '/' + p + '"')
-      result.push('复制文件 ' + buildedJs + ' 到工程 ' + files[p])
-    }
-  }
-  if (result.length) {
-    fs.writeFileSync(classDist + 'app.js', appContent)
-    fs.writeFileSync(dist + 'app.js', appContent)
-  }
-  console.log(result.join('\n'))
-  return true
+  // const data = fs.readFileSync('./source/router/index.js', 'utf-8')
+  // let appContent = fs.readFileSync(dist + 'app.js', 'utf-8')
+  // let files = {}
+  // data.replace(/resolve\(require\('(\.[^']+\.vue)'\)\), '(([^']+)-[^']+)'\)/g, (a, b, c, d) => {
+  //   files[c] = d
+  // })
+  // let result = []
+  // for (let p in files) {
+  //   let buildedJs = path.join(dist, p + '.js')
+  //   if (fs.existsSync(buildedJs)) {
+  //     let classPath = '../' + files[p] + '/target/classes/static'
+  //     let javaPath = '../' + files[p] + '/src/main/resources/static'
+  //     gulp.src([buildedJs]).pipe(gulp.dest(classPath)).pipe(gulp.dest(javaPath))
+  //     appContent = appContent.replace('"' + p + '"', '"' + files[p] + '/' + p + '"')
+  //     result.push('复制文件 ' + buildedJs + ' 到工程 ' + files[p])
+  //   }
+  // }
+  // if (result.length) {
+  //   fs.writeFileSync(classDist + 'app.js', appContent)
+  //   fs.writeFileSync(dist + 'app.js', appContent)
+  // }
+  // console.log(result.join('\n'))
+  // return true
 })
 
 // 在dev模式，监听js、根目录、assets目录下文件的更改，重新载入浏览器中的页面
