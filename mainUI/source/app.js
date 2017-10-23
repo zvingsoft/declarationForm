@@ -19,7 +19,7 @@ Vue.component('el-toolbar', Toolbar)
 import routes from './router/'
 import main from './views/main.vue'
 
-axios.defaults.baseURL = localStorage.serverhost || 'http://localhost:7999'
+axios.defaults.baseURL =  '/'
 axios.defaults.timeout = 30000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 axios.defaults.withCredentials = true

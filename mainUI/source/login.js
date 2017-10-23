@@ -3,7 +3,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import ELEMENT from 'element-ui'
 
-axios.defaults.baseURL = localStorage.serverhost || ''
+axios.defaults.baseURL =  ''
 axios.defaults.timeout = 30000
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 axios.defaults.withCredentials = true

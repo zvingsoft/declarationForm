@@ -1628,7 +1628,7 @@ _vue2.default.use(_vueRouter2.default);
 _vue2.default.use(_elementUi2.default);
 _vue2.default.component('el-toolbar', _toolbar2.default);
 
-_axios2.default.defaults.baseURL = localStorage.serverhost || 'http://localhost:7999';
+_axios2.default.defaults.baseURL = '/';
 _axios2.default.defaults.timeout = 30000;
 _axios2.default.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 _axios2.default.defaults.withCredentials = true;
