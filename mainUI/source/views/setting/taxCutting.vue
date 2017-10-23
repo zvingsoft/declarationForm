@@ -10,24 +10,20 @@
       <div class="search-bar fr">
         减免税大类：
         <el-select  v-model="searchTaxCutting.largetype" size="small" style="width: 120px;" clearable>
-          <el-option label="鼓励高新技术" value="large"></el-option>
-          <!-- <el-option  v-for="largetype in largetypes" :key="largetype.key" :label="largetype.name" :value="largetype.key"></el-option> -->
+          <el-option  v-for="largetype in largetypes" :key="largetype.key" :label="largetype.name" :value="largetype.key"></el-option>
         </el-select>
          减免税小类：
         <el-select  v-model="searchTaxCutting.smalltype" size="small" style="width: 120px;" clearable>
-          <el-option label="支持科技事业" value="technology"></el-option>
-          <!-- <el-option  v-for="smalltype in smalltypes" :key="smalltype.key" :label="smalltype.name" :value="smalltype.key"></el-option> -->
+          <el-option  v-for="smalltype in smalltypes" :key="smalltype.key" :label="smalltype.name" :value="smalltype.key"></el-option>
         </el-select>
         减免税方式：
         <el-select  v-model="searchTaxCutting.way" size="small" style="width: 120px;" clearable>
-           <el-option label="免税" value="approval"></el-option>
-           <el-option label="税率减免" value="filing"></el-option>
-         <!--  <el-option v-for="way in ways" :key="way.key" :label="way.name" :value="way.key"></el-option> -->
+          <el-option v-for="way in ways" :key="way.key" :label="way.name" :value="way.key"></el-option>
         </el-select>
         有效期：
-        <el-date-picker v-model="searchTaxCutting.starttime" type="date" placeholder="请选择日期" size="small" style="width:150px" @change="dateStartTimeChangeClick"></el-date-picker>
+        <el-date-picker v-model="searchTaxCutting.startTime" type="date" placeholder="请选择日期" size="small" style="width:150px" @change="dateStartTimeChangeClick"></el-date-picker>
         -
-        <el-date-picker v-model="searchTaxCutting.endtime" type="date" placeholder="请选择日期" size="small" style="width:150px" @change="dateEndTimeChangeClick"></el-date-picker>
+        <el-date-picker v-model="searchTaxCutting.endTime" type="date" placeholder="请选择日期" size="small" style="width:150px" @change="dateEndTimeChangeClick"></el-date-picker>
         <el-button size="small" type="primary" @click="searchTaxCuttingClick" style="width: 60px;">搜索</el-button>
       </div>
       <!-- 列表 -->
@@ -90,29 +86,25 @@
       </div>
     </div>
     <!-- 新建、编辑 -->
-    <el-dialog :title="showTitleMode === 0 ? '新建' : '编辑'" :visible.sync="showAddDialog">
+    <el-dialog :title="showTitleMode === 0 ? '新建' : '编辑'" :visible.sync="showAddDialog" class="mode-dialog">
       <el-form label-width="140px" :model="tmpTaxCutting" :rules="taxCuttingRules" ref="taxCuttingForm">
         <el-form-item prop="largetype" label="减免税大类：">
           <el-select  v-model="tmpTaxCutting.largeType" size="small" clearable>
-            <el-option label="鼓励高新技术" value="large"></el-option>
-           <!--  <el-option  v-for="largetype in largetypes" :key="largetype.key" :label="largetype.name" :value="largetype.key"></el-option> -->
+            <el-option  v-for="largetype in largetypes" :key="largetype.key" :label="largetype.name" :value="largetype.key"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item prop="smalltype" label="减免税小类：">
           <el-select  v-model="tmpTaxCutting.smallType" size="small" clearable>
-            <el-option label="支持科技事业" value="technology"></el-option>
-           <!--  <el-option  v-for="smalltype in smalltypes" :key="smalltype.key" :label="smalltype.name" :value="smalltype.key"></el-option> -->
+            <el-option  v-for="smalltype in smalltypes" :key="smalltype.key" :label="smalltype.name" :value="smalltype.key"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item prop="smalltype" label="减免税方式：">
           <el-select  v-model="tmpTaxCutting.way" size="small" clearable>
-            <el-option label="免税" value="approval"></el-option>
-            <el-option label="税率减免" value="filing"></el-option>
-           <!--  <el-option v-for="way in ways" :key="way.key" :label="way.name" :value="way.key"></el-option> -->
+            <el-option v-for="way in ways" :key="way.key" :label="way.name" :value="way.key"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item  label="商品货号：">
-         <el-input v-model="tmpTaxCutting.sku" style="width:215px;" :readonly="true"></el-input>
+        <el-form-item  label="货号：">
+         <el-input v-model="tmpTaxCutting.sku" style="width:215px;" ></el-input>
          <el-button @click="addGoodsClick">添加</el-button>
         </el-form-item>
         <el-form-item label="减免数量上限：">
@@ -141,7 +133,7 @@
     </el-dialog>
 
     <!-- 政策文件查看 -->
-    <el-dialog title="查看政策文件" :visible.sync="showLookDialog">
+    <el-dialog title="查看政策文件" :visible.sync="showLookDialog" class="mode-dialog">
       <el-card class="box-card look-card">
         <div slot="header" class="clearfix">
           <strong style="font-size: 18px;text-align:center; ">{{tmpTaxCutting.policyPaperTitle}}</strong>
@@ -156,7 +148,7 @@
     </el-dialog>
 
     <!-- 商品 -->
-     <el-dialog title="选择商品" :visible.sync="showGoodsDialog">
+     <el-dialog title="选择商品" :visible.sync="showGoodsDialog" class="mode-dialog">
       <packinglist-table :declarationID="declarationID" :declarationType="declarationType"></packinglist-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="showGoodsDialog = false">关 闭</el-button>
@@ -263,9 +255,9 @@ export default {
             endTime: ''
           }, //搜索
           dataLoading: false,
-          ways: [], //减免方式
-          smalltypes: [], //减免税小类
-          largetypes: [], //减免税大类
+          ways: [{'key':'approval','name':'免税'},{'key':'filing','name':'税率减免'}], //减免方式
+          smalltypes: [{'key':'technology','name':'支持科技事业'}], //减免税小类
+          largetypes: [{'key':'large','name':'鼓励高新技术'}], //减免税大类
           currentPage: 1, //当前页
           pageSize: 10, //每页数
           clientHeight: 0,
@@ -275,10 +267,13 @@ export default {
         }
     },
     methods: {
+    /*  rowClick(row){
+       console.log(row)
+       this.tmpTaxCutting.sku = row[0].id;
+      }, */
       //商品保存
       confrimGoodsClick() {
-        this.addGoodsClick = false;
-       // this.tmpTaxCutting.SKN =
+       // this.addGoodsClick = false;
       },
       //添加商品货号
       addGoodsClick(){
@@ -302,10 +297,25 @@ export default {
           });
         };
         validateForm().then(() => { */
+        if(this.tmpTaxCutting.largeType === 'large'){
+              this.tmpTaxCutting.largeTypeName = '鼓励高新技术';
+            }else{
+              this.tmpTaxCutting.largeTypeName = '';
+            }
+            if(this.tmpTaxCutting.smallType === 'technology'){
+              this.tmpTaxCutting.smallTypeName = '支持科技事业';
+            }else{
+              this.tmpTaxCutting.smallTypeName = '';
+            }
+            if(this.tmpTaxCutting.way === 'approval'){
+              this.tmpTaxCutting.wayName = '免税';
+            }else if(this.tmpTaxCutting.way === 'filing'){
+              this.tmpTaxCutting.wayName = '税率减免';
+            }else{
+              this.tmpTaxCutting.wayName = '';
+            }
           if(this.showTitleMode === 0) {
             this.tmpTaxCutting.id =  Math.round(Math.random() * 10000);
-             console.log(this.tmpTaxCutting.startTime)
-             console.log(this.tmpTaxCutting.endTime)
             taxCuttingAPI.addTaxCuttingData(this.tmpTaxCutting).then(data => {
              /*  this.taxCuttingTable = [
                 {
@@ -362,8 +372,11 @@ export default {
           id: '',
           sku: '',
           largeType: '',
+          largeTypeName: '',
           smallType: '',
+          smallTypeName: '',
           way: '',
+          wayName: '',
           topLmit: '',
           rate: '',
           policyPaperTitle: '',
@@ -473,8 +486,7 @@ export default {
       },
       //减免税列表数据加载
       getTaxCuttingData(){
-      //  this.dataLoading = true;
-
+        //this.dataLoading = true;
         taxCuttingAPI.getTaxCuttingData(this.currentPage,this.pageSize,this.searchTaxCutting.largeType,this.searchTaxCutting.smallType,this.searchTaxCutting.way,this.searchTaxCutting.startTime,this.searchTaxCutting.endTime).then(data => {
          this.taxCuttingTable = data;
           this.total = data.length;
@@ -486,6 +498,9 @@ export default {
           }
           if (this.searchTaxCutting.way != '') {
             this.taxCuttingTable = this.taxCuttingTable.filter(val => val.way.indexOf(this.searchTaxCutting.way) != -1)
+          }
+          if (this.searchTaxCutting.startTime != '' || this.searchTaxCutting.endTime != '' ) {
+            this.taxCuttingTable = this.taxCuttingTable.filter(val => val.validityDate.indexOf(this.searchTaxCutting.startTime + " - " + this.searchTaxCutting.endTime) != -1)
           }
           this.dataLoading = false;
         })
@@ -557,5 +572,9 @@ export default {
   }
   .look-card .el-card__header{
     text-align: center;
+  }
+  .mode-dialog .el-dialog__body{
+   height: 600px;
+   overflow:auto;
   }
 </style>
