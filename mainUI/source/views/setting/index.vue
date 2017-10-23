@@ -23,68 +23,71 @@
 
 <script>
 const menus = [
-      {
-        path: '/setting/tax',
-        meta: { title: '税率管理', icon: 'fa fa-money' },
-      },
-      {
-        path: '/setting/license',
-        meta: { title: '许可证管理', icon: 'fa fa-compass' },
-      },
-      {
-        path: '/setting/taxCutting',
-        meta: { title: '减免税管理', icon: 'fa fa-hand-lizard-o' },
-      },
-      {
-        path: '/setting/manifest',
-        meta: { title: '舱单管理', icon: 'fa fa-dropbox' },
-      },
-      {
-        path: '/setting/processingTrade',
-        meta: { title: '加贸管理', icon: 'fa fa-wrench' },
-      },
-      {
-        path: '/setting/cottonQuota',
-        meta: { title: '棉花配额管理', icon: 'fa fa-meetup' },
-      },
-      {
-        path: '/setting/company',
-        meta: { title: '企业管理', icon: 'fa fa-american-sign-language-interpreting' },
-      }
-    ]
+  {
+    path: '/setting/tax',
+    meta: { title: '税率管理', icon: 'fa fa-money' },
+  },
+  {
+    path: '/setting/license',
+    meta: { title: '许可证管理', icon: 'fa fa-compass' },
+  },
+  {
+    path: '/setting/taxCutting',
+    meta: { title: '减免税管理', icon: 'fa fa-hand-lizard-o' },
+  },
+  {
+    path: '/setting/manifest',
+    meta: { title: '舱单管理', icon: 'fa fa-dropbox' },
+  },
+  {
+    path: '/setting/processingTrade',
+    meta: { title: '加贸管理', icon: 'fa fa-wrench' },
+  },
+  {
+    path: '/setting/cottonQuota',
+    meta: { title: '棉花配额管理', icon: 'fa fa-meetup' },
+  },
+  {
+    path: '/setting/sku',
+    meta: { title: '商品管理', icon: 'fa fa-th-list' },
+  },
+  {
+    path: '/setting/company',
+    meta: { title: '企业管理', icon: 'fa fa-american-sign-language-interpreting' },
+  },
+];
 
 export default {
   data() {
     return {
       menus,
-      activeMenu: this.$route.path
+      activeMenu: this.$route.path,
     };
   },
   methods: {
     onSelectMenu(path) {
-      let item = this.menus.find((val) => val.path === path)
+      let item = this.menus.find(val => val.path === path);
 
       if (item) {
-        this.$router.push({ path: item.path })
+        this.$router.push({ path: item.path });
       }
-    }
+    },
   },
   created() {
-    if(location.hash.split('/').length==2){
-      location.hash = this.activeMenu
+    if (location.hash.split('/').length == 2) {
+      location.hash = this.activeMenu;
     }
   },
   beforeRouteUpdate(to, from, next) {
-    let path = to.path
-    let item = this.menus.find(val => val.path === path)
+    let path = to.path;
+    let item = this.menus.find(val => val.path === path);
 
     if (item) {
-      this.activeMenu = item.path
+      this.activeMenu = item.path;
     }
-    next()
-  }
-
-}
+    next();
+  },
+};
 </script>
 <style scoped>
 @keyframes ani-demo-spin {
@@ -100,14 +103,14 @@ export default {
 }
 
 .menu-wrap {
-  background-color: #F5F7FB;
+  background-color: #f5f7fb;
   position: absolute;
   width: 100%;
   top: 50px;
   bottom: 0;
   overflow: auto;
 }
-.el-menu{
-  background-color: #F5F7FB;
+.el-menu {
+  background-color: #f5f7fb;
 }
 </style>

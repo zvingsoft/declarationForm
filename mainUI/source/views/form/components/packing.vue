@@ -66,7 +66,7 @@
 
 <script>
 import packinglistAPI from '../api/packinglistAPI.js';
-import skuAPI from '../api/skuAPI.js';
+import skuAPI from '../../setting/api/skuAPI.js';
 //import '../mock/declaration.js';
 
 export default {

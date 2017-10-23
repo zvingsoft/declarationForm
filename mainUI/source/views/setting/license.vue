@@ -163,7 +163,7 @@
 import './mock/license.js';
 import licenseAPI from './api/licenseAPI.js';
 import licensegoodsTable from './components/licensegoodsTable.vue';
-import skuAPI from '../form/api/skuAPI.js';
+import skuAPI from './api/skuAPI.js';
 import companyAPI from './api/companyAPI.js';
 export default {
   data() {

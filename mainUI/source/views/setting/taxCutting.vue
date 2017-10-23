@@ -123,7 +123,7 @@
 <script>
 import taxCuttingAPI from './api/taxCuttingAPI.js'
 import packinglistTable from '../form/components/packinglistTable.vue'
-import skuAPI from '../form/api/skuAPI.js'
+import skuAPI from './api/skuAPI.js'
 /* import './mock/taxCutting.js' */
 //require('./mock/gossip.js')
 

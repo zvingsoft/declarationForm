@@ -101,7 +101,7 @@
 
 <script>
 import taxAPI from './api/taxAPI.js';
-import skuAPI from '../form/api/skuAPI.js';
+import skuAPI from './api/skuAPI.js';
 // import './mock/tax.js';
 
 export default {

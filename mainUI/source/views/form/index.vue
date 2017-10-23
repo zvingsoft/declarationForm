@@ -33,10 +33,6 @@ const menus = [
     meta: { title: '报关单检索', icon: 'fa fa-search' }
   },
   {
-    path: '/form/sku',
-    meta: { title: '商品管理', icon: 'fa fa-th-list' }
-  },
-  {
     path: '/form/auditing',
     meta: { title: '审核', icon: 'fa fa-check-square-o' }
   }

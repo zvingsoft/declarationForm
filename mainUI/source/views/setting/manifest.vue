@@ -120,7 +120,7 @@
 
 <script>
 import manifestAPI from './api/manifestAPI.js';
-import skuAPI from '../form/api/skuAPI.js';
+import skuAPI from './api/skuAPI.js';
 // import './mock/manifest.js'
 
 export default {

@@ -23,11 +23,6 @@ const routes = [
         component: resolve => require.ensure([], () => resolve(require('../views/form/declarationRetrieval.vue')), 'formUI-declarationRetrieval')
       },
       {
-        path: 'sku',
-        meta: { title: '商品管理', icon: 'fa fa-file-text-o' },
-        component: resolve => require.ensure([], () => resolve(require('../views/form/sku.vue')), 'formUI-sku')
-      },
-      {
         path: 'auditing',
         meta: { title: '审核', icon: 'fa fa-file-text-o' },
         component: resolve => require.ensure([], () => resolve(require('../views/form/auditing.vue')), 'formUI-auditing')
@@ -69,6 +64,11 @@ const routes = [
         path: 'cottonQuota',
         meta: { title: '棉花配额管理', icon: 'fa fa-file-text-o' },
         component: resolve => require.ensure([], () => resolve(require('../views/setting/cottonQuota.vue')), 'cottonQuotaUI-cottonQuota')
+      },
+      {
+        path: 'sku',
+        meta: { title: '商品管理', icon: 'fa fa-file-text-o' },
+        component: resolve => require.ensure([], () => resolve(require('../views/setting/sku.vue')), 'formUI-sku')
       },
       {
         path: 'company',
