@@ -7,6 +7,10 @@ package com.zving.declarationform.storage;
  */
 public class StorageUtil {
 	public static IStorage getInstance() {
+		String address = System.getenv("mysql.address");
+		if (address != null) {
+			return new MysqlStorage();
+		}
 		return new JSONStorage();
 	}
 }

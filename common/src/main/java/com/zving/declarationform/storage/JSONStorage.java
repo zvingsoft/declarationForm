@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @date 2017年10月19日
  */
 public class JSONStorage implements IStorage {
-	ConcurrentHashMap<Class<?>, List<?>> map = new ConcurrentHashMap<>();
+	ConcurrentHashMap<Class<?>, List<?>> map = null;
 	ReentrantLock lock = new ReentrantLock();
 
 	public JSONStorage() {
@@ -36,6 +36,7 @@ public class JSONStorage implements IStorage {
 			lock.lock();
 			try {
 				if (map == null) {
+					map = new ConcurrentHashMap<>();
 				}
 			} finally {
 				lock.unlock();
@@ -99,18 +100,18 @@ public class JSONStorage implements IStorage {
 		bean.getClass().getDeclaredMethods();
 		return list.stream().filter(item -> {
 			BeanMap map2 = new BeanMap(item);
+			boolean flag = true;
 			for (Entry<?, ?> e : map1.entrySet()) {
 				if (e.getValue() == null) {
 					continue;
 				} else {
-					if (e.getValue().equals(map2.get(e.getKey()))) {
-						return true;
-					} else {
-						return false;
+					if (!e.getValue().equals(map2.get(e.getKey()))) {
+						flag = false;
+						break;
 					}
 				}
 			}
-			return true;
+			return flag;
 		}).collect(Collectors.toList());
 	}
 
