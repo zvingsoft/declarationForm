@@ -36,7 +36,7 @@ public class TaxServiceImpl implements TaxService {
 	@RequestMapping(path = "confirm", method = RequestMethod.POST)
 	@ResponseBody
 	public String confirm(@RequestBody DeclarationForm form) {
-		return "报关单缴税确认";
+		return "confirm成功：tax";
 	}
 
 }

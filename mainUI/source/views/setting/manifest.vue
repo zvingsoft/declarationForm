@@ -10,8 +10,6 @@
       <div class="search-bar fr">
         舱单编号:
         <el-input v-model="search.manifestNum" size="small" placeholder="请输入舱单编号" style="width: 200px;"></el-input>
-        商品：
-        <el-input v-model="search.goodsName" size="small" placeholder="请输入商品" style="width: 200px;"></el-input>
         收件公司：
         <el-input v-model="search.receiveCompany" size="small" placeholder="请输入收件公司" style="width: 200px;"></el-input>
         收货人：
@@ -20,7 +18,7 @@
       </div>
       <!--表格-->
       <div>
-        <el-table :data="manifestTable" @selection-change="onSelectionChange">
+        <el-table :data="manifestTable"  ref="manifestTable"   @row-click="rowClick"  @selection-change="onSelectionChange" @row-dblclick="dblclickManifest" >
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column type="expand">
             <template slot-scope="props">
@@ -32,7 +30,7 @@
                   <span>{{props.row.receiveCompany}}</span>
                 </el-form-item>
                 <el-form-item label="商品">
-                  <span>{{props.row.goodsName}}</span>
+                  <span>{{props.row.skunames}}</span>
                 </el-form-item>
                 <el-form-item label="发货地">
                   <span>{{props.row.sendAddress}}</span>
@@ -46,9 +44,13 @@
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column prop="manifestNum" min-width="20%" label="舱单编号 "></el-table-column>
+          <el-table-column prop="manifestNum" min-width="20%" label="舱单编号 ">
+            <template slot-scope="scope">
+             <a @click="lookClick(scope.row)" class="a-btn">{{scope.row.manifestNum}}</a>
+           </template>
+          </el-table-column>
           <el-table-column prop="receiveCompany" min-width="15%" label="收件公司"></el-table-column>
-          <el-table-column prop="goodsName" min-width="30%" label="商品"></el-table-column>
+          <el-table-column prop="skunames" min-width="30%" label="商品"></el-table-column>
           <el-table-column prop="sendAddress" min-width="10%" label="发货地"></el-table-column>
           <el-table-column prop="receivePerson" min-width="10%" label="收货人"></el-table-column>
           <el-table-column prop="telephone" min-width="15%" label="电话"></el-table-column>
@@ -71,7 +73,13 @@
           <el-input placeholder="请输入收件公司" v-model="tmpManifest.receiveCompany" class="width-300"></el-input>
         </el-form-item>
         <el-form-item label="商品：">
-          <el-input placeholder="请输入商品" v-model="tmpManifest.goodsName" class="width-230"></el-input>
+
+          <el-select class="e-input" multiple  v-model="sku" placeholder="请选择一种商品" @change="selectSku" >
+              <el-option v-for="item in SKUData" :key="item.sn" :label="item.name" :value="item.sn">
+                <span style="float: left">{{ item.sn }}</span>
+                <span style="float: right; color: #8492a6; font-size: 13px;margin-right: 20px;">{{ item.name }}</span>
+              </el-option>
+        </el-select>
         </el-form-item>
         <el-form-item label="发货地：">
           <el-input placeholder="请输入发货地" v-model="tmpManifest.sendAddress" class="width-230"></el-input>
@@ -95,7 +103,12 @@
         <div slot="header">
           <span>收件公司：{{manifestGoodInfo.receiveCompany}}</span>
         </div>
-        <div><span v-for=" item in manifestGoodInfo.goodsinfo" :key="item.sku" >商品名称：{{item.sku}}&nbsp;&nbsp;(数量{{item.quantity}})<br/></span></div>
+        <div>
+          <el-table :data="manifestGoodInfo.goodsinfo" >
+          <el-table-column prop="sku" min-width="20%" label="商品编号"></el-table-column>
+          <el-table-column prop="skuname" min-width="80%" label="商品"></el-table-column>
+        </el-table>
+          </div>
       </el-card>
       <div slot="footer" class="dialog-footer">
         <el-button @click="viewDialog = false">关 闭</el-button>
@@ -106,7 +119,8 @@
 </template>
 
 <script>
-import manifestAPI from './api/manifestAPI.js'
+import manifestAPI from './api/manifestAPI.js';
+import skuAPI from '../form/api/skuAPI.js';
 // import './mock/manifest.js'
 
 export default {
@@ -123,21 +137,24 @@ export default {
       addOrEdit: 1,
       tmpManifest: {},
       manifestRules: {
-        manifestNum: [
-          { required: true, message: '请输入舱单编号', trigger: 'blur' }
-        ],
+        manifestNum: [{ required: true, message: '请输入舱单编号', trigger: 'blur' }],
         receiveCompany: [
-          { required: true, message: '请输入收件公司', trigger: 'blur' }
+          { required: true, message: '请输入收件公司', trigger: 'blur' },
         ],
-        receivePerson: [
-          { required: true, message: '请输入收货人', trigger: 'blur' }
-        ]
+        receivePerson: [{ required: true, message: '请输入收货人', trigger: 'blur' }],
       },
       saveManifestStatus: false,
-      search: { manifestNum: '', goodsName: '', receiveCompany: '', receivePerson: '' },
+      search: {
+        manifestNum: '',
+        goodsName: '',
+        receiveCompany: '',
+        receivePerson: '',
+      },
       viewDialog: false,
       manifestGoodInfo: { goodsinfo: '', receiveCompany: '' },
-    }
+      SKUData: [],
+      sku: [],
+    };
   },
   methods: {
     onSelectionChange(selection) {
@@ -146,21 +163,28 @@ export default {
     handleSearchBtn() {
       this.manifestTable = Object.assign([], this.temmanifestTable);
       let temManifestnum = this.search.manifestNum;
-      let temGoodsname = this.search.goodsName;
+      // let temGoodsname = this.search.goodsName;
       let temReceiveCompany = this.search.receiveCompany;
       let temReceivePerson = this.search.receivePerson;
-      if (temManifestnum != '' || temGoodsname != '' || temReceiveCompany != '' || temReceivePerson != '') {
+      if (
+        temManifestnum != '' ||
+        temReceiveCompany != '' ||
+        temReceivePerson != ''
+      ) {
         if (temManifestnum != '') {
-          this.manifestTable = this.manifestTable.filter(val => val.manifestNum.indexOf(temManifestnum) != -1);
-        }
-        if (temGoodsname != '') {
-          this.manifestTable = this.manifestTable.filter(val => val.goodsName.indexOf(temGoodsname) != -1);
+          this.manifestTable = this.manifestTable.filter(
+            val => val.manifestNum.indexOf(temManifestnum) != -1
+          );
         }
         if (temReceiveCompany != '') {
-          this.manifestTable = this.manifestTable.filter(val => val.receiveCompany.indexOf(temReceiveCompany) != -1);
+          this.manifestTable = this.manifestTable.filter(
+            val => val.receiveCompany.indexOf(temReceiveCompany) != -1
+          );
         }
         if (temReceivePerson != '') {
-          this.manifestTable = this.manifestTable.filter(val => val.receivePerson.indexOf(temReceivePerson) != -1);
+          this.manifestTable = this.manifestTable.filter(
+            val => val.receivePerson.indexOf(temReceivePerson) != -1
+          );
         }
       }
     },
@@ -173,7 +197,14 @@ export default {
     //关闭事件
     closeAddOrEditDialog() {
       console.log(this.tmpManifest.manifestNum);
-      if (!this.tmpManifest.manifestNum || this.tmpManifest.manifestNum == '' || !this.tmpManifest.receiveCompany || this.tmpManifest.receiveCompany == '' || !this.tmpManifest.receivePerson || this.tmpManifest.receivePerson == '') {
+      if (
+        !this.tmpManifest.manifestNum ||
+        this.tmpManifest.manifestNum == '' ||
+        !this.tmpManifest.receiveCompany ||
+        this.tmpManifest.receiveCompany == '' ||
+        !this.tmpManifest.receivePerson ||
+        this.tmpManifest.receivePerson == ''
+      ) {
         this.$refs['manifestForm'].resetFields();
       }
       this.showDialog = false;
@@ -189,6 +220,10 @@ export default {
       this.tmpManifest = {};
       this.saveManifestStatus = false;
       this.showDialog = true;
+      this.sku = [];
+      skuAPI.getSKU().then(data => {
+        this.SKUData = data;
+      });
     },
     //编辑
     editManifest() {
@@ -196,32 +231,63 @@ export default {
       this.showDialog = true;
       this.saveManifestStatus = false;
       this.tmpManifest = Object.assign({}, this.selectedRows[0]);
+      let temSku = [];
+      this.tmpManifest.items.forEach(function(row) {
+        temSku.push(row.sku);
+      });
+      this.sku = temSku;
+      skuAPI.getSKU().then(data => {
+        this.SKUData = data;
+      });
+    },
+
+    //双击
+    dblclickManifest(dbrow) {
+      this.addOrEdit = 2;
+      this.showDialog = true;
+      this.saveManifestStatus = false;
+      this.tmpManifest = Object.assign({}, dbrow);
+      let temSku = [];
+      this.tmpManifest.items.forEach(function(row) {
+        temSku.push(row.sku);
+      });
+      this.sku = temSku;
+      skuAPI.getSKU().then(data => {
+        this.SKUData = data;
+      });
+    },
+    //单机
+    rowClick(row, event, column) {
+      if (column.type != 'selection') {
+        this.$refs.manifestTable.clearSelection();
+      }
+      this.$refs.manifestTable.toggleRowSelection(row);
+    },
+
+    //链接
+    lookClick(link) {
+      this.addOrEdit = 2;
+      this.showDialog = true;
+      this.saveManifestStatus = false;
+      this.tmpManifest = Object.assign({}, link);
+      let temSku = [];
+      this.tmpManifest.items.forEach(function(row) {
+        temSku.push(row.sku);
+      });
+      this.sku = temSku;
+      skuAPI.getSKU().then(data => {
+        this.SKUData = data;
+      });
     },
     //新建和编辑时保存
     saveManifest() {
-      this.$refs['manifestForm'].validate((valid) => {
+      this.$refs['manifestForm'].validate(valid => {
         if (valid) {
           this.saveManifestStatus = true;
           if (this.addOrEdit == 1) {
             manifestAPI.addManifest(this.tmpManifest).then(data => {
               if (data.status == 200) {
                 this.getManifestData();
-                this.$message.success(data.data);
-              } else {
-                this.$message.error(data.data);
-              }
-              this.saveManifestStatus = false;
-              this.showDialog = false;
-            });
-          } else if (this.addOrEdit == 2) {
-            manifestAPI.editManifest(this.tmpManifest.id, this.tmpManifest).then(data => {
-              if (data.status == 200) {
-                let index = this.manifestTable.findIndex(val => val.id == this.tmpManifest.id);
-                this.manifestTable = [
-                  ...this.manifestTable.slice(0, index),
-                  Object.assign({}, this.tmpManifest),
-                  ...this.manifestTable.slice(index + 1)
-                ];
                 this.temmanifestTable = Object.assign([], this.manifestTable);
                 this.$message.success(data.data);
               } else {
@@ -230,13 +296,26 @@ export default {
               this.saveManifestStatus = false;
               this.showDialog = false;
             });
+          } else if (this.addOrEdit == 2) {
+            manifestAPI
+              .editManifest(this.tmpManifest.id, this.tmpManifest)
+              .then(data => {
+                if (data.status == 200) {
+                  this.getManifestData();
+                  this.temmanifestTable = Object.assign([], this.manifestTable);
+                  this.$message.success(data.data);
+                } else {
+                  this.$message.error(data.data);
+                }
+                this.saveManifestStatus = false;
+                this.showDialog = false;
+              });
           }
         } else {
-          this.$alert("请填写正确选项", "提示");
+          this.$alert('请填写正确选项', '提示');
           return false;
         }
       });
-
     },
     //刪除
     deleteManifests() {
@@ -245,7 +324,7 @@ export default {
         rowIds.push(row.id);
       });
 
-      this.$confirm("确认删除所选的数据?", '提示', {
+      this.$confirm('确认删除所选的数据?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
@@ -254,7 +333,9 @@ export default {
             instance.confirmButtonLoading = true;
             return manifestAPI.deleteManifests(rowIds).then(data => {
               if (data.status == 200) {
-                this.manifestTable = this.manifestTable.filter(val => !rowIds.includes(val.id));
+                this.manifestTable = this.manifestTable.filter(
+                  val => !rowIds.includes(val.id)
+                );
                 this.temmanifestTable = Object.assign([], this.manifestTable);
                 this.$notify({
                   title: '成功',
@@ -271,12 +352,12 @@ export default {
           } else {
             done();
           }
-        }
+        },
       }).catch(() => {
         this.$notify.info({
           title: '取消',
           message: '操作取消！',
-          duration: 2000
+          duration: 2000,
         });
       });
     },
@@ -287,14 +368,41 @@ export default {
       this.manifestGoodInfo.receiveCompany = this.selectedRows[0].receiveCompany;
       manifestAPI.viewManifestsGoods(this.selectedRows[0].id).then(data => {
         this.manifestGoodInfo.goodsinfo = data.data.items;
-      })
+      });
     },
-    getManifestData(){
+    getManifestData() {
       manifestAPI.getManifestData().then(data => {
-      this.manifestTable = data.data;
-      this.temmanifestTable = Object.assign([], this.manifestTable);
-    });
-    }
+        this.manifestTable = data.data;
+        let temManifestTable = [];
+        this.manifestTable.forEach(function(row) {
+          let temItems = row.items;
+          let temArr = [];
+          temItems.forEach(function(item) {
+            temArr.push(item.skuname);
+          });
+          let temrow = Object.assign({}, row);
+          temrow.skunames = temArr.join(',');
+          temManifestTable.push(temrow);
+        });
+        this.manifestTable = temManifestTable;
+        this.temmanifestTable = Object.assign([], this.manifestTable);
+      });
+    },
+    selectSku(val) {
+      let skuname = [];
+      let temSKUData = Object.assign([], this.SKUData);
+      val.forEach(function(item) {
+        temSKUData.forEach(function(row) {
+          if (row.sn == item) {
+            let tem = { sku: '', skuname: '' };
+            tem.sku = row.sn;
+            tem.skuname = row.name;
+            skuname.push(tem);
+          }
+        });
+      });
+      this.tmpManifest.items = skuname;
+    },
   },
   created() {
     this.getManifestData();
@@ -302,8 +410,8 @@ export default {
     //   this.manifestTable = data.data;
     //   this.temmanifestTable = Object.assign([], this.manifestTable);
     // });
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -323,7 +431,6 @@ export default {
   margin-top: 20px;
 }
 
-
 .page-wrap .page {
   float: right;
 }
@@ -331,7 +438,6 @@ export default {
 .search-bar {
   padding-bottom: 10px;
 }
-
 
 .demo-table-expand {
   font-size: 12px;

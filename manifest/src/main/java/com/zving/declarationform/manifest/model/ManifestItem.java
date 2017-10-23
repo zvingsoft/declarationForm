@@ -9,6 +9,7 @@ package com.zving.declarationform.manifest.model;
  */
 public class ManifestItem {
 	String SKU;// 货号
+	String SKUName;// 货号名称，冗余字段
 	double quantity;// 数量
 
 	public String getSKU() {
@@ -25,6 +26,14 @@ public class ManifestItem {
 
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
+	}
+
+	public String getSKUName() {
+		return SKUName;
+	}
+
+	public void setSKUName(String sKUName) {
+		SKUName = sKUName;
 	}
 
 }

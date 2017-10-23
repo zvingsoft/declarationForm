@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 import com.zving.declarationform.tax.model.TaxRate;
@@ -35,6 +36,12 @@ import com.zving.declarationform.tax.schema.TaxRateService;
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
 @Controller
 public class TaxRateServiceImpl implements TaxRateService {
+
+	@RequestMapping(path = "check", method = RequestMethod.POST)
+	@ResponseBody
+	public String check(@RequestBody DeclarationForm form) {
+		return "check成功：tax";
+	}
 
 	@RequestMapping(path = "taxrate", method = RequestMethod.POST)
 	@ResponseBody
@@ -113,9 +120,16 @@ public class TaxRateServiceImpl implements TaxRateService {
 
 	@RequestMapping(path = "taxrate/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public TaxRate get(@PathVariable("id") String sku) {
+	public TaxRate get(@PathVariable("id") String id) {
 		TaxRate rate = new TaxRate();
-		rate.setSKU(sku);
+		long longID = 0;
+		try {
+			longID = Long.valueOf(id);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		rate.setId(longID);
+		;
 		return StorageUtil.getInstance().get(TaxRate.class, rate);
 	}
 

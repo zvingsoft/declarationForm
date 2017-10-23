@@ -15,7 +15,7 @@
       </div>
       <!--表格-->
       <div>
-        <el-table :data="taxTable" @selection-change="onSelectionChange">
+        <el-table :data="taxTable"  ref="taxTable"  @selection-change="onSelectionChange" @row-click="rowClick"  @row-dblclick="dblclickTax" >
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column type="expand">
             <template slot-scope="props">
@@ -44,7 +44,11 @@
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column prop="taxNum" min-width="20%" label="税号"></el-table-column>
+          <el-table-column prop="taxNum" min-width="20%" label="税号">
+            <template slot-scope="scope">
+             <a @click="lookClick(scope.row)" class="a-btn">{{scope.row.taxNum}}</a>
+           </template>
+          </el-table-column>
           <el-table-column prop="skuname" min-width="30%" label="货品名称"></el-table-column>
           <el-table-column prop="unit" min-width="10%" label="单位"></el-table-column>
           <el-table-column prop="rate" min-width="10%" label="税率"></el-table-column>
@@ -67,7 +71,7 @@
         </el-form-item>
         <el-form-item label="货号：" >
         <el-select class="e-input" filterable v-model="tmpTax.sku" placeholder="请选择一种货品" @change="selectSku" >
-              <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
+              <el-option v-for="item in SKUData" :key="item.sn" :label="item.name" :value="item.sn">
                 <span style="float: left">{{ item.sn }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
               </el-option>
@@ -168,6 +172,33 @@ export default {
       this.addOrEdit = 1;
       this.tmpTax = {};
       this.saveTaxStatus = false;
+      this.showDialog = true;
+      skuAPI.getSKU().then(data => {
+        this.SKUData = data;
+      });
+    },
+    //单机
+    rowClick(row, event, column) {
+      if (column.type != 'selection') {
+        this.$refs.taxTable.clearSelection();
+      }
+      this.$refs.taxTable.toggleRowSelection(row);
+    },
+    //双击
+    dblclickTax(row) {
+      this.addOrEdit = 2;
+      this.saveTaxStatus = false;
+      this.tmpTax = Object.assign({}, row);
+      this.showDialog = true;
+      skuAPI.getSKU().then(data => {
+        this.SKUData = data;
+      });
+    },
+    //链接
+    lookClick(row) {
+      this.addOrEdit = 2;
+      this.saveTaxStatus = false;
+      this.tmpTax = Object.assign({}, row);
       this.showDialog = true;
       skuAPI.getSKU().then(data => {
         this.SKUData = data;
