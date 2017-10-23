@@ -2,6 +2,7 @@ package com.zving.declarationform.taxcutting.schema;
 
 import java.util.List;
 
+import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.taxcutting.model.TaxCuttingRule;
 
 /**
@@ -15,6 +16,11 @@ import com.zving.declarationform.taxcutting.model.TaxCuttingRule;
  * @date 2017年10月20日
  */
 public interface TaxCuttingService {
+	String check(DeclarationForm form);
+
+	String confirm(DeclarationForm form);
+
+	String compensate(DeclarationForm form);
 	/**
 	 * 添加减免税
 	 */
