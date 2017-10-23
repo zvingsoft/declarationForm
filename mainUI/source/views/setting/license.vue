@@ -92,7 +92,7 @@
           <el-input type="text" v-model="inLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="许可数量" prop="count">
-          <el-input-number v-model="inLicenseModel.count" :min="1" class="input-320"></el-input-number>
+          <el-input-number v-model="inLicenseModel.count" class="input-320"></el-input-number>
         </el-form-item>
         <el-form-item label="商品编号" prop="sku">
           <el-select class="e-input" filterable v-model="inLicenseModel.sku" placeholder="请选择" style="width:320px" @change="onInSkuChange">
@@ -133,7 +133,7 @@
           <el-input type="text" v-model="outLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="许可数量" prop="count">
-          <el-input-number v-model="outLicenseModel.count" :min="1" class="input-320"></el-input-number>
+          <el-input-number v-model="outLicenseModel.count" class="input-320"></el-input-number>
         </el-form-item>
         <el-form-item label="商品编号" prop="sku">
           <el-select class="e-input" filterable v-model="outLicenseModel.sku" placeholder="请选择" style="width:320px" @change="onOutSkuChange">

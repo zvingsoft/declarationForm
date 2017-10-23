@@ -11,7 +11,7 @@ public class License {
 	long id;// 许可证序列号
 	String sku;// 许可的商品货号
 	String skuName;// 许可的商品名称
-	int count;// 许可数量
+	double count;// 许可数量
 	String licenseKey;// 许可证号
 	String companyName;// 进口/出口商
 	String expirationDateOfLicense;// 许可证截止日期
@@ -42,11 +42,11 @@ public class License {
 		this.skuName = skuName;
 	}
 
-	public int getCount() {
+	public double getCount() {
 		return count;
 	}
 
-	public void setCount(int count) {
+	public void setCount(double count) {
 		this.count = count;
 	}
 
