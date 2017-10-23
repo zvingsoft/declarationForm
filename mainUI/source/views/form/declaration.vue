@@ -227,7 +227,7 @@
         <span v-else>暂存</span>
       </el-button>
       <span class="button-separator"></span>
-      <el-button class="z-toolbar-btn" :plain="true" @click="commitAudit">
+      <el-button class="z-toolbar-btn" :plain="true" @click="commitAudit(false)">
         <i class="fa fa-check"></i>提交审核</el-button>
     </el-toolbar>
     <div class="main-content-wrap" style="background-color:#ffffff">
@@ -478,17 +478,49 @@ export default {
           this.getDeclarationData();
         });
       } else {
-        declarationAPI.commitAudit(this.tmpDeclaration.id).then(res => {
-          if (res.status == 200) {
-            this.$notify({
-              title: '成功',
-              message: res.data,
-              type: 'success',
-              duration: 2000,
+        if (this.editMode == 0) {
+          rowIds = [this.declarationID];
+          this.declarationTypeOptions.forEach(o => {
+            if (o.key == this.tmpDeclaration.declarationType) {
+              Vue.set(this.tmpDeclaration, 'declarationTypeName', o.value);
+              return;
+            }
+          });
+          Vue.set(this.tmpDeclaration, 'id', this.declarationID);
+          declarationAPI
+            .addDeclaration(this.tmpDeclaration)
+            .then(res => {
+              this.tmpDeclaration = {
+                declarationType: this.tmpDeclaration.declarationType,
+              };
+            })
+            .then(() => {
+              declarationAPI.commitAudit(rowIds).then(res => {
+                if (res.status == 200) {
+                  this.$notify({
+                    title: '成功',
+                    message: res.data,
+                    type: 'success',
+                    duration: 2000,
+                  });
+                }
+                this.getDeclarationData();
+              });
             });
-          }
-          this.getDeclarationData();
-        });
+        } else {
+          rowIds = [this.tmpDeclaration.id];
+          declarationAPI.commitAudit(rowIds).then(res => {
+            if (res.status == 200) {
+              this.$notify({
+                title: '成功',
+                message: res.data,
+                type: 'success',
+                duration: 2000,
+              });
+            }
+            this.getDeclarationData();
+          });
+        }
       }
     },
     showPackinglist(packingList, type) {
