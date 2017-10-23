@@ -1,5 +1,6 @@
 package com.zving.declarationform.license.model;
 
+
 /**
  * 许可证
  * 
@@ -13,24 +14,24 @@ public class License {
 	double count;// 许可的数量
 	String companyId;// 颁发给哪个单位
 	String licenseKey;// 许可证号
-	String importAndExportcode;//
 	String companyName;// 进口商
 	String consignee;// 收货人
+	String tradeMode;// 贸易方式
 	String exportingCountry;// 出口国
 	String countryOfOrigin;// 原产国家
-	String portOfClearance;
-	String tradeMode;// 贸易方式
-	String shippingType;
-	String goodsTypeIds;
-	String goodsTypes;
-	String companyAddress;
-	String companyType;
-	String legalRepresentative;
-	String competentDepartment;
-	String registeredCapital;
-	String certificationDate;
-	String type;
-	String status;
+	String portOfClearance;// 报关口岸
+	String sourceOffOreignExchange;// 外汇来源
+	String paymentMethod;// 付款方式
+	String endUser;// 最终用户
+	String finalPurpose;// 最终用途
+	String goodsName;// 商品名称
+	String goodsCode;// 商品编号
+	String shippingType;// 运输方式
+	String expirationDateOfLicense;// 许可证截止日期
+	String certificationDate;// 发证日期
+	String memo;// 备注
+	String type;// 类型
+	String status;// 状态
 
 	public String getSKU() {
 		return SKU;
@@ -72,14 +73,6 @@ public class License {
 		this.licenseKey = licenseKey;
 	}
 
-	public String getImportAndExportcode() {
-		return importAndExportcode;
-	}
-
-	public void setImportAndExportcode(String importAndExportcode) {
-		this.importAndExportcode = importAndExportcode;
-	}
-
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -94,6 +87,14 @@ public class License {
 
 	public void setConsignee(String consignee) {
 		this.consignee = consignee;
+	}
+
+	public String getTradeMode() {
+		return tradeMode;
+	}
+
+	public void setTradeMode(String tradeMode) {
+		this.tradeMode = tradeMode;
 	}
 
 	public String getExportingCountry() {
@@ -120,12 +121,52 @@ public class License {
 		this.portOfClearance = portOfClearance;
 	}
 
-	public String getTradeMode() {
-		return tradeMode;
+	public String getSourceOffOreignExchange() {
+		return sourceOffOreignExchange;
 	}
 
-	public void setTradeMode(String tradeMode) {
-		this.tradeMode = tradeMode;
+	public void setSourceOffOreignExchange(String sourceOffOreignExchange) {
+		this.sourceOffOreignExchange = sourceOffOreignExchange;
+	}
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+	public String getEndUser() {
+		return endUser;
+	}
+
+	public void setEndUser(String endUser) {
+		this.endUser = endUser;
+	}
+
+	public String getFinalPurpose() {
+		return finalPurpose;
+	}
+
+	public void setFinalPurpose(String finalPurpose) {
+		this.finalPurpose = finalPurpose;
+	}
+
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+
+	public String getGoodsCode() {
+		return goodsCode;
+	}
+
+	public void setGoodsCode(String goodsCode) {
+		this.goodsCode = goodsCode;
 	}
 
 	public String getShippingType() {
@@ -136,60 +177,12 @@ public class License {
 		this.shippingType = shippingType;
 	}
 
-	public String getGoodsTypeIds() {
-		return goodsTypeIds;
+	public String getExpirationDateOfLicense() {
+		return expirationDateOfLicense;
 	}
 
-	public void setGoodsTypeIds(String goodsTypeIds) {
-		this.goodsTypeIds = goodsTypeIds;
-	}
-
-	public String getGoodsTypes() {
-		return goodsTypes;
-	}
-
-	public void setGoodsTypes(String goodsTypes) {
-		this.goodsTypes = goodsTypes;
-	}
-
-	public String getCompanyAddress() {
-		return companyAddress;
-	}
-
-	public void setCompanyAddress(String companyAddress) {
-		this.companyAddress = companyAddress;
-	}
-
-	public String getCompanyType() {
-		return companyType;
-	}
-
-	public void setCompanyType(String companyType) {
-		this.companyType = companyType;
-	}
-
-	public String getLegalRepresentative() {
-		return legalRepresentative;
-	}
-
-	public void setLegalrepresentative(String legalRepresentative) {
-		this.legalRepresentative = legalRepresentative;
-	}
-
-	public String getCompetentDepartment() {
-		return competentDepartment;
-	}
-
-	public void setCompetentDepartment(String competentDepartment) {
-		this.competentDepartment = competentDepartment;
-	}
-
-	public String getRegisteredCapital() {
-		return registeredCapital;
-	}
-
-	public void setRegisteredCapital(String registeredCapital) {
-		this.registeredCapital = registeredCapital;
+	public void setExpirationDateOfLicense(String expirationDateOfLicense) {
+		this.expirationDateOfLicense = expirationDateOfLicense;
 	}
 
 	public String getCertificationDate() {
@@ -198,6 +191,14 @@ public class License {
 
 	public void setCertificationDate(String certificationDate) {
 		this.certificationDate = certificationDate;
+	}
+
+	public String getMemo() {
+		return memo;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
 	}
 
 	public String getType() {
@@ -215,5 +216,4 @@ public class License {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 }
