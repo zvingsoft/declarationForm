@@ -1,6 +1,5 @@
 package com.zving.declarationform.license.model;
 
-
 /**
  * 许可证
  * 
@@ -10,14 +9,16 @@ package com.zving.declarationform.license.model;
  */
 public class License {
 	long id;// 许可证序列号
-	String SKU;// 许可的商品货号
+	String sku;// 许可的商品货号
 	double count;// 许可的数量
 	String companyId;// 颁发给哪个单位
 	String licenseKey;// 许可证号
 	String companyName;// 进口商
 	String consignee;// 收货人
+	String consignor;// 发货人
 	String tradeMode;// 贸易方式
 	String exportingCountry;// 出口国
+	String importedCountry;// 进口国
 	String countryOfOrigin;// 原产国家
 	String portOfClearance;// 报关口岸
 	String sourceOffOreignExchange;// 外汇来源
@@ -33,12 +34,12 @@ public class License {
 	String type;// 类型
 	String status;// 状态
 
-	public String getSKU() {
-		return SKU;
+	public String getSku() {
+		return sku;
 	}
 
-	public void setSKU(String sKU) {
-		SKU = sKU;
+	public void setSku(String sku) {
+		this.sku = sku;
 	}
 
 	public double getCount() {
@@ -89,6 +90,14 @@ public class License {
 		this.consignee = consignee;
 	}
 
+	public String getConsignor() {
+		return consignor;
+	}
+
+	public void setConsignor(String consignor) {
+		this.consignor = consignor;
+	}
+
 	public String getTradeMode() {
 		return tradeMode;
 	}
@@ -103,6 +112,14 @@ public class License {
 
 	public void setExportingCountry(String exportingCountry) {
 		this.exportingCountry = exportingCountry;
+	}
+
+	public String getImportedCountry() {
+		return importedCountry;
+	}
+
+	public void setImportedCountry(String importedCountry) {
+		this.importedCountry = importedCountry;
 	}
 
 	public String getCountryOfOrigin() {
