@@ -117,19 +117,17 @@
         <el-form-item label="己用量" prop="used">
           <el-input type="text" v-model="ptDataModel.used" auto-complete="off" style="width:85%"></el-input>
         </el-form-item>
-        <el-form-item label="接单企业ID" prop="processCompany">
+        <el-form-item label="接单企业ID" prop="processCompany" v-show="false">
           <el-input type="text" v-model="ptDataModel.processCompany" auto-complete="off" style="width:85%"></el-input>
         </el-form-item>
         <el-form-item label="接单企业" prop="processCompanyName">
-          <el-input type="text" v-model="ptDataModel.processCompanyName" auto-complete="off" style="width:85%"></el-input>
+          <el-select v-model="ptDataModel.processCompanyName" :multiple="false" class="businesstype-select" @change="onProcessCompanyChange">
+            <el-option v-for="item in processCompanys" :key="item.id" :label="item.name" :value="item.name">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="委托企业" prop="commissionedCompnayName">
           <el-input type="text" v-model="ptDataModel.commissionedCompnayName" auto-complete="off" style="width:85%"></el-input>
-        </el-form-item>
-        <el-form-item label="商品">
-          <el-button @click.native.prevent="ptViewGoodsClick">
-            编辑商品
-          </el-button>
         </el-form-item>
         <el-form-item label="合同备案" prop="contract" v-show="editMode===1">
           <el-upload :on-success="onUploadSuccess" class="upload-file" action="" :multiple="false" :file-list="fileList">
@@ -218,15 +216,6 @@
           <el-table-column min-width="4%" label="商品名称" prop="name"></el-table-column>
           <el-table-column min-width="4%" label="商品规格" prop="spec"></el-table-column>
           <el-table-column min-width="4%" label="商品单位" prop="unit"></el-table-column>
-          <!-- <el-table-column min-width="4%" label="项号" prop="itemNum"></el-table-column> -->
-          <!-- <el-table-column min-width="8%" label="商品编号" prop="productNum"></el-table-column> -->
-          <!-- <el-table-column min-width="20%" label="商品名称、规格型号" prop="nameAndSpecifications"></el-table-column> -->
-          <!-- <el-table-column min-width="15%" label="数量及单位" prop="quantityAndUnit"></el-table-column> -->
-          <!-- <el-table-column min-width="5%" label="原产国(地区)" prop="originCountry"></el-table-column> -->
-          <!-- <el-table-column min-width="5%" label="单价" prop="unitPrice"></el-table-column> -->
-          <!-- <el-table-column min-width="5%" label="总价" prop="totalPrice"></el-table-column> -->
-          <!-- <el-table-column min-width="5%" label="币制" prop="currency"></el-table-column> -->
-          <!-- <el-table-column min-width="5%" label="征免" prop="levy"></el-table-column> -->
         </el-table>
       </div>
       <div slot="footer">
@@ -281,12 +270,6 @@ export default {
       goodsListData: [],
       ptDataRules: {
         sku: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
-        processCompanyName: [
-          { required: true, message: '该项不能为空', trigger: 'blur' },
-        ],
-        commissionedCompnayName: [
-          { required: true, message: '该项不能为空', trigger: 'blur' },
-        ],
       },
       goodsDataRules: {
         itemNum: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
@@ -303,6 +286,7 @@ export default {
         currency: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
         levy: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
       },
+      processCompanys: [],
     };
   },
   methods: {
@@ -352,6 +336,10 @@ export default {
       });
     },
     ptAddClick() {
+      processingTradeAPI.getCompany().then(data => {
+        console.log(data);
+        this.processCompanys = data;
+      });
       this.editMode = 1;
       this.ptDataModel = {
         id: '',
@@ -515,6 +503,13 @@ export default {
             duration: 2000,
           });
         });
+    },
+    onProcessCompanyChange(val1) {
+      this.processCompanys.forEach(value => {
+        if (value.name === val1) {
+          this.ptDataModel.processCompany = value.id;
+        }
+      }, this);
     },
     goodsAddAndEditOkHandler() {
       this.goodsAddAndEditDialogIsShow = false;
