@@ -1,2 +1,24 @@
 server:
-   port: 7999
+   port: 8013
+   
+zuul:
+  routes:
+    tax:
+      serviceId: tax
+    taxCutting:
+      serviceId: taxCutting
+    license:
+      serviceId: license
+    manifest:
+      serviceId: manifest
+    riskAnalysis:
+      serviceId: riskAnalysis
+    cottonQuota:
+      serviceId: cottonQuota
+    processingTrade:
+      serviceId: processingTrade
+
+# disable netflix eurkea since it's not used for service discovery
+ribbon:
+  eureka:
+    enabled: false

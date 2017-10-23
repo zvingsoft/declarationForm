@@ -8,7 +8,7 @@ var config = {
     login : './source/login.js'
   },
   output : {
-    path : path.join(__dirname, 'dist'),
+    path : path.join(__dirname, 'src/main/resources/static'),
     filename : '[name].js',
     chunkFilename : '[name].js'
   },

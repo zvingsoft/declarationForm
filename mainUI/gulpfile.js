@@ -21,7 +21,7 @@ const srcFiles = {
   htmlInRoot: './source/*.{html,ico}'
 }
 
-const dist = './dist/'
+const dist = './src/main/resources/static/'
 
 gulp.task('copyHtml', function () {
   return gulp.src([srcFiles.htmlInRoot], { base: './source' }).pipe(gulp.dest(dist))
