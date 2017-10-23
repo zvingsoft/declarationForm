@@ -20,4 +20,6 @@ public interface CompanyService {
     String add(Company company);
 
     String update(Company company);
+
+    String check();
 }

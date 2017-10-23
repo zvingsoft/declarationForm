@@ -118,6 +118,13 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
         return "审核失败";
     }
 
+    @Override
+    @RequestMapping(path = "check", method = RequestMethod.PATCH)
+    @ResponseBody
+    public String check() {
+        return "审核成功";
+    }
+
     private CottonQuota getCottonQuota(long id) {
         List<CottonQuota> list = storage.find(CottonQuota.class, null);
         for (CottonQuota cottonQuota : list) {

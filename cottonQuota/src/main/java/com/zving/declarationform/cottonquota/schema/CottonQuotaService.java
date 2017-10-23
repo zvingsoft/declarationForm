@@ -22,4 +22,6 @@ public interface CottonQuotaService {
 
     String audit(String ids, String status);
 
+    String check();
+
 }
