@@ -8,7 +8,7 @@
             <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="deleteClick">
         <i class="fa fa-remove"></i>删除</el-button>
     </div>
-    <el-table :data.sync="packinglistData" tooltip-effect="dark" class="pack-table" highlight-current-row @selection-change="onSelectionChange">
+    <el-table :data.sync="packinglistData" tooltip-effect="dark" class="pack-table" highlight-current-row @selection-change="onSelectionChange" @row-dblclick="rowDBClick">
       <el-table-column type="index" label="项号" width="60px"></el-table-column>
       <el-table-column type="selection"  width="60px" v-if="!onlyView"></el-table-column>
       <el-table-column prop="sku" min-width="90px" label="商品编号"></el-table-column>
@@ -80,35 +80,32 @@ export default {
       SKUData: [],
     };
   },
+  mounted() {
+    skuAPI.getSKU().then(data => {
+      this.SKUData = data;
+      console.log(data);
+    });
+  },
   methods: {
-    beforeDialogOpen() {
-      skuAPI
-        .getSKU()
-        .then(data => {
-          this.SKUData = data;
-          console.log(data);
-        })
-        .then(() => {
-          if (this.editMode == 0) {
-            this.tmpPacking = {
-              id: Math.floor(Math.random() * 999999),
-              sku: '',
-            };
-          }
-          if (this.editMode == 1) {
-            this.tmpPacking = Object.assign({}, this.selectedRows[0]);
-          }
-        });
+    rowDBClick(row) {
+      this.editMode = 1;
+      this.tmpPacking = Object.assign({}, row);
+      this.packingdetailDialogModal = true;
     },
     onSelectionChange(selection) {
       this.selectedRows = selection;
     },
     addClick() {
       this.editMode = 0;
+      this.tmpPacking = {
+        id: Math.floor(Math.random() * 999999),
+        sku: '',
+      };
       this.packingdetailDialogModal = true;
     },
     editClick() {
       this.editMode = 1;
+      this.tmpPacking = Object.assign({}, this.selectedRows[0]);
       this.packingdetailDialogModal = true;
     },
     deleteClick() {

@@ -29,7 +29,7 @@
           </el-select>-->
         <el-button size="small" type="primary" @click="doSearch" style="width:60px;">搜索</el-button>
       </div>
-      <el-table :data="declarationData" ref="declarationTable" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange" @expand="expandRow">
+      <el-table :data="declarationData" ref="declarationTable" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange" @expand="expandRow" @row-dblclick="rowDBClick">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column type="expand">
           <template slot-scope="props">
@@ -459,6 +459,15 @@ export default {
     };
   },
   methods: {
+    rowDBClick(row) {
+      declarationAPI.getDeclarationById(row.id).then(data => {
+        this.editMode = 1;
+        this.tmpDeclaration = data;
+        console.log(this.tmpDeclaration);
+        this.declarationDialogmodel = true;
+        this.selectedPackingRow = [];
+      });
+    },
     doSearch() {
       if (this.retrieval == '') {
         this.$message('请选择检索字段！');

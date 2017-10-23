@@ -13,7 +13,7 @@
         <el-input style="width:200px" size="small" v-model="searchWord"></el-input>
         <el-button size="small" type="primary" @click="getSKUData" style="width:60px;">搜索</el-button>
       </div>
-      <el-table :data="SKUData" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange">
+      <el-table :data="SKUData" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange" @row-dblclick="rowDBClick">
         <el-table-column type="index" width="70px" label="序号"></el-table-column>
         <el-table-column type="selection" width="60px" align="center"></el-table-column>
         <el-table-column prop="sn" min-width="90px" label="商品编号"></el-table-column>
@@ -75,6 +75,13 @@ export default {
     };
   },
   methods: {
+    rowDBClick(row) {
+      skuAPI.getSKUById(row.id).then(data => {
+        this.editMode = 1;
+        this.tmpSKU = data;
+        this.SKUDialogModal = true;
+      });
+    },
     onSelectionChange(selection) {
       this.selectedRows = selection;
     },
@@ -164,7 +171,7 @@ export default {
   created() {
     this.clientHeight = document.documentElement.clientHeight - 200;
     this.getSKUData();
-  }
+  },
 };
 </script>
 
