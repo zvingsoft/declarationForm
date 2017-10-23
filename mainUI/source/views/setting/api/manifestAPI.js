@@ -1,21 +1,21 @@
 const manifestAPI = {
   getManifestData () {
-    return axios.get('/api/manifests').then(res => {
-      return res.data
+    return axios.get('manifest/manifest').then(res => {
+      return res
     })
   },
   addManifest (manifest) {
-    return axios.post('/api/manifests', manifest).then(res => res.data)
+    return axios.post('manifest/manifest', manifest).then(res => res)
   },
   editManifest (id, manifest) {
-    return axios.put(`/api/manifests/${id}`, manifest).then(res => res.data)
+    return axios.put('manifest/manifest', manifest).then(res => res)
   },
   deleteManifests (ids) {
     let strIds = ids.join(',')
-    return axios.delete(`/api/manifests/${strIds}`).then(res => res.data)
+    return axios.delete(`/manifest/manifest/${strIds}`).then(res => res)
   },
   viewManifestsGoods (id) {
-    return axios.get(`/api/manifests/viewgoods/${id}`).then(res => res.data)
+    return axios.get(`/manifest/manifest/${id}`).then(res => res)
   }
 }
 
