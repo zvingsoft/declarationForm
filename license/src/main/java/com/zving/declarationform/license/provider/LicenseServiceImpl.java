@@ -56,7 +56,7 @@ public class LicenseServiceImpl implements LicenseService {
 					}
 				}
 			}
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			throw new LicenseOptionFailedException();
 		}
 		return "confirm成功：license";
@@ -77,7 +77,7 @@ public class LicenseServiceImpl implements LicenseService {
 					return "compensate成功：license";
 				}
 			}
-		} catch (NumberFormatException e) {
+		} catch (Exception e) {
 			throw new LicenseOptionFailedException();
 		}
 		return "compensate成功：license";
