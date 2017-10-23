@@ -32,12 +32,11 @@ public interface FormService {
 	 * 更新报关单
 	 */
 	String update(DeclarationForm form);
-	
+
 	/**
 	 * 删除报关单
 	 */
 	String delete(String id);
-	
 
 	/**
 	 * 获取审核报关单列表
@@ -47,7 +46,11 @@ public interface FormService {
 	/**
 	 * 审核
 	 */
-	String audit(Map<String,String> map);
-	
+	String audit(Map<String, String> map);
+
+	/**
+	 * 确认
+	 */
+	String confirm(DeclarationForm form);
 
 }

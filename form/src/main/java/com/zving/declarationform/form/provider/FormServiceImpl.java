@@ -1,11 +1,14 @@
 package com.zving.declarationform.form.provider;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +23,7 @@ import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 
 import io.servicecomb.provider.rest.common.RestSchema;
+import io.servicecomb.provider.springmvc.reference.RestTemplateBuilder;
 
 /**
  * @author 王育春
@@ -51,6 +55,7 @@ public class FormServiceImpl implements FormService {
 				storage.delete(DeclarationForm.class, list.get(i));
 			}
 		}
+
 		storage.add(DeclarationForm.class, form);
 		return "更新成功";
 	}
@@ -139,5 +144,35 @@ public class FormServiceImpl implements FormService {
 			}
 		}
 		return "提交审核成功";
+	}
+
+	@Override
+	@RequestMapping(path = "form/confirm", method = RequestMethod.POST)
+	@ResponseBody
+	public String confirm(@RequestBody DeclarationForm form) {
+		List<String> services = Arrays.asList("license", "cottonQuota", "manifest", "riskAnalysis", "processingTrade");
+		String confirmFormat = "cse://?/confirm";
+		String componsateFormat = "cse://?/componsate";
+		List<String> successList = new ArrayList<>();
+		Optional<String> fail = services.stream().filter(item -> {
+			//验证
+			ResponseEntity<String> entry = RestTemplateBuilder.create().postForEntity(String.format(confirmFormat, item), form,
+					String.class);
+			if (entry.getStatusCode().is2xxSuccessful()) {
+				successList.add(item);
+				return false;
+			} else {
+				return true;
+			}
+		}).findAny();
+		if (fail.isPresent()) {
+			if (successList.size() > 0) {
+				//补偿
+				successList.stream().forEach(
+						item -> RestTemplateBuilder.create().postForObject(String.format(componsateFormat, item), form, String.class));
+			}
+			return "confirm失败：form";
+		}
+		return "confirm成功：form";
 	}
 }
