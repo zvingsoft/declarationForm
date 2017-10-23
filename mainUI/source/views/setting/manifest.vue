@@ -72,25 +72,35 @@
         <el-form-item label="收件公司：" prop="receiveCompany">
           <el-input placeholder="请输入收件公司" v-model="tmpManifest.receiveCompany" class="width-300"></el-input>
         </el-form-item>
-        <el-form-item label="商品：">
-
-          <el-select class="e-input" multiple  v-model="sku" placeholder="请选择一种商品" @change="selectSku" >
-              <el-option v-for="item in SKUData" :key="item.sn" :label="item.name" :value="item.sn">
-                <span style="float: left">{{ item.sn }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px;margin-right: 20px;">{{ item.name }}</span>
-              </el-option>
-        </el-select>
-        </el-form-item>
         <el-form-item label="发货地：">
-          <el-input placeholder="请输入发货地" v-model="tmpManifest.sendAddress" class="width-230"></el-input>
+          <el-input placeholder="请输入发货地" v-model="tmpManifest.sendAddress" class="width-300"></el-input>
         </el-form-item>
         <el-form-item label="收货人：" prop="receivePerson">
-          <el-input v-model="tmpManifest.receivePerson" placeholder="请输入收货人" class="width-230"></el-input>
+          <el-input v-model="tmpManifest.receivePerson" placeholder="请输入收货人" class="width-300"></el-input>
         </el-form-item>
         <el-form-item label="电话：">
-          <el-input placeholder="请填写电话" v-model="tmpManifest.telephone" class="width-230"></el-input>
+          <el-input placeholder="请填写电话" v-model="tmpManifest.telephone" class="width-300"></el-input>
         </el-form-item>
       </el-form>
+      <div class="form-title">添加商品</div>
+      <div class="packinglist-panel">
+        <div style="height:50px;background-color:#f5f5f5; padding:5px;">
+      <el-button class="z-toolbar-btn" :plain="true" @click="openSelectGoods" >
+        <i class="fa fa-plus"></i>添加</el-button>
+            <el-button class="z-toolbar-btn" :plain="true"  :disabled="selectedGoodsList.length === 0" @click="deleteSelectedGoodsList" >
+        <i class="fa fa-remove"></i>删除</el-button>
+    </div>
+          <el-table :data="temsku" @selection-change="selectedGoodsListChange" >
+          <el-table-column type="selection" min-width="5%" align="center" ></el-table-column>
+          <el-table-column prop="sku" min-width="15%" label="商品编号"></el-table-column>
+          <el-table-column prop="skuname" min-width="55%" label="商品名称"></el-table-column>
+          <el-table-column prop="quantity" min-width="25%" label="数量">
+            <template slot-scope="scope">
+              <el-input-number size="small" v-model="scope.row.quantity" :min="0"></el-input-number>
+           </template>
+          </el-table-column>
+        </el-table>
+      </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetManifest">取 消</el-button>
         <el-button type="primary" @click="saveManifest" :disabled="saveManifestStatus">确 定</el-button>
@@ -106,7 +116,8 @@
         <div>
           <el-table :data="manifestGoodInfo.goodsinfo" >
           <el-table-column prop="sku" min-width="20%" label="商品编号"></el-table-column>
-          <el-table-column prop="skuname" min-width="80%" label="商品"></el-table-column>
+          <el-table-column prop="skuname" min-width="70%" label="商品名称"></el-table-column>
+          <el-table-column prop="quantity" min-width="10%" label="数量"></el-table-column>
         </el-table>
           </div>
       </el-card>
@@ -114,6 +125,18 @@
         <el-button @click="viewDialog = false">关 闭</el-button>
       </div>
     </el-dialog>
+<!--选择商品-->
+    <el-dialog title="选择商品" :visible.sync="viewSelectGoods">
+  <el-table :data="SKUData" @selection-change="selectedGoodsChange"  >
+    <el-table-column type="selection" width="55" align="center" ></el-table-column>
+          <el-table-column prop="sn" min-width="20%" label="商品编号"></el-table-column>
+          <el-table-column prop="name" min-width="80%" label="商品名称"></el-table-column>
+        </el-table>
+        <div slot="footer" class="dialog-footer">
+        <el-button @click="viewSelectGoods=false">取 消</el-button>
+        <el-button type="primary" @click="selectGoodsClick" >确 定</el-button>
+      </div>
+</el-dialog>
 
   </div>
 </template>
@@ -153,12 +176,66 @@ export default {
       viewDialog: false,
       manifestGoodInfo: { goodsinfo: '', receiveCompany: '' },
       SKUData: [],
+
       sku: [],
+      viewSelectGoods: false,
+      temsku: [],
+      selectedGoodsRows: [],
+      selectedGoodsList: [],
     };
   },
   methods: {
     onSelectionChange(selection) {
       this.selectedRows = selection;
+    },
+    openSelectGoods() {
+      let rowIds = [];
+      if(this.temsku){
+        this.temsku.forEach(function(row) {
+          rowIds.push(row.sku);
+        });
+      }
+      skuAPI.getSKU().then(data => {
+        this.SKUData = data;
+        this.SKUData = this.SKUData.filter(val => !rowIds.includes(val.sn));
+      });
+      this.viewSelectGoods = true;
+      this.selectedGoodsRows = [];
+    },
+    //选中商品行
+    selectedGoodsChange(selection) {
+      this.selectedGoodsRows = selection;
+    },
+    //勾选商品行
+    selectedGoodsListChange(selection) {
+      this.selectedGoodsList = selection;
+    },
+    //删除勾选商品行
+    deleteSelectedGoodsList() {
+      let rowIds = [];
+      this.selectedGoodsList.forEach(function(row) {
+        rowIds.push(row.sku);
+      });
+      this.$confirm('确认删除所选的数据?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        beforeClose: (action, instance, done) => {
+          if (action == 'confirm') {
+            instance.confirmButtonLoading = true;
+            this.temsku = this.temsku.filter(val => !rowIds.includes(val.sku));
+            this.tmpManifest.items = this.temsku;
+            instance.confirmButtonLoading = false;
+          }
+          done();
+        },
+      }).catch(() => {
+        this.$notify.info({
+          title: '取消',
+          message: '操作取消！',
+          duration: 2000,
+        });
+      });
     },
     handleSearchBtn() {
       this.manifestTable = Object.assign([], this.temmanifestTable);
@@ -186,6 +263,7 @@ export default {
             val => val.receivePerson.indexOf(temReceivePerson) != -1
           );
         }
+        this.total=this.manifestTable.length;
       }
     },
     sizeChangeHandler(val) {
@@ -196,7 +274,6 @@ export default {
     },
     //关闭事件
     closeAddOrEditDialog() {
-      console.log(this.tmpManifest.manifestNum);
       if (
         !this.tmpManifest.manifestNum ||
         this.tmpManifest.manifestNum == '' ||
@@ -221,6 +298,7 @@ export default {
       this.saveManifestStatus = false;
       this.showDialog = true;
       this.sku = [];
+      this.temsku = [];
       skuAPI.getSKU().then(data => {
         this.SKUData = data;
       });
@@ -231,27 +309,37 @@ export default {
       this.showDialog = true;
       this.saveManifestStatus = false;
       this.tmpManifest = Object.assign({}, this.selectedRows[0]);
-      let temSku = [];
-      this.tmpManifest.items.forEach(function(row) {
-        temSku.push(row.sku);
-      });
-      this.sku = temSku;
+      this.temsku = this.tmpManifest.items;
       skuAPI.getSKU().then(data => {
         this.SKUData = data;
       });
     },
-
+    //确认选择商品
+    selectGoodsClick() {
+      if (this.selectedGoodsRows.length === 0) {
+        this.$alert('请至少选择一种商品');
+        return;
+      }
+      let temArr = Object.assign([], this.temsku);
+      this.selectedGoodsRows.forEach(function(row) {
+        let temGoods = {};
+        temGoods.id = row.id;
+        temGoods.sku = row.sn;
+        temGoods.skuname = row.name;
+        temGoods.quantity = 0;
+        temArr.push(temGoods);
+      });
+      this.temsku = temArr;
+      this.viewSelectGoods = false;
+      this.tmpManifest.items = this.temsku;
+    },
     //双击
     dblclickManifest(dbrow) {
       this.addOrEdit = 2;
       this.showDialog = true;
       this.saveManifestStatus = false;
       this.tmpManifest = Object.assign({}, dbrow);
-      let temSku = [];
-      this.tmpManifest.items.forEach(function(row) {
-        temSku.push(row.sku);
-      });
-      this.sku = temSku;
+      this.temsku = this.tmpManifest.items;
       skuAPI.getSKU().then(data => {
         this.SKUData = data;
       });
@@ -270,11 +358,7 @@ export default {
       this.showDialog = true;
       this.saveManifestStatus = false;
       this.tmpManifest = Object.assign({}, link);
-      let temSku = [];
-      this.tmpManifest.items.forEach(function(row) {
-        temSku.push(row.sku);
-      });
-      this.sku = temSku;
+      this.temsku = this.tmpManifest.items;
       skuAPI.getSKU().then(data => {
         this.SKUData = data;
       });
@@ -297,6 +381,7 @@ export default {
               this.showDialog = false;
             });
           } else if (this.addOrEdit == 2) {
+            this.tmpManifest.items = this.temsku;
             manifestAPI
               .editManifest(this.tmpManifest.id, this.tmpManifest)
               .then(data => {
@@ -337,6 +422,7 @@ export default {
                   val => !rowIds.includes(val.id)
                 );
                 this.temmanifestTable = Object.assign([], this.manifestTable);
+                this.total=this.manifestTable.length;
                 this.$notify({
                   title: '成功',
                   message: data.data,
@@ -376,40 +462,24 @@ export default {
         let temManifestTable = [];
         this.manifestTable.forEach(function(row) {
           let temItems = row.items;
-          let temArr = [];
-          temItems.forEach(function(item) {
-            temArr.push(item.skuname);
-          });
           let temrow = Object.assign({}, row);
-          temrow.skunames = temArr.join(',');
-          temManifestTable.push(temrow);
+          if (temItems) {
+            let temArr = [];
+            temItems.forEach(function(item) {
+              temArr.push(item.skuname);
+            });
+            temrow.skunames = temArr.join(',');
+          }
+            temManifestTable.push(temrow);
         });
         this.manifestTable = temManifestTable;
         this.temmanifestTable = Object.assign([], this.manifestTable);
+        this.total=this.manifestTable.length;
       });
-    },
-    selectSku(val) {
-      let skuname = [];
-      let temSKUData = Object.assign([], this.SKUData);
-      val.forEach(function(item) {
-        temSKUData.forEach(function(row) {
-          if (row.sn == item) {
-            let tem = { sku: '', skuname: '' };
-            tem.sku = row.sn;
-            tem.skuname = row.name;
-            skuname.push(tem);
-          }
-        });
-      });
-      this.tmpManifest.items = skuname;
     },
   },
   created() {
     this.getManifestData();
-    // manifestAPI.getManifestData().then(data => {
-    //   this.manifestTable = data.data;
-    //   this.temmanifestTable = Object.assign([], this.manifestTable);
-    // });
   },
 };
 </script>
@@ -455,5 +525,17 @@ export default {
 
 .box-card {
   width: 100%;
+}
+.form-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 6%;
+  padding: 20px 0 5px 0;
+}
+.packinglist-panel {
+  margin-left: 5%;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
 }
 </style>
