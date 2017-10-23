@@ -211,7 +211,7 @@
           <i class="fa fa-trash-o" aria-hidden="true"></i> 删除</el-button>
       </el-toolbar> -->
       <div class="main-content-wrap">
-        <el-table ref="goodsListTable" highlight-current-row :data="goodsListData" tooltip-effect="dark" @selection-change="goodsOnSelectionChange">
+        <el-table ref="goodsListTable" highlight-current-row :data="goodsList" tooltip-effect="dark" @selection-change="goodsOnSelectionChange">
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column min-width="4%" label="编号" prop="sn"></el-table-column>
           <el-table-column min-width="4%" label="商品类型" prop="goodsType"></el-table-column>
@@ -269,7 +269,7 @@ export default {
         processCompanyName: '',
         commissionedCompnayName: '',
       },
-      goodsListData: [],
+      // goodsData: [],
       ptDataRules: {
         // sku: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
       },
@@ -339,12 +339,11 @@ export default {
         this.sku = value.sku.split(',');
       }, this);
     },
-    loadGoodsList() {
-      processingTradeAPI.getGoodsList().then(data => {
-        this.goodsListData = data;
-        this.goodsTotal = data.length;
-      });
-    },
+    // loadGoodsList() {
+    //   processingTradeAPI.getGoodsList().then(data => {
+    //     this.goodsListData = data;
+    //   });
+    // },
     ptAddClick() {
       this.loadCompanyList();
       this.loadGoodsList();
@@ -443,6 +442,15 @@ export default {
         });
     },
     ptViewGoodsClick() {
+      let skus = this.ptSelectedRows[0].sku.split(',');
+      this.goodsList = this.goodsList.filter(val => {
+        let flag = false;
+        let goodsno = val.sn;
+        skus.forEach(value => {
+          flag = (value === goodsno)||flag;
+        });
+        return flag
+      });
       this.goodsDialogIsShow = true;
     },
     contractFileView() {
