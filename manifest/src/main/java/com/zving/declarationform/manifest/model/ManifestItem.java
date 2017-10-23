@@ -11,4 +11,20 @@ public class ManifestItem {
 	String SKU;// 货号
 	double quantity;// 数量
 
+	public String getSKU() {
+		return SKU;
+	}
+
+	public void setSKU(String sKU) {
+		SKU = sKU;
+	}
+
+	public double getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(double quantity) {
+		this.quantity = quantity;
+	}
+
 }
