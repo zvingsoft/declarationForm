@@ -21,6 +21,11 @@ const routes = [
         component: require('../views/form/declarationRetrieval.vue')
       },
       {
+        path: 'sku',
+        meta: { title: '商品管理', icon: 'fa fa-file-text-o' },
+        component: require('../views/form/sku.vue')
+      },
+      {
         path: 'auditing',
         meta: { title: '审核', icon: 'fa fa-file-text-o' },
         component: require('../views/form/auditing.vue')

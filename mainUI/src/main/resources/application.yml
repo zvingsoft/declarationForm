@@ -1,6 +1,6 @@
 server:
    port: 8013
-   
+
 zuul:
   routes:
     tax:
@@ -9,6 +9,8 @@ zuul:
       serviceId: taxCutting
     license:
       serviceId: license
+    form:
+      serviceId: form
     manifest:
       serviceId: manifest
     riskAnalysis:

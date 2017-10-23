@@ -15,7 +15,7 @@ public interface FormService {
 	/**
 	 * 获取报关单列表
 	 */
-	List<DeclarationForm> list();
+	List<DeclarationForm> list(String searchItem);
 
 	/**
 	 * 获取报关单

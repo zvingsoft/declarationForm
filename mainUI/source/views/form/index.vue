@@ -30,7 +30,11 @@ const menus = [
   },
   {
     path: '/form/declarationRetrieval',
-    meta: { title: '报关单检索', icon: 'fa fa-file-text-o' }
+    meta: { title: '报关单检索', icon: 'fa fa-search' }
+  },
+  {
+    path: '/form/sku',
+    meta: { title: '商品管理', icon: 'fa fa-th-list' }
   },
   {
     path: '/form/auditing',

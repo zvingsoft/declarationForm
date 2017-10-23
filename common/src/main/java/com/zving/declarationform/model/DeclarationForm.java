@@ -11,230 +11,255 @@ import java.util.ArrayList;
  */
 public class DeclarationForm {
 	String id;
-	String declarationtype;
-	String declarationtypename;
-	String preentrynumber;
-	String customsnumber;
-	String importorexportport;
-	String recordnumber;
-	String importorexportdate;
-	String declarationdate;
-	String managementunit;
-	String shippingtype;
-	String shippingtools;
-	String shippingnumbers;
-	String forwardingunit;
-	String tradingtype;
-	String exemptionnature;
-	String settlementtype;
-	String licensekey;
-	String startorarrivalcountry;
-	String loadingorfingerport;
-	String destinationorconsignmentplace;
-	String approvalnumber;
-	String transactionmethod;
+	String declarationType;
+	String declarationTypeName;
+	String preentryNumber;
+	String customsNumber;
+	String importOrExportPort;
+	String recordNumber;
+	String importOrExportDate;
+	String declarationDate;
+	String managementUnit;
+	String shippingType;
+	String shippingTools;
+	String shippingNumbers;
+	String forwardingUnit;
+	String tradingType;
+	String exemptionNature;
+	String settlementType;
+	String licenseKey;
+	String startOrArrivalCountry;
+	String loadingOrFingerPort;
+	String destinationOrConsignmentPlace;
+	String approvalNumber;
+	String transactionMethod;
 	String freight;
 	String premium;
 	String incidental;
-	String agreementnumber;
-	String goodsnumber;
-	String packagingtype;
-	String grossweight;
-	String netweight;
-	String containernumber;
-	String documentsattached;
-	String purposeormanufacturer;
-	String shippingmarksandremarks;
-	String taxpaidornot;
-	String entryclerk;
-	String entryunit;
-	String customsbroker;
-	String declarationunit;
-	String unitaddress;
-	String zipcode;
+	String agreementNumber;
+	String goodsNumber;
+	String packagingType;
+	String grossWeight;
+	String netWeight;
+	String containerNumber;
+	String documentSattached;
+	String purposeOrManufacturer;
+	String shippingMarksAndRemarks;
+	String taxpaidOrNot;
+	String entryClerk;
+	String entryUnit;
+	String customsBroker;
+	String declarationUnit;
+	String unitAddress;
+	String zipCode;
 	String telephone;
-	String fillingdate;
-	String auditstatus;
-	String auditstatusname;
-	String entrydate;
+	String fillingDate;
+	String auditStatus;
+	String auditStatusName;
+	String entryDate;
 
 	ArrayList<Document> documents = new ArrayList<>();// 单证信息
 	ArrayList<PackingItem> packingList = new ArrayList<>();// 装箱清单
 
-	public String getDeclarationtype() {
-		return declarationtype;
+
+	public String getId() {
+		return id;
 	}
 
-	public void setDeclarationtype(String declarationtype) {
-		this.declarationtype = declarationtype;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public String getDeclarationtypename() {
-		return declarationtypename;
+	public ArrayList<Document> getDocuments() {
+		return documents;
 	}
 
-	public void setDeclarationtypename(String declarationtypename) {
-		this.declarationtypename = declarationtypename;
+	public void setDocuments(ArrayList<Document> documents) {
+		this.documents = documents;
 	}
 
-	public String getPreentrynumber() {
-		return preentrynumber;
+	public ArrayList<PackingItem> getPackingList() {
+		return packingList;
 	}
 
-	public void setPreentrynumber(String preentrynumber) {
-		this.preentrynumber = preentrynumber;
+	public void setPackingList(ArrayList<PackingItem> packingList) {
+		this.packingList = packingList;
 	}
 
-	public String getCustomsnumber() {
-		return customsnumber;
+	public String getDeclarationType() {
+		return declarationType;
 	}
 
-	public void setCustomsnumber(String customsnumber) {
-		this.customsnumber = customsnumber;
+	public void setDeclarationType(String declarationType) {
+		this.declarationType = declarationType;
 	}
 
-	public String getImportorexportport() {
-		return importorexportport;
+	public String getDeclarationTypeName() {
+		return declarationTypeName;
 	}
 
-	public void setImportorexportport(String importorexportport) {
-		this.importorexportport = importorexportport;
+	public void setDeclarationTypeName(String declarationTypeName) {
+		this.declarationTypeName = declarationTypeName;
 	}
 
-	public String getRecordnumber() {
-		return recordnumber;
+	public String getPreentryNumber() {
+		return preentryNumber;
 	}
 
-	public void setRecordnumber(String recordnumber) {
-		this.recordnumber = recordnumber;
+	public void setPreentryNumber(String preentryNumber) {
+		this.preentryNumber = preentryNumber;
 	}
 
-	public String getImportorexportdate() {
-		return importorexportdate;
+	public String getCustomsNumber() {
+		return customsNumber;
 	}
 
-	public void setImportorexportdate(String importorexportdate) {
-		this.importorexportdate = importorexportdate;
+	public void setCustomsNumber(String customsNumber) {
+		this.customsNumber = customsNumber;
 	}
 
-	public String getDeclarationdate() {
-		return declarationdate;
+	public String getImportOrExportPort() {
+		return importOrExportPort;
 	}
 
-	public void setDeclarationdate(String declarationdate) {
-		this.declarationdate = declarationdate;
+	public void setImportOrExportPort(String importOrExportPort) {
+		this.importOrExportPort = importOrExportPort;
 	}
 
-	public String getManagementunit() {
-		return managementunit;
+	public String getRecordNumber() {
+		return recordNumber;
 	}
 
-	public void setManagementunit(String managementunit) {
-		this.managementunit = managementunit;
+	public void setRecordNumber(String recordNumber) {
+		this.recordNumber = recordNumber;
 	}
 
-	public String getShippingtype() {
-		return shippingtype;
+	public String getImportOrExportDate() {
+		return importOrExportDate;
 	}
 
-	public void setShippingtype(String shippingtype) {
-		this.shippingtype = shippingtype;
+	public void setImportOrExportDate(String importOrExportDate) {
+		this.importOrExportDate = importOrExportDate;
 	}
 
-	public String getShippingtools() {
-		return shippingtools;
+	public String getDeclarationDate() {
+		return declarationDate;
 	}
 
-	public void setShippingtools(String shippingtools) {
-		this.shippingtools = shippingtools;
+	public void setDeclarationDate(String declarationDate) {
+		this.declarationDate = declarationDate;
 	}
 
-	public String getShippingnumbers() {
-		return shippingnumbers;
+	public String getManagementUnit() {
+		return managementUnit;
 	}
 
-	public void setShippingnumbers(String shippingnumbers) {
-		this.shippingnumbers = shippingnumbers;
+	public void setManagementUnit(String managementUnit) {
+		this.managementUnit = managementUnit;
 	}
 
-	public String getForwardingunit() {
-		return forwardingunit;
+	public String getShippingType() {
+		return shippingType;
 	}
 
-	public void setForwardingunit(String forwardingunit) {
-		this.forwardingunit = forwardingunit;
+	public void setShippingType(String shippingType) {
+		this.shippingType = shippingType;
 	}
 
-	public String getTradingtype() {
-		return tradingtype;
+	public String getShippingTools() {
+		return shippingTools;
 	}
 
-	public void setTradingtype(String tradingtype) {
-		this.tradingtype = tradingtype;
+	public void setShippingTools(String shippingTools) {
+		this.shippingTools = shippingTools;
 	}
 
-	public String getExemptionnature() {
-		return exemptionnature;
+	public String getShippingNumbers() {
+		return shippingNumbers;
 	}
 
-	public void setExemptionnature(String exemptionnature) {
-		this.exemptionnature = exemptionnature;
+	public void setShippingNumbers(String shippingNumbers) {
+		this.shippingNumbers = shippingNumbers;
 	}
 
-	public String getSettlementtype() {
-		return settlementtype;
+	public String getForwardingUnit() {
+		return forwardingUnit;
 	}
 
-	public void setSettlementtype(String settlementtype) {
-		this.settlementtype = settlementtype;
+	public void setForwardingUnit(String forwardingUnit) {
+		this.forwardingUnit = forwardingUnit;
 	}
 
-	public String getLicensekey() {
-		return licensekey;
+	public String getTradingType() {
+		return tradingType;
 	}
 
-	public void setLicensekey(String licensekey) {
-		this.licensekey = licensekey;
+	public void setTradingType(String tradingType) {
+		this.tradingType = tradingType;
 	}
 
-	public String getStartorarrivalcountry() {
-		return startorarrivalcountry;
+	public String getExemptionNature() {
+		return exemptionNature;
 	}
 
-	public void setStartorarrivalcountry(String startorarrivalcountry) {
-		this.startorarrivalcountry = startorarrivalcountry;
+	public void setExemptionNature(String exemptionNature) {
+		this.exemptionNature = exemptionNature;
 	}
 
-	public String getLoadingorfingerport() {
-		return loadingorfingerport;
+	public String getSettlementType() {
+		return settlementType;
 	}
 
-	public void setLoadingorfingerport(String loadingorfingerport) {
-		this.loadingorfingerport = loadingorfingerport;
+	public void setSettlementType(String settlementType) {
+		this.settlementType = settlementType;
 	}
 
-	public String getDestinationorconsignmentplace() {
-		return destinationorconsignmentplace;
+	public String getLicenseKey() {
+		return licenseKey;
 	}
 
-	public void setDestinationorconsignmentplace(String destinationorconsignmentplace) {
-		this.destinationorconsignmentplace = destinationorconsignmentplace;
+	public void setLicenseKey(String licenseKey) {
+		this.licenseKey = licenseKey;
 	}
 
-	public String getApprovalnumber() {
-		return approvalnumber;
+	public String getStartOrArrivalCountry() {
+		return startOrArrivalCountry;
 	}
 
-	public void setApprovalnumber(String approvalnumber) {
-		this.approvalnumber = approvalnumber;
+	public void setStartOrArrivalCountry(String startOrArrivalCountry) {
+		this.startOrArrivalCountry = startOrArrivalCountry;
 	}
 
-	public String getTransactionmethod() {
-		return transactionmethod;
+	public String getLoadingOrFingerPort() {
+		return loadingOrFingerPort;
 	}
 
-	public void setTransactionmethod(String transactionmethod) {
-		this.transactionmethod = transactionmethod;
+	public void setLoadingOrFingerPort(String loadingOrFingerPort) {
+		this.loadingOrFingerPort = loadingOrFingerPort;
+	}
+
+	public String getDestinationOrConsignmentPlace() {
+		return destinationOrConsignmentPlace;
+	}
+
+	public void setDestinationOrConsignmentPlace(String destinationOrConsignmentPlace) {
+		this.destinationOrConsignmentPlace = destinationOrConsignmentPlace;
+	}
+
+	public String getApprovalNumber() {
+		return approvalNumber;
+	}
+
+	public void setApprovalNumber(String approvalNumber) {
+		this.approvalNumber = approvalNumber;
+	}
+
+	public String getTransactionMethod() {
+		return transactionMethod;
+	}
+
+	public void setTransactionMethod(String transactionMethod) {
+		this.transactionMethod = transactionMethod;
 	}
 
 	public String getFreight() {
@@ -261,132 +286,132 @@ public class DeclarationForm {
 		this.incidental = incidental;
 	}
 
-	public String getAgreementnumber() {
-		return agreementnumber;
+	public String getAgreementNumber() {
+		return agreementNumber;
 	}
 
-	public void setAgreementnumber(String agreementnumber) {
-		this.agreementnumber = agreementnumber;
+	public void setAgreementNumber(String agreementNumber) {
+		this.agreementNumber = agreementNumber;
 	}
 
-	public String getGoodsnumber() {
-		return goodsnumber;
+	public String getGoodsNumber() {
+		return goodsNumber;
 	}
 
-	public void setGoodsnumber(String goodsnumber) {
-		this.goodsnumber = goodsnumber;
+	public void setGoodsNumber(String goodsNumber) {
+		this.goodsNumber = goodsNumber;
 	}
 
-	public String getPackagingtype() {
-		return packagingtype;
+	public String getPackagingType() {
+		return packagingType;
 	}
 
-	public void setPackagingtype(String packagingtype) {
-		this.packagingtype = packagingtype;
+	public void setPackagingType(String packagingType) {
+		this.packagingType = packagingType;
 	}
 
-	public String getGrossweight() {
-		return grossweight;
+	public String getGrossWeight() {
+		return grossWeight;
 	}
 
-	public void setGrossweight(String grossweight) {
-		this.grossweight = grossweight;
+	public void setGrossWeight(String grossWeight) {
+		this.grossWeight = grossWeight;
 	}
 
-	public String getNetweight() {
-		return netweight;
+	public String getNetWeight() {
+		return netWeight;
 	}
 
-	public void setNetweight(String netweight) {
-		this.netweight = netweight;
+	public void setNetWeight(String netWeight) {
+		this.netWeight = netWeight;
 	}
 
-	public String getContainernumber() {
-		return containernumber;
+	public String getContainerNumber() {
+		return containerNumber;
 	}
 
-	public void setContainernumber(String containernumber) {
-		this.containernumber = containernumber;
+	public void setContainerNumber(String containerNumber) {
+		this.containerNumber = containerNumber;
 	}
 
-	public String getDocumentsattached() {
-		return documentsattached;
+	public String getDocumentSattached() {
+		return documentSattached;
 	}
 
-	public void setDocumentsattached(String documentsattached) {
-		this.documentsattached = documentsattached;
+	public void setDocumentSattached(String documentSattached) {
+		this.documentSattached = documentSattached;
 	}
 
-	public String getPurposeormanufacturer() {
-		return purposeormanufacturer;
+	public String getPurposeOrManufacturer() {
+		return purposeOrManufacturer;
 	}
 
-	public void setPurposeormanufacturer(String purposeormanufacturer) {
-		this.purposeormanufacturer = purposeormanufacturer;
+	public void setPurposeOrManufacturer(String purposeOrManufacturer) {
+		this.purposeOrManufacturer = purposeOrManufacturer;
 	}
 
-	public String getShippingmarksandremarks() {
-		return shippingmarksandremarks;
+	public String getShippingMarksAndRemarks() {
+		return shippingMarksAndRemarks;
 	}
 
-	public void setShippingmarksandremarks(String shippingmarksandremarks) {
-		this.shippingmarksandremarks = shippingmarksandremarks;
+	public void setShippingMarksAndRemarks(String shippingMarksAndRemarks) {
+		this.shippingMarksAndRemarks = shippingMarksAndRemarks;
 	}
 
-	public String getTaxpaidornot() {
-		return taxpaidornot;
+	public String getTaxpaidOrNot() {
+		return taxpaidOrNot;
 	}
 
-	public void setTaxpaidornot(String taxpaidornot) {
-		this.taxpaidornot = taxpaidornot;
+	public void setTaxpaidOrNot(String taxpaidOrNot) {
+		this.taxpaidOrNot = taxpaidOrNot;
 	}
 
-	public String getEntryclerk() {
-		return entryclerk;
+	public String getEntryClerk() {
+		return entryClerk;
 	}
 
-	public void setEntryclerk(String entryclerk) {
-		this.entryclerk = entryclerk;
+	public void setEntryClerk(String entryClerk) {
+		this.entryClerk = entryClerk;
 	}
 
-	public String getEntryunit() {
-		return entryunit;
+	public String getEntryUnit() {
+		return entryUnit;
 	}
 
-	public void setEntryunit(String entryunit) {
-		this.entryunit = entryunit;
+	public void setEntryUnit(String entryUnit) {
+		this.entryUnit = entryUnit;
 	}
 
-	public String getCustomsbroker() {
-		return customsbroker;
+	public String getCustomsBroker() {
+		return customsBroker;
 	}
 
-	public void setCustomsbroker(String customsbroker) {
-		this.customsbroker = customsbroker;
+	public void setCustomsBroker(String customsBroker) {
+		this.customsBroker = customsBroker;
 	}
 
-	public String getDeclarationunit() {
-		return declarationunit;
+	public String getDeclarationUnit() {
+		return declarationUnit;
 	}
 
-	public void setDeclarationunit(String declarationunit) {
-		this.declarationunit = declarationunit;
+	public void setDeclarationUnit(String declarationUnit) {
+		this.declarationUnit = declarationUnit;
 	}
 
-	public String getUnitaddress() {
-		return unitaddress;
+	public String getUnitAddress() {
+		return unitAddress;
 	}
 
-	public void setUnitaddress(String unitaddress) {
-		this.unitaddress = unitaddress;
+	public void setUnitAddress(String unitAddress) {
+		this.unitAddress = unitAddress;
 	}
 
-	public String getZipcode() {
-		return zipcode;
+	public String getZipCode() {
+		return zipCode;
 	}
 
-	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
 
 	public String getTelephone() {
@@ -397,44 +422,36 @@ public class DeclarationForm {
 		this.telephone = telephone;
 	}
 
-	public String getFillingdate() {
-		return fillingdate;
+	public String getFillingDate() {
+		return fillingDate;
 	}
 
-	public void setFillingdate(String fillingdate) {
-		this.fillingdate = fillingdate;
+	public void setFillingDate(String fillingDate) {
+		this.fillingDate = fillingDate;
 	}
 
-	public String getAuditstatus() {
-		return auditstatus;
+	public String getAuditStatus() {
+		return auditStatus;
 	}
 
-	public void setAuditstatus(String auditstatus) {
-		this.auditstatus = auditstatus;
+	public void setAuditStatus(String auditStatus) {
+		this.auditStatus = auditStatus;
 	}
 
-	public String getAuditstatusname() {
-		return auditstatusname;
+	public String getAuditStatusName() {
+		return auditStatusName;
 	}
 
-	public void setAuditstatusname(String auditstatusname) {
-		this.auditstatusname = auditstatusname;
+	public void setAuditStatusName(String auditStatusName) {
+		this.auditStatusName = auditStatusName;
 	}
 
-	public String getEntrydate() {
-		return entrydate;
+	public String getEntryDate() {
+		return entryDate;
 	}
 
-	public void setEntrydate(String entrydate) {
-		this.entrydate = entrydate;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
+	public void setEntryDate(String entryDate) {
+		this.entryDate = entryDate;
 	}
 
 }
