@@ -12,6 +12,9 @@ const runSequence = require('run-sequence')
 const browserSync = require('browser-sync').create()
 const bsReload = browserSync.reload
 const useref = require('gulp-useref')
+const fs = require('fs')
+const path = require('path')
+const replace = require('gulp-replace')
 
 const webpackConfig = require('./webpack.config.js')
 
@@ -22,6 +25,7 @@ const srcFiles = {
 }
 
 const dist = './src/main/resources/static/'
+const classDist = './target/classes/static/'
 
 gulp.task('copyHtml', function () {
   return gulp.src([srcFiles.htmlInRoot], { base: './source' }).pipe(gulp.dest(dist))
@@ -33,13 +37,31 @@ gulp.task('copyAssets', function () {
   return gulp.src([srcFiles.lib, srcFiles.assets], { base: './source' }).pipe(gulp.dest(dist))
 })
 
-gulp.task('test', function () {
-  webpackConfig.watch = false
-  webpackConfig.devtool = undefined
-  webpackConfig.plugins = [new webpack.DefinePlugin({
-    NODE_ENV: '"production"'
-  })]
-  webpack(webpackConfig)
+// 复制js到其他的目录下去
+gulp.task('copyJsToOtherApp', function () {
+  const data = fs.readFileSync('./source/router/index.js', 'utf-8')
+  let appContent = fs.readFileSync(dist + 'app.js', 'utf-8')
+  let files = {}
+  data.replace(/resolve\(require\('(\.[^']+\.vue)'\)\), '(([^']+)-[^']+)'\)/g, (a, b, c, d) => {
+    files[c] = d
+  })
+  let result = []
+  for (let p in files) {
+    let buildedJs = path.join(dist, p + '.js')
+    if (fs.existsSync(buildedJs)) {
+      let classPath = '../' + files[p] + '/target/classes/static'
+      let javaPath = '../' + files[p] + '/src/main/resources/static'
+      gulp.src([buildedJs]).pipe(gulp.dest(classPath)).pipe(gulp.dest(javaPath))
+      appContent = appContent.replace('"' + p + '"', '"' + files[p] + '/' + p + '"')
+      result.push('复制文件 ' + buildedJs + ' 到工程 ' + files[p])
+    }
+  }
+  if (result.length) {
+    fs.writeFileSync(classDist + 'app.js', appContent)
+    fs.writeFileSync(dist + 'app.js', appContent)
+  }
+  console.log(result.join('\n'))
+  return true
 })
 
 // 在dev模式，监听js、根目录、assets目录下文件的更改，重新载入浏览器中的页面
@@ -75,6 +97,7 @@ gulp.task('dev', function () {
           hash: false,
           version: false
         }))
+        runSequence('copyJsToOtherApp')
         bsReload()
       })
 
@@ -114,11 +137,12 @@ gulp.task('build', function () {
                   })
               )
       })
+      runSequence('copyJsToOtherApp')
     }
   )
 })
 gulp.task('clean', function () {
-  if (process.env.NODE_ENV == 'dev') {
+  if (process.env.NODE_ENV === 'dev') {
     return true
   }
   // 删除dist目录下的某些被编译出的文件
