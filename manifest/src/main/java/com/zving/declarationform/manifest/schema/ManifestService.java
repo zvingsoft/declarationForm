@@ -3,6 +3,7 @@ package com.zving.declarationform.manifest.schema;
 import java.util.List;
 
 import com.zving.declarationform.manifest.model.Manifest;
+import com.zving.declarationform.model.DeclarationForm;
 
 /**
  * 舱单服务
@@ -12,9 +13,9 @@ import com.zving.declarationform.manifest.model.Manifest;
  * @date 2017年10月18日
  */
 public interface ManifestService {
-	String check(long manifestID);
+	String check(DeclarationForm form);
 
-	String confirm(long manifestID);
+	String confirm(DeclarationForm form);
 
 	String compensate(long manifestID);
 

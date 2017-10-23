@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.manifest.model.Manifest;
-import com.zving.declarationform.manifest.model.ManifestItem;
 import com.zving.declarationform.manifest.schema.ManifestService;
+import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 
@@ -28,17 +28,17 @@ import io.servicecomb.provider.rest.common.RestSchema;
 public class ManifestServiceImpl implements ManifestService {
 
 	@Override
-	@RequestMapping(path = "check/{id}", method = RequestMethod.POST)
+	@RequestMapping(path = "check", method = RequestMethod.POST)
 	@ResponseBody
-	public String check(@PathVariable("id") long id) {
-		return null;
+	public String check(@RequestBody DeclarationForm form) {
+		return "check成功：manifest";
 	}
 
 	@Override
-	@RequestMapping(path = "confirm/{id}", method = RequestMethod.POST)
+	@RequestMapping(path = "confirm", method = RequestMethod.POST)
 	@ResponseBody
-	public String confirm(@PathVariable("id") long id) {
-		return null;
+	public String confirm(@RequestBody DeclarationForm form) {
+		return "confirm成功：manifest";
 	}
 
 	@Override
@@ -113,17 +113,6 @@ public class ManifestServiceImpl implements ManifestService {
 		Manifest manifest = new Manifest();
 		manifest.setId(id);
 		Manifest mf = StorageUtil.getInstance().get(Manifest.class, manifest);
-		// 查看商品暂时用模拟数据
-		ArrayList<ManifestItem> items = new ArrayList<ManifestItem>();
-		ManifestItem mi = new ManifestItem();
-		mi.setSKU("iPhone7智能手机");
-		mi.setQuantity(100);
-		ManifestItem mione = new ManifestItem();
-		mione.setSKU("笔记本电脑");
-		mione.setQuantity(200);
-		items.add(mi);
-		items.add(mione);
-		mf.setItems(items);
 		return mf;
 	}
 

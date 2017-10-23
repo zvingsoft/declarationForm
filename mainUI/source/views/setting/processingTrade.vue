@@ -24,7 +24,7 @@
         <el-button @click="loadProcessingTradeList" type="primary" size="small" style="width: 60px;">搜索</el-button>
       </div>
       <!-- 列表 -->
-      <el-table class="content-table" ref="ptListTable" highlight-current-row :data="ptListData" tooltip-effect="dark" @selection-change="ptOnSelectionChange">
+      <el-table class="content-table" ref="ptListTable" highlight-current-row :data="ptListData" tooltip-effect="dark" @selection-change="ptOnSelectionChange" @row-dblclick="dbptEditClick">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column type="expand">
           <template slot-scope="props">
@@ -69,7 +69,11 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="sku" label="货号" width=""></el-table-column>
+        <el-table-column prop="sku" label="货号" width="">
+          <template slot-scope="scope">
+                <a @click="dbptEditClick(scope.row)" class="a-btn">{{scope.row.sku}}</a>
+          </template>
+        </el-table-column>
         <el-table-column prop="amount" label="限额" width=""></el-table-column>
         <el-table-column prop="used" label="己用量" width=""></el-table-column>
         <el-table-column prop="processCompany" label="接单企业ID" width=""></el-table-column>
@@ -211,7 +215,7 @@
           <i class="fa fa-trash-o" aria-hidden="true"></i> 删除</el-button>
       </el-toolbar> -->
       <div class="main-content-wrap">
-        <el-table ref="goodsListTable" highlight-current-row :data="goodsListData" tooltip-effect="dark" @selection-change="goodsOnSelectionChange">
+        <el-table ref="goodsListTable" highlight-current-row :data="goodsList" tooltip-effect="dark" @selection-change="goodsOnSelectionChange">
           <el-table-column type="selection" width="55" align="center"></el-table-column>
           <el-table-column min-width="4%" label="编号" prop="sn"></el-table-column>
           <el-table-column min-width="4%" label="商品类型" prop="goodsType"></el-table-column>
@@ -269,7 +273,7 @@ export default {
         processCompanyName: '',
         commissionedCompnayName: '',
       },
-      goodsListData: [],
+      // goodsData: [],
       ptDataRules: {
         // sku: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
       },
@@ -339,12 +343,11 @@ export default {
         this.sku = value.sku.split(',');
       }, this);
     },
-    loadGoodsList() {
-      processingTradeAPI.getGoodsList().then(data => {
-        this.goodsListData = data;
-        this.goodsTotal = data.length;
-      });
-    },
+    // loadGoodsList() {
+    //   processingTradeAPI.getGoodsList().then(data => {
+    //     this.goodsListData = data;
+    //   });
+    // },
     ptAddClick() {
       this.loadCompanyList();
       this.loadGoodsList();
@@ -365,6 +368,15 @@ export default {
       this.loadGoodsList();
       this.editMode = 2;
       this.ptDataModel = Object.assign({}, this.ptSelectedRows[0]);
+      this.sku = this.ptDataModel.sku.split(',');
+      this.addAndEditDialogIsShow = true;
+    },
+    //双击
+    dbptEditClick(row) {
+      this.loadCompanyList();
+      this.loadGoodsList();
+      this.editMode = 2;
+      this.ptDataModel = Object.assign({}, row);
       this.sku = this.ptDataModel.sku.split(',');
       this.addAndEditDialogIsShow = true;
     },
@@ -443,6 +455,15 @@ export default {
         });
     },
     ptViewGoodsClick() {
+      let skus = this.ptSelectedRows[0].sku.split(',');
+      this.goodsList = this.goodsList.filter(val => {
+        let flag = false;
+        let goodsno = val.sn;
+        skus.forEach(value => {
+          flag = value === goodsno || flag;
+        });
+        return flag;
+      });
       this.goodsDialogIsShow = true;
     },
     contractFileView() {
