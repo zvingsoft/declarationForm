@@ -84,6 +84,7 @@ export default {
         console.log(data);
         this.dataLoading = false;
         this.SKUData = data;
+        this.total = data.length;
       });
     },
     addClick() {

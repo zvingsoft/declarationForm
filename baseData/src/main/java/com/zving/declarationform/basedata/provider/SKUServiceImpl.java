@@ -30,13 +30,12 @@ import io.servicecomb.provider.rest.common.RestSchema;
 @Controller
 public class SKUServiceImpl implements SKUService {
 
-	IStorage storage = StorageUtil.getInstance();
 
 	@Override
 	@RequestMapping(path = "sku", method = RequestMethod.GET)
 	@ResponseBody
 	public List<SKU> list(@RequestParam String searchWord) {
-		return storage.find(SKU.class, null);
+		return StorageUtil.getInstance().find(SKU.class, null);
 	}
 
 	@Override
@@ -52,6 +51,7 @@ public class SKUServiceImpl implements SKUService {
 	@RequestMapping(path = "sku/{ids}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public String delete(@PathVariable("ids") String ids) {
+		IStorage storage = StorageUtil.getInstance();
 		String[] strId = ids.split(",");
 		List<SKU> list = storage.find(SKU.class, null);
 		for (int i = 0; i < list.size(); i++) {
@@ -63,12 +63,12 @@ public class SKUServiceImpl implements SKUService {
 		}
 		return "删除成功";
 	}
-
+	
 	@Override
 	@RequestMapping(path = "sku", method = RequestMethod.POST)
 	@ResponseBody
 	public String add(@RequestBody SKU sku) {
-		storage.add(SKU.class, sku);
+		StorageUtil.getInstance().add(SKU.class, sku);
 		return "添加成功";
 	}
 
@@ -76,6 +76,7 @@ public class SKUServiceImpl implements SKUService {
 	@RequestMapping(path = "sku", method = RequestMethod.PUT)
 	@ResponseBody
 	public String update(@RequestBody SKU sku) {
+		IStorage storage = StorageUtil.getInstance();
 		List<SKU> list = storage.find(SKU.class, null);
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getId()==sku.getId()) {

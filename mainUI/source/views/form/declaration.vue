@@ -7,6 +7,8 @@
         <i class="fa fa-edit"></i> 编辑</el-button>
       <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="deleteClick">
         <i class="fa fa-remove"></i> 删除</el-button>
+      <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0"  @click="commitAudit(true)">
+        <i class="fa fa-check"></i>提交审核</el-button>
     </el-toolbar>
     <div class="main-content-wrap">
       <div class="search-bar">
@@ -20,12 +22,12 @@
           <el-option v-for="item in retrievalOptions" :key="item.key" :label="item.value" :value="item.key">
           </el-option>
         </el-select>
-        <el-input style="width:200px" size="small" v-model="searchword"></el-input>
+        <el-input style="width:200px" size="small" v-model="searchWord"></el-input>
         <!--<el-select size="small" v-model="logic" class="search-select">
             <el-option v-for="item in logicOptions" :key="item.key" :label="item.value" :value="item.key">
             </el-option>
           </el-select>-->
-        <el-button size="small" type="primary" @click="getDeclarationData" style="width:60px;">搜索</el-button>
+        <el-button size="small" type="primary" @click="doSearch" style="width:60px;">搜索</el-button>
       </div>
       <el-table :data="declarationData" ref="declarationTable" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange" @expand="expandRow">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
@@ -183,6 +185,9 @@
               <el-form-item label="录入日期：">
                 <span>{{props.row.entryDate}}</span>
               </el-form-item>
+              <el-form-item label="审核状态：">
+                <span>{{props.row.auditStatusName}}</span>
+              </el-form-item>
             </el-form>
           </template>
         </el-table-column>
@@ -219,8 +224,11 @@
       <el-button class="z-toolbar-btn" :plain="true" @click="confirm">
         <i class="fa fa-save"></i>
         <span v-if="editMode == 1">保存编辑</span>
-        <span v-else>确认新建</span>
+        <span v-else>暂存</span>
       </el-button>
+      <span class="button-separator"></span>
+      <el-button class="z-toolbar-btn" :plain="true" @click="commitAudit">
+        <i class="fa fa-check"></i>提交审核</el-button>
     </el-toolbar>
     <div class="main-content-wrap" style="background-color:#f5f5f5">
       <el-form label-position="right" :model="tmpDeclaration" label-width="160px" class="e-form">
@@ -402,14 +410,13 @@ export default {
   data() {
     return {
       packingListData: [],
-      tmpPacking: {},
       packingdetailDialogModal: false,
       packinglistDialogModal: false,
       declarationType: '',
       declarationID: '',
       clientWidth: 0,
       clientHeight: 0,
-      searchword: '',
+      searchWord: '',
       selectedRows: [],
       selectedPackingRow: [],
       declarationData: [],
@@ -448,10 +455,45 @@ export default {
         { key: 'and', value: '与' },
         { key: 'or', value: '或' },
         { key: 'none', value: '非' },
-      ]
+      ],
     };
   },
   methods: {
+    doSearch() {
+      if (this.retrieval == '') {
+        this.$message('请选择检索字段！');
+        return;
+      }
+      this.getDeclarationData();
+    },
+    commitAudit(commit) {
+      let rowIds = [];
+      this.selectedRows.forEach(function(row) {
+        rowIds.push(row.id);
+      });
+      if (commit) {
+        declarationAPI.commitAudit(rowIds).then(res => {
+          this.$notify({
+            title: '成功',
+            message: res.data,
+            type: 'success',
+            duration: 2000,
+          });
+        });
+      } else {
+        declarationAPI.commitAudit(this.tmpDeclaration.id).then(res => {
+          if (res.status == 200) {
+            this.$notify({
+              title: '成功',
+              message: res.data,
+              type: 'success',
+              duration: 2000,
+            });
+          }
+        });
+      }
+      this.getDeclarationData();
+    },
     showPackinglist(packingList, type) {
       console.log(packingList);
       console.log(type);
@@ -463,12 +505,17 @@ export default {
     getDeclarationData() {
       this.dataLoading = true;
       let obj = {
-        declarationTypeName: '出口报关单',
+        retrieval: this.retrieval,
+        searchWord: this.searchWord,
+        pageSize: this.pageSize,
+        pageIndex: this.currentPage,
       };
-      declarationAPI.getDeclaration({}).then(data => {
+      declarationAPI.getDeclaration(obj).then(data => {
         console.log(data);
         this.declarationData = data;
-        this.total = data.length;
+        if (data.length > 0) {
+          this.total = data[0].total;
+        }
         this.dataLoading = false;
       });
     },

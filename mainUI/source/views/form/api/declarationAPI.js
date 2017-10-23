@@ -1,5 +1,6 @@
 const declarationAPI = {
   getDeclaration (obj) {
+    console.log(obj)
     return axios
       .get('form/form', {
         params: {
@@ -21,6 +22,13 @@ const declarationAPI = {
   deleteDeclaration (ids) {
     let strIds = ids.join(',')
     return axios.delete('/form/form/' + strIds)
+  },
+  commitAudit (ids) {
+    let strIds = ids.join(',')
+    return axios.put('/form/audit', {
+      ids: strIds,
+      statu: 'W'
+    })
   }
 }
 
