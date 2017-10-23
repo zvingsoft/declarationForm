@@ -1,0 +1,117 @@
+{
+  "policy": "BackwardRecovery ",
+  "requests": [
+    {
+      "id": "request-cottonQuota",
+      "type": "rest",
+      "serviceName": "cottonQuota",
+      "parents": [],
+      "transaction": {
+        "method": "post",
+        "path": "/confirm",
+        "params": "${form}"
+      },
+      "compensation": {
+        "method": "post",
+        "path": "/compensate",
+        "params": "${form}"
+      }
+    },
+    {
+      "id": "request-license",
+      "type": "rest",
+      "serviceName": "license",
+      "parents": [],
+      "transaction": {
+        "method": "post",
+        "path": "/confirm",
+        "params": "${form}"
+      },
+      "compensation": {
+        "method": "post",
+        "path": "/compensate",
+        "params": "${form}"
+      }
+    },
+    {
+      "id": "request-manifest",
+      "type": "rest",
+      "serviceName": "manifest",
+      "parents": [],
+      "transaction": {
+        "method": "post",
+        "path": "/confirm",
+        "params": "${form}"
+      },
+      "compensation": {
+        "method": "post",
+        "path": "/compensate",
+        "params": "${form}"
+      }
+    },
+    {
+      "id": "request-riskAnalysis",
+      "type": "rest",
+      "serviceName": "riskAnalysis",
+      "parents": [],
+      "transaction": {
+        "method": "post",
+        "path": "/confirm",
+        "params": "${form}"
+      },
+      "compensation": {
+        "method": "post",
+        "path": "/compensate",
+        "params": "${form}"
+      }
+    },
+    {
+      "id": "request-tax",
+      "type": "rest",
+      "serviceName": "tax",
+      "parents": [],
+      "transaction": {
+        "method": "post",
+        "path": "/confirm",
+        "params": "${form}"
+      },
+      "compensation": {
+        "method": "post",
+        "path": "/compensate",
+        "params": "${form}"
+      }
+    },
+    {
+      "id": "request-taxCutting",
+      "type": "rest",
+      "serviceName": "taxcutting",
+      "parents": [],
+      "transaction": {
+        "method": "post",
+        "path": "/confirm",
+        "params": "${form}"
+      },
+      "compensation": {
+        "method": "post",
+        "path": "/compensate",
+        "params": "${form}"
+      }
+    },
+    {
+      "id": "request-processingTrade",
+      "type": "rest",
+      "serviceName": "processingTrade",
+      "parents": [],
+      "transaction": {
+        "method": "post",
+        "path": "/confirm",
+        "params": "${form}"
+      },
+      "compensation": {
+        "method": "post",
+        "path": "/compensate",
+        "params": "${form}"
+      }
+    }
+  ]
+}
