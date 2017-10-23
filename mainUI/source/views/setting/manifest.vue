@@ -70,7 +70,10 @@
           <el-input placeholder="请输入舱单编号" v-model="tmpManifest.manifestNum" class="width-300"></el-input>
         </el-form-item>
         <el-form-item label="收件公司：" prop="receiveCompany">
-          <el-input placeholder="请输入收件公司" v-model="tmpManifest.receiveCompany" class="width-300"></el-input>
+          <el-select v-model="tmpManifest.receiveCompany" clearable placeholder="请选择收件公司" class="width-300">
+            <el-option v-for="item in companys" :key="item.id" :label="item.name" :value="item.name">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="发货地：">
           <el-input placeholder="请输入发货地" v-model="tmpManifest.sendAddress" class="width-300"></el-input>
@@ -144,6 +147,7 @@
 <script>
 import manifestAPI from './api/manifestAPI.js';
 import skuAPI from './api/skuAPI.js';
+import companyAPI from './api/companyAPI.js';
 // import './mock/manifest.js'
 
 export default {
@@ -182,6 +186,7 @@ export default {
       temsku: [],
       selectedGoodsRows: [],
       selectedGoodsList: [],
+      companys: [],
     };
   },
   methods: {
@@ -190,7 +195,7 @@ export default {
     },
     openSelectGoods() {
       let rowIds = [];
-      if(this.temsku){
+      if (this.temsku) {
         this.temsku.forEach(function(row) {
           rowIds.push(row.sku);
         });
@@ -263,7 +268,7 @@ export default {
             val => val.receivePerson.indexOf(temReceivePerson) != -1
           );
         }
-        this.total=this.manifestTable.length;
+        this.total = this.manifestTable.length;
       }
     },
     sizeChangeHandler(val) {
@@ -302,6 +307,9 @@ export default {
       skuAPI.getSKU().then(data => {
         this.SKUData = data;
       });
+      companyAPI.getCompany().then(data => {
+        this.companys = data.data;
+      });
     },
     //编辑
     editManifest() {
@@ -312,6 +320,9 @@ export default {
       this.temsku = this.tmpManifest.items;
       skuAPI.getSKU().then(data => {
         this.SKUData = data;
+      });
+      companyAPI.getCompany().then(data => {
+        this.companys = data.data;
       });
     },
     //确认选择商品
@@ -422,7 +433,7 @@ export default {
                   val => !rowIds.includes(val.id)
                 );
                 this.temmanifestTable = Object.assign([], this.manifestTable);
-                this.total=this.manifestTable.length;
+                this.total = this.manifestTable.length;
                 this.$notify({
                   title: '成功',
                   message: data.data,
@@ -470,11 +481,11 @@ export default {
             });
             temrow.skunames = temArr.join(',');
           }
-            temManifestTable.push(temrow);
+          temManifestTable.push(temrow);
         });
         this.manifestTable = temManifestTable;
         this.temmanifestTable = Object.assign([], this.manifestTable);
-        this.total=this.manifestTable.length;
+        this.total = this.manifestTable.length;
       });
     },
   },
