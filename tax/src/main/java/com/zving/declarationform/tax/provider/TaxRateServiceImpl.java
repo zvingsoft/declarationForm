@@ -68,6 +68,10 @@ public class TaxRateServiceImpl implements TaxRateService {
 		o.put("status", 1);
 		for (TaxRate item : list) {
 			if (rate.getId() == item.getId()) {
+				Date currentTime = new Date();
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String dateString = formatter.format(currentTime);
+				rate.setModifyDate(dateString);
 				StorageUtil.getInstance().update(TaxRate.class, item, rate);
 				o.put("message", "更新成功");
 				return o.toString();

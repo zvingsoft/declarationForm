@@ -194,14 +194,7 @@ export default {
           } else if (this.addOrEdit == 2) {
             taxAPI.editTax(this.tmpTax.id, this.tmpTax).then(data => {
               if (data.status == 1) {
-                let index = this.taxTable.findIndex(
-                  val => val.id == this.tmpTax.id
-                );
-                this.taxTable = [
-                  ...this.taxTable.slice(0, index),
-                  Object.assign({}, this.tmpTax),
-                  ...this.taxTable.slice(index + 1),
-                ];
+                this.getTaxData();
                 this.temtaxTable = Object.assign([], this.taxTable);
                 this.$message.success(data.message);
               } else {
