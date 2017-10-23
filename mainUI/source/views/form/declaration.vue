@@ -192,7 +192,7 @@
         <el-table-column min-width="20%" label="商品详情">
           <template slot-scope="scope">
             <el-button type="text">
-              <span style="color:green;" @click="showPackinglist(scope.row.id,scope.row.declarationType)">查看商品</span>
+              <span style="color:green;" @click="showPackinglist(scope.row.packingList,scope.row.declarationType)">查看商品</span>
             </el-button>
           </template>
         </el-table-column>
@@ -206,16 +206,8 @@
       </div>
     </div>
     <el-dialog title="商品列表详情" :visible.sync="packinglistDialogModal" size="large">
-      <el-toolbar style="margin-bottom:20px;">
-        <el-button class="z-toolbar-btn" :plain="true" @click="addPackingClick" style="margin-left:10px;">
-          <i class="fa fa-plus"></i>添加</el-button>
-        <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedPackingRow.length === 0" @click="editPackingClick">
-          <i class="fa fa-edit"></i>编辑</el-button>
-        <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedPackingRow.length === 0" @click="deletePackingClick">
-          <i class="fa fa-remove"></i>删除</el-button>
-      </el-toolbar>
-      <packinglist-table :declarationID="declarationID" :declarationType="declarationType" @row-click="packingRowClick">
-      </packinglist-table>
+      <packing-item :packinglistData.sync="packingListData" :declarationType="declarationType" :onlyView="true">
+          </packing-item>
     </el-dialog>
     <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false">
       <el-form label-position="right" :model="tmpPacking" inline label-width="200px">
@@ -394,16 +386,8 @@
         </div>
         <div class="form-title">商品列表</div>
         <div class="packinglist-panel">
-          <div style="height:50px;background-color:#f5f5f5; padding:5px;">
-            <el-button class="z-toolbar-btn" :plain="true" @click="addPackingClick" style="margin-left:10px;">
-              <i class="fa fa-plus"></i>添加</el-button>
-            <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedPackingRow.length === 0" @click="editPackingClick">
-              <i class="fa fa-edit"></i>编辑</el-button>
-            <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedPackingRow.length === 0" @click="deletePackingClick">
-              <i class="fa fa-remove"></i>删除</el-button>
-          </div>
-          <packinglist-table :declarationID="tmpDeclaration.id" :declarationType="tmpDeclaration.declarationType" @row-click="packingRowClick">
-          </packinglist-table>
+          <packing-item :packinglistData.sync="tmpDeclaration.packingList" :declarationType="tmpDeclaration.declarationType" :onlyView="false">
+          </packing-item>
         </div>
         <div class="form-title">操作相关</div>
         <div class="form-panel">
@@ -475,11 +459,12 @@
 import declarationAPI from './api/declarationAPI.js';
 import packinglistAPI from './api/packinglistAPI.js';
 //import './mock/declaration.js';
-import packinglistTable from './components/packinglistTable.vue';
+import packing from './components/packing.vue';
 
 export default {
   data() {
     return {
+      packingListData:[],
       tmpPacking: {},
       packingdetailDialogModal: false,
       packinglistDialogModal: false,
@@ -530,93 +515,10 @@ export default {
     };
   },
   methods: {
-    addPackingClick() {
-      this.editMode = 0;
-      this.tmpPacking = {};
-      this.packingdetailDialogModal = true;
-    },
-    editPackingClick() {
-      packinglistAPI.getPackingListById(this.selectedPackingRow.id).then(data => {
-        console.log(data);
-        this.editMode = 1;
-        this.tmpPacking = data.data;
-        this.packingdetailDialogModal = true;
-      })
-    },
-    deletePackingClick() {
-      this.$confirm('确定删除吗？删除后无法恢复。是否继续删除？', '删除确认', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        beforeClose: (action, instance, done) => {
-          if (action !== 'confirm') {
-            done();
-          }
-          instance.confirmButtonLoading = true;
-
-          return packinglistAPI
-            .deletePackingList(this.selectedPackingRow.id)
-            .then(data => {
-              instance.confirmButtonLoading = false;
-              console.log(data);
-              done(data);
-            });
-        },
-      })
-        .then(data => {
-          this.selectedPackingRow = [];
-          this.$notify({
-            title: '提示',
-            message: '删除成功！',
-            type: 'success',
-            duration: 2000,
-          });
-        })
-        .catch(() => {
-          this.$notify.error({
-            title: '取消',
-            message: '操作取消！',
-            duration: 2000,
-          });
-        });
-    },
-    packingdetailConfirm() {
-      if (this.editMode == 1) {
-        packinglistAPI.updatePackingList(this.tmpPacking).then(data => {
-          if (data.status == 1) {
-            this.$notify({
-              title: '成功',
-              message: data.message,
-              type: 'success',
-              duration: 2000,
-            });
-          }
-          this.packingdetailDialogModal = false;
-        });
-      } else {
-        Vue.set(this.tmpPacking, 'id', Math.floor(Math.random() * 999999) + 1);
-        Vue.set(this.tmpPacking, 'declarationid', this.declarationID);
-        packinglistAPI.addPackingList(this.tmpPacking).then(data => {
-          if (data.status == 1) {
-            this.$notify({
-              title: '成功',
-              message: data.message,
-              type: 'success',
-              duration: 2000,
-            });
-          }
-          this.packingdetailDialogModal = false;
-        });
-      }
-    },
-    packingRowClick(row) {
-      console.log(row);
-      this.selectedPackingRow = row;
-    },
-    showPackinglist(id, type) {
-      console.log(id);
+    showPackinglist(packingList, type) {
+      console.log(packingList);
       console.log(type);
-      this.declarationID = id;
+      this.packingListData=packingList;
       this.declarationType = type;
       this.selectedPackingRow = [];
       this.packinglistDialogModal = true;
@@ -624,16 +526,14 @@ export default {
     getDeclarationData() {
       this.dataLoading = true;
       let obj = {
-        "declarationTypeName": "出口报关单"
-      }
-      declarationAPI
-        .getDeclaration({})
-        .then(data => {
-          console.log(data);
-          this.declarationData = data;
-          this.total = data.length;
-          this.dataLoading = false;
-        });
+        declarationTypeName: '出口报关单',
+      };
+      declarationAPI.getDeclaration({}).then(data => {
+        console.log(data);
+        this.declarationData = data;
+        this.total = data.length;
+        this.dataLoading = false;
+      });
     },
     onSelectionChange(selection) {
       this.selectedRows = selection;
@@ -677,15 +577,9 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
-        beforeClose: (action, instance, done) => {
-          if (action !== 'confirm') {
-            done();
-          }
-          instance.confirmButtonLoading = true;
-
+      })
+        .then(() => {
           return declarationAPI.deleteDeclaration(rowIds).then(res => {
-            instance.confirmButtonLoading = false;
-            done(data);
             if (res.status == 200) {
               this.$notify({
                 title: '成功',
@@ -696,16 +590,17 @@ export default {
               this.getDeclarationData();
             }
           });
-        },
-      }).catch(() => {
-        this.$notify.error({
-          title: '取消',
-          message: '操作取消！',
-          duration: 2000,
+        })
+        .catch(() => {
+          this.$notify.error({
+            title: '取消',
+            message: '操作取消！',
+            duration: 2000,
+          });
         });
-      });
     },
     returnMain() {
+      this.selectedRows = [];
       this.getDeclarationData();
       this.declarationDialogmodel = false;
     },
@@ -751,7 +646,7 @@ export default {
     this.getDeclarationData();
   },
   components: {
-    'packinglist-table': packinglistTable,
+    'packing-item': packing,
   },
 };
 </script>

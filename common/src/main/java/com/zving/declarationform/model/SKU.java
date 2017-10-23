@@ -12,7 +12,7 @@ public class SKU {
 	String goodsType;// 商品类型
 	String name;// 商品名称
 	String spec;// 商品规格
-
+	String unit;// 商品单位
 	public String getSN() {
 		return SN;
 	}
@@ -44,4 +44,13 @@ public class SKU {
 	public void setSpec(String spec) {
 		this.spec = spec;
 	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+	
 }

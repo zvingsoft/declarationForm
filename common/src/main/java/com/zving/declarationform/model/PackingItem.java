@@ -8,13 +8,25 @@ package com.zving.declarationform.model;
  * @date 2017年10月17日
  */
 public class PackingItem {
+	long id;
 	String SKU;// SKU编号
-	double amount;// 数量
-	String name;
-	double singlePrice;
-	double totalPrice;
+	String amount;// 数量及单位
+	String name;//商品名称、规格型号
+	double singlePrice;//单价
+	double totalPrice;//总价
+	String country;//原产国/最终目的国
+	String currency;//币制
+	String exemption;//征免
 	double tax;// 关税
 	double taxCutting;// 税收减免
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public String getSKU() {
 		return SKU;
@@ -24,11 +36,11 @@ public class PackingItem {
 		SKU = sKU;
 	}
 
-	public double getAmount() {
+	public String getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(String amount) {
 		this.amount = amount;
 	}
 
@@ -72,4 +84,28 @@ public class PackingItem {
 		this.taxCutting = taxCutting;
 	}
 
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
+
+	public String getExemption() {
+		return exemption;
+	}
+
+	public void setExemption(String exemption) {
+		this.exemption = exemption;
+	}
+	
 }
