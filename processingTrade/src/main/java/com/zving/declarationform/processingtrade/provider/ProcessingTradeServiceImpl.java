@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,8 @@ import io.servicecomb.provider.rest.common.RestSchema;
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
 public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 
+	IStorage storage = StorageUtil.getInstance();
+
 	@Override
 	@RequestMapping(path = "check", method = RequestMethod.POST)
 	@ResponseBody
@@ -47,7 +50,7 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@RequestMapping(path = "processingtrade", method = RequestMethod.POST)
 	@ResponseBody
 	public String add(@RequestBody ProcessingTrade processingTrade) {
-		StorageUtil.getInstance().add(ProcessingTrade.class, processingTrade);
+		storage.add(ProcessingTrade.class, processingTrade);
 		return "1";
 	}
 
@@ -56,7 +59,7 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@ResponseBody
 	public String update(@RequestBody ProcessingTrade processingTrade) {
 		ProcessingTrade old = get(processingTrade.getId());
-		StorageUtil.getInstance().update(ProcessingTrade.class, old, processingTrade);
+		storage.update(ProcessingTrade.class, old, processingTrade);
 		return "1";
 	}
 
@@ -64,14 +67,11 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@RequestMapping(path = "processingtrade/{ids}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public String delete(@PathVariable String ids) {
-		for (String id : ids.split(",")) {
-			IStorage storage = StorageUtil.getInstance();
-			List<ProcessingTrade> processingTrades = storage.find(ProcessingTrade.class, null);
-			for (ProcessingTrade item : processingTrades) {
-				if (item.getId() == Long.parseLong(id)) {
-					storage.delete(ProcessingTrade.class, item);
-					return "1";
-				}
+		String[] idArray = ids.split(",");
+		for (String id : idArray) {
+			if (NumberUtils.isNumber(id)) {
+				ProcessingTrade processingTrade = get(Long.valueOf(id));
+				storage.delete(ProcessingTrade.class, processingTrade);
 			}
 		}
 		return "1";
@@ -81,9 +81,10 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@RequestMapping(path = "processingtrade/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public ProcessingTrade get(@PathVariable long id) {
-		for (ProcessingTrade item : list()) {
-			if (id == item.getId()) {
-				return StorageUtil.getInstance().get(ProcessingTrade.class, item);
+		List<ProcessingTrade> list = storage.find(ProcessingTrade.class, null);
+		for (ProcessingTrade processingTrade : list) {
+			if (processingTrade.getId() == id) {
+				return processingTrade;
 			}
 		}
 		return null;
@@ -93,7 +94,7 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@RequestMapping(path = "processingtrade", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ProcessingTrade> list() {
-		return StorageUtil.getInstance().find(ProcessingTrade.class, null);
+		return storage.find(ProcessingTrade.class, null);
 	}
 
 }
