@@ -553,7 +553,7 @@ export default {
           }
           this.confirmLoading = true;
           let ids = [];
-          this.inSelectedRows.forEach(function(row) {
+          this.outSelectedRows.forEach(function(row) {
             ids.push(row.id);
           });
           let idstr = ids.join();
