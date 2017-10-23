@@ -116,8 +116,7 @@ public class LicenseServiceImpl implements LicenseService {
 			type = jo.getString("type");
 		}
 		final String t = type;
-		List<License> list = list();
-		list = list.stream().filter(item -> {
+		List<License> list = list().stream().filter(item -> {
 			if (item.getType().equals(t)) {
 				return true;
 			} else {
