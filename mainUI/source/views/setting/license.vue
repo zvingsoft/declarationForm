@@ -602,6 +602,19 @@ export default {
       licenseAPI.getInlicenseList(search).then(data => {
         this.inLicenseData = data;
         this.myTotal = data.length;
+        //搜索
+        let tempLicenseKey = this.insearch.licenseKey;
+        let tempCompanyName = this.insearch.companyName;
+        if (tempLicenseKey != '') {
+          this.inLicenseData = this.inLicenseData.filter(
+            val => val.licenseKey.indexOf(tempLicenseKey) != -1
+          );
+        }
+        if (tempCompanyName != '') {
+          this.inLicenseData = this.inLicenseData.filter(
+            val => val.companyName.indexOf(tempCompanyName) != -1
+          );
+        }
       });
     },
     /*加载出口许可证数据 */
@@ -614,6 +627,19 @@ export default {
       licenseAPI.getOutlicenseList(search).then(data => {
         this.outLicenseData = data;
         this.apTotal = data.length;
+        //搜索
+        let tempLicenseKey = this.outsearch.licenseKey;
+        let tempCompanyName = this.outsearch.companyName;
+        if (tempLicenseKey != '') {
+          this.outLicenseData = this.outLicenseData.filter(
+            val => val.licenseKey.indexOf(tempLicenseKey) != -1
+          );
+        }
+        if (tempCompanyName != '') {
+          this.outLicenseData = this.outLicenseData.filter(
+            val => val.companyName.indexOf(tempCompanyName) != -1
+          );
+        }
       });
     },
 
