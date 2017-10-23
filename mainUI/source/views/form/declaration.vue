@@ -194,6 +194,7 @@
         <el-table-column prop="customsNumber" show-overflow-tooltip min-width="20%" label="海关编号"></el-table-column>
         <el-table-column prop="declarationTypeName" show-overflow-tooltip min-width="20%" label="报关单类型"></el-table-column>
         <el-table-column prop="importOrExportPort" show-overflow-tooltip min-width="20%" label="海关口岸"></el-table-column>
+        <el-table-column prop="declarationUnit" show-overflow-tooltip min-width="30%" label="申报单位"></el-table-column>
         <el-table-column min-width="20%" label="商品详情">
           <template slot-scope="scope">
             <el-button type="text">
@@ -201,9 +202,8 @@
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="declarationUnit" show-overflow-tooltip min-width="30%" label="申报单位"></el-table-column>
         <el-table-column prop="declarationDate" show-overflow-tooltip min-width="15%" label="申报日期"></el-table-column>
-        <el-table-column prop="entryDate" show-overflow-tooltip min-width="15%" label="录入日期"></el-table-column>
+        <el-table-column prop="auditStatusName" show-overflow-tooltip min-width="15%" label="审核状态"></el-table-column>
       </el-table>
       <div class="page-wrap">
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize" layout="total, sizes, prev, pager, next" :total="total">
@@ -250,15 +250,15 @@
             <el-input class="e-input" v-model="tmpDeclaration.importOrExportPort"></el-input>
           </el-form-item>
           <el-form-item v-if="tmpDeclaration.declarationType == 'import'" label="进口日期：">
-            <el-date-picker v-model="tmpDeclaration.importOrExportDate" type="date" class="e-input" placeholder="选择进口日期">
+            <el-date-picker v-model="tmpDeclaration.importOrExportDate" @change="importOrExportDateChange" type="date" class="e-input" placeholder="选择进口日期">
             </el-date-picker>
           </el-form-item>
           <el-form-item v-else label="出口日期：">
-            <el-date-picker v-model="tmpDeclaration.importOrExportDate" type="date" class="e-input" placeholder="选择出口日期">
+            <el-date-picker v-model="tmpDeclaration.importOrExportDate" @change="importOrExportDateChange" type="date" class="e-input" placeholder="选择出口日期">
             </el-date-picker>
           </el-form-item>
           <el-form-item label="申报日期：">
-            <el-date-picker v-model="tmpDeclaration.declarationDate" type="date" class="e-input" placeholder="选择申报日期">
+            <el-date-picker v-model="tmpDeclaration.declarationDate" @change="declarationDateChange" type="date" class="e-input" placeholder="选择申报日期">
             </el-date-picker>
           </el-form-item>
         </div>
@@ -378,19 +378,22 @@
             <el-input class="e-input" v-model="tmpDeclaration.customsBroker"></el-input>
           </el-form-item>
           <el-form-item label="申报单位：">
-            <el-input class="e-input" v-model="tmpDeclaration.declarationUnit"></el-input>
+          <el-select class="e-input" filterable v-model="tmpDeclaration.declarationUnit" placeholder="请选择" @change="selectUnitChange">
+              <el-option v-for="item in unitOptions" :key="item.name" :label="item.name" :value="item.name">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="单位地址：">
-            <el-input class="e-input" v-model="tmpDeclaration.unitAddress"></el-input>
+            <el-input class="e-input" v-model="tmpDeclaration.unitAddress" disabled></el-input>
           </el-form-item>
           <el-form-item label="邮编：">
-            <el-input class="e-input" v-model="tmpDeclaration.zipCode"></el-input>
+            <el-input class="e-input" v-model="tmpDeclaration.zipCode" disabled></el-input>
           </el-form-item>
           <el-form-item label="电话：">
-            <el-input class="e-input" v-model="tmpDeclaration.telephone"></el-input>
+            <el-input class="e-input" v-model="tmpDeclaration.telephone" disabled></el-input>
           </el-form-item>
           <el-form-item label="制填日期：">
-            <el-date-picker v-model="tmpDeclaration.fillingDate" type="date" class="e-input" placeholder="选择制填日期">
+            <el-date-picker v-model="tmpDeclaration.fillingDate" @change="fillingDateChange" type="date" class="e-input" placeholder="选择制填日期">
             </el-date-picker>
           </el-form-item>
         </div>
@@ -403,6 +406,7 @@
 <script>
 import declarationAPI from './api/declarationAPI.js';
 import packinglistAPI from './api/packinglistAPI.js';
+import companyAPI from '../setting/api/companyAPI.js';
 //import './mock/declaration.js';
 import packing from './components/packing.vue';
 
@@ -456,9 +460,39 @@ export default {
         { key: 'or', value: '或' },
         { key: 'none', value: '非' },
       ],
+      declarationDataCache: [],
+      unitOptions: [],
     };
   },
+  watch: {
+    declarationDialogmodel(show) {
+      if (show) {
+        companyAPI.getCompany().then(res => {
+          console.log(res);
+          this.unitOptions = res.data;
+        });
+      }
+    },
+  },
   methods: {
+    importOrExportDateChange(val) {
+      this.tmpDeclaration.importOrExportDate = val;
+    },
+    declarationDateChange(val) {
+      this.tmpDeclaration.declarationDate = val;
+    },
+    fillingDateChange(val) {
+      this.tmpDeclaration.fillingDate = val;
+    },
+    selectUnitChange(val) {
+      this.unitOptions.forEach(o => {
+        if (o.name == val) {
+          this.tmpDeclaration.unitAddress = o.address;
+          this.tmpDeclaration.zipCode = o.postCode;
+          this.tmpDeclaration.telephone = o.phone;
+        }
+      });
+    },
     rowDBClick(row) {
       declarationAPI.getDeclarationById(row.id).then(data => {
         this.editMode = 1;
@@ -469,11 +503,28 @@ export default {
       });
     },
     doSearch() {
-      if (this.retrieval == '') {
-        this.$message('请选择检索字段！');
-        return;
+      this.filter();
+    },
+    filter() {
+      let list = [];
+      if (this.retrieval != '' && this.searchWord != '') {
+        this.declarationDataCache.forEach(o => {
+          if (o[this.retrieval] != 'null') {
+            console.log(o[this.retrieval]);
+            if (o[this.retrieval].indexOf(this.searchWord) != -1) {
+              list.push(o);
+            }
+          }
+        });
+      } else {
+        list = this.declarationDataCache.concat();
       }
-      this.getDeclarationData();
+      console.log(list);
+      list = list.slice(
+        (this.currentPage - 1) * this.pageSize,
+        this.pageSize * this.currentPage
+      );
+      this.declarationData = list.concat();
     },
     commitAudit(commit) {
       let rowIds = [];
@@ -488,6 +539,7 @@ export default {
             type: 'success',
             duration: 2000,
           });
+          this.getDeclarationData();
         });
       } else {
         declarationAPI.commitAudit(this.tmpDeclaration.id).then(res => {
@@ -499,9 +551,9 @@ export default {
               duration: 2000,
             });
           }
+          this.getDeclarationData();
         });
       }
-      this.getDeclarationData();
     },
     showPackinglist(packingList, type) {
       console.log(packingList);
@@ -521,7 +573,8 @@ export default {
       };
       declarationAPI.getDeclaration(obj).then(data => {
         console.log(data);
-        this.declarationData = data;
+        this.declarationDataCache = data;
+        this.filter();
         if (data.length > 0) {
           this.total = data[0].total;
         }
@@ -533,11 +586,11 @@ export default {
     },
     handleSizeChange(val) {
       this.pageSize = val;
-      this.getDeclarationData();
+      this.filter();
     },
     handleCurrentChange(val) {
       this.currentPage = val;
-      this.getDeclarationData();
+      this.filter();
     },
     expandRow(row) {
       this.declarationType = row.declarationType;
@@ -548,6 +601,9 @@ export default {
       this.tmpDeclaration = {
         declarationType: 'import',
         packingList: [],
+        importOrExportDate: '',
+        declarationData: '',
+        fillingDate: '',
       };
       this.declarationID = Math.floor(Math.random() * 999999) + 1;
       this.declarationDialogmodel = true;

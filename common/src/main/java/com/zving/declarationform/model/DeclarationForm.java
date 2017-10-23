@@ -57,15 +57,6 @@ public class DeclarationForm {
 	String auditStatus;
 	String auditStatusName;
 	String entryDate;
-	int total;
-	
-	public int getTotal() {
-		return total;
-	}
-
-	public void setTotal(int total) {
-		this.total = total;
-	}
 
 	ArrayList<Document> documents;// 单证信息
 	ArrayList<PackingItem> packingList;// 装箱清单

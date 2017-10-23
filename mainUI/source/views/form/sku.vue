@@ -20,6 +20,7 @@
         <el-table-column prop="goodsType" min-width="100px" label="商品类型"></el-table-column>
         <el-table-column prop="name" min-width="200px" label="商品名称"></el-table-column>
         <el-table-column prop="spec" min-width="80px" label="商品规格"></el-table-column>
+        <el-table-column prop="unit" min-width="80px" label="商品单位"></el-table-column>
       </el-table>
       <div class="page-wrap">
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize" layout="total, sizes, prev, pager, next" :total="total">

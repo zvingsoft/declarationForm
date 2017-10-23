@@ -24,7 +24,7 @@
     <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal"  size="tiny" :close-on-click-modal="false" @open="beforeDialogOpen">
       <el-form label-position="right" :model="tmpPacking" label-width="160px">
         <el-form-item label="商品编号：">
-          <el-select class="e-input" filterable v-model="tmpPacking.sku" placeholder="请选择">
+          <el-select class="e-input" filterable v-model="tmpPacking.sku" placeholder="请选择" @change="selectChange">
               <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
                 <span style="float: left">{{ item.sn }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
@@ -32,7 +32,7 @@
             </el-select>
         </el-form-item>
         <el-form-item label="商品名称、规格型号：">
-          <el-input class="e-input" type="textarea" :rows="3" v-model="tmpPacking.name"></el-input>
+          <el-input class="e-input" type="textarea" :rows="3" v-model="tmpPacking.name" disabled></el-input>
         </el-form-item>
         <el-form-item label="数量及单位：">
           <el-input class="e-input" v-model="tmpPacking.number"></el-input>
@@ -50,10 +50,10 @@
           <el-input class="e-input" v-model="tmpPacking.country"></el-input>
         </el-form-item>
         <el-form-item label="币制：">
-          <el-input class="e-input" v-model="tmpPacking.currency"></el-input>
-        </el-form-item>
-        <el-form-item label="征免：">
-          <el-input class="e-input" v-model="tmpPacking.exemption"></el-input>
+          <el-select class="e-input" v-model="tmpPacking.currency" placeholder="请选择">
+              <el-option v-for="item in currencyOption" :key="item.key" :label="item.value" :value="item.key">
+              </el-option>
+            </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -78,6 +78,13 @@ export default {
       packinglistData: [],
       editMode: 0,
       SKUData: [],
+      currencyOption: [
+        { key: 'USD', value: '美元' },
+        { key: 'RMB', value: '人民币' },
+        { key: 'euro', value: '欧元' },
+        { key: 'yen', value: '日元' },
+        { key: 'pound', value: '英镑' },
+      ],
     };
   },
   mounted() {
@@ -87,6 +94,14 @@ export default {
     });
   },
   methods: {
+    selectChange(val) {
+      console.log(val);
+      this.SKUData.forEach(o => {
+        if (o.sn == val) {
+          Vue.set(this.tmpPacking, 'name', o.name + '\n' + o.spec);
+        }
+      });
+    },
     rowDBClick(row) {
       this.editMode = 1;
       this.tmpPacking = Object.assign({}, row);
