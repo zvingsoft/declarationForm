@@ -14,9 +14,9 @@
     <div class="main-content-wrap">
       <!-- 搜索工具条 -->
       <div class="search-bar fr">
-        &nbsp; &nbsp;编号:
+        &nbsp; &nbsp;货号:
         <el-input type="text" size="small" style="width: 150px;"></el-input>
-        &nbsp; &nbsp;加工企业:
+        &nbsp; &nbsp;接单企业:
         <el-input type="text" size="small" style="width: 150px;"></el-input>
         &nbsp; &nbsp;委托企业:
         <el-input type="text" size="small" style="width: 150px;"></el-input>
@@ -29,30 +29,40 @@
         <el-table-column type="expand">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand" label-width="80px">
-              <el-form-item label="编号" style="width:50%">
-                <span>{{props.row.number}}</span>
+              <el-form-item label="货号" style="">
+                <span>{{props.row.sku}}</span>
               </el-form-item>
-              <el-form-item label="加工企业">
-                <span>{{props.row.processCorp}}</span>
+              <el-form-item label="限额">
+                <span>{{props.row.amount}}</span>
               </el-form-item>
-              <el-form-item label="委托企业" style="width:50%">
-                <span>{{props.row.commissionedCorp}}</span>
+              <el-form-item label="己用量" style="">
+                <span>{{props.row.used}}</span>
               </el-form-item>
-              <el-form-item label="合同备案">
+              <el-form-item label="接单企业ID" style="">
+                <span>{{props.row.processCompany}}</span>
+              </el-form-item>
+              <el-form-item label="接单企业名称" style="">
+                <span>{{props.row.processCompanyName}}</span>
+              </el-form-item>
+              <el-form-item label="委托企业名称" style="">
+                <span>{{props.row.commissionedCompnayName}}</span>
+              </el-form-item>
+
+              <el-form-item label="合同备案" style="">
                 <span>
                   <el-button @click.native.prevent="contractFileView" type="text">
                     查看文件
                   </el-button>
                 </span>
               </el-form-item>
-              <el-form-item label="料件备案" style="width:50%">
+              <el-form-item label="料件备案" style="">
                 <span>
                   <el-button @click.native.prevent="materialFileView" type="text">
                     查看文件
                   </el-button>
                 </span>
               </el-form-item>
-              <el-form-item label="报关单">
+              <el-form-item label="报关单" style="">
                 <span>
                   <el-button @click.native.prevent="feclarationFileView" type="text">
                     查看文件
@@ -62,9 +72,13 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="number" label="编号" width=""></el-table-column>
-        <el-table-column prop="processCorp" label="加工企业" width=""></el-table-column>
-        <el-table-column prop="commissionedCorp" label="委托企业" width=""></el-table-column>
+        <el-table-column prop="sku" label="货号" width=""></el-table-column>
+        <el-table-column prop="amount" label="限额" width=""></el-table-column>
+        <el-table-column prop="used" label="己用量" width=""></el-table-column>
+        <el-table-column prop="processCompany" label="接单企业ID" width=""></el-table-column>
+        <el-table-column prop="processCompanyName" label="接单企业名称" width=""></el-table-column>
+        <el-table-column prop="commissionedCompnayName" label="委托企业名称" width=""></el-table-column>
+
         <el-table-column label="合同备案" width="">
           <template slot-scope="scope">
             <el-button @click.native.prevent="contractFileView" type="text">
@@ -93,15 +107,24 @@
     </div>
     <!-- 新建、编辑框 -->
     <el-dialog :title="editMode===1?'新建':'编辑'" :visible.sync="addAndEditDialogIsShow">
-      <el-form :model="ptDataModel" :rules="ptDataRules" ref="ptDataRef" label-width="160px" style="height:400px;overflow-y:hidden;overflow-x:hidden;">
-        <el-form-item label="编号" prop="number">
-          <el-input type="text" v-model="ptDataModel.number" auto-complete="off" style="width:85%"></el-input>
+      <el-form :model="ptDataModel" :rules="ptDataRules" ref="ptDataRef" label-width="160px" style="height:400px;overflow-y:scroll;overflow-x:hidden;">
+        <el-form-item label="货号" prop="sku">
+          <el-input type="text" v-model="ptDataModel.sku" auto-complete="off" style="width:85%"></el-input>
         </el-form-item>
-        <el-form-item label="加工企业" prop="processCorp">
-          <el-input type="text" v-model="ptDataModel.processCorp" auto-complete="off" style="width:85%"></el-input>
+        <el-form-item label="限额" prop="amount">
+          <el-input type="text" v-model="ptDataModel.amount" auto-complete="off" style="width:85%"></el-input>
         </el-form-item>
-        <el-form-item label="委托企业" prop="commissionedCorp">
-          <el-input type="text" v-model="ptDataModel.commissionedCorp" auto-complete="off" style="width:85%"></el-input>
+        <el-form-item label="己用量" prop="used">
+          <el-input type="text" v-model="ptDataModel.used" auto-complete="off" style="width:85%"></el-input>
+        </el-form-item>
+        <el-form-item label="接单企业ID" prop="processCompany">
+          <el-input type="text" v-model="ptDataModel.processCompany" auto-complete="off" style="width:85%"></el-input>
+        </el-form-item>
+        <el-form-item label="接单企业名称" prop="processCompanyName">
+          <el-input type="text" v-model="ptDataModel.processCompanyName" auto-complete="off" style="width:85%"></el-input>
+        </el-form-item>
+        <el-form-item label="委托企业名称" prop="commissionedCompnayName">
+          <el-input type="text" v-model="ptDataModel.commissionedCompnayName" auto-complete="off" style="width:85%"></el-input>
         </el-form-item>
         <el-form-item label="合同备案" prop="contract" v-show="editMode===1">
           <el-upload :on-success="onUploadSuccess" class="upload-file" action="" :multiple="false" :file-list="fileList">
@@ -238,12 +261,12 @@ export default {
       ptPageSize: 10,
       ptTotal: 30,
       ptDataModel: {
-        number: '',
-        processCorp: '',
-        commissionedCorp: '',
-        contract: '',
-        material: '',
-        feclaration: '',
+        sku: '',
+        amount: '',
+        used: '',
+        processCompany: '',
+        processCompanyName: '',
+        commissionedCompnayName: '',
       },
       goodsDataModel: {
         itemNum: '',
@@ -258,10 +281,17 @@ export default {
       },
       goodsListData: [],
       ptDataRules: {
-        number: [{ required: true, message: '请输入编号', trigger: 'blur' }],
-        processCorp: [{ required: true, message: '请输入加工企业', trigger: 'blur' }],
-        commissionedCorp: [
-          { required: true, message: '请输入委托企业', trigger: 'blur' },
+        sku: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
+        amount: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
+        used: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
+        processCompany: [
+          { required: true, message: '该项不能为空', trigger: 'blur' },
+        ],
+        processCompanyName: [
+          { required: true, message: '该项不能为空', trigger: 'blur' },
+        ],
+        commissionedCompnayName: [
+          { required: true, message: '该项不能为空', trigger: 'blur' },
         ],
       },
       goodsDataRules: {
@@ -292,23 +322,24 @@ export default {
       processingTradeAPI
         .getProcessingTradeList(this.ptCurrentPage, this.ptPageSize)
         .then(data => {
-          this.ptListData = data.data;
+          this.ptListData = data;
         });
     },
     loadGoodsList() {
       processingTradeAPI.getGoodsList().then(data => {
-        this.goodsListData = data.data;
+        this.goodsListData = data;
       });
     },
     ptAddClick() {
       this.editMode = 1;
       this.ptDataModel = {
-        number: '',
-        processCorp: '',
-        commissionedCorp: '',
-        contract: '',
-        material: '',
-        feclaration: '',
+        id: '',
+        sku: '',
+        amount: '',
+        used: '',
+        processCompany: '',
+        processCompanyName: '',
+        commissionedCompnayName: '',
       };
       this.addAndEditDialogIsShow = true;
     },
@@ -350,7 +381,7 @@ export default {
         .then(() => {
           let rowIds = [];
           this.ptSelectedRows.forEach(function(row) {
-            rowIds.push(row.number);
+            rowIds.push(row.id);
           });
           return rowIds;
         })
@@ -360,7 +391,7 @@ export default {
           }
           processingTradeAPI.deleteDataList(ids).then(data => {
             this.ptSelectedRows = [];
-            if (data.status == 1) {
+            if (data === 1) {
               this.ptListData = this.ptListData.filter(
                 val => !ids.includes(val.id)
               );
@@ -368,13 +399,14 @@ export default {
               this.ptTotal = this.ptTotal - ids.length;
               this.$notify.success({
                 title: '成功',
-                message: data.message,
+                message: '删除成功',
                 duration: 2000,
               });
-            } else {
+            }
+            else {
               this.$notify.fail({
                 title: '失败',
-                message: data.message,
+                message: '删除失败',
                 duration: 2000,
               });
             }
@@ -415,6 +447,7 @@ export default {
       };
 
       let addForm = () => {
+        this.ptDataModel.id = Math.round(Math.random() * 10000);
         return processingTradeAPI.addFormData(this.ptDataModel).then(data => {
           this.loadProcessingTradeList();
           return data;
@@ -438,18 +471,18 @@ export default {
           }
         })
         .then(res => {
-          if (res.status === 1) {
+          if (res === 1) {
             this.addAndEditDialogIsShow = false;
             this.$notify({
               title: '成功',
-              message: res.message,
+              message: '保存成功',
               type: 'success',
               duration: 2000,
             });
           } else {
             this.$notify.error({
               title: '失败',
-              message: res.message,
+              message: '保存失败',
               duration: 2000,
             });
           }

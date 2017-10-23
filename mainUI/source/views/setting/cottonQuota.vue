@@ -7,10 +7,10 @@
         <i class="fa fa-edit" aria-hidden="true"></i> 编辑</el-button>
       <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="deleteClick" :disabled="selectedRows.length === 0">
         <i class="fa fa-minus" aria-hidden="true"></i> 删除</el-button>
-      <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="auditClick('Y')" :disabled="selectedRows.length === 0">
+      <!-- <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="auditClick('Y')" :disabled="selectedRows.length === 0">
         <i class="fa fa-check" aria-hidden="true"></i> 审核通过</el-button>
       <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="auditClick('N')" :disabled="selectedRows.length === 0">
-        <i class="fa fa-remove" aria-hidden="true"></i> 审核不通过</el-button>
+        <i class="fa fa-remove" aria-hidden="true"></i> 审核不通过</el-button> -->
     </el-toolbar>
 
     <div class="search-bar fr">
@@ -38,9 +38,9 @@
               <!-- <el-form-item label="银行信用评级">
                 <span>{{ props.row.bankcreditrating }}</span>
               </el-form-item> -->
-              <el-form-item label="申请量">
+              <!-- <el-form-item label="申请量">
                 <span>{{ props.row.application }}（吨）</span>
-              </el-form-item>
+              </el-form-item> -->
               <el-form-item label="分配量">
                 <span>{{ props.row.quota }}（吨）</span>
               </el-form-item>
@@ -62,11 +62,11 @@
               <el-form-item label="申请时间">
                 <span>{{ props.row.addTime }}</span>
               </el-form-item>
-              <el-form-item label="审核状态">
+              <!-- <el-form-item label="审核状态">
                 <span v-if="props.row.auditStatus==='Y'" class="green-color">已通过</span>
                 <span v-else-if="props.row.auditStatus==='N'" class="red-color">未通过</span>
                 <span v-else>未审核</span>
-              </el-form-item>
+              </el-form-item> -->
               <el-form-item label="添加人">
                 <span>{{ props.row.addUser }}</span>
               </el-form-item>
@@ -82,13 +82,13 @@
         </el-table-column>
         <!-- <el-table-column label="银行信用评级" prop="bankcreditrating">
         </el-table-column> -->
-        <el-table-column label="申请量（吨）" prop="application">
-        </el-table-column>
+        <!-- <el-table-column label="申请量（吨）" prop="application">
+        </el-table-column> -->
         <el-table-column label="分配量（吨）" prop="quota">
         </el-table-column>
         <el-table-column label="已进口（吨）" prop="used">
         </el-table-column>
-        <el-table-column label="审核状态">
+        <!-- <el-table-column label="审核状态">
           <template slot-scope="scope">
             <span v-if="scope.row.auditStatus==='Y'" class="green-color">已通过</span>
             <span v-else-if="scope.row.auditStatus==='N'" class="red-color">未通过</span>
@@ -100,7 +100,7 @@
             <el-button type="text" @click="auditClick( 'Y',scope.row.id)">通过</el-button>&nbsp;
             <el-button type="text" @click="auditClick( 'N',scope.row.id)">不通过</el-button>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
 
       <!--分页-->
@@ -116,13 +116,16 @@
     <el-dialog size="tiny" :title="addOperate?'新建':'编辑'" :visible.sync="showDialog">
       <el-form label-width="160px" :model="tmpCottonQuota">
         <el-form-item label="企业名称：" v-if="addOperate">
-          <el-select v-model="tmpCottonQuota" clearable placeholder="请选择" @change="onCompanyChange" :disabled="!addOperate">
-            <el-option v-for="item in companys" :key="item.companyId" :label="item.companyName" :value="item">
+          <el-select v-model="tmpCompany" clearable placeholder="请选择" @change="onCompanyChange" :disabled="!addOperate">
+            <el-option v-for="item in companys" :key="item.id" :label="item.name" :value="item">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="申请量：">
-          <el-input-number :min="0" placeholder="请输入申请量" v-model="tmpCottonQuota.application" class="width-300"></el-input-number>（单位：吨）
+        <el-form-item label="分配量：">
+          <el-input-number :min="0" placeholder="请输入分配量" v-model="tmpCottonQuota.quota" class="width-300"></el-input-number>（单位：吨）
+        </el-form-item>
+        <el-form-item label="已进口：">
+          <el-input-number :min="0" placeholder="请输入已进口量" v-model="tmpCottonQuota.used" class="width-300"></el-input-number>（单位：吨）
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -132,14 +135,14 @@
     </el-dialog>
 
     <!-- 企业信息对话框 -->
-    <company-detail :company="tmpCottonQuota" :show.sync="showCompanyDialog"></company-detail>
+    <company-detail :id="companyId" :show.sync="showCompanyDialog"></company-detail>
 
   </div>
 </template>
 
 <script>
   // require('./mock/cottonQuota.js')
-  require('./mock/company.js')
+  // require('./mock/company.js')
   import companyAPI from './api/companyAPI.js';
   import cottonQuotaAPI from './api/cottonQuotaAPI.js';
   import companyDetail from './components/companyDetail.vue';
@@ -158,6 +161,8 @@
         showCompanyDialog: false,
         selectedRows: [],
         companys: {},
+        companyId: 0,
+        tmpCompany: {},
         total: 0,
         pageSize: 15,
         currentPage: 1,
@@ -215,7 +220,7 @@
       //编辑
       editClick() {
         this.addOperate = false;
-        this.tmpCottonQuota = Object.assign({}, this.selectedRows[0]);;
+        this.tmpCottonQuota = Object.assign({}, this.selectedRows[0]);
         this.saveStatus = false;
         this.showDialog = true;
       },
@@ -259,12 +264,15 @@
       //查看公司信息
       viewCompanyClick(companyId) {
         this.showCompanyDialog = true;
-        this.tmpCottonQuota = this.cottonquotas.filter(row => row.companyId === companyId)[0];
+        this.companyId = companyId;
       },
       //保存
       save() {
         this.saveStatus = true;
         if (this.addOperate) {
+          this.tmpCottonQuota.companyId = this.tmpCompany.id;
+          this.tmpCottonQuota.companyName = this.tmpCompany.name;
+          this.tmpCompany = {};
           cottonQuotaAPI.addCottonQuota(this.tmpCottonQuota).then(data => {
             if (data.status == 200) {
               this.list();
@@ -299,7 +307,7 @@
       //加载企业列表共选择
       loadCompany() {
         if (!this.companys.length > 0) {
-          companyAPI.getCompanyForSelect().then(data => {
+          companyAPI.getCompany().then(data => {
             this.companys = data.data;
           })
         }

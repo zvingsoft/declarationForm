@@ -7,8 +7,8 @@
         <i class="fa fa-edit" aria-hidden="true"></i> 编辑</el-button>
       <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="deleteClick" :disabled="selectedRows.length === 0">
         <i class="fa fa-minus" aria-hidden="true"></i> 删除</el-button>
-      <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="setConttonQuotaClick" :disabled="selectedRows.length !== 1">
-        <i class="fa fa-cog" aria-hidden="true"></i> 设置棉花配额</el-button>
+      <!-- <el-button type="primary" class="z-toolbar-btn" :plain="true" @click="setConttonQuotaClick" :disabled="selectedRows.length !== 1">
+        <i class="fa fa-cog" aria-hidden="true"></i> 设置棉花配额</el-button> -->
     </el-toolbar>
 
     <div class="search-bar fr">
@@ -26,10 +26,10 @@
           <template slot-scope="props">
             <el-form label-position="left" inline class="company-table-expand">
               <el-form-item label="名称">
-                <el-button type="text" @click="viewCompanyClick( props.row.companyid)">{{ props.row.companyname }}</el-button>
+                <el-button type="text" @click="viewCompanyClick( props.row.id)">{{ props.row.name }}</el-button>
               </el-form-item>
               <el-form-item label="银行信用评级">
-                <span>{{ props.row.bankcreditrating }}</span>
+                <span>{{ props.row.bankCreditRating }}</span>
               </el-form-item>
               <el-form-item label="地址">
                 <span>{{ props.row.address }}</span>
@@ -41,29 +41,29 @@
                 <span>{{ props.row.fax }}</span>
               </el-form-item>
               <el-form-item label="邮政编码">
-                <span>{{ props.row.postcode }}</span>
+                <span>{{ props.row.postCode }}</span>
               </el-form-item>
-              <el-form-item label="棉花分配量" v-if="props.row.allocation>0">
+              <!-- <el-form-item label="棉花分配量" v-if="props.row.allocation>0">
                 <span>{{ props.row.allocation }}</span>（吨）
               </el-form-item>
               <el-form-item label="棉花已进口" v-if="props.row.allocation>0">
                 <span>{{ props.row.used }}</span>（吨）
-              </el-form-item>
+              </el-form-item> -->
               <el-form-item label="添加时间">
-                <span>{{ props.row.addtime }}</span>
+                <span>{{ props.row.addTime }}</span>
               </el-form-item>
               <el-form-item label="添加人">
-                <span>{{ props.row.adduser }}</span>
+                <span>{{ props.row.addUser }}</span>
               </el-form-item>
             </el-form>
           </template>
         </el-table-column>
         <el-table-column label="名称">
           <template slot-scope="props">
-            <el-button type="text" @click="viewCompanyClick( props.row.companyid)">{{ props.row.companyname }}</el-button>
+            <el-button type="text" @click="viewCompanyClick( props.row.id)">{{ props.row.name }}</el-button>
           </template>
         </el-table-column>
-        <el-table-column label="银行信用评级" prop="bankcreditrating">
+        <el-table-column label="银行信用评级" prop="bankCreditRating">
         </el-table-column>
         <el-table-column label="地址" prop="address" show-overflow-tooltip>
         </el-table-column>
@@ -71,9 +71,9 @@
         </el-table-column>
         <el-table-column label="传真" prop="fax">
         </el-table-column>
-        <el-table-column label="邮政编码" prop="postcode">
+        <el-table-column label="邮政编码" prop="postCode">
         </el-table-column>
-        <el-table-column label="添加时间" prop="addtime">
+        <el-table-column label="添加时间" prop="addTime">
         </el-table-column>
       </el-table>
 
@@ -90,10 +90,10 @@
     <el-dialog :title="addOperate?'新建':'编辑'" :visible.sync="showDialog">
       <el-form label-width="160px" :model="tmpCompany">
         <el-form-item label="名称：">
-          <el-input placeholder="请输入企业名称" v-model="tmpCompany.companyname" class="width-300"></el-input>
+          <el-input placeholder="请输入企业名称" v-model="tmpCompany.name" class="width-300"></el-input>
         </el-form-item>
         <el-form-item label="银行信用评级：">
-          <el-input placeholder="请输入银行信用评级" v-model="tmpCompany.bankcreditrating" class="width-300"></el-input>
+          <el-input placeholder="请输入银行信用评级" v-model="tmpCompany.bankCreditRating" class="width-300"></el-input>
         </el-form-item>
         <el-form-item label="地址：">
           <el-input placeholder="请输入地址：" v-model="tmpCompany.address" class="width-300"></el-input>
@@ -104,6 +104,9 @@
         <el-form-item label="传真：">
           <el-input placeholder="请输入传真" v-model="tmpCompany.fax" class="width-300"></el-input>
         </el-form-item>
+        <el-form-item label="邮政编码：">
+          <el-input placeholder="请输入邮政编码" v-model="tmpCompany.postCode" class="width-300"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="showDialog = false">取 消</el-button>
@@ -112,28 +115,28 @@
     </el-dialog>
 
     <!-- 设置棉花配额对话框 -->
-    <el-dialog size="tiny" :title="设置棉花配额" :visible.sync="showConttonQuotaDialog">
-      <el-form label-width="160px" :model="tmpCompany">
-        <el-form-item label="企业名称：">
-          {{tmpCompany.companyname}}
-        </el-form-item>
-        <el-form-item label="棉花分配量：">
-          <el-input-number :min="0" placeholder="请输入棉花分配量" v-model="tmpCompany.allocation" class="width-300"></el-input-number>（单位：吨）
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="showConttonQuotaDialog = false">取 消</el-button>
-        <el-button type="primary" @click="saveConttonQuota" :disabled="saveConttonQuotaStatus">确 定</el-button>
-      </div>
-    </el-dialog>
+    <!-- <el-dialog size="tiny" :title="设置棉花配额" :visible.sync="showConttonQuotaDialog">
+          <el-form label-width="160px" :model="tmpCompany">
+            <el-form-item label="企业名称：">
+              {{tmpCompany.name}}
+            </el-form-item>
+            <el-form-item label="棉花分配量：">
+              <el-input-number :min="0" placeholder="请输入棉花分配量" v-model="tmpCompany.quota" class="width-300"></el-input-number>（单位：吨）
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="showConttonQuotaDialog = false">取 消</el-button>
+            <el-button type="primary" @click="saveConttonQuota" :disabled="saveConttonQuotaStatus">确 定</el-button>
+          </div>
+        </el-dialog> -->
 
     <!-- 企业信息对话框 -->
-    <company-detail :company="tmpCompany" :show.sync="showCompanyDialog"></company-detail>
+    <company-detail :id="id" :show.sync="showCompanyDialog"></company-detail>
   </div>
 </template>
 
 <script>
-  require('./mock/company.js')
+  // require('./mock/company.js')
   import companyAPI from './api/companyAPI.js';
   import companyDetail from './components/companyDetail.vue';
 
@@ -142,7 +145,8 @@
       return {
         dataLoading: true,
         companys: [],
-        companyName: '',
+        name: '',
+        id: '',
         tmpCompany: {},
         addOperate: true,
         saveStatus: false,
@@ -170,9 +174,9 @@
         companyAPI.setConttonQuota(this.tmpCompany).then(data => {
           if (data.status == 1) {
             this.list();
-            this.$message.success(data.message);
+            this.$message.success(data.data);
           } else {
-            this.$message.error(data.message);
+            this.$message.error(data.data);
           }
           this.saveConttonQuotaStatus = false;
           this.showConttonQuotaDialog = false;
@@ -197,7 +201,7 @@
       //列表
       list() {
         this.dataLoading = true;
-        companyAPI.getCompany(this.companyName, this.currentPage, this.pageSize).then(data => {
+        companyAPI.getCompany(this.name, this.currentPage, this.pageSize).then(data => {
           this.companys = data.data;
           this.total = data.total;
           this.dataLoading = false;
@@ -228,16 +232,16 @@
             if (action == 'confirm') {
               instance.confirmButtonLoading = true;
               return companyAPI.deleteCompany(rowIds).then(data => {
-                if (data.status == 1) {
+                if (data.status == 200) {
                   this.list();
                   this.$notify({
                     title: '成功',
-                    message: data.message,
+                    message: data.data,
                     type: 'success',
                     duration: 2000,
                   });
                 } else {
-                  this.$alert(data.message);
+                  this.$alert(data.data);
                 }
                 instance.confirmButtonLoading = false;
                 done(data);
@@ -255,31 +259,31 @@
         });
       },
       //查看公司信息
-      viewCompanyClick(companyid) {
+      viewCompanyClick(id) {
         this.showCompanyDialog = true;
-        this.tmpCompany = this.companys.filter(row => row.companyid === companyid)[0];
+        this.id = id;
       },
       //保存
       save() {
         this.saveStatus = true;
         if (this.addOperate) {
           companyAPI.addCompany(this.tmpCompany).then(data => {
-            if (data.status == 1) {
+            if (data.status == 200) {
               this.list();
-              this.$message.success(data.message);
+              this.$message.success(data.data);
             } else {
-              this.$message.error(data.message);
+              this.$message.error(data.data);
             }
             this.saveStatus = false;
             this.showDialog = false;
           });
         } else {
           companyAPI.editCompany(this.tmpCompany).then(data => {
-            if (data.status == 1) {
+            if (data.status == 200) {
               this.list();
-              this.$message.success(data.message);
+              this.$message.success(data.data);
             } else {
-              this.$message.error(data.message);
+              this.$message.error(data.data);
             }
             this.saveStatus = false;
             this.showDialog = false;
@@ -290,7 +294,7 @@
       getSelectedIds() {
         let rowIds = [];
         this.selectedRows.forEach(function (row) {
-          rowIds.push(row.companyid);
+          rowIds.push(row.id);
         });
         return rowIds;
       },

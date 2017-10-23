@@ -10,16 +10,16 @@ import com.zving.declarationform.cottonquota.model.CottonQuota;
  * @date 2017年10月18日
  */
 public interface CottonQuotaService {
-	List<CottonQuota> list();
+    List<CottonQuota> list();
 
-	CottonQuota get(long id);
+    CottonQuota get(long id);
 
-	String delete(String ids);
+    String delete(String ids);
 
-	String add(CottonQuota form);
+    String add(CottonQuota cottonQuota);
 
-	String update(CottonQuota form);
+    String update(CottonQuota cottonQuota);
 
-	String audit(String ids, String status);
+    String audit(String ids, String status);
 
 }

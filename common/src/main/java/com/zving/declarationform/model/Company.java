@@ -14,11 +14,20 @@ public class Company {
     private String postCode;// 单位邮编
     private String phone;// 单位电话
 
+    private String fax;// 单位传真
     private String bankCreditRating;// 银行信用评级
     private Date addTime;// 添加时间
     private String addUser;// 添加人
     private Date modifyTime;// 修改时间
     private String modifyUser;// 修改人
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
 
     public String getBankCreditRating() {
         return bankCreditRating;

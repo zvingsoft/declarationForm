@@ -18,7 +18,7 @@ const inlicensesData = [
     shippingType: '海洋运输',
     goodsTypeIds: '2,3,4',
     goodsTypes: '',
-    SKU: '',
+    sku: '',
     count: '',
     companyAddress: '',
     companyType: '',
@@ -43,7 +43,7 @@ const inlicensesData = [
     shippingType: '海洋运输',
     goodsTypeIds: '2,3,4',
     goodsTypes: '',
-    SKU: '',
+    sku: '',
     count: '',
     conmpanyaddress: '',
     companyType: '',
@@ -68,7 +68,7 @@ const inlicensesData = [
     shippingType: '海洋运输',
     goodsTypeIds: '2,3,4',
     goodsTypes: '',
-    SKU: '',
+    sku: '',
     count: '',
     conmpanyaddress: '',
     companyType: '',
@@ -93,7 +93,7 @@ const inlicensesData = [
     shippingType: '海洋运输',
     goodsTypeIds: '2,3,4',
     goodsTypes: '',
-    SKU: '',
+    sku: '',
     count: '',
     conmpanyaddress: '',
     companyType: '',
@@ -118,7 +118,7 @@ const inlicensesData = [
     shippingType: '海洋运输',
     goodsTypeIds: '2,3,4',
     goodsTypes: '',
-    SKU: '',
+    sku: '',
     count: '',
     conmpanyaddress: '',
     companyType: '',
@@ -139,14 +139,14 @@ const outlicensesData = [
     companyName: '华南信息产业集团有限公司',
     consignor: '华南信息产业集团有限公司',
     companyId: '1',
-    importedcountry: '瑞士',
+    importedCountry: '瑞士',
     conractno: 'RDDE142',
     portOfClearance: '大连海关',
     tradeMode: '一般贸易',
     shippingType: '海洋运输',
     goodsTypeIds: '2,3,4',
     goodsTypes: '',
-    SKU: '',
+    sku: '',
     count: '',
     conmpanyaddress: '',
     companyType: '',
@@ -164,14 +164,14 @@ const outlicensesData = [
     companyName: '青岛啤酒集团有限公司',
     consignor: '青岛啤酒集团有限公司',
     companyId: '2',
-    importedcountry: '新加坡',
+    importedCountry: '新加坡',
     conractno: 'RFFE142',
     portOfClearance: '青岛海关',
     tradeMode: '一般贸易',
     shippingType: '海洋运输',
     goodsTypeIds: '2,3,4',
     goodsTypes: '',
-    SKU: '',
+    sku: '',
     count: '',
     conmpanyaddress: '',
     companyType: '',
@@ -189,14 +189,14 @@ const outlicensesData = [
     companyName: '包钢集团国际经济贸易有限公司',
     consignor: '包钢集团国际经济贸易有限公司',
     companyId: '3',
-    importedcountry: '法国',
+    importedCountry: '法国',
     conractno: 'TGGFFG142',
     portOfClearance: '秦皇岛海关',
     tradeMode: '一般贸易',
     shippingType: '海洋运输',
     goodsTypeIds: '2,3,4',
     goodsTypes: '',
-    SKU: '',
+    sku: '',
     count: '',
     conmpanyaddress: '',
     companyType: '',
@@ -214,14 +214,14 @@ const outlicensesData = [
     companyName: '广东万事泰集团有限公司',
     consignor: '广东万事泰集团有限公司',
     companyId: '4',
-    importedcountry: '德国',
+    importedCountry: '德国',
     conractno: 'TFFG142',
     portOfClearance: '上海海关',
     tradeMode: '一般贸易',
     shippingType: '海洋运输',
     goodsTypeIds: '2,3,4',
     goodsTypes: '',
-    SKU: '',
+    sku: '',
     count: '',
     conmpanyaddress: '',
     companyType: '',
@@ -239,14 +239,14 @@ const outlicensesData = [
     companyName: '合肥鑫晟光电科技有限公司',
     consignor: '合肥鑫晟光电科技有限公司',
     companyId: '5',
-    importedcountry: '西班牙',
+    importedCountry: '西班牙',
     conractno: 'TFFG442',
     portOfClearance: '上海海关',
     tradeMode: '一般贸易',
     shippingType: '海洋运输',
     goodsTypeIds: '2,3,4',
     goodsTypes: '',
-    SKU: '',
+    sku: '',
     count: '',
     conmpanyaddress: '',
     companyType: '',
@@ -282,7 +282,7 @@ const filelist2 = [
   }
 ]
 
-axiosMock.onGet(/api\/inlicense+$/).reply(res => {
+axiosMock.onGet(/license\/inlicense+$/).reply(res => {
   let list = inlicensesData
   let total = inlicensesData.length
   let result = [
@@ -297,19 +297,19 @@ axiosMock.onGet(/api\/inlicense+$/).reply(res => {
   return result
 })
 
-axiosMock.onPost('/api/license').reply(200, {
+axiosMock.onPost('/license/license').reply(200, {
   status: 1,
   message: '添加成功'
 })
 
-axiosMock.onPut(/api\/license\/.+$/)
+axiosMock.onPut(/license\/license\/.+$/)
 .reply(200, { status: 1, message: '修改成功' })
 
 axiosMock
-.onDelete(/api\/license\/.+$/)
+.onDelete(/license\/license\/.+$/)
 .reply(200, { status: 1, message: '删除成功' })
 
-axiosMock.onGet(/api\/outlicense+$/).reply(res => {
+axiosMock.onGet(/license\/outlicense+$/).reply(res => {
   let list = outlicensesData
   let total = outlicensesData.length
   let result = [
@@ -324,13 +324,13 @@ axiosMock.onGet(/api\/outlicense+$/).reply(res => {
   return result
 })
 
-axiosMock.onGet(`/api/filelist1`).reply(200, {
+axiosMock.onGet(`/license/filelist1`).reply(200, {
   data: filelist1,
   status: 1,
   message: ''
 })
 
-axiosMock.onGet(`/api/filelist2`).reply(200, {
+axiosMock.onGet(`/license/filelist2`).reply(200, {
   data: filelist2,
   status: 1,
   message: ''
@@ -419,7 +419,7 @@ const licensegoods = [
   }
 ]
 
-axiosMock.onGet(/api\/license\/goods+$/).reply(res => {
+axiosMock.onGet(/license\/license\/goods+$/).reply(res => {
   let list = licensegoods
   let result = [
     200,
@@ -441,14 +441,14 @@ axiosMock.onGet(/api\/license\/goods+$/).reply(res => {
 })
 
 axiosMock
-  .onPut(/api\/license\/goods\/.+$/)
+  .onPut(/license\/license\/goods\/.+$/)
   .reply(200, { status: 1, message: '修改成功' })
 
 axiosMock
-  .onDelete(/api\/license\/goods\/.+$/)
+  .onDelete(/license\/license\/goods\/.+$/)
   .reply(200, { status: 1, message: '删除成功' })
 
-axiosMock.onPost('/api/license/goods').reply(200, {
+axiosMock.onPost('/license/license/goods').reply(200, {
   status: 1,
   message: '添加成功'
 })

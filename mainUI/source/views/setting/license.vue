@@ -64,7 +64,7 @@
             <el-table-column prop="companyName" show-overflow-tooltip min-width="15%" label="出口商"></el-table-column>
             <el-table-column prop="consignor" show-overflow-tooltip min-width="15%" label="发货人"></el-table-column>
             <el-table-column prop="tradeMode" show-overflow-tooltip min-width="10%" label="贸易方式"></el-table-column>
-            <el-table-column prop="importedcountry" show-overflow-tooltip min-width="12%" label="进口国"></el-table-column>
+            <el-table-column prop="importedCountry" show-overflow-tooltip min-width="12%" label="进口国"></el-table-column>
             <el-table-column prop="portOfClearance" show-overflow-tooltip min-width="10%" label="报关口岸"></el-table-column>
             <el-table-column prop="certificationDate" show-overflow-tooltip min-width="15%" label="发证日期"></el-table-column>
           </el-table>
@@ -167,8 +167,8 @@
         <el-form-item label="贸易方式" prop="tradeMode">
           <el-input type="text" v-model="outLicenseModel.tradeMode" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
-        <el-form-item label="进口国" prop="importedcountry">
-          <el-input type="text" v-model="outLicenseModel.importedcountry" auto-complete="off" class="input-320"></el-input>
+        <el-form-item label="进口国" prop="importedCountry">
+          <el-input type="text" v-model="outLicenseModel.importedCountry" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="合同号" prop="conractno">
           <el-input type="text" v-model="outLicenseModel.conractno" auto-complete="off" class="input-320"></el-input>
@@ -243,7 +243,7 @@
         <el-button type="primary" @click="fileUploadOkHandler">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="licensegoodsDialogModal" :close-on-click-modal="false">
+    <el-dialog :title="goodseditMode==1? '编辑商品信息': '添加商品'" :visible.sync="licensegoodsDialogModal" :close-on-click-modal="false">
       <el-form label-position="right" :model="tmpLicensegoods" inline label-width="200px">
         <el-form-item label="规格、等级：">
           <el-input class="e-input" v-model="tmpLicensegoods.specification"></el-input>
@@ -339,6 +339,8 @@ export default {
       editMode: 1,
       /*出口许可证编辑模式：1添加，2编辑*/
       outeditMode: 1,
+      /*商品编辑模式：1添加，2编辑*/
+      goodseditMode: 0,
       /*文件类型：1申报文件，2审批文件 */
       fileType: 1,
       /*表单提交等待动画*/
@@ -383,12 +385,12 @@ export default {
   },
   methods: {
     addGoodsClick() {
-      this.editMode = 0;
-      this.tmpLicensegoods = {};
+      this.goodseditMode = 0;
+      this.tmpLicensegoods = {id:1};
       this.licensegoodsDialogModal = true;
     },
     editGoodsClick() {
-      this.editMode = 1;
+      this.goodseditMode = 1;
       this.tmpLicensegoods = Object.assign({}, this.selectedLicensegoodsRow);
       this.licensegoodsDialogModal = true;
     },
@@ -427,30 +429,24 @@ export default {
         });
     },
     licensegoodsConfirm() {
-      if (this.editMode == 1) {
-        licenseAPI.updateLicenseGoods(this.tmpLicensegoods).then(data => {
-          if (data.status == 1) {
-            this.$notify({
-              title: '成功',
-              message: data.message,
-              type: 'success',
-              duration: 2000,
-            });
-          }
-          this.licensegoodsDialogModal = false;
+      if (this.goodseditMode == 0) {
+        this.$notify({
+          title: '成功',
+          message: '成功',
+          type: 'success',
+          duration: 2000,
         });
+        this.licensegoodsDialogModal = false;
       } else {
-        licenseAPI.addLicenseGoods(this.tmpLicensegoods).then(data => {
-          if (data.status == 1) {
-            this.$notify({
-              title: '成功',
-              message: data.message,
-              type: 'success',
-              duration: 2000,
-            });
-          }
-          this.licensegoodsDialogModal = false;
-        });
+        let index = this.licensegoodsData.findIndex(
+          val => val.id === this.tmpLicensegoods.id
+        );
+        this.licensegoodsData = [
+          ...this.licensegoodsData.slice(0, index),
+          this.tmpLicensegoods,
+          ...this.licensegoodsData.slice(index + 1),
+        ];
+        this.licensegoodsDialogModal = false;
       }
     },
     licensegoodsTableRowClick(row) {

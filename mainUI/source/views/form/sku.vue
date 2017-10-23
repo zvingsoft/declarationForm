@@ -10,13 +10,13 @@
     </el-toolbar>
     <div class="main-content-wrap">
       <div class="search-bar">
-        <el-input style="width:200px" size="small" v-model="searchword"></el-input>
-        <el-button size="small" type="primary" @click="getDeclarationData" style="width:60px;">搜索</el-button>
+        <el-input style="width:200px" size="small" v-model="searchWord"></el-input>
+        <el-button size="small" type="primary" @click="getSKUData" style="width:60px;">搜索</el-button>
       </div>
       <el-table :data="SKUData" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange">
         <el-table-column type="index" width="70px" label="序号"></el-table-column>
         <el-table-column type="selection" width="60px" align="center"></el-table-column>
-        <el-table-column prop="SN" min-width="90px" label="商品编号"></el-table-column>
+        <el-table-column prop="sn" min-width="90px" label="商品编号"></el-table-column>
         <el-table-column prop="goodsType" min-width="100px" label="商品类型"></el-table-column>
         <el-table-column prop="name" min-width="200px" label="商品名称"></el-table-column>
         <el-table-column prop="spec" min-width="80px" label="商品规格"></el-table-column>
@@ -26,10 +26,10 @@
         </el-pagination>
       </div>
     </div>
-      <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="SKUDialogModal" :close-on-click-modal="false">
-      <el-form label-position="right" :model="tmpSKU" inline label-width="200px">
+      <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="SKUDialogModal" :close-on-click-modal="false" size="tiny">
+      <el-form label-position="right" :model="tmpSKU" label-width="150px">
         <el-form-item label="商品编号：">
-          <el-input class="e-input" type="textarea" :rows="3" v-model="tmpSKU.SN"></el-input>
+          <el-input class="e-input" v-model="tmpSKU.sn"></el-input>
         </el-form-item>
         <el-form-item label="商品类型：">
           <el-input class="e-input" v-model="tmpSKU.goodsType"></el-input>
@@ -39,6 +39,9 @@
         </el-form-item>
         <el-form-item label="商品规格：">
           <el-input class="e-input" v-model="tmpSKU.spec"></el-input>
+        </el-form-item>
+        <el-form-item label="商品单位：">
+          <el-input class="e-input" v-model="tmpSKU.unit"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -50,12 +53,13 @@
 </template>
 
 <script>
-import packinglistAPI from './api/packinglistAPI.js';
+import skuAPI from './api/skuAPI.js';
 //import '../mock/declaration.js';
 
 export default {
   data() {
     return {
+      searchWord: '',
       tmpSKU: {},
       SKUData: [],
       dataLoading: false,
@@ -71,21 +75,95 @@ export default {
     };
   },
   methods: {
-    getSKUData() {},
+    onSelectionChange(selection) {
+      this.selectedRows = selection;
+    },
+    getSKUData() {
+      this.dataLoading = true;
+      skuAPI.getSKU(this.searchWord).then(data => {
+        console.log(data);
+        this.dataLoading = false;
+        this.SKUData = data;
+      });
+    },
     addClick() {
       this.editMode = 0;
-      this.tmpSKU = {};
+      this.tmpSKU = {
+        id: Math.floor(Math.random() * 999999) + 1,
+      };
       this.SKUDialogModal = true;
     },
-    editClick() {},
-    deleteClick() {},
-    SKUDialogConfirm() {},
+    editClick() {
+      skuAPI.getSKUById(this.selectedRows[0].id).then(data => {
+        this.editMode = 1;
+        this.tmpSKU = data;
+        this.SKUDialogModal = true;
+      });
+    },
+    deleteClick() {
+      let rowIds = [];
+      this.selectedRows.forEach(function(row) {
+        rowIds.push(row.id);
+      });
+      this.$confirm('确定删除吗？删除后无法恢复。是否继续删除？', '删除确认', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(() => {
+          return skuAPI.deleteSKU(rowIds).then(res => {
+            if (res.status == 200) {
+              this.$notify({
+                title: '成功',
+                message: res.data,
+                type: 'success',
+                duration: 2000,
+              });
+              this.getSKUData();
+            }
+          });
+        })
+        .catch(() => {
+          this.$notify.error({
+            title: '取消',
+            message: '操作取消！',
+            duration: 2000,
+          });
+        });
+    },
+    SKUDialogConfirm() {
+      if (this.editMode == 1) {
+        skuAPI.updateSKU(this.tmpSKU).then(res => {
+          if (res.status == 200) {
+            this.$notify({
+              title: '成功',
+              message: res.data,
+              type: 'success',
+              duration: 2000,
+            });
+            this.getSKUData();
+          }
+        });
+      } else {
+        skuAPI.addSKU(this.tmpSKU).then(res => {
+          if (res.status == 200) {
+            this.$notify({
+              title: '成功',
+              message: res.data,
+              type: 'success',
+              duration: 2000,
+            });
+            this.getSKUData();
+          }
+        });
+      }
+      this.SKUDialogModal = false;
+    },
   },
   created() {
     this.clientHeight = document.documentElement.clientHeight - 200;
     this.getSKUData();
-  },
-  props: ['declarationID', 'declarationType'],
+  }
 };
 </script>
 
@@ -106,5 +184,9 @@ export default {
   position: relative;
   top: 5px;
   padding-right: 10px;
+}
+
+.e-input {
+  width: 270px;
 }
 </style>
