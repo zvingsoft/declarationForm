@@ -68,8 +68,15 @@
     <el-dialog :title="editMode===1?'添加进口许可证':'编辑进口许可证'" :visible.sync="inLicenseShow"  @open="beforeDialogOpen">
       <el-form :model="inLicenseModel" :rules="inLicenseRules" inline ref="inLicenseRef" label-width="140px" style="overflow-y:hidden;overflow-x:hidden;">
 
-          <el-form-item label="进口商" prop="companyName">
-            <el-input type="text" v-model="inLicenseModel.companyName" auto-complete="off" class="input-320"></el-input>
+          <el-form-item label="进口商" v-if="editMode===1">
+            <el-select v-model="inLicenseModel.companyName" clearable placeholder="请选择" @change="onCompanyChange" :disabled="editMode===1?ture:false"  style="width:320px">
+            <el-option v-for="item in companys" :key="item.id" :label="item.name" :value="item.name">
+            </el-option>
+          </el-select>
+          </el-form-item>
+          <el-form-item label="进口商" v-if="editMode===1?false:ture">
+            <el-input type="text" v-model="inLicenseModel.companyName" auto-complete="off" class="input-320" :disabled="ture"></el-input>
+          </el-select>
           </el-form-item>
           <el-form-item label="许可证号" prop="licenseKey">
             <el-input type="text" v-model="inLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
@@ -99,9 +106,16 @@
     <!-- 添加、编辑出口许可证 -->
     <el-dialog :title="outeditMode===1?'添加出口许可证':'编辑出口许可证'" :visible.sync="outLicenseShow"   @open="beforeDialogOpen">
       <el-form :model="outLicenseModel" :rules="outLicenseRules" inline ref="outLicenseRef" label-width="140px" style="overflow-y:hidden;overflow-x:hidden;">
-        <el-form-item label="出口商" prop="companyName">
-          <el-input type="text" v-model="outLicenseModel.companyName" auto-complete="off" class="input-320"></el-input>
-        </el-form-item>
+        <el-form-item label="出口商" v-if="outeditMode===1">
+            <el-select v-model="outLicenseModel.companyName" clearable placeholder="请选择" @change="onCompanyChange"  style="width:320px">
+            <el-option v-for="item in companys" :key="item.id" :label="item.name" :value="item.name">
+            </el-option>
+          </el-select>
+          </el-form-item>
+          <el-form-item label="进口商" v-if="outeditMode===1?false:ture">
+            <el-input type="text" v-model="outLicenseModel.companyName" auto-complete="off" class="input-320" :disabled="ture"></el-input>
+          </el-select>
+          </el-form-item>
         <el-form-item label="许可证号" prop="licenseKey">
           <el-input type="text" v-model="outLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
@@ -135,6 +149,7 @@ import './mock/license.js';
 import licenseAPI from './api/licenseAPI.js';
 import licensegoodsTable from './components/licensegoodsTable.vue';
 import skuAPI from '../form/api/skuAPI.js';
+import companyAPI from './api/companyAPI.js';
 export default {
   data() {
     return {
@@ -236,16 +251,28 @@ export default {
       percentage: 0,
       // i: 0,
       SKUData: [],
+      companys: {},
 
     };
   },
   methods: {
+    //加载企业列表共选择
+    loadCompany() {
+      if (!this.companys.length > 0) {
+        companyAPI.getCompany().then(data => {
+          this.companys = data.data;
+        })
+      }
+    },
     beforeDialogOpen() {
-      skuAPI
-        .getSKU()
-        .then(data => {
-          this.SKUData = data;
-        });
+      this.loadCompany();
+      if (!this.SKUData.length > 0) {
+        skuAPI
+          .getSKU()
+          .then(data => {
+            this.SKUData = data;
+          });
+      }
     },
     /*添加进口许可证*/
     inAddClick() {
@@ -379,6 +406,7 @@ export default {
     },
     /*保存进口许可证 */
     inOkHandler() {
+      console.log(this.inLicenseModel);
       let validateForm = () => {
         return new Promise((resolve, reject) => {
           this.$refs['inLicenseRef'].validate(valid => {
