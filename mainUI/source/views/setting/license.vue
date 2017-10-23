@@ -23,7 +23,7 @@
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column prop="licenseKey" show-overflow-tooltip min-width="30%" label="许可证号"></el-table-column>
             <el-table-column prop="companyName" show-overflow-tooltip min-width="30%" label="进口商"></el-table-column>
-            <el-table-column prop="goodsCode" show-overflow-tooltip min-width="20%" label="商品编号"></el-table-column>
+            <el-table-column prop="sku" show-overflow-tooltip min-width="20%" label="商品编号"></el-table-column>
             <el-table-column prop="expirationDateOfLicense" show-overflow-tooltip min-width="20%" label="许可证截止日期"></el-table-column>
           </el-table>
           <div class="fr" style="margin-top:5px;">
@@ -52,9 +52,9 @@
           </div>
           <el-table ref="apTabelRef" :data="outLicenseData" tooltip-effect="dark" style="width: 100%" :height="clientHeight" @selection-change="outOnSelectionChange">
             <el-table-column type="selection" width="55" align="center"></el-table-column>
-            <el-table-column prop="licenseKey" show-overflow-tooltip min-width="15%" label="许可证号"></el-table-column>
-            <el-table-column prop="companyName" show-overflow-tooltip min-width="15%" label="出口商"></el-table-column>
-            <el-table-column prop="goodsCode" show-overflow-tooltip min-width="20%" label="商品编号"></el-table-column>
+            <el-table-column prop="licenseKey" show-overflow-tooltip min-width="30%" label="许可证号"></el-table-column>
+            <el-table-column prop="companyName" show-overflow-tooltip min-width="30%" label="出口商"></el-table-column>
+            <el-table-column prop="sku" show-overflow-tooltip min-width="20%" label="商品编号"></el-table-column>
             <el-table-column prop="expirationDateOfLicense" show-overflow-tooltip min-width="20%" label="许可证截止日期"></el-table-column>
           </el-table>
           <div class="fr" style="margin-top:5px;">
@@ -65,29 +65,36 @@
       </el-tab-pane>
     </el-tabs>
     <!-- 添加、编辑进口许可证 -->
-    <el-dialog :title="editMode===1?'添加进口许可证':'编辑进口许可证'" :visible.sync="inLicenseShow"  @open="beforeDialogOpen">
+    <el-dialog :title="editMode===1?'添加进口许可证':'编辑进口许可证'" :visible.sync="inLicenseShow" @open="beforeDialogOpen">
       <el-form :model="inLicenseModel" :rules="inLicenseRules" inline ref="inLicenseRef" label-width="140px" style="overflow-y:hidden;overflow-x:hidden;">
 
-          <el-form-item label="进口商" prop="companyName">
-            <el-input type="text" v-model="inLicenseModel.companyName" auto-complete="off" class="input-320"></el-input>
-          </el-form-item>
-          <el-form-item label="许可证号" prop="licenseKey">
-            <el-input type="text" v-model="inLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
-          </el-form-item>
-          <el-form-item label="商品编号" prop="goodsCode">
-            <el-select class="e-input" filterable v-model="inLicenseModel.goodsCode" placeholder="请选择" style="width:320px" >
-              <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
-                <span style="float: left">{{ item.sn }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="许可证截止日期" prop="expirationDateOfLicense">
-            <el-date-picker v-model="inLicenseModel.expirationDateOfLicense" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
-          </el-form-item>
-          <el-form-item label="备注" prop="memo">
-            <el-input type="text" v-model="inLicenseModel.memo" auto-complete="off" style="width:320px"></el-input>
-          </el-form-item>
+        <el-form-item label="进口商" v-if="editMode===1">
+          <el-select v-model="inLicenseModel.companyName" clearable placeholder="请选择" @change="onCompanyChange" :disabled="editMode===1?ture:false" style="width:320px">
+            <el-option v-for="item in companys" :key="item.id" :label="item.name" :value="item.name">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="进口商" v-if="editMode===2">
+          <el-input type="text" v-model="inLicenseModel.companyName" auto-complete="off" class="input-320" disabled></el-input>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="许可证号" prop="licenseKey">
+          <el-input type="text" v-model="inLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
+        </el-form-item>
+        <el-form-item label="商品编号" prop="sku">
+          <el-select class="e-input" filterable v-model="inLicenseModel.sku" placeholder="请选择" style="width:320px">
+            <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
+              <span style="float: left">{{ item.sn }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="许可证截止日期" prop="expirationDateOfLicense">
+          <el-date-picker v-model="inLicenseModel.expirationDateOfLicense" type="date" @change="inDateChangeClick" placeholder="选择日期" class="input-320"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="备注" prop="memo">
+          <el-input type="text" v-model="inLicenseModel.memo" auto-complete="off" style="width:320px"></el-input>
+        </el-form-item>
 
       </el-form>
       <div slot="footer">
@@ -97,24 +104,31 @@
     </el-dialog>
 
     <!-- 添加、编辑出口许可证 -->
-    <el-dialog :title="outeditMode===1?'添加出口许可证':'编辑出口许可证'" :visible.sync="outLicenseShow"   @open="beforeDialogOpen">
+    <el-dialog :title="outeditMode===1?'添加出口许可证':'编辑出口许可证'" :visible.sync="outLicenseShow" @open="beforeDialogOpen">
       <el-form :model="outLicenseModel" :rules="outLicenseRules" inline ref="outLicenseRef" label-width="140px" style="overflow-y:hidden;overflow-x:hidden;">
-        <el-form-item label="出口商" prop="companyName">
-          <el-input type="text" v-model="outLicenseModel.companyName" auto-complete="off" class="input-320"></el-input>
+        <el-form-item label="出口商" v-if="outeditMode===1">
+          <el-select v-model="outLicenseModel.companyName" clearable placeholder="请选择" @change="onCompanyChange" style="width:320px">
+            <el-option v-for="item in companys" :key="item.id" :label="item.name" :value="item.name">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="进口商" v-if="outeditMode===2">
+          <el-input type="text" v-model="outLicenseModel.companyName" auto-complete="off" class="input-320" disabled></el-input>
+          </el-select>
         </el-form-item>
         <el-form-item label="许可证号" prop="licenseKey">
           <el-input type="text" v-model="outLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
-        <el-form-item label="商品编号" prop="goodsCode">
-          <el-select class="e-input" filterable v-model="outLicenseModel.goodsCode" placeholder="请选择"  style="width:320px" >
-              <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
-                <span style="float: left">{{ item.sn }}</span>
-                <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
-              </el-option>
-            </el-select>
+        <el-form-item label="商品编号" prop="sku">
+          <el-select class="e-input" filterable v-model="outLicenseModel.sku" placeholder="请选择" style="width:320px">
+            <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
+              <span style="float: left">{{ item.sn }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="许可证截止日期" prop="expirationDateOfLicense">
-          <el-date-picker v-model="outLicenseModel.expirationDateOfLicense" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
+          <el-date-picker v-model="outLicenseModel.expirationDateOfLicense" @change="outDateChangeClick" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
         </el-form-item>
         <el-form-item label="备注" prop="memo">
           <el-input type="text" v-model="outLicenseModel.memo" auto-complete="off" style="width:320px"></el-input>
@@ -126,7 +140,6 @@
       </div>
     </el-dialog>
 
-
   </div>
 </template>
 
@@ -135,6 +148,7 @@ import './mock/license.js';
 import licenseAPI from './api/licenseAPI.js';
 import licensegoodsTable from './components/licensegoodsTable.vue';
 import skuAPI from '../form/api/skuAPI.js';
+import companyAPI from './api/companyAPI.js';
 export default {
   data() {
     return {
@@ -236,16 +250,69 @@ export default {
       percentage: 0,
       // i: 0,
       SKUData: [],
+      companys: {},
 
     };
   },
   methods: {
+    //格式化时间 格式化时间为yyyy-MM-dd hh:mm:ss
+    formatDate(date, fmt) {
+      if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(
+          RegExp.$1,
+          (date.getFullYear() + '').substr(4 - RegExp.$1.length)
+        )
+      }
+      let o = {
+        'M+': date.getMonth() + 1,
+        'd+': date.getDate(),
+        'h+': date.getHours(),
+        'm+': date.getMinutes(),
+        's+': date.getSeconds()
+      }
+      for (let k in o) {
+        if (new RegExp(`(${k})`).test(fmt)) {
+          let str = o[k] + ''
+          fmt = fmt.replace(
+            RegExp.$1,
+            RegExp.$1.length === 1 ? str : ('00' + str).substr(str.length)
+          )
+        }
+      }
+      return fmt
+    },
+    outDateChangeClick() {
+      if (this.outLicenseModel.expirationDateOfLicense) {
+        this.outLicenseModel.expirationDateOfLicense = this.formatDate(new Date(this.outLicenseModel.expirationDateOfLicense), 'yyyy-MM-dd');
+      } else {
+        this.outLicenseModel.expirationDateOfLicense = '';
+      }
+    },
+    inDateChangeClick() {
+      if (this.inLicenseModel.expirationDateOfLicense) {
+        this.inLicenseModel.expirationDateOfLicense = this.formatDate(new Date(this.inLicenseModel.expirationDateOfLicense), 'yyyy-MM-dd');
+      } else {
+        this.inLicenseModel.expirationDateOfLicense = '';
+      }
+    },
+    //加载企业列表共选择
+    loadCompany() {
+      if (!this.companys.length > 0) {
+        companyAPI.getCompany().then(data => {
+          this.companys = data.data;
+        })
+      }
+    },
+    //加载SKU
     beforeDialogOpen() {
-      skuAPI
-        .getSKU()
-        .then(data => {
-          this.SKUData = data;
-        });
+      this.loadCompany();
+      if (!this.SKUData.length > 0) {
+        skuAPI
+          .getSKU()
+          .then(data => {
+            this.SKUData = data;
+          });
+      }
     },
     /*添加进口许可证*/
     inAddClick() {
@@ -259,7 +326,7 @@ export default {
         type: 'in',
       };
       this.inLicenseShow = true;
-      this.selectedLicensegoodsRow=[];
+      this.selectedLicensegoodsRow = [];
     },
     /*编辑进口许可证*/
     inEditClick() {
@@ -270,7 +337,7 @@ export default {
         this.inSelectedRows[0]
       );
       this.inLicenseShow = true;
-      this.selectedLicensegoodsRow=[];
+      this.selectedLicensegoodsRow = [];
     },
     /*删除进口许可证*/
     inDeleteClick() {
@@ -299,15 +366,15 @@ export default {
             });
         },
       }).then(data => {
-          this.inSelectedRows = [];
-          this.loadInlicenseList();
-          this.$notify({
-            title: '提示',
-            message: '删除成功！',
-            type: 'success',
-            duration: 2000,
-          });
-        })
+        this.inSelectedRows = [];
+        this.loadInlicenseList();
+        this.$notify({
+          title: '提示',
+          message: '删除成功！',
+          type: 'success',
+          duration: 2000,
+        });
+      })
     },
 
     /*添加出口许可证*/
@@ -322,7 +389,7 @@ export default {
         type: 'out',
       };
       this.outLicenseShow = true;
-      this.selectedLicensegoodsRow=[];
+      this.selectedLicensegoodsRow = [];
     },
     /*编辑出口许可证*/
     outEditClick() {
@@ -333,7 +400,7 @@ export default {
         this.outSelectedRows[0]
       );
       this.outLicenseShow = true;
-      this.selectedLicensegoodsRow=[];
+      this.selectedLicensegoodsRow = [];
     },
     /*删除出口许可证*/
     outDeleteClick() {
@@ -362,15 +429,15 @@ export default {
             });
         },
       }).then(data => {
-          this.outSelectedRows = [];
-          this.loadOutlicenseList();
-          this.$notify({
-            title: '提示',
-            message: '删除成功！',
-            type: 'success',
-            duration: 2000,
-          });
-        })
+        this.outSelectedRows = [];
+        this.loadOutlicenseList();
+        this.$notify({
+          title: '提示',
+          message: '删除成功！',
+          type: 'success',
+          duration: 2000,
+        });
+      })
     },
 
     /*进口表格选中行改变*/
@@ -379,6 +446,7 @@ export default {
     },
     /*保存进口许可证 */
     inOkHandler() {
+      console.log(this.inLicenseModel);
       let validateForm = () => {
         return new Promise((resolve, reject) => {
           this.$refs['inLicenseRef'].validate(valid => {
@@ -433,19 +501,18 @@ export default {
       };
 
       validateForm().then(() => {
-          this.confirmLoading = true;
-          if (this.editMode === 1) {
-            return addForm();
-          }
-          if (this.editMode === 2) {
-            return editForm();
-          }
-        }).then(res =>{
-          this.confirmLoading = false;
-          this.inLicenseShow = false;
-          this.inLicenseShow = false;
-          this.loadInlicenseList();
-        });
+        this.confirmLoading = true;
+        if (this.editMode === 1) {
+          return addForm();
+        }
+        if (this.editMode === 2) {
+          return editForm();
+        }
+      }).then(res => {
+        this.loadInlicenseList();
+        this.confirmLoading = false;
+        this.inLicenseShow = false;
+      });
     },
 
     /*保存出口许可证 */
@@ -516,8 +583,7 @@ export default {
         .then(res => {
           this.confirmLoading = false;
           this.outLicenseShow = false;
-          this.outLicenseShow = false;
-           this.loadOutlicenseList();
+          this.loadOutlicenseList();
         });
     },
 
@@ -536,6 +602,19 @@ export default {
       licenseAPI.getInlicenseList(search).then(data => {
         this.inLicenseData = data;
         this.myTotal = data.length;
+        //搜索
+        let tempLicenseKey = this.insearch.licenseKey;
+        let tempCompanyName = this.insearch.companyName;
+        if (tempLicenseKey != '') {
+          this.inLicenseData = this.inLicenseData.filter(
+            val => val.licenseKey.indexOf(tempLicenseKey) != -1
+          );
+        }
+        if (tempCompanyName != '') {
+          this.inLicenseData = this.inLicenseData.filter(
+            val => val.companyName.indexOf(tempCompanyName) != -1
+          );
+        }
       });
     },
     /*加载出口许可证数据 */
@@ -548,6 +627,19 @@ export default {
       licenseAPI.getOutlicenseList(search).then(data => {
         this.outLicenseData = data;
         this.apTotal = data.length;
+        //搜索
+        let tempLicenseKey = this.outsearch.licenseKey;
+        let tempCompanyName = this.outsearch.companyName;
+        if (tempLicenseKey != '') {
+          this.outLicenseData = this.outLicenseData.filter(
+            val => val.licenseKey.indexOf(tempLicenseKey) != -1
+          );
+        }
+        if (tempCompanyName != '') {
+          this.outLicenseData = this.outLicenseData.filter(
+            val => val.companyName.indexOf(tempCompanyName) != -1
+          );
+        }
       });
     },
 
@@ -573,6 +665,7 @@ export default {
     },
   },
   created() {
+    this.clientHeight = document.documentElement.clientHeight - 270;
     let num = Math.floor(this.clientHeight / 40) - 1;
     this.apPageSize = Math.floor(num / 5) * 5;
     this.apPageSizes = [
@@ -609,6 +702,7 @@ input[type='file'].el-upload__input {
 .main-content-wrap {
   padding: 10px;
 }
+
 .search-bar {
   padding-top: 10px;
   padding-bottom: 10px;

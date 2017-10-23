@@ -3,6 +3,7 @@ package com.zving.declarationform.taxcutting.model;
 public class TaxCuttingRule {
 	String id;
 	String sku; // 货号
+	String skuName;// 货品名称
 	int topLmit; // 上限
 	float rate; // 优惠税率
 	String policyPaperTitle; // 政策文件标题
@@ -33,6 +34,15 @@ public class TaxCuttingRule {
 
 	public void setSku(String sku) {
 		this.sku = sku;
+	}
+	
+
+	public String getSkuName() {
+		return skuName;
+	}
+
+	public void setSkuName(String skuName) {
+		this.skuName = skuName;
 	}
 
 	public int getTopLmit() {

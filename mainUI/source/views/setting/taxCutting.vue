@@ -12,6 +12,8 @@
         <el-input v-model="searchTaxCutting.id" placeholder="请输入编号" size="small" style="width:150px"></el-input>
         货号：
         <el-input v-model="searchTaxCutting.sku" placeholder="请输入货号" size="small" style="width:150px"></el-input>
+        货品名称：
+        <el-input v-model="searchTaxCutting.skuName" placeholder="请输入货品名称" size="small" style="width:150px"></el-input>
         有效期：
         <el-date-picker v-model="searchTaxCutting.startTime" type="date" placeholder="请选择日期" size="small" style="width:150px" @change="dateStartTimeChangeClick"></el-date-picker>
         -
@@ -19,7 +21,7 @@
         <el-button size="small" type="primary" @click="searchTaxCuttingClick" style="width: 60px;">搜索</el-button>
       </div>
       <!-- 列表 -->
-      <el-table :data="taxCuttingTable" tooltip-effect="dark" highlight-current-row :height="clientHeight" @selection-change="onSelectionChange" v-loading="dataLoading">
+      <el-table :data="taxCuttingTable" tooltip-effect="dark" highlight-current-row :height="clientHeight" @selection-change="onSelectionChange" @row-dblclick="dbEditClick" v-loading="dataLoading">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="expand">
           <template slot-scope="props">
@@ -29,6 +31,9 @@
               </el-form-item>
                <el-form-item label="货号">
                 <span>{{ props.row.sku }}</span>
+              </el-form-item>
+              <el-form-item label="货品名称">
+                <span>{{ props.row.skuName }}</span>
               </el-form-item>
               <el-form-item label="减免上限">
                 <span>{{ props.row.topLmit }}</span>
@@ -46,7 +51,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="id" show-overflow-tooltip min-width="15%" label="编号"></el-table-column>
-        <el-table-column prop="sku" show-overflow-tooltip min-width="15%" label="货号"></el-table-column>
+         <el-table-column prop="skuName" show-overflow-tooltip min-width="30%" label="货品名称"></el-table-column>
         <el-table-column prop="topLmit" show-overflow-tooltip min-width="20%" label="减免上限"></el-table-column>
         <el-table-column prop="rate" show-overflow-tooltip min-width="20%" label="减免税率"></el-table-column>
         <el-table-column show-overflow-tooltip min-width="35%" label="政策文件">
@@ -66,17 +71,17 @@
     <el-dialog :title="showTitleMode === 0 ? '新建' : '编辑'" :visible.sync="showAddDialog" class="mode-dialog">
       <el-form label-width="140px" :model="tmpTaxCutting" :rules="taxCuttingRules" ref="taxCuttingForm">
         <el-form-item label="货号：">
-          <el-select class="e-input" filterable v-model="tmpTaxCutting.sku" placeholder="请选择">
+          <el-select class="e-input" filterable v-model="tmpTaxCutting.sku" placeholder="请选择"  @change="selectSKUChangeClick">
               <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
                 <span style="float: left">{{ item.sn }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
               </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="减免上限：">
-          <el-input placeholder="请输入减免上限" v-model="tmpTaxCutting.topLmit" style="width:215px;"></el-input>
+        <el-form-item prop="topLmit" label="减免上限：">
+          <el-input placeholder="请输入减免上限" type="age" v-model="tmpTaxCutting.topLmit" style="width:215px;"></el-input>
         </el-form-item>
-        <el-form-item label="减免税率：">
+        <el-form-item prop="rate" label="减免税率：">
           <el-input placeholder="请输入减免税率" v-model="tmpTaxCutting.rate" style="width:215px;"></el-input>
         </el-form-item>
         <el-form-item label="生效起始时间：">
@@ -112,15 +117,6 @@
         <el-button @click="showLookDialog = false">关 闭</el-button>
       </div>
     </el-dialog>
-
-    <!-- 商品 -->
-     <el-dialog title="选择商品" :visible.sync="showGoodsDialog" class="mode-dialog">
-      <packinglist-table :declarationID="declarationID" :declarationType="declarationType"></packinglist-table>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="showGoodsDialog = false">关 闭</el-button>
-        <el-button type="primary" @click="confrimGoodsClick">确 定</el-button>
-      </div>
-    </el-dialog>
 </div>
 </template>
 
@@ -144,8 +140,32 @@ export default {
           clientWidth: 0,
           showLookDialog: false,
           selectedRows: [],
-          /* taxCuttingRules: {
-            startTime: [
+          taxCuttingRules: {
+            topLmit: [
+                {required: true,trigger:'blur',
+                  validator:(rule,value,callback)=>{
+                    console.log(value)
+                  if(!/[0-9]+$/.test(value)) {
+                      callback(new Error("请输入数字值"));
+                  } else {
+                      callback();
+                  }
+                }
+                }
+            ],
+            rate: [
+                {required: true,trigger:'blur',
+                  validator:(rule,value,callback)=>{
+                    console.log(value)
+                  if(!/[0-9]+$/.test(value)) {
+                      callback(new Error("请输入数字值"));
+                  } else {
+                      callback();
+                  }
+                }
+                }
+            ],
+           /* startTime: [
               {trigger: 'change', required: true,
                 validator: (rule, value, callback) => {
                   if (value) {
@@ -167,21 +187,22 @@ export default {
                 }
               }
             ],
-            policyPaperTitle: [
+             policyPaperTitle: [
               { required: true, message: '请输入政策文件标题', trigger: 'blur' },
               { min: 1, max: 400, message: '长度在 1 到 400 个字符', trigger: 'blur' }
             ],
             policyPaperContent: [
               { required: true, message: '请输入政策文件内容', trigger: 'blur' },
               { min: 1, max: 4000, message: '长度在 1 到 4000 个字符', trigger: 'blur' }
-            ],
-          }, */
+            ], */
+          },
           showTitleMode: 0, // 0 新建 1 编辑
           showAddDialog: false, //新建dialog显示状态
           tmpTaxCutting: {},
           searchTaxCutting: {
             id: '',
             sku: '',
+            skuName: '',
             startTime: '',
             endTime: ''
           }, //搜索
@@ -198,6 +219,11 @@ export default {
         }
     },
     methods: {
+      //双击
+      dbEditClick(row){
+        this.showAddDialog = true;
+        this.tmpTaxCutting = Object.assign({}, row);
+      },
       //查看政策文件
       lookPolicyPaperClick(row) {
         this.tmpTaxCutting = Object.assign({}, row);
@@ -205,7 +231,7 @@ export default {
       },
       //新建编辑确定
       confrimAddClick() {
-       /*  let validateForm = () => {
+       let validateForm = () => {
           return new Promise((resolve, reject) => {
             this.$refs['taxCuttingForm'].validate((valid) => {
               if (valid) {
@@ -215,7 +241,7 @@ export default {
             });
           });
         };
-        validateForm().then(() => { */
+        validateForm().then(() => {
           if(this.showTitleMode === 0) {
             this.tmpTaxCutting.id =  Math.round(Math.random() * 10000);
             taxCuttingAPI.addTaxCuttingData(this.tmpTaxCutting).then(data => {
@@ -244,13 +270,14 @@ export default {
               } */
             })
           }
-       /*  }).catch(() => {
+        }).catch(() => {
            this.$message.error('没有正确填写表单项');
-        }) */
+        })
       },
       //编辑
       editTaxCuttingClick() {
         this.showTitleMode = 1;
+        this.getSKUData();
         this.tmpTaxCutting = Object.assign({}, this.selectedRows[0]);
         this.showAddDialog = true;
       },
@@ -260,6 +287,7 @@ export default {
         this.tmpTaxCutting = {
           id: '',
           sku: '',
+          skuName: '',
           topLmit: '',
           rate: '',
           policyPaperTitle: '',
@@ -267,6 +295,7 @@ export default {
           startTime: '',
           endTime: ''
         },
+        this.getSKUData();
         this.showAddDialog = true;
       },
       //删除
@@ -387,7 +416,7 @@ export default {
       //减免税列表数据加载
       getTaxCuttingData(){
         //this.dataLoading = true;
-        taxCuttingAPI.getTaxCuttingData(this.currentPage,this.pageSize,this.searchTaxCutting.id,this.searchTaxCutting.sku,this.searchTaxCutting.startTime,this.searchTaxCutting.endTime).then(data => {
+        taxCuttingAPI.getTaxCuttingData(this.currentPage,this.pageSize,this.searchTaxCutting.id,this.searchTaxCutting.sku,this.searchTaxCutting.skuName,this.searchTaxCutting.startTime,this.searchTaxCutting.endTime).then(data => {
          this.taxCuttingTable = data;
           this.total = data.length;
            if (this.searchTaxCutting.id != '') {
@@ -396,11 +425,32 @@ export default {
           if (this.searchTaxCutting.sku != '') {
             this.taxCuttingTable = this.taxCuttingTable.filter(val => val.sku.indexOf(this.searchTaxCutting.sku) != -1)
           }
+          if (this.searchTaxCutting.skuName != '') {
+            this.taxCuttingTable = this.taxCuttingTable.filter(val => val.skuName.indexOf(this.searchTaxCutting.skuName) != -1)
+          }
           if (this.searchTaxCutting.startTime != '' || this.searchTaxCutting.endTime != '' ) {
             this.taxCuttingTable = this.taxCuttingTable.filter(val => val.validityDate.indexOf(this.searchTaxCutting.startTime + " - " + this.searchTaxCutting.endTime) != -1)
           }
           this.dataLoading = false;
         })
+      },
+      //选择货号
+      selectSKUChangeClick(val) {
+      let skuName = '';
+      this.SKUData.forEach(function(row) {
+        if (row.sn == val) {
+          skuName = row.name;
+          return;
+        }
+      });
+      this.tmpTaxCutting.skuName = skuName;
+    },
+
+      //货号数据加载
+      getSKUData(){
+        skuAPI.getSKU().then(data => {
+            this.SKUData = data;
+         })
       },
     },
     created() {

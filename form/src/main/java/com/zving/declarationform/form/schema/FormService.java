@@ -1,6 +1,7 @@
 package com.zving.declarationform.form.schema;
 
 import java.util.List;
+import java.util.Map;
 
 import com.zving.declarationform.model.DeclarationForm;
 
@@ -31,10 +32,22 @@ public interface FormService {
 	 * 更新报关单
 	 */
 	String update(DeclarationForm form);
-
+	
 	/**
 	 * 删除报关单
 	 */
 	String delete(String id);
+	
+
+	/**
+	 * 获取审核报关单列表
+	 */
+	List<DeclarationForm> auditList(String searchItem);
+
+	/**
+	 * 审核
+	 */
+	String audit(Map<String,String> map);
+	
 
 }
