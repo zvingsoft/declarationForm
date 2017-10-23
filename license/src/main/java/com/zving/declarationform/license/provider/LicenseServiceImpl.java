@@ -1,10 +1,8 @@
 package com.zving.declarationform.license.provider;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
+import io.servicecomb.provider.rest.common.RestSchema;
+
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import javax.ws.rs.core.MediaType;
@@ -16,15 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.zving.declarationform.license.model.License;
 import com.zving.declarationform.license.schema.LicenseService;
 import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
-
-import io.servicecomb.provider.rest.common.RestSchema;
-import io.servicecomb.swagger.invocation.converter.impl.ConverterCommon;
 
 @RestSchema(schemaId = "license")
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
@@ -109,18 +103,5 @@ public class LicenseServiceImpl implements LicenseService {
 	@ResponseBody
 	public List<License> list() {
 		return StorageUtil.getInstance().find(License.class, null);
-	}
-
-	public static void main(String[] args) {
-		Type targetType = new TypeReference<Map<String, Object>>() {
-		}.getType();
-		ConverterCommon common = new ConverterCommon(targetType);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("status", 200);
-		List<String> list = new ArrayList<String>();
-		list.add("zp");
-		map.put("data", list);
-		Object convert = common.convert(map);
-		System.out.println(convert);
 	}
 }

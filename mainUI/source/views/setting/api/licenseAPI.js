@@ -10,13 +10,13 @@ const licenseAPI = {
   addLicense (license) {
     return axios
       .post('/license/license', license)
-      .then(res => res.data)
+      .then(res => res)
   },
 
   updateLicense (license) {
     return axios
       .put('/license/license', license)
-      .then(res => res.data)
+      .then(res => res)
   },
 
   getOutlicenseList (search) {
@@ -30,7 +30,7 @@ const licenseAPI = {
   deleteLicense (ids) {
     return axios
       .delete('/license/license/' + ids)
-      .then(res => res.data)
+      .then(res => res)
   },
 
   getfileList1 () {

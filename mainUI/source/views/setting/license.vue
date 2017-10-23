@@ -599,7 +599,7 @@ export default {
       };
       let addForm = (res) => {
         licenseAPI.addLicense(this.inLicenseModel).then(data => {
-          if (data.status == 1) {
+          if (data.status == 200) {
             this.$notify({
               title: '成功',
               message: '保存成功',
@@ -622,7 +622,7 @@ export default {
           val => val.id === this.inLicenseModel.id
         );
         licenseAPI.updateLicense(this.inLicenseModel).then(data => {
-          if (data.status == 1) {
+          if (data.status == 200) {
             this.$notify({
               title: '成功',
               message: '修改成功',
@@ -670,7 +670,7 @@ export default {
       };
       let outaddForm = () => {
         licenseAPI.addLicense(this.outLicenseModel).then(data => {
-          if (data.status == 1) {
+          if (data.status == 200) {
             this.$notify({
               title: '成功',
               message: '保存成功',
@@ -693,7 +693,7 @@ export default {
           val => val.id === this.outLicenseModel.id
         );
         licenseAPI.updateLicense(this.outLicenseModel).then(data => {
-          if (data.status == 1) {
+          if (data.status == 200) {
             this.$notify({
               title: '成功',
               message: '修改成功',
@@ -803,8 +803,8 @@ export default {
       };
       let search = Object.assign({}, this.insearch, pagedata);
       licenseAPI.getInlicenseList(search).then(data => {
-        this.inLicenseData = data.data;
-        this.myTotal = data.total;
+        this.inLicenseData = data;
+        this.myTotal = data.length;
       });
     },
     /*加载出口许可证数据 */
