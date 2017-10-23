@@ -110,7 +110,7 @@
     <el-dialog :title="editMode===1?'新建':'编辑'" :visible.sync="addAndEditDialogIsShow">
       <el-form :model="ptDataModel" :rules="ptDataRules" ref="ptDataRef" label-width="160px" style="height:400px;overflow-y:scroll;overflow-x:hidden;">
         <el-form-item label="货号" prop="sku">
-          <el-select v-model="sku" filterable multiple class="businesstype-select" @change="onProcessCompanyChange">
+          <el-select v-model="sku" filterable multiple class="businesstype-select" @change="onProcessCompanyChange" style="width:320px">
             <el-option v-for="item in goodsList" :key="item.sn" :label="item.sn" :value="item.sn">
               <span style="float: left">{{ item.sn }}</span>
               <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
@@ -118,22 +118,24 @@
           </el-select>
         </el-form-item>
         <el-form-item label="限额" prop="amount">
-          <el-input type="text" v-model="ptDataModel.amount" auto-complete="off" style="width:85%"></el-input>
+          <el-input-number v-model="ptDataModel.amount" :min="1" style="width:320px"></el-input-number>
+          <!-- <el-input type="text" v-model="ptDataModel.amount" auto-complete="off" style="width:320px"></el-input> -->
         </el-form-item>
         <el-form-item label="己用量" prop="used">
-          <el-input type="text" v-model="ptDataModel.used" auto-complete="off" style="width:85%"></el-input>
+          <el-input-number v-model="ptDataModel.used" :min="1" style="width:320px"></el-input-number>
+          <!-- <el-input type="text" v-model="ptDataModel.used" auto-complete="off" style="width:320px"></el-input> -->
         </el-form-item>
         <el-form-item label="接单企业ID" prop="processCompany" v-show="false">
-          <el-input type="text" v-model="ptDataModel.processCompany" auto-complete="off" style="width:85%"></el-input>
+          <el-input type="text" v-model="ptDataModel.processCompany" auto-complete="off" style="width:320px"></el-input>
         </el-form-item>
         <el-form-item label="接单企业" prop="processCompanyName">
-          <el-select v-model="ptDataModel.processCompanyName" :multiple="false" class="businesstype-select" @change="onProcessCompanyChange">
+          <el-select v-model="ptDataModel.processCompanyName" :multiple="false" class="businesstype-select" @change="onProcessCompanyChange" style="width:320px">
             <el-option v-for="item in processCompanyList" :key="item.name" :label="item.name" :value="item.name">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="委托企业" prop="commissionedCompnayName">
-          <el-input type="text" v-model="ptDataModel.commissionedCompnayName" auto-complete="off" style="width:85%"></el-input>
+          <el-input type="text" v-model="ptDataModel.commissionedCompnayName" auto-complete="off" style="width:320px"></el-input>
         </el-form-item>
         <el-form-item label="合同备案" prop="contract" v-show="editMode===1">
           <el-upload :on-success="onUploadSuccess" class="upload-file" action="" :multiple="false" :file-list="fileList">
@@ -175,19 +177,19 @@
     <el-dialog :title="goodsEditMode===1?'添加商品':'编辑商品'" :visible.sync="goodsAddAndEditDialogIsShow">
       <el-form :model="goodsDataModel" :rules="goodsDataRules" ref="goodsDataRef" label-width="160px">
         <el-form-item label="编号" prop="sn">
-          <el-input type="text" v-model="goodsDataModel.sn" auto-complete="off" style="width:85%"></el-input>
+          <el-input type="text" v-model="goodsDataModel.sn" auto-complete="off" style="width:320px"></el-input>
         </el-form-item>
         <el-form-item label="商品类型" prop="goodsType">
-          <el-input type="text" v-model="goodsDataModel.goodsType" auto-complete="off" style="width:85%"></el-input>
+          <el-input type="text" v-model="goodsDataModel.goodsType" auto-complete="off" style="width:320px"></el-input>
         </el-form-item>
         <el-form-item label="商品名称" prop="name">
-          <el-input type="text" v-model="goodsDataModel.name" auto-complete="off" style="width:85%"></el-input>
+          <el-input type="text" v-model="goodsDataModel.name" auto-complete="off" style="width:320px"></el-input>
         </el-form-item>
         <el-form-item label="商品规格" prop="spec">
-          <el-input type="text" v-model="goodsDataModel.spec" auto-complete="off" style="width:85%"></el-input>
+          <el-input type="text" v-model="goodsDataModel.spec" auto-complete="off" style="width:320px"></el-input>
         </el-form-item>
         <el-form-item label="商品单位" prop="unit">
-          <el-input type="text" v-model="goodsDataModel.unit" auto-complete="off" style="width:85%"></el-input>
+          <el-input type="text" v-model="goodsDataModel.unit" auto-complete="off" style="width:320px"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer">
