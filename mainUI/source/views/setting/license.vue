@@ -28,7 +28,7 @@
             </el-table-column>
             <el-table-column prop="count" show-overflow-tooltip min-width="20%" label="许可数量"></el-table-column>
             <el-table-column prop="companyName" show-overflow-tooltip min-width="20%" label="进口商"></el-table-column>
-            <el-table-column prop="sku" show-overflow-tooltip min-width="20%" label="商品编号"></el-table-column>
+            <el-table-column prop="skuName" show-overflow-tooltip min-width="20%" label="商品名称"></el-table-column>
             <el-table-column prop="expirationDateOfLicense" show-overflow-tooltip min-width="20%" label="许可证截止日期"></el-table-column>
           </el-table>
           <div class="fr" style="margin-top:5px;">
@@ -64,7 +64,7 @@
             </el-table-column>
             <el-table-column prop="count" show-overflow-tooltip min-width="20%" label="许可数量"></el-table-column>
             <el-table-column prop="companyName" show-overflow-tooltip min-width="20%" label="出口商"></el-table-column>
-            <el-table-column prop="sku" show-overflow-tooltip min-width="20%" label="商品编号"></el-table-column>
+            <el-table-column prop="skuName" show-overflow-tooltip min-width="20%" label="商品名称"></el-table-column>
             <el-table-column prop="expirationDateOfLicense" show-overflow-tooltip min-width="20%" label="许可证截止日期"></el-table-column>
           </el-table>
           <div class="fr" style="margin-top:5px;">
@@ -95,7 +95,7 @@
           <el-input-number v-model="inLicenseModel.count" :min="1" class="input-320"></el-input-number>
         </el-form-item>
         <el-form-item label="商品编号" prop="sku">
-          <el-select class="e-input" filterable v-model="inLicenseModel.sku" placeholder="请选择" style="width:320px">
+          <el-select class="e-input" filterable v-model="inLicenseModel.sku" placeholder="请选择" style="width:320px" @change="onInSkuChange">
             <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
               <span style="float: left">{{ item.sn }}</span>
               <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
@@ -136,7 +136,7 @@
           <el-input-number v-model="outLicenseModel.count" :min="1" class="input-320"></el-input-number>
         </el-form-item>
         <el-form-item label="商品编号" prop="sku">
-          <el-select class="e-input" filterable v-model="outLicenseModel.sku" placeholder="请选择" style="width:320px">
+          <el-select class="e-input" filterable v-model="outLicenseModel.sku" placeholder="请选择" style="width:320px" @change="onOutSkuChange">
             <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
               <span style="float: left">{{ item.sn }}</span>
               <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
@@ -266,11 +266,31 @@ export default {
       percentage: 0,
       // i: 0,
       SKUData: [],
-      companys: {},
+      companys: {}
 
     };
   },
   methods: {
+    onInSkuChange(val) {
+      let skuName = '';
+      this.SKUData.forEach(function(row) {
+        if (row.sn == val) {
+          skuName = row.name;
+          return;
+        }
+      });
+      this.inLicenseModel.skuName = skuName;
+    },
+    onOutSkuChange(val) {
+      let skuName = '';
+      this.SKUData.forEach(function(row) {
+        if (row.sn == val) {
+          skuName = row.name;
+          return;
+        }
+      });
+      this.outLicenseModel.skuName = skuName;
+    },
     //单击一行选中当前行、单击多选框增加选中当前行
     onInRowClick(row, event, column) {
       if (column.type != "selection") {
@@ -514,6 +534,7 @@ export default {
               duration: 2000
             });
           }
+          this.loadInlicenseList();
         });
       };
 
@@ -537,19 +558,20 @@ export default {
               duration: 2000
             });
           }
+          this.loadInlicenseList();
         });
       };
 
       validateForm().then(() => {
         this.confirmLoading = true;
         if (this.editMode === 1) {
-          return addForm();
+          addForm();
         }
         if (this.editMode === 2) {
-          return editForm();
+          editForm();
         }
       }).then(res => {
-        this.loadInlicenseList();
+
         this.confirmLoading = false;
         this.inLicenseShow = false;
       });
@@ -584,6 +606,7 @@ export default {
               duration: 2000
             });
           }
+          this.loadOutlicenseList();
         });
       };
 
@@ -607,6 +630,7 @@ export default {
               duration: 2000
             });
           }
+          this.loadOutlicenseList();
         });
       };
 
@@ -614,16 +638,16 @@ export default {
         .then(() => {
           this.confirmLoading = true;
           if (this.outeditMode === 1) {
-            return outaddForm();
+            outaddForm();
           }
           if (this.outeditMode === 2) {
-            return outeditForm();
+            outeditForm();
           }
         })
         .then(res => {
           this.confirmLoading = false;
           this.outLicenseShow = false;
-          this.loadOutlicenseList();
+
         });
     },
 

@@ -10,6 +10,7 @@ package com.zving.declarationform.license.model;
 public class License {
 	long id;// 许可证序列号
 	String sku;// 许可的商品货号
+	String skuName;// 许可的商品名称
 	int count;// 许可数量
 	String licenseKey;// 许可证号
 	String companyName;// 进口/出口商
@@ -31,6 +32,14 @@ public class License {
 
 	public void setSku(String sku) {
 		this.sku = sku;
+	}
+
+	public String getSkuName() {
+		return skuName;
+	}
+
+	public void setSkuName(String skuName) {
+		this.skuName = skuName;
 	}
 
 	public int getCount() {
