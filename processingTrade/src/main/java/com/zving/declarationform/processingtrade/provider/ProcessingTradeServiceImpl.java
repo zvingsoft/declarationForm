@@ -49,18 +49,15 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@RequestMapping(path = "processingtrade/{ids}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public String delete(@PathVariable String ids) {
-		try {
-			for (String id : ids.split(",")) {
-				final IStorage storage = StorageUtil.getInstance();
-				List<ProcessingTrade> processingTrades = storage.find(ProcessingTrade.class, null);
-				for (ProcessingTrade item : processingTrades) {
-					if (item.getId() == Long.parseLong(id)) {
-						storage.delete(ProcessingTrade.class, item);
-					}
+		for (String id : ids.split(",")) {
+			IStorage storage = StorageUtil.getInstance();
+			List<ProcessingTrade> processingTrades = storage.find(ProcessingTrade.class, null);
+			for (ProcessingTrade item : processingTrades) {
+				if (item.getId() == Long.parseLong(id)) {
+					storage.delete(ProcessingTrade.class, item);
+					return "1";
 				}
 			}
-		} catch (Exception e) {
-
 		}
 		return "1";
 	}

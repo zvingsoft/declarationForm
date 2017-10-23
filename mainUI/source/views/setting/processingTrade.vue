@@ -38,31 +38,28 @@
               <el-form-item label="己用量" style="width:50%">
                 <span>{{props.row.used}}</span>
               </el-form-item>
-              <el-form-item label="接单企业ID" style="">
-                <span>{{props.row.processCompany}}</span>
-              </el-form-item>
-              <el-form-item label="接单企业" style="width:50%">
+              <el-form-item label="接单企业" style="">
                 <span>{{props.row.processCompanyName}}</span>
               </el-form-item>
-              <el-form-item label="委托企业" style="">
+              <el-form-item label="委托企业" style="width:50%">
                 <span>{{props.row.commissionedCompnayName}}</span>
               </el-form-item>
 
-              <el-form-item label="合同备案" style="width:50%">
+              <el-form-item label="合同备案" style="">
                 <span>
                   <el-button @click.native.prevent="contractFileView" type="text">
                     查看文件
                   </el-button>
                 </span>
               </el-form-item>
-              <el-form-item label="料件备案" style="">
+              <el-form-item label="料件备案" style="width:50%">
                 <span>
                   <el-button @click.native.prevent="materialFileView" type="text">
                     查看文件
                   </el-button>
                 </span>
               </el-form-item>
-              <el-form-item label="报关单" style="width:50%">
+              <el-form-item label="报关单" style="">
                 <span>
                   <el-button @click.native.prevent="feclarationFileView" type="text">
                     查看文件
@@ -109,7 +106,12 @@
     <el-dialog :title="editMode===1?'新建':'编辑'" :visible.sync="addAndEditDialogIsShow">
       <el-form :model="ptDataModel" :rules="ptDataRules" ref="ptDataRef" label-width="160px" style="height:400px;overflow-y:scroll;overflow-x:hidden;">
         <el-form-item label="货号" prop="sku">
-          <el-input type="text" v-model="ptDataModel.sku" auto-complete="off" style="width:85%"></el-input>
+          <el-select v-model="sku" filterable multiple class="businesstype-select" @change="onProcessCompanyChange">
+            <el-option v-for="item in goodsList" :key="item.sn" :label="item.sn" :value="item.sn">
+              <span style="float: left">{{ item.sn }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="限额" prop="amount">
           <el-input type="text" v-model="ptDataModel.amount" auto-complete="off" style="width:85%"></el-input>
@@ -122,7 +124,7 @@
         </el-form-item>
         <el-form-item label="接单企业" prop="processCompanyName">
           <el-select v-model="ptDataModel.processCompanyName" :multiple="false" class="businesstype-select" @change="onProcessCompanyChange">
-            <el-option v-for="item in processCompanys" :key="item.id" :label="item.name" :value="item.name">
+            <el-option v-for="item in processCompanyList" :key="item.name" :label="item.name" :value="item.name">
             </el-option>
           </el-select>
         </el-form-item>
@@ -200,14 +202,14 @@
     <!-- 商品信息框 -->
     <el-dialog :title=" '商品信息' " :visible.sync="goodsDialogIsShow" size="large">
       <!-- 工具条 -->
-      <el-toolbar>
+      <!-- <el-toolbar>
         <el-button @click="goodsAddClick">
           <i class="fa fa-plus" aria-hidden="true"></i> 新建</el-button>
         <el-button @click="goodsEditClick" :disabled="goodsSelectedRows.length !== 1">
           <i class="fa fa-edit" aria-hidden="true"></i> 编辑</el-button>
         <el-button @click="goodsDelClick" :disabled="goodsSelectedRows.length < 1">
           <i class="fa fa-trash-o" aria-hidden="true"></i> 删除</el-button>
-      </el-toolbar>
+      </el-toolbar> -->
       <div class="main-content-wrap">
         <el-table ref="goodsListTable" highlight-current-row :data="goodsListData" tooltip-effect="dark" @selection-change="goodsOnSelectionChange">
           <el-table-column type="selection" width="55" align="center"></el-table-column>
@@ -248,7 +250,7 @@ export default {
       ptPageSize: 10,
       ptTotal: 30,
       ptDataModel: {
-        sku: '',
+        sku: [],
         amount: '',
         used: '',
         processCompany: '',
@@ -269,7 +271,7 @@ export default {
       },
       goodsListData: [],
       ptDataRules: {
-        sku: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
+        // sku: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
       },
       goodsDataRules: {
         itemNum: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
@@ -286,7 +288,9 @@ export default {
         currency: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
         levy: [{ required: true, message: '该项不能为空', trigger: 'blur' }],
       },
-      processCompanys: [],
+      processCompanyList: [],
+      goodsList: [],
+      sku: [],
     };
   },
   methods: {
@@ -322,12 +326,18 @@ export default {
                 ) != -1
             );
           }
+          this.ptTotal = this.ptListData.length;
           this.ptListData = this.ptListData.slice(
             (this.ptCurrentPage - 1) * this.ptPageSize,
             this.ptPageSize * this.ptCurrentPage
           );
-          this.ptTotal = this.ptListData.length;
+          this.dealSKU();
         });
+    },
+    dealSKU() {
+      this.ptListData.forEach(value => {
+        this.sku = value.sku.split(',');
+      }, this);
     },
     loadGoodsList() {
       processingTradeAPI.getGoodsList().then(data => {
@@ -336,14 +346,12 @@ export default {
       });
     },
     ptAddClick() {
-      processingTradeAPI.getCompany().then(data => {
-        console.log(data);
-        this.processCompanys = data;
-      });
+      this.loadCompanyList();
+      this.loadGoodsList();
       this.editMode = 1;
       this.ptDataModel = {
         id: '',
-        sku: '',
+        sku: [],
         amount: '',
         used: '',
         processCompany: '',
@@ -353,9 +361,22 @@ export default {
       this.addAndEditDialogIsShow = true;
     },
     ptEditClick() {
+      this.loadCompanyList();
+      this.loadGoodsList();
       this.editMode = 2;
       this.ptDataModel = Object.assign({}, this.ptSelectedRows[0]);
+      this.sku = this.ptDataModel.sku.split(',');
       this.addAndEditDialogIsShow = true;
+    },
+    loadCompanyList() {
+      processingTradeAPI.getCompanyList().then(data => {
+        this.processCompanyList = data;
+      });
+    },
+    loadGoodsList() {
+      processingTradeAPI.getGoodsList().then(data => {
+        this.goodsList = data;
+      });
     },
     goodsDelClick() {
       this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {
@@ -456,6 +477,7 @@ export default {
 
       let addForm = () => {
         this.ptDataModel.id = Math.round(Math.random() * 10000);
+        this.ptDataModel.sku = this.sku.join(',');
         return processingTradeAPI.addFormData(this.ptDataModel).then(data => {
           this.loadProcessingTradeList();
           return data;
@@ -463,6 +485,7 @@ export default {
       };
 
       let editForm = () => {
+        this.ptDataModel.sku = this.sku.join(',');
         return processingTradeAPI.editFormData(this.ptDataModel).then(data => {
           this.loadProcessingTradeList();
           return data;
@@ -505,7 +528,7 @@ export default {
         });
     },
     onProcessCompanyChange(val1) {
-      this.processCompanys.forEach(value => {
+      this.processCompanyList.forEach(value => {
         if (value.name === val1) {
           this.ptDataModel.processCompany = value.id;
         }
