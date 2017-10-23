@@ -1,6 +1,9 @@
 package com.zving.declarationform.manifest.provider;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.core.MediaType;
 
@@ -12,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.manifest.model.Manifest;
+import com.zving.declarationform.manifest.model.ManifestItem;
 import com.zving.declarationform.manifest.schema.ManifestService;
-import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 
@@ -49,6 +52,14 @@ public class ManifestServiceImpl implements ManifestService {
 	@RequestMapping(path = "manifest", method = RequestMethod.POST)
 	@ResponseBody
 	public String add(@RequestBody Manifest manifest) {
+		List<Manifest> list = StorageUtil.getInstance().find(Manifest.class, null);
+		long maxID = 1;
+		for (Manifest mf : list) {
+			if (mf.getId() >= maxID) {
+				maxID = mf.getId() + 1;
+			}
+		}
+		manifest.setId(maxID);
 		StorageUtil.getInstance().add(Manifest.class, manifest);
 		return "添加成功";
 	}
@@ -57,9 +68,14 @@ public class ManifestServiceImpl implements ManifestService {
 	@RequestMapping(path = "manifest", method = RequestMethod.PUT)
 	@ResponseBody
 	public String update(@RequestBody Manifest manifest) {
-		Manifest old = new Manifest();
-		old.setId(manifest.getId());
-		StorageUtil.getInstance().update(Manifest.class, old, manifest);
+		IStorage storage = StorageUtil.getInstance();
+		List<Manifest> list = storage.find(Manifest.class, null);
+		for (Manifest item : list) {
+			if (manifest.getId() == item.getId()) {
+				StorageUtil.getInstance().update(Manifest.class, item, manifest);
+				return "更新成功";
+			}
+		}
 		return "更新成功";
 	}
 
@@ -67,13 +83,23 @@ public class ManifestServiceImpl implements ManifestService {
 	@RequestMapping(path = "manifest/{ids}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public String delete(@PathVariable("ids") String ids) {
-		String[] strId = ids.split(",");
-		IStorage iStorage = StorageUtil.getInstance();
-		List<Manifest> list = iStorage.find(Manifest.class, null);
-		for (int i = 0; i < list.size(); i++) {
-			for (int j = 0; j < strId.length; j++) {
-				if (list.get(i).getId() == Long.parseLong(strId[j])) {
-					iStorage.delete(Manifest.class, list.get(i));
+		String[] split = ids.split(",");
+		Set<Long> idSet = new HashSet<Long>();
+		for (String id : split) {
+			if (id != null && id != "") {
+				idSet.add(Long.valueOf(id));
+			}
+		}
+		IStorage instance = StorageUtil.getInstance();
+		List<Manifest> list = instance.find(Manifest.class, null);
+		List<Manifest> allList = new ArrayList<Manifest>();
+		allList.addAll(list);
+		for (Manifest mf : allList) {
+			if (idSet.contains(mf.getId())) {
+				try {
+					instance.delete(Manifest.class, mf);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
 		}
@@ -86,7 +112,19 @@ public class ManifestServiceImpl implements ManifestService {
 	public Manifest get(@PathVariable("id") long id) {
 		Manifest manifest = new Manifest();
 		manifest.setId(id);
-		return StorageUtil.getInstance().get(Manifest.class, manifest);
+		Manifest mf = StorageUtil.getInstance().get(Manifest.class, manifest);
+		// 查看商品暂时用模拟数据
+		ArrayList<ManifestItem> items = new ArrayList<ManifestItem>();
+		ManifestItem mi = new ManifestItem();
+		mi.setSKU("iPhone7智能手机");
+		mi.setQuantity(100);
+		ManifestItem mione = new ManifestItem();
+		mione.setSKU("笔记本电脑");
+		mione.setQuantity(200);
+		items.add(mi);
+		items.add(mione);
+		mf.setItems(items);
+		return mf;
 	}
 
 	@Override

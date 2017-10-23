@@ -9,13 +9,13 @@
     <div class="main-content-wrap">
       <div class="search-bar fr">
         舱单编号:
-        <el-input v-model="search.manifestnum" size="small" placeholder="请输入舱单编号" style="width: 200px;"></el-input>
+        <el-input v-model="search.manifestNum" size="small" placeholder="请输入舱单编号" style="width: 200px;"></el-input>
         商品：
-        <el-input v-model="search.goodsname" size="small" placeholder="请输入商品" style="width: 200px;"></el-input>
+        <el-input v-model="search.goodsName" size="small" placeholder="请输入商品" style="width: 200px;"></el-input>
         收件公司：
-        <el-input v-model="search.receivecompany" size="small" placeholder="请输入收件公司" style="width: 200px;"></el-input>
+        <el-input v-model="search.receiveCompany" size="small" placeholder="请输入收件公司" style="width: 200px;"></el-input>
         收货人：
-        <el-input v-model="search.receiveperson" size="small" placeholder="请输入收货人" style="width: 200px;"></el-input>
+        <el-input v-model="search.receivePerson" size="small" placeholder="请输入收货人" style="width: 200px;"></el-input>
         <el-button size="small" type="primary" @click="handleSearchBtn" style="width: 60px;">搜索</el-button>
       </div>
       <!--表格-->
@@ -26,19 +26,19 @@
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand" label-width="120px">
                 <el-form-item label="舱单编号">
-                  <span>{{props.row.manifestnum}}</span>
+                  <span>{{props.row.manifestNum}}</span>
                 </el-form-item>
                 <el-form-item label="收件公司">
-                  <span>{{props.row.receivecompany}}</span>
+                  <span>{{props.row.receiveCompany}}</span>
                 </el-form-item>
                 <el-form-item label="商品">
-                  <span>{{props.row.goodsname}}</span>
+                  <span>{{props.row.goodsName}}</span>
                 </el-form-item>
                 <el-form-item label="发货地">
-                  <span>{{props.row.sendaddress}}</span>
+                  <span>{{props.row.sendAddress}}</span>
                 </el-form-item>
                 <el-form-item label="收货人">
-                  <span>{{props.row.receiveperson}}</span>
+                  <span>{{props.row.receivePerson}}</span>
                 </el-form-item>
                 <el-form-item label="电话">
                   <span>{{props.row.telephone}}</span>
@@ -46,11 +46,11 @@
               </el-form>
             </template>
           </el-table-column>
-          <el-table-column prop="manifestnum" min-width="20%" label="舱单编号 "></el-table-column>
-          <el-table-column prop="receivecompany" min-width="15%" label="收件公司"></el-table-column>
-          <el-table-column prop="goodsname" min-width="30%" label="商品"></el-table-column>
-          <el-table-column prop="sendaddress" min-width="10%" label="发货地"></el-table-column>
-          <el-table-column prop="receiveperson" min-width="10%" label="收货人"></el-table-column>
+          <el-table-column prop="manifestNum" min-width="20%" label="舱单编号 "></el-table-column>
+          <el-table-column prop="receiveCompany" min-width="15%" label="收件公司"></el-table-column>
+          <el-table-column prop="goodsName" min-width="30%" label="商品"></el-table-column>
+          <el-table-column prop="sendAddress" min-width="10%" label="发货地"></el-table-column>
+          <el-table-column prop="receivePerson" min-width="10%" label="收货人"></el-table-column>
           <el-table-column prop="telephone" min-width="15%" label="电话"></el-table-column>
         </el-table>
       </div>
@@ -64,20 +64,20 @@
     <!-- 新建,编辑对话框 -->
     <el-dialog :title="addOrEdit==1?'新建':'编辑'" :visible.sync="showDialog" @close="closeAddOrEditDialog">
       <el-form label-width="160px" :model="tmpManifest" :rules="manifestRules" ref="manifestForm">
-        <el-form-item label="舱单编号：" prop="manifestnum">
-          <el-input placeholder="请输入舱单编号" v-model="tmpManifest.manifestnum" class="width-300"></el-input>
+        <el-form-item label="舱单编号：" prop="manifestNum">
+          <el-input placeholder="请输入舱单编号" v-model="tmpManifest.manifestNum" class="width-300"></el-input>
         </el-form-item>
-        <el-form-item label="收件公司：" prop="receivecompany">
-          <el-input placeholder="请输入收件公司" v-model="tmpManifest.receivecompany" class="width-300"></el-input>
+        <el-form-item label="收件公司：" prop="receiveCompany">
+          <el-input placeholder="请输入收件公司" v-model="tmpManifest.receiveCompany" class="width-300"></el-input>
         </el-form-item>
         <el-form-item label="商品：">
-          <el-input placeholder="请输入商品" v-model="tmpManifest.goodsname" class="width-230"></el-input>
+          <el-input placeholder="请输入商品" v-model="tmpManifest.goodsName" class="width-230"></el-input>
         </el-form-item>
         <el-form-item label="发货地：">
-          <el-input placeholder="请输入发货地" v-model="tmpManifest.sendaddress" class="width-230"></el-input>
+          <el-input placeholder="请输入发货地" v-model="tmpManifest.sendAddress" class="width-230"></el-input>
         </el-form-item>
-        <el-form-item label="收货人：" prop="receiveperson">
-          <el-input v-model="tmpManifest.receiveperson" placeholder="请输入收货人" class="width-230"></el-input>
+        <el-form-item label="收货人：" prop="receivePerson">
+          <el-input v-model="tmpManifest.receivePerson" placeholder="请输入收货人" class="width-230"></el-input>
         </el-form-item>
         <el-form-item label="电话：">
           <el-input placeholder="请填写电话" v-model="tmpManifest.telephone" class="width-230"></el-input>
@@ -93,9 +93,9 @@
     <el-dialog title="查看商品" :visible.sync="viewDialog">
       <el-card class="box-card">
         <div slot="header">
-          <span>收件公司：{{manifestGoodInfo.receivecompany}}</span>
+          <span>收件公司：{{manifestGoodInfo.receiveCompany}}</span>
         </div>
-        <div>{{manifestGoodInfo.goodsinfo}}</div>
+        <div><span v-for=" item in manifestGoodInfo.goodsinfo" :key="item.sku" >商品名称：{{item.sku}}&nbsp;&nbsp;(数量{{item.quantity}})<br/></span></div>
       </el-card>
       <div slot="footer" class="dialog-footer">
         <el-button @click="viewDialog = false">关 闭</el-button>
@@ -107,7 +107,7 @@
 
 <script>
 import manifestAPI from './api/manifestAPI.js'
-import './mock/manifest.js'
+// import './mock/manifest.js'
 
 export default {
   data() {
@@ -123,20 +123,20 @@ export default {
       addOrEdit: 1,
       tmpManifest: {},
       manifestRules: {
-        manifestnum: [
+        manifestNum: [
           { required: true, message: '请输入舱单编号', trigger: 'blur' }
         ],
-        receivecompany: [
+        receiveCompany: [
           { required: true, message: '请输入收件公司', trigger: 'blur' }
         ],
-        receiveperson: [
+        receivePerson: [
           { required: true, message: '请输入收货人', trigger: 'blur' }
         ]
       },
       saveManifestStatus: false,
-      search: { manifestnum: '', goodsname: '', receivecompany: '', receiveperson: '' },
+      search: { manifestNum: '', goodsName: '', receiveCompany: '', receivePerson: '' },
       viewDialog: false,
-      manifestGoodInfo: { goodsinfo: '', receivecompany: '' },
+      manifestGoodInfo: { goodsinfo: '', receiveCompany: '' },
     }
   },
   methods: {
@@ -145,22 +145,22 @@ export default {
     },
     handleSearchBtn() {
       this.manifestTable = Object.assign([], this.temmanifestTable);
-      let temManifestnum = this.search.manifestnum;
-      let temGoodsname = this.search.goodsname;
-      let temReceiveCompany = this.search.receivecompany;
-      let temReceivePerson = this.search.receiveperson;
+      let temManifestnum = this.search.manifestNum;
+      let temGoodsname = this.search.goodsName;
+      let temReceiveCompany = this.search.receiveCompany;
+      let temReceivePerson = this.search.receivePerson;
       if (temManifestnum != '' || temGoodsname != '' || temReceiveCompany != '' || temReceivePerson != '') {
         if (temManifestnum != '') {
-          this.manifestTable = this.manifestTable.filter(val => val.manifestnum.indexOf(temManifestnum) != -1);
+          this.manifestTable = this.manifestTable.filter(val => val.manifestNum.indexOf(temManifestnum) != -1);
         }
         if (temGoodsname != '') {
-          this.manifestTable = this.manifestTable.filter(val => val.goodsname.indexOf(temGoodsname) != -1);
+          this.manifestTable = this.manifestTable.filter(val => val.goodsName.indexOf(temGoodsname) != -1);
         }
         if (temReceiveCompany != '') {
-          this.manifestTable = this.manifestTable.filter(val => val.receivecompany.indexOf(temReceiveCompany) != -1);
+          this.manifestTable = this.manifestTable.filter(val => val.receiveCompany.indexOf(temReceiveCompany) != -1);
         }
         if (temReceivePerson != '') {
-          this.manifestTable = this.manifestTable.filter(val => val.receiveperson.indexOf(temReceivePerson) != -1);
+          this.manifestTable = this.manifestTable.filter(val => val.receivePerson.indexOf(temReceivePerson) != -1);
         }
       }
     },
@@ -172,8 +172,8 @@ export default {
     },
     //关闭事件
     closeAddOrEditDialog() {
-      console.log(this.tmpManifest.manifestnum);
-      if (!this.tmpManifest.manifestnum || this.tmpManifest.manifestnum == '' || !this.tmpManifest.receivecompany || this.tmpManifest.receivecompany == '' || !this.tmpManifest.receiveperson || this.tmpManifest.receiveperson == '') {
+      console.log(this.tmpManifest.manifestNum);
+      if (!this.tmpManifest.manifestNum || this.tmpManifest.manifestNum == '' || !this.tmpManifest.receiveCompany || this.tmpManifest.receiveCompany == '' || !this.tmpManifest.receivePerson || this.tmpManifest.receivePerson == '') {
         this.$refs['manifestForm'].resetFields();
       }
       this.showDialog = false;
@@ -204,28 +204,18 @@ export default {
           this.saveManifestStatus = true;
           if (this.addOrEdit == 1) {
             manifestAPI.addManifest(this.tmpManifest).then(data => {
-              if (data.status == 1) {
-                if (this.manifestTable.length == 0) {
-                  this.tmpManifest.id = this.manifestTable.length + 1;
-                } else {
-                  let temArr = Object.assign([], this.manifestTable);
-                  temArr.sort(function(a, b) {
-                    return b.id - a.id;
-                  });
-                  this.tmpManifest.id = temArr[0].id + 1;
-                }
-                this.manifestTable.push(this.tmpManifest);
-                this.temmanifestTable = Object.assign([], this.manifestTable);
-                this.$message.success(data.message);
+              if (data.status == 200) {
+                this.getManifestData();
+                this.$message.success(data.data);
               } else {
-                this.$message.error(data.message);
+                this.$message.error(data.data);
               }
               this.saveManifestStatus = false;
               this.showDialog = false;
             });
           } else if (this.addOrEdit == 2) {
             manifestAPI.editManifest(this.tmpManifest.id, this.tmpManifest).then(data => {
-              if (data.status == 1) {
+              if (data.status == 200) {
                 let index = this.manifestTable.findIndex(val => val.id == this.tmpManifest.id);
                 this.manifestTable = [
                   ...this.manifestTable.slice(0, index),
@@ -233,9 +223,9 @@ export default {
                   ...this.manifestTable.slice(index + 1)
                 ];
                 this.temmanifestTable = Object.assign([], this.manifestTable);
-                this.$message.success(data.message);
+                this.$message.success(data.data);
               } else {
-                this.$message.error(data.message);
+                this.$message.error(data.data);
               }
               this.saveManifestStatus = false;
               this.showDialog = false;
@@ -263,17 +253,17 @@ export default {
           if (action == 'confirm') {
             instance.confirmButtonLoading = true;
             return manifestAPI.deleteManifests(rowIds).then(data => {
-              if (data.status == 1) {
+              if (data.status == 200) {
                 this.manifestTable = this.manifestTable.filter(val => !rowIds.includes(val.id));
                 this.temmanifestTable = Object.assign([], this.manifestTable);
                 this.$notify({
                   title: '成功',
-                  message: data.message,
+                  message: data.data,
                   type: 'success',
                   duration: 2000,
                 });
               } else {
-                this.$alert(data.message);
+                this.$alert(data.data);
               }
               instance.confirmButtonLoading = false;
               done(data);
@@ -293,18 +283,25 @@ export default {
     //查看商品
     viewGoods() {
       this.viewDialog = true;
-      this.manifestGoodInfo = { goodsinfo: '', receivecompany: '' };
-      this.manifestGoodInfo.receivecompany = this.selectedRows[0].receivecompany;
+      this.manifestGoodInfo = { goodsinfo: [], receiveCompany: '' };
+      this.manifestGoodInfo.receiveCompany = this.selectedRows[0].receiveCompany;
       manifestAPI.viewManifestsGoods(this.selectedRows[0].id).then(data => {
-        this.manifestGoodInfo.goodsinfo = data.data;
+        this.manifestGoodInfo.goodsinfo = data.data.items;
       })
-    }
-  },
-  created() {
-    manifestAPI.getManifestData().then(data => {
+    },
+    getManifestData(){
+      manifestAPI.getManifestData().then(data => {
       this.manifestTable = data.data;
       this.temmanifestTable = Object.assign([], this.manifestTable);
     });
+    }
+  },
+  created() {
+    this.getManifestData();
+    // manifestAPI.getManifestData().then(data => {
+    //   this.manifestTable = data.data;
+    //   this.temmanifestTable = Object.assign([], this.manifestTable);
+    // });
   }
 }
 </script>
