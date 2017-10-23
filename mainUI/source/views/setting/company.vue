@@ -50,7 +50,7 @@
                 <span>{{ props.row.used }}</span>（吨）
               </el-form-item> -->
               <el-form-item label="添加时间">
-                <span>{{ props.row.addTime }}</span>
+                <span>{{ new Date(props.row.addTime).toLocaleString() }}</span>
               </el-form-item>
               <el-form-item label="添加人">
                 <span>{{ props.row.addUser }}</span>
@@ -73,7 +73,8 @@
         </el-table-column>
         <el-table-column label="邮政编码" prop="postCode">
         </el-table-column>
-        <el-table-column label="添加时间" prop="addTime">
+        <el-table-column label="添加时间">
+          <template slot-scope="props">{{ new Date(props.row.addTime).toLocaleString() }}</template>
         </el-table-column>
       </el-table>
 
@@ -136,7 +137,7 @@
 </template>
 
 <script>
-  // require('./mock/company.js')
+  // require('../../utils/company.js')
   import companyAPI from './api/companyAPI.js';
   import companyDetail from './components/companyDetail.vue';
 

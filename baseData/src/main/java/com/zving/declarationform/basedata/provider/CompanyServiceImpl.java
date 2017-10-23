@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,7 @@ import io.servicecomb.provider.rest.common.RestSchema;
  * @description:企业管理
  */
 @RestSchema(schemaId = "company")
-@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
+@RequestMapping(path = "/company", produces = MediaType.APPLICATION_JSON)
 @Controller
 public class CompanyServiceImpl implements CompanyService {
 
@@ -38,21 +39,21 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    @RequestMapping(path = "company", method = RequestMethod.GET)
+    @RequestMapping(path = "", method = RequestMethod.GET)
     @ResponseBody
     public List<Company> list() {
         return storage.find(Company.class, null);
     }
 
     @Override
-    @RequestMapping(path = "company/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "{id}", method = RequestMethod.GET)
     @ResponseBody
     public Company get(@PathVariable("id") long id) {
         return getCompany(id);
     }
 
     @Override
-    @RequestMapping(path = "company/{ids}", method = RequestMethod.DELETE)
+    @RequestMapping(path = "{ids}", method = RequestMethod.DELETE)
     @ResponseBody
     public String delete(@PathVariable("ids") String ids) {
         String[] idArray = ids.split(",");
@@ -66,7 +67,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    @RequestMapping(path = "company", method = RequestMethod.POST)
+    @RequestMapping(path = "", method = RequestMethod.POST)
     @ResponseBody
     public String add(@RequestBody Company company) {
         company.setId(getId());
@@ -77,7 +78,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    @RequestMapping(path = "company", method = RequestMethod.PUT)
+    @RequestMapping(path = "", method = RequestMethod.PUT)
     @ResponseBody
     public String update(@RequestBody Company company) {
         try {
@@ -103,5 +104,4 @@ public class CompanyServiceImpl implements CompanyService {
         }
         return null;
     }
-
 }

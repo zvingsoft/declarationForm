@@ -30,7 +30,7 @@
           <span>{{ company.addUser }}</span>
         </el-form-item>
         <el-form-item label="添加时间">
-          <span>{{ company.addTime }}</span>
+          <span>{{ new Date(company.addTime).toLocaleString() }}</span>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

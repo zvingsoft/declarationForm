@@ -60,7 +60,7 @@
                 <span>{{ props.row.postcode }}</span>
               </el-form-item> -->
               <el-form-item label="申请时间">
-                <span>{{ props.row.addTime }}</span>
+                <span>{{ new Date(props.row.addTime).toLocaleString() }}</span>
               </el-form-item>
               <!-- <el-form-item label="审核状态">
                 <span v-if="props.row.auditStatus==='Y'" class="green-color">已通过</span>
