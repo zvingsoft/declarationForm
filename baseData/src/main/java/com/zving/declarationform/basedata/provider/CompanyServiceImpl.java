@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -83,11 +82,11 @@ public class CompanyServiceImpl implements CompanyService {
     public String update(@RequestBody Company company) {
         try {
             Company companyOrigin = getCompany(company.getId());
-            Company companyNew = new Company();
-            BeanUtils.copyProperties(companyNew, companyOrigin);
-            companyNew.setModifyTime(new Date());
-            companyNew.setModifyUser("demo");
-            storage.update(Company.class, companyOrigin, companyNew);
+            company.setAddTime(companyOrigin.getAddTime());
+            company.setAddUser(companyOrigin.getAddUser());
+            company.setModifyTime(new Date());
+            company.setModifyUser("demo");
+            storage.update(Company.class, companyOrigin, company);
             return "更新成功";
         } catch (Exception e) {
             e.printStackTrace();

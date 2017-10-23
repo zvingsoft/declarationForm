@@ -53,6 +53,8 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
             CottonQuota cottonQuotaOrigin = getCottonQuota(cottonQuota.getId());
             CottonQuota cottonQuotaNew = new CottonQuota();
             BeanUtils.copyProperties(cottonQuotaNew, cottonQuotaOrigin);
+            cottonQuotaNew.setQuota(cottonQuota.getQuota());
+            cottonQuotaNew.setUsed(cottonQuota.getUsed());
             cottonQuotaNew.setApplication(cottonQuota.getApplication());
             cottonQuotaNew.setModifyTime(new Date());
             cottonQuotaNew.setModifyUser("demo");

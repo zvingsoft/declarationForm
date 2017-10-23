@@ -1,36 +1,34 @@
 const companyAPI = {
-  getCompany (companyName, pageIndex, pageSize) {
+  getCompany (name, pageIndex, pageSize) {
     return axios
-      .get('/api/company', {
+      .get('/baseData/company', {
         params: {
-          companyName: companyName,
+          name: name,
           pageIndex: pageIndex,
           pageSize: pageSize
         }
       })
-      .then(res => res.data)
+      .then(res => res)
   },
   getCompanyForSelect () {
-    return axios.get('/api/companyforselect').then(res => res.data)
+    return axios.get('/baseData/companyforselect').then(res => res)
   },
   getCompanyDetail (id) {
-    return axios.get(`/api/company/${id}`).then(res => res.data)
+    return axios.get(`/baseData/company/${id}`).then(res => res)
   },
   addCompany (company) {
-    return axios.post('/api/company', company).then(res => res.data)
+    return axios.post('/baseData/company', company).then(res => res)
   },
   editCompany (company) {
-    return axios
-      .put(`/api/company/${company.companyid}`, company)
-      .then(res => res.data)
+    return axios.put(`/baseData/company/`, company).then(res => res)
   },
   deleteCompany (ids) {
-    return axios.delete(`/api/company/${ids}`).then(res => res.data)
+    return axios.delete(`/baseData/company/${ids}`).then(res => res)
   },
   setConttonQuota (company) {
     return axios
-      .patch(`/api/company/${company.companyid}`, company)
-      .then(res => res.data)
+      .patch(`/baseData/company/${company.id}`, company)
+      .then(res => res)
   }
 }
 
