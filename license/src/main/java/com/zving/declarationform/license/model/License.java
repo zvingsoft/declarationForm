@@ -10,6 +10,7 @@ package com.zving.declarationform.license.model;
 public class License {
 	long id;// 许可证序列号
 	String sku;// 许可的商品货号
+	int count;// 许可数量
 	String licenseKey;// 许可证号
 	String companyName;// 进口/出口商
 	String expirationDateOfLicense;// 许可证截止日期
@@ -30,6 +31,14 @@ public class License {
 
 	public void setSku(String sku) {
 		this.sku = sku;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 	public String getLicenseKey() {

@@ -30,17 +30,17 @@ import com.zving.declarationform.storage.StorageUtil;
 public class LicenseServiceImpl implements LicenseService {
 
 	@Override
-	@RequestMapping(path = "check/{id}", method = RequestMethod.POST)
+	@RequestMapping(path = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public String check(@RequestBody DeclarationForm form) {
-		return null;
+		return "check成功：license";
 	}
 
 	@Override
-	@RequestMapping(path = "confirm/{id}", method = RequestMethod.POST)
+	@RequestMapping(path = "confirm", method = RequestMethod.POST)
 	@ResponseBody
 	public String confirm(@RequestBody DeclarationForm form) {
-		return null;
+		return "confirm成功：license";
 	}
 
 	@Override

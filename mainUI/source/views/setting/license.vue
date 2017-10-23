@@ -19,10 +19,15 @@
             <el-input v-model="insearch.companyName" size="small" placeholder="请输入进口商" style="width: 200px;"></el-input>
             <el-button size="small" type="primary" @click="loadInlicenseList"> 搜 索 </el-button>
           </div>
-          <el-table ref="myTabelRef" :data="inLicenseData" tooltip-effect="dark" style="width: 100%" :height="clientHeight" @selection-change="inOnSelectionChange">
+          <el-table ref="myTabelRef" :data="inLicenseData" tooltip-effect="dark" style="width: 100%" :height="clientHeight" @selection-change="inOnSelectionChange" @row-click="onInRowClick" @row-dblclick="dbInEditClick">
             <el-table-column type="selection" width="55" align="center"></el-table-column>
-            <el-table-column prop="licenseKey" show-overflow-tooltip min-width="30%" label="许可证号"></el-table-column>
-            <el-table-column prop="companyName" show-overflow-tooltip min-width="30%" label="进口商"></el-table-column>
+            <el-table-column prop="licenseKey" show-overflow-tooltip min-width="20%" label="许可证号">
+              <template slot-scope="scope">
+                <a @click="dbInEditClick(scope.row)" class="a-btn">{{scope.row.licenseKey}}</a>
+              </template>
+            </el-table-column>
+            <el-table-column prop="count" show-overflow-tooltip min-width="20%" label="许可数量"></el-table-column>
+            <el-table-column prop="companyName" show-overflow-tooltip min-width="20%" label="进口商"></el-table-column>
             <el-table-column prop="sku" show-overflow-tooltip min-width="20%" label="商品编号"></el-table-column>
             <el-table-column prop="expirationDateOfLicense" show-overflow-tooltip min-width="20%" label="许可证截止日期"></el-table-column>
           </el-table>
@@ -50,10 +55,15 @@
             <el-input v-model="outsearch.companyName" size="small" placeholder="请输入出口商" style="width: 200px;"></el-input>
             <el-button size="small" type="primary" @click="loadOutlicenseList"> 搜 索 </el-button>
           </div>
-          <el-table ref="apTabelRef" :data="outLicenseData" tooltip-effect="dark" style="width: 100%" :height="clientHeight" @selection-change="outOnSelectionChange">
+          <el-table ref="apTabelRef" :data="outLicenseData" tooltip-effect="dark" style="width: 100%" :height="clientHeight" @selection-change="outOnSelectionChange" @row-click="onOutRowClick" @row-dblclick="dbOutEditClick">
             <el-table-column type="selection" width="55" align="center"></el-table-column>
-            <el-table-column prop="licenseKey" show-overflow-tooltip min-width="30%" label="许可证号"></el-table-column>
-            <el-table-column prop="companyName" show-overflow-tooltip min-width="30%" label="出口商"></el-table-column>
+            <el-table-column prop="licenseKey" show-overflow-tooltip min-width="20%" label="许可证号">
+              <template slot-scope="scope">
+                <a @click="dbOutEditClick(scope.row)" class="a-btn">{{scope.row.licenseKey}}</a>
+              </template>
+            </el-table-column>
+            <el-table-column prop="count" show-overflow-tooltip min-width="20%" label="许可数量"></el-table-column>
+            <el-table-column prop="companyName" show-overflow-tooltip min-width="20%" label="出口商"></el-table-column>
             <el-table-column prop="sku" show-overflow-tooltip min-width="20%" label="商品编号"></el-table-column>
             <el-table-column prop="expirationDateOfLicense" show-overflow-tooltip min-width="20%" label="许可证截止日期"></el-table-column>
           </el-table>
@@ -80,6 +90,9 @@
         </el-form-item>
         <el-form-item label="许可证号" prop="licenseKey">
           <el-input type="text" v-model="inLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
+        </el-form-item>
+        <el-form-item label="许可数量" prop="count">
+          <el-input-number v-model="inLicenseModel.count" :min="1" class="input-320"></el-input-number>
         </el-form-item>
         <el-form-item label="商品编号" prop="sku">
           <el-select class="e-input" filterable v-model="inLicenseModel.sku" placeholder="请选择" style="width:320px">
@@ -118,6 +131,9 @@
         </el-form-item>
         <el-form-item label="许可证号" prop="licenseKey">
           <el-input type="text" v-model="outLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
+        </el-form-item>
+        <el-form-item label="许可数量" prop="count">
+          <el-input-number v-model="outLicenseModel.count" :min="1" class="input-320"></el-input-number>
         </el-form-item>
         <el-form-item label="商品编号" prop="sku">
           <el-select class="e-input" filterable v-model="outLicenseModel.sku" placeholder="请选择" style="width:320px">
@@ -255,6 +271,30 @@ export default {
     };
   },
   methods: {
+    //单击一行选中当前行、单击多选框增加选中当前行
+    onInRowClick(row, event, column) {
+      if (column.type != "selection") {
+        this.$refs.myTabelRef.clearSelection();
+      }
+      this.$refs.myTabelRef.toggleRowSelection(row);
+    },
+    onOutRowClick(row, event, column) {
+      if (column.type != "selection") {
+        this.$refs.apTabelRef.clearSelection();
+      }
+      this.$refs.apTabelRef.toggleRowSelection(row);
+    },
+    //双击
+    dbInEditClick(row) {
+      this.editMode = 2;
+      this.inLicenseShow = true;
+      this.inLicenseModel = Object.assign({}, row);
+    },
+    dbOutEditClick(row) {
+      this.outeditMode = 2;
+      this.outLicenseShow = true;
+      this.outLicenseModel = Object.assign({}, row);
+    },
     //格式化时间 格式化时间为yyyy-MM-dd hh:mm:ss
     formatDate(date, fmt) {
       if (/(y+)/.test(fmt)) {

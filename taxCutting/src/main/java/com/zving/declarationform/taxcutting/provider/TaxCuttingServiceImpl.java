@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 import com.zving.declarationform.taxcutting.model.TaxCuttingRule;
@@ -24,7 +25,26 @@ import io.servicecomb.provider.rest.common.RestSchema;
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
 @Controller
 public class TaxCuttingServiceImpl implements TaxCuttingService {
+	@Override
+	@RequestMapping(path = "check", method = RequestMethod.POST)
+	@ResponseBody
+	public String check(@RequestBody DeclarationForm form) {
+		return "check成功：taxCutting";
+	}
+	
+	@Override
+	@RequestMapping(path = "confirm", method = RequestMethod.POST)
+	@ResponseBody
+	public String confirm(@RequestBody DeclarationForm form) {
+		return "confirm成功：taxCutting";
+	}
 
+	@Override
+	@RequestMapping(path = "compensate/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public String compensate(@RequestBody DeclarationForm form) {
+		return null;
+	}
 	@RequestMapping(path = "taxcutting", method = RequestMethod.POST)
 	@ResponseBody
 	public String add(@RequestBody TaxCuttingRule taxCuttingRule) {
