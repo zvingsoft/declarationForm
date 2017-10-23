@@ -16,7 +16,10 @@ const processingTradeAPI = {
   deleteDataList (ids) {
     let strIds = ids.join(',')
     return axios.delete(`/processingTrade/processingtrade/${strIds}`).then(res => res.data)
-  }
+  },
+  getCompany(){
+    return axios.get(`/baseData/company`).then(res => res.data)
+  },
 }
 
 export default processingTradeAPI
