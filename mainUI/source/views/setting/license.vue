@@ -14,23 +14,23 @@
         <div class="main-content-wrap">
           <div class="search-bar fr">
             许可证号:
-            <el-input v-model="insearch.licensekey" size="small" placeholder="请输入许可证号" style="width: 200px;"></el-input>
+            <el-input v-model="insearch.licenseKey" size="small" placeholder="请输入许可证号" style="width: 200px;"></el-input>
             进口商：
-            <el-input v-model="insearch.companyname" size="small" placeholder="请输入进口商" style="width: 200px;"></el-input>
+            <el-input v-model="insearch.companyName" size="small" placeholder="请输入进口商" style="width: 200px;"></el-input>
             报关口岸:
-            <el-input v-model="insearch.portofclearance" size="small" placeholder="请输入报关口岸" style="width: 200px;"></el-input>
+            <el-input v-model="insearch.portOfClearance" size="small" placeholder="请输入报关口岸" style="width: 200px;"></el-input>
             <el-button size="small" type="primary" @click="loadInlicenseList"> 搜 索 </el-button>
           </div>
           <el-table ref="myTabelRef" :data="inLicenseData" tooltip-effect="dark" style="width: 100%" :height="clientHeight" @selection-change="inOnSelectionChange">
             <el-table-column type="selection" width="55" align="center"></el-table-column>
-            <el-table-column prop="licensekey" show-overflow-tooltip min-width="15%" label="许可证号"></el-table-column>
-            <el-table-column prop="companyname" show-overflow-tooltip min-width="20%" label="进口商"></el-table-column>
+            <el-table-column prop="licenseKey" show-overflow-tooltip min-width="15%" label="许可证号"></el-table-column>
+            <el-table-column prop="companyName" show-overflow-tooltip min-width="20%" label="进口商"></el-table-column>
             <el-table-column prop="consignee" show-overflow-tooltip min-width="15%" label="收货人"></el-table-column>
-            <el-table-column prop="trademode" show-overflow-tooltip min-width="10%" label="贸易方式"></el-table-column>
-            <el-table-column prop="exportingcountry" show-overflow-tooltip min-width="10%" label="出口国"></el-table-column>
-            <el-table-column prop="countryoforigin" show-overflow-tooltip min-width="10%" label="原产国家"></el-table-column>
-            <el-table-column prop="portofclearance" show-overflow-tooltip min-width="10%" label="报关口岸"></el-table-column>
-            <el-table-column prop="shippingtype" show-overflow-tooltip min-width="10%" label="运输方式"></el-table-column>
+            <el-table-column prop="tradeMode" show-overflow-tooltip min-width="10%" label="贸易方式"></el-table-column>
+            <el-table-column prop="exportingCountry" show-overflow-tooltip min-width="10%" label="出口国"></el-table-column>
+            <el-table-column prop="countryOfOrigin" show-overflow-tooltip min-width="10%" label="原产国家"></el-table-column>
+            <el-table-column prop="portOfClearance" show-overflow-tooltip min-width="10%" label="报关口岸"></el-table-column>
+            <el-table-column prop="shippingType" show-overflow-tooltip min-width="10%" label="运输方式"></el-table-column>
           </el-table>
           <div class="fr" style="margin-top:5px;">
             <el-pagination @size-change="myHandleSizeChange" @current-change="myHandleCurrentChange" :current-page="myCurrentPage" :page-sizes="myPageSizes" :page-size="myPageSize" :total="myTotal" layout="total, sizes, prev, pager, next">
@@ -51,22 +51,22 @@
         <div class="main-content-wrap">
           <div class="search-bar fr">
             许可证号:
-            <el-input v-model="outsearch.licensekey" size="small" placeholder="请输入许可证号" style="width: 200px;"></el-input>
+            <el-input v-model="outsearch.licenseKey" size="small" placeholder="请输入许可证号" style="width: 200px;"></el-input>
             进口商：
-            <el-input v-model="outsearch.companyname" size="small" placeholder="请输入出口商" style="width: 200px;"></el-input>
+            <el-input v-model="outsearch.companyName" size="small" placeholder="请输入出口商" style="width: 200px;"></el-input>
             报关口岸:
-            <el-input v-model="outsearch.portofclearance" size="small" placeholder="请输入报关口岸" style="width: 200px;"></el-input>
+            <el-input v-model="outsearch.portOfClearance" size="small" placeholder="请输入报关口岸" style="width: 200px;"></el-input>
             <el-button size="small" type="primary" @click="loadOutlicenseList"> 搜 索 </el-button>
           </div>
           <el-table ref="apTabelRef" :data="outLicenseData" tooltip-effect="dark" style="width: 100%" :height="clientHeight" @selection-change="outOnSelectionChange">
             <el-table-column type="selection" width="55" align="center"></el-table-column>
-            <el-table-column prop="licensekey" show-overflow-tooltip min-width="15%" label="许可证号"></el-table-column>
-            <el-table-column prop="companyname" show-overflow-tooltip min-width="15%" label="出口商"></el-table-column>
+            <el-table-column prop="licenseKey" show-overflow-tooltip min-width="15%" label="许可证号"></el-table-column>
+            <el-table-column prop="companyName" show-overflow-tooltip min-width="15%" label="出口商"></el-table-column>
             <el-table-column prop="consignor" show-overflow-tooltip min-width="15%" label="发货人"></el-table-column>
-            <el-table-column prop="trademode" show-overflow-tooltip min-width="10%" label="贸易方式"></el-table-column>
+            <el-table-column prop="tradeMode" show-overflow-tooltip min-width="10%" label="贸易方式"></el-table-column>
             <el-table-column prop="importedcountry" show-overflow-tooltip min-width="12%" label="进口国"></el-table-column>
-            <el-table-column prop="portofclearance" show-overflow-tooltip min-width="10%" label="报关口岸"></el-table-column>
-            <el-table-column prop="certificationdate" show-overflow-tooltip min-width="15%" label="发证日期"></el-table-column>
+            <el-table-column prop="portOfClearance" show-overflow-tooltip min-width="10%" label="报关口岸"></el-table-column>
+            <el-table-column prop="certificationDate" show-overflow-tooltip min-width="15%" label="发证日期"></el-table-column>
           </el-table>
           <div class="fr" style="margin-top:5px;">
             <el-pagination @size-change="apHandleSizeChange" @current-change="apHandleCurrentChange" :current-page="apCurrentPage" :page-sizes="apPageSizes" :page-size="apPageSize" :total="apTotal" layout="total, sizes, prev, pager, next">
@@ -80,26 +80,26 @@
       <el-form :model="inLicenseModel" :rules="inLicenseRules" inline ref="inLicenseRef" label-width="140px" style="height:400px;overflow-y:scroll;overflow-x:hidden;">
         <div class="form-title">基本信息</div>
         <div class="form-panel">
-          <el-form-item label="进口商" prop="companyname">
-            <el-input type="text" v-model="inLicenseModel.companyname" auto-complete="off" class="input-320"></el-input>
+          <el-form-item label="进口商" prop="companyName">
+            <el-input type="text" v-model="inLicenseModel.companyName" auto-complete="off" class="input-320"></el-input>
           </el-form-item>
           <el-form-item label="收货人" prop="consignee">
             <el-input type="text" v-model="inLicenseModel.consignee" auto-complete="off" class="input-320"></el-input>
           </el-form-item>
-          <el-form-item label="许可证号" prop="licensekey">
-            <el-input type="text" v-model="inLicenseModel.licensekey" auto-complete="off" class="input-320"></el-input>
+          <el-form-item label="许可证号" prop="licenseKey">
+            <el-input type="text" v-model="inLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
           </el-form-item>
-          <el-form-item label="贸易方式" prop="trademode">
-            <el-input type="text" v-model="inLicenseModel.trademode" auto-complete="off" class="input-320"></el-input>
+          <el-form-item label="贸易方式" prop="tradeMode">
+            <el-input type="text" v-model="inLicenseModel.tradeMode" auto-complete="off" class="input-320"></el-input>
           </el-form-item>
-          <el-form-item label="出口国" prop="exportingcountry">
-            <el-input type="text" v-model="inLicenseModel.exportingcountry" auto-complete="off" class="input-320"></el-input>
+          <el-form-item label="出口国" prop="exportingCountry">
+            <el-input type="text" v-model="inLicenseModel.exportingCountry" auto-complete="off" class="input-320"></el-input>
           </el-form-item>
-          <el-form-item label="原产国家" prop="countryoforigin">
-            <el-input type="text" v-model="inLicenseModel.countryoforigin" auto-complete="off" class="input-320"></el-input>
+          <el-form-item label="原产国家" prop="countryOfOrigin">
+            <el-input type="text" v-model="inLicenseModel.countryOfOrigin" auto-complete="off" class="input-320"></el-input>
           </el-form-item>
-          <el-form-item label="报关口岸" prop="portofclearance">
-            <el-input type="text" v-model="inLicenseModel.portofclearance" auto-complete="off" class="input-320"></el-input>
+          <el-form-item label="报关口岸" prop="portOfClearance">
+            <el-input type="text" v-model="inLicenseModel.portOfClearance" auto-complete="off" class="input-320"></el-input>
           </el-form-item>
           <el-form-item label="外汇来源" prop="sourceofforeignexchange">
             <el-input type="text" v-model="inLicenseModel.sourceofforeignexchange" auto-complete="off" class="input-320"></el-input>
@@ -119,20 +119,16 @@
           <el-form-item label="商品编号" prop="goodscode">
             <el-input type="text" v-model="inLicenseModel.goodscode" auto-complete="off" class="input-320"></el-input>
           </el-form-item>
-          <el-form-item label="运输方式" prop="shippingtype">
-            <el-input type="text" v-model="inLicenseModel.shippingtype" auto-complete="off" class="input-320"></el-input>
+          <el-form-item label="运输方式" prop="shippingType">
+            <el-input type="text" v-model="inLicenseModel.shippingType" auto-complete="off" class="input-320"></el-input>
           </el-form-item>
           <el-form-item label="许可证截止日期" prop="expirationdateoflicense">
             <el-date-picker v-model="inLicenseModel.expirationdateoflicense" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
           </el-form-item>
-          <el-form-item label="发证日期" prop="certificationdate">
-            <el-date-picker v-model="inLicenseModel.certificationdate" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
+          <el-form-item label="发证日期" prop="certificationDate">
+            <el-date-picker v-model="inLicenseModel.certificationDate" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
           </el-form-item>
-          <el-form-item label="许可证文件" prop="declarationfile" v-show="editMode===1">
-            <el-upload :on-success="onUploadSuccess" class="upload-file" accept=".jpg,.png" action="" :multiple="false" :file-list="fileList">
-              <el-button size="small" type="primary">点击上传</el-button>
-            </el-upload>
-          </el-form-item>
+
           <el-form-item label="备注" prop="memo">
             <el-input type="text" v-model="inLicenseModel.memo" auto-complete="off" style="width:600px"></el-input>
           </el-form-item>
@@ -159,17 +155,17 @@
     <!-- 添加、编辑出口许可证 -->
     <el-dialog :title="outeditMode===1?'添加出口许可证':'编辑出口许可证'" :visible.sync="outLicenseShow"  size="large" >
       <el-form :model="outLicenseModel" :rules="outLicenseRules" inline ref="outLicenseRef" label-width="140px" style="height:400px;overflow-y:scroll;overflow-x:hidden;">
-        <el-form-item label="出口商" prop="companyname">
-          <el-input type="text" v-model="outLicenseModel.companyname" auto-complete="off" style="width:350px"></el-input>
+        <el-form-item label="出口商" prop="companyName">
+          <el-input type="text" v-model="outLicenseModel.companyName" auto-complete="off" style="width:350px"></el-input>
         </el-form-item>
         <el-form-item label="发货人" prop="consignor">
           <el-input type="text" v-model="outLicenseModel.consignee" auto-complete="off" style="width:350px"></el-input>
         </el-form-item>
-        <el-form-item label="许可证号" prop="licensekey">
-          <el-input type="text" v-model="outLicenseModel.licensekey" auto-complete="off" class="input-320"></el-input>
+        <el-form-item label="许可证号" prop="licenseKey">
+          <el-input type="text" v-model="outLicenseModel.licenseKey" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
-        <el-form-item label="贸易方式" prop="trademode">
-          <el-input type="text" v-model="outLicenseModel.trademode" auto-complete="off" class="input-320"></el-input>
+        <el-form-item label="贸易方式" prop="tradeMode">
+          <el-input type="text" v-model="outLicenseModel.tradeMode" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="进口国" prop="importedcountry">
           <el-input type="text" v-model="outLicenseModel.importedcountry" auto-complete="off" class="input-320"></el-input>
@@ -177,8 +173,8 @@
         <el-form-item label="合同号" prop="conractno">
           <el-input type="text" v-model="outLicenseModel.conractno" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
-        <el-form-item label="报关口岸" prop="portofclearance">
-          <el-input type="text" v-model="outLicenseModel.portofclearance" auto-complete="off" class="input-320"></el-input>
+        <el-form-item label="报关口岸" prop="portOfClearance">
+          <el-input type="text" v-model="outLicenseModel.portOfClearance" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="付款方式" prop="paymentmethod">
           <el-input type="text" v-model="outLicenseModel.paymentmethod" auto-complete="off" class="input-320"></el-input>
@@ -189,19 +185,14 @@
         <el-form-item label="商品编号" prop="goodscode">
           <el-input type="text" v-model="outLicenseModel.goodscode" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
-        <el-form-item label="运输方式" prop="shippingtype">
-          <el-input type="text" v-model="outLicenseModel.shippingtype" auto-complete="off" class="input-320"></el-input>
+        <el-form-item label="运输方式" prop="shippingType">
+          <el-input type="text" v-model="outLicenseModel.shippingType" auto-complete="off" class="input-320"></el-input>
         </el-form-item>
         <el-form-item label="许可证截止日期" prop="expirationdateoflicense">
           <el-date-picker v-model="outLicenseModel.expirationdateoflicense" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
         </el-form-item>
-        <el-form-item label="发证日期" prop="certificationdate">
-          <el-date-picker v-model="outLicenseModel.certificationdate" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
-        </el-form-item>
-        <el-form-item label="许可证文件" prop="declarationfile" v-show="editMode===1">
-          <el-upload :on-success="onUploadSuccess" class="upload-file" accept=".jpg,.png" action="" :multiple="false" :file-list="fileList">
-            <el-button size="small" type="primary">点击上传</el-button>
-          </el-upload>
+        <el-form-item label="发证日期" prop="certificationDate">
+          <el-date-picker v-model="outLicenseModel.certificationDate" type="date" placeholder="选择日期" class="input-320"></el-date-picker>
         </el-form-item>
         <el-form-item label="备注" prop="memo">
           <el-input type="text" v-model="outLicenseModel.memo" auto-complete="off" style="width:800px"></el-input>
@@ -311,16 +302,16 @@ export default {
       },
       /*进口搜索*/
       insearch: {
-        licensekey: '',
-        importandexportcode: '',
-        companyname: '',
+        licenseKey: '',
+        importAndExportcode: '',
+        companyName: '',
         type: 'in',
       },
       /*出口搜索*/
       outsearch: {
-        licensekey: '',
-        importandexportcode: '',
-        companyname: '',
+        licenseKey: '',
+        importAndExportcode: '',
+        companyName: '',
         type: 'out',
       },
       /*激活的tab页 */
