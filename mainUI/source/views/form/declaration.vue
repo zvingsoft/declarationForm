@@ -487,9 +487,9 @@ export default {
     selectUnitChange(val) {
       this.unitOptions.forEach(o => {
         if (o.name == val) {
-          this.tmpDeclaration.unitAddress = o.address;
-          this.tmpDeclaration.zipCode = o.postCode;
-          this.tmpDeclaration.telephone = o.phone;
+          Vue.set(this.tmpDeclaration, 'unitAddress', o.address);
+          Vue.set(this.tmpDeclaration, 'zipCode', o.postCode);
+          Vue.set(this.tmpDeclaration, 'telephone', o.phone);
         }
       });
     },

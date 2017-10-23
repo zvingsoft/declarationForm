@@ -371,6 +371,7 @@
         <el-table-column prop="customsNumber" show-overflow-tooltip min-width="20%" label="海关编号"></el-table-column>
         <el-table-column prop="declarationTypeName" show-overflow-tooltip min-width="20%" label="报关单类型"></el-table-column>
         <el-table-column prop="importOrExportPort" show-overflow-tooltip min-width="20%" label="海关口岸"></el-table-column>
+        <el-table-column prop="declarationUnit" show-overflow-tooltip min-width="30%" label="申报单位"></el-table-column>
         <el-table-column min-width="20%" label="商品详情">
           <template slot-scope="scope">
             <el-button type="text">
@@ -378,9 +379,8 @@
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="declarationUnit" show-overflow-tooltip min-width="30%" label="申报单位"></el-table-column>
         <el-table-column prop="declarationDate" show-overflow-tooltip min-width="15%" label="申报日期"></el-table-column>
-        <el-table-column prop="entryDate" show-overflow-tooltip min-width="15%" label="录入日期"></el-table-column>
+        <el-table-column prop="auditStatusName" show-overflow-tooltip min-width="15%" label="审核状态"></el-table-column>
       </el-table>
       <div class="page-wrap">
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize" layout="total, sizes, prev, pager, next" :total="total">
@@ -427,15 +427,15 @@
             <el-input class="e-input" v-model="tmpDeclaration.importOrExportPort"></el-input>
           </el-form-item>
           <el-form-item v-if="tmpDeclaration.declarationType == 'import'" label="进口日期：">
-            <el-date-picker v-model="tmpDeclaration.importOrExportDate" type="date" class="e-input" placeholder="选择进口日期">
+            <el-date-picker v-model="tmpDeclaration.importOrExportDate" @change="importOrExportDateChange" type="date" class="e-input" placeholder="选择进口日期">
             </el-date-picker>
           </el-form-item>
           <el-form-item v-else label="出口日期：">
-            <el-date-picker v-model="tmpDeclaration.importOrExportDate" type="date" class="e-input" placeholder="选择出口日期">
+            <el-date-picker v-model="tmpDeclaration.importOrExportDate" @change="importOrExportDateChange" type="date" class="e-input" placeholder="选择出口日期">
             </el-date-picker>
           </el-form-item>
           <el-form-item label="申报日期：">
-            <el-date-picker v-model="tmpDeclaration.declarationDate" type="date" class="e-input" placeholder="选择申报日期">
+            <el-date-picker v-model="tmpDeclaration.declarationDate" @change="declarationDateChange" type="date" class="e-input" placeholder="选择申报日期">
             </el-date-picker>
           </el-form-item>
         </div>
@@ -555,19 +555,22 @@
             <el-input class="e-input" v-model="tmpDeclaration.customsBroker"></el-input>
           </el-form-item>
           <el-form-item label="申报单位：">
-            <el-input class="e-input" v-model="tmpDeclaration.declarationUnit"></el-input>
+          <el-select class="e-input" filterable v-model="tmpDeclaration.declarationUnit" placeholder="请选择" @change="selectUnitChange">
+              <el-option v-for="item in unitOptions" :key="item.name" :label="item.name" :value="item.name">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="单位地址：">
-            <el-input class="e-input" v-model="tmpDeclaration.unitAddress"></el-input>
+            <el-input class="e-input" v-model="tmpDeclaration.unitAddress" disabled></el-input>
           </el-form-item>
           <el-form-item label="邮编：">
-            <el-input class="e-input" v-model="tmpDeclaration.zipCode"></el-input>
+            <el-input class="e-input" v-model="tmpDeclaration.zipCode" disabled></el-input>
           </el-form-item>
           <el-form-item label="电话：">
-            <el-input class="e-input" v-model="tmpDeclaration.telephone"></el-input>
+            <el-input class="e-input" v-model="tmpDeclaration.telephone" disabled></el-input>
           </el-form-item>
           <el-form-item label="制填日期：">
-            <el-date-picker v-model="tmpDeclaration.fillingDate" type="date" class="e-input" placeholder="选择制填日期">
+            <el-date-picker v-model="tmpDeclaration.fillingDate" @change="fillingDateChange" type="date" class="e-input" placeholder="选择制填日期">
             </el-date-picker>
           </el-form-item>
         </div>
@@ -580,12 +583,14 @@
 <script>
 import declarationAPI from './api/declarationAPI.js';
 import packinglistAPI from './api/packinglistAPI.js';
+import companyAPI from '../setting/api/companyAPI.js';
 //import './mock/declaration.js';
 import packing from './components/packing.vue';
 
 export default {
   data() {
     return {
+      unitOptions: [],
       packingListData: [],
       searchDeclaration: {},
       advancedSearchModal: true,
@@ -638,7 +643,35 @@ export default {
       ],
     };
   },
+  watch: {
+    declarationDialogmodel(show) {
+      if (show) {
+        companyAPI.getCompany().then(res => {
+          console.log(res);
+          this.unitOptions = res.data;
+        });
+      }
+    },
+  },
   methods: {
+    importOrExportDateChange(val) {
+      this.tmpDeclaration.importOrExportDate = val;
+    },
+    declarationDateChange(val) {
+      this.tmpDeclaration.declarationDate = val;
+    },
+    fillingDateChange(val) {
+      this.tmpDeclaration.fillingDate = val;
+    },
+    selectUnitChange(val) {
+      this.unitOptions.forEach(o => {
+        if (o.name == val) {
+          Vue.set(this.tmpDeclaration, 'unitAddress', o.address);
+          Vue.set(this.tmpDeclaration, 'zipCode', o.postCode);
+          Vue.set(this.tmpDeclaration, 'telephone', o.phone);
+        }
+      });
+    },
     rowDBClick(row) {
       declarationAPI.getDeclarationById(row.id).then(data => {
         this.editMode = 1;
@@ -820,7 +853,7 @@ export default {
     this.getDeclarationData();
   },
   components: {
-    'packing-list': packing,
+    'packing-item': packing,
   },
 };
 </script>
