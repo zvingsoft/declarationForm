@@ -12,14 +12,12 @@
       <el-table-column type="index" label="项号" width="60px"></el-table-column>
       <el-table-column type="selection"  width="60px" v-if="!onlyView"></el-table-column>
       <el-table-column prop="sku" min-width="90px" label="商品编号"></el-table-column>
-      <el-table-column prop="name" min-width="200px" label="商品名称、规格型号"></el-table-column>
-      <el-table-column prop="amount" min-width="80px" label="数量及单位"></el-table-column>
+      <el-table-column prop="name" min-width="200px" label="商品名称"></el-table-column>
+      <el-table-column prop="amount" min-width="80px" label="数量"></el-table-column>
       <el-table-column prop="singlePrice" min-width="60px" label="单价"></el-table-column>
       <el-table-column prop="totalPrice" min-width="60px" label="总价"></el-table-column>
       <el-table-column v-if="declarationType == 'import'" min-width="80px" prop="country" label="原产国"></el-table-column>
       <el-table-column v-else prop="country" min-width="80px" label="最终目的国"></el-table-column>
-      <el-table-column prop="currency" min-width="60px" label="币制"></el-table-column>
-      <el-table-column prop="exemption" min-width="60px" label="征免"></el-table-column>
     </el-table>
     <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal"  size="tiny" :close-on-click-modal="false" @open="beforeDialogOpen">
       <el-form label-position="right" :model="tmpPacking" label-width="160px">
@@ -31,17 +29,17 @@
               </el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="商品名称、规格型号：">
+        <el-form-item label="商品名称：">
           <el-input class="e-input" type="textarea" :rows="3" v-model="tmpPacking.name" disabled></el-input>
         </el-form-item>
-        <el-form-item label="数量及单位：">
-          <el-input class="e-input" v-model="tmpPacking.number"></el-input>
+        <el-form-item label="数量：">
+          <el-input class="e-input" v-model="tmpPacking.amount"></el-input>
         </el-form-item>
         <el-form-item label="单价：">
           <el-input class="e-input" v-model="tmpPacking.singlePrice"></el-input>
         </el-form-item>
         <el-form-item label="总价：">
-          <el-input class="e-input" v-model="tmpPacking.totalprice"></el-input>
+          <el-input class="e-input" v-model="tmpPacking.totalPrice"></el-input>
         </el-form-item>
         <el-form-item v-if="this.declarationType == 'import'" label="原产国：">
           <el-input class="e-input" v-model="tmpPacking.country"></el-input>
@@ -49,13 +47,7 @@
         <el-form-item v-else label="最终目的国：">
           <el-input class="e-input" v-model="tmpPacking.country"></el-input>
         </el-form-item>
-        <el-form-item label="币制：">
-          <el-select class="e-input" v-model="tmpPacking.currency" placeholder="请选择">
-              <el-option v-for="item in currencyOption" :key="item.key" :label="item.value" :value="item.key">
-              </el-option>
-            </el-select>
-        </el-form-item>
-      </el-form>
+       </el-form>
       <div slot="footer">
         <el-button @click="packingdetailDialogModal = false">取 消</el-button>
         <el-button type="primary" @click="packingdetailConfirm">确 定</el-button>

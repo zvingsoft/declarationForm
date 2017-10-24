@@ -34,8 +34,7 @@
         </el-select>
         <el-button size="small" type="primary" @click="getDeclarationData" style="width:60px;">搜索</el-button>
       </div>
-      <el-table :data="declarationData" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight"
-        highlight-current-row @selection-change="onSelectionChange" @expand="expandRow" @row-dblclick="rowDBClick">
+      <el-table :data="declarationData" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange" @expand="expandRow" @row-dblclick="rowDBClick">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
         <el-table-column type="expand">
           <template slot-scope="props">
@@ -221,8 +220,7 @@
         </el-table-column>
       </el-table>
       <div class="page-wrap">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="pageSizes"
-          :page-size="pageSize" layout="total, sizes, prev, pager, next" :total="total">
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize" layout="total, sizes, prev, pager, next" :total="total">
         </el-pagination>
       </div>
     </div>
@@ -390,11 +388,23 @@
       </table>
     </el-dialog>
 
-
     <!-- 提交审核信息列表 -->
     <el-dialog size="tiny" title="审核信息列表" :visible.sync="showCheckDialog">
       <el-table ref="checkList" :data="checkList" style="width: 100%">
-        <el-table-column label="结果" prop="data">
+        <el-table-column label="状态" width="80">
+          <template scope="scope">
+            <span v-show="!scope.row.data.includes('失败')">
+              <i style="color:green;font-size:18px;" class="fa fa-check" />
+            </span>
+            <span v-show="scope.row.data.includes('失败')">
+              <i style="color:red;font-size:18px;" class="fa fa-close" />
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column label="结果">
+          <template scope="scope">
+            {{scope.row.data}}
+          </template>
         </el-table-column>
       </el-table>
       <div slot="footer" class="dialog-footer">
@@ -406,393 +416,393 @@
 </template>
 
 <script>
-  import declarationAPI from './api/declarationAPI.js';
-  import packinglistAPI from './api/packinglistAPI.js';
-  import auditingAPI from './api/auditingAPI.js';
-  //import './mock/declaration.js';
-  import packing from './components/packing.vue';
+import declarationAPI from './api/declarationAPI.js';
+import packinglistAPI from './api/packinglistAPI.js';
+import auditingAPI from './api/auditingAPI.js';
+//import './mock/declaration.js';
+import packing from './components/packing.vue';
 
-  export default {
-    data() {
-      return {
-        id: 0,
-        saveCheckStatus: false,
-        showCheckDialog: false,
-        checkList: [],
-        packingListData: [],
-        declarationDetailDialogModal: false,
-        packinglistDialogModal: false,
-        declarationID: '',
-        declarationType: '',
-        clientWidth: 0,
-        clientHeight: 0,
-        searchWord: '',
-        selectedRows: [],
-        declarationData: [],
-        currentPage: 1,
-        pageSizes: [10, 20, 50],
-        pageSize: 10,
-        total: 0,
-        editMode: 1,
-        declarationDialogmodel: false,
-        tmpDeclaration: {},
-        dataLoading: false,
-        confirmLoading: false,
-        declarationTypeOptions: [{
-            key: 'import',
-            value: '进口报关单'
-          },
-          {
-            key: 'export',
-            value: '出口报关单'
-          },
-        ],
-        sort: '',
-        sortOptions: [{
-            key: '',
-            value: '请选择排序'
-          },
-          {
-            key: 'declarationType',
-            value: '报关单类型'
-          },
-          {
-            key: 'preentryNumber',
-            value: '预录入编号'
-          },
-          {
-            key: 'importOrExportPort',
-            value: '进口/出口口岸'
-          },
-          {
-            key: 'managementUnit',
-            value: '经营单位'
-          },
-          {
-            key: 'declarationUnit',
-            value: '申报单位'
-          },
-          {
-            key: 'declarationDate',
-            value: '申报日期'
-          },
-        ],
-        auditStatus: '',
-        auditStatusOptions: [{
-            key: '',
-            value: '请选择审核状态'
-          },
-          {
-            key: 'W',
-            value: '未审核'
-          },
-          {
-            key: 'Y',
-            value: '通过'
-          },
-          {
-            key: 'N',
-            value: '不通过'
-          },
-        ],
-        retrieval: '',
-        retrievalOptions: [{
-            key: '',
-            value: '请选择检索字段'
-          },
-          {
-            key: 'declarationType',
-            value: '报关单类型'
-          },
-          {
-            key: 'preentryNumber',
-            value: '预录入编号'
-          },
-          {
-            key: 'importOrExportPort',
-            value: '进口/出口口岸'
-          },
-          {
-            key: 'managementUnit',
-            value: '经营单位'
-          },
-          {
-            key: 'declarationUnit',
-            value: '申报单位'
-          },
-          {
-            key: 'declarationDate',
-            value: '申报日期'
-          },
-        ],
-        logic: '',
-        logicOptions: [{
-            key: '',
-            value: '请选择逻辑'
-          },
-          {
-            key: 'and',
-            value: '与'
-          },
-          {
-            key: 'or',
-            value: '或'
-          },
-          {
-            key: 'none',
-            value: '非'
-          },
-        ],
+export default {
+  data() {
+    return {
+      id: 0,
+      saveCheckStatus: false,
+      showCheckDialog: false,
+      checkList: [],
+      packingListData: [],
+      declarationDetailDialogModal: false,
+      packinglistDialogModal: false,
+      declarationID: '',
+      declarationType: '',
+      clientWidth: 0,
+      clientHeight: 0,
+      searchWord: '',
+      selectedRows: [],
+      declarationData: [],
+      currentPage: 1,
+      pageSizes: [10, 20, 50],
+      pageSize: 10,
+      total: 0,
+      editMode: 1,
+      declarationDialogmodel: false,
+      tmpDeclaration: {},
+      dataLoading: false,
+      confirmLoading: false,
+      declarationTypeOptions: [{
+        key: 'import',
+        value: '进口报关单'
+      },
+      {
+        key: 'export',
+        value: '出口报关单'
+      },
+      ],
+      sort: '',
+      sortOptions: [{
+        key: '',
+        value: '请选择排序'
+      },
+      {
+        key: 'declarationType',
+        value: '报关单类型'
+      },
+      {
+        key: 'preentryNumber',
+        value: '预录入编号'
+      },
+      {
+        key: 'importOrExportPort',
+        value: '进口/出口口岸'
+      },
+      {
+        key: 'managementUnit',
+        value: '经营单位'
+      },
+      {
+        key: 'declarationUnit',
+        value: '申报单位'
+      },
+      {
+        key: 'declarationDate',
+        value: '申报日期'
+      },
+      ],
+      auditStatus: '',
+      auditStatusOptions: [{
+        key: '',
+        value: '请选择审核状态'
+      },
+      {
+        key: 'W',
+        value: '未审核'
+      },
+      {
+        key: 'Y',
+        value: '通过'
+      },
+      {
+        key: 'N',
+        value: '不通过'
+      },
+      ],
+      retrieval: '',
+      retrievalOptions: [{
+        key: '',
+        value: '请选择检索字段'
+      },
+      {
+        key: 'declarationType',
+        value: '报关单类型'
+      },
+      {
+        key: 'preentryNumber',
+        value: '预录入编号'
+      },
+      {
+        key: 'importOrExportPort',
+        value: '进口/出口口岸'
+      },
+      {
+        key: 'managementUnit',
+        value: '经营单位'
+      },
+      {
+        key: 'declarationUnit',
+        value: '申报单位'
+      },
+      {
+        key: 'declarationDate',
+        value: '申报日期'
+      },
+      ],
+      logic: '',
+      logicOptions: [{
+        key: '',
+        value: '请选择逻辑'
+      },
+      {
+        key: 'and',
+        value: '与'
+      },
+      {
+        key: 'or',
+        value: '或'
+      },
+      {
+        key: 'none',
+        value: '非'
+      },
+      ],
+    };
+  },
+  methods: {
+    rowDBClick(row) {
+      this.tmpDeclaration = Object.assign({}, row);
+      this.declarationDetailDialogModal = true;
+    },
+    goodsPassClick(id) {
+      let rowIds = [];
+      if (id) {
+        rowIds = [id];
+      } else {
+        this.selectedRows.forEach(function(row) {
+          rowIds.push(row.id);
+        });
+      }
+      auditingAPI.doAuditing(rowIds, 'P').then(res => {
+        this.$notify({
+          title: '提示',
+          message: res.data,
+          type: 'success',
+          duration: 2000,
+        });
+        this.getDeclarationData();
+      });
+    },
+    showPackinglist(packingList, type) {
+      this.packingListData = packingList;
+      this.declarationType = type;
+      this.packinglistDialogModal = true;
+    },
+    getDeclarationData() {
+      this.dataLoading = true;
+      let obj = {
+        retrieval: this.retrieval,
+        searchWord: this.searchWord,
+        pageSize: this.pageSize,
+        pageIndex: this.currentPage,
       };
+      auditingAPI.getDeclaration(obj).then(data => {
+        console.log(data);
+        this.declarationData = data;
+        if (data.length > 0) {
+          this.total = data[0].total;
+        }
+        this.dataLoading = false;
+      });
     },
-    methods: {
-      rowDBClick(row) {
-        this.tmpDeclaration = Object.assign({}, row);
-        this.declarationDetailDialogModal = true;
-      },
-      goodsPassClick(id) {
-        let rowIds = [];
-        if (id) {
-          rowIds = [id];
-        } else {
-          this.selectedRows.forEach(function (row) {
-            rowIds.push(row.id);
-          });
-        }
-        auditingAPI.doAuditing(rowIds, 'P').then(res => {
-          this.$notify({
-            title: '提示',
-            message: res.data,
-            type: 'success',
-            duration: 2000,
-          });
-          this.getDeclarationData();
-        });
-      },
-      showPackinglist(packingList, type) {
-        this.packingListData = packingList;
-        this.declarationType = type;
-        this.packinglistDialogModal = true;
-      },
-      getDeclarationData() {
-        this.dataLoading = true;
-        let obj = {
-          retrieval: this.retrieval,
-          searchWord: this.searchWord,
-          pageSize: this.pageSize,
-          pageIndex: this.currentPage,
-        };
-        auditingAPI.getDeclaration(obj).then(data => {
-          console.log(data);
-          this.declarationData = data;
-          if (data.length > 0) {
-            this.total = data[0].total;
-          }
-          this.dataLoading = false;
-        });
-      },
-      onSelectionChange(selection) {
-        this.selectedRows = selection;
-      },
-      expandRow(row) {
-        this.declarationType = row.declarationType;
-        this.packingListData = row.packingList;
-      },
-      handleSizeChange(val) {
-        this.pageSize = val;
-        this.getDeclarationData();
-      },
-      handleCurrentChange(val) {
-        this.currentPage = val;
-        this.getDeclarationData();
-      },
-      checkOrConfirm(declarationForm, serviceId, method) {
-        return axios
-          .post("/" + serviceId + "/" + serviceId + "/" + method, declarationForm)
-          .then(res => res)
-      },
-      checkOrConfirm2(declarationForm, serviceId, method) {
-        return axios
-          .post("/" + serviceId + "/" + method, declarationForm)
-          .then(res => res)
-      },
-      passClick(id) {
-        this.id = id;
-        Promise.all([this.checkOrConfirm(this.tmpDeclaration, 'cottonQuota', 'check'), this.checkOrConfirm(this.tmpDeclaration,
-            'riskAnalysis', 'check'),
-          this.checkOrConfirm2(this.tmpDeclaration, 'tax', 'check'), this.checkOrConfirm2(this.tmpDeclaration,
-            'taxCutting', 'check'), this.checkOrConfirm2(this.tmpDeclaration, 'manifest', 'check'),
-          this.checkOrConfirm2(this.tmpDeclaration, 'processingTrade', 'check')
-        ]).then(datas => {
-          let flag = true;
-          datas.forEach(data => {
-            if (data.status != 200) {
-              flag = false;
-            }
-          });
-          this.saveCheckStatus = flag;
-          this.checkList = datas;
-          this.showCheckDialog = true;
-        });
-      },
-      onSure() {
-        if (this.saveCheckStatus) {
-          let rowIds = [];
-          if (this.id) {
-            rowIds = [this.id];
-          } else {
-            this.selectedRows.forEach(function (row) {
-              rowIds.push(row.id);
-            });
-          }
-          this.checkList = [];
-          this.showCheckDialog = false;
-          this.saveCheckStatus = false;
-          auditingAPI.doAuditing(rowIds, 'Y').then(res => {
-            this.getDeclarationData();
-            this.$message.success("审核成功");
-          });
-        } else {
-          this.$message.error("审核失败");
-        }
-      },
-      notPassClick(id) {
-        let rowIds = [];
-        if (id) {
-          rowIds = [id];
-        } else {
-          this.selectedRows.forEach(function (row) {
-            rowIds.push(row.id);
-          });
-        }
-        auditingAPI.doAuditing(rowIds, 'N').then(res => {
-          this.$notify({
-            title: '提示',
-            message: res.data,
-            type: 'success',
-            duration: 2000,
-          });
-          this.getDeclarationData();
-        });
-      },
-      viewClick() {
-        this.tmpDeclaration = Object.assign({}, this.selectedRows[0]);
-        this.declarationDetailDialogModal = true;
-      },
+    onSelectionChange(selection) {
+      this.selectedRows = selection;
     },
-    created() {
-      this.clientWidth = document.documentElement.clientWidth - 200;
-      this.clientHeight = document.documentElement.clientHeight - 200;
+    expandRow(row) {
+      this.declarationType = row.declarationType;
+      this.packingListData = row.packingList;
+    },
+    handleSizeChange(val) {
+      this.pageSize = val;
       this.getDeclarationData();
     },
-    components: {
-      'packing-item': packing,
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      this.getDeclarationData();
     },
-  };
+    checkOrConfirm(declarationForm, serviceId, method) {
+      return axios
+        .post("/" + serviceId + "/" + serviceId + "/" + method, declarationForm)
+        .then(res => res)
+    },
+    checkOrConfirm2(declarationForm, serviceId, method) {
+      return axios
+        .post("/" + serviceId + "/" + method, declarationForm)
+        .then(res => res)
+    },
+    passClick(id) {
+      this.id = id;
+      Promise.all([this.checkOrConfirm(this.tmpDeclaration, 'cottonQuota', 'check'), this.checkOrConfirm(this.tmpDeclaration,
+        'riskAnalysis', 'check'),
+      this.checkOrConfirm2(this.tmpDeclaration, 'tax', 'check'), this.checkOrConfirm2(this.tmpDeclaration,
+        'taxCutting', 'check'), this.checkOrConfirm2(this.tmpDeclaration, 'manifest', 'check'),
+      this.checkOrConfirm2(this.tmpDeclaration, 'processingTrade', 'check')
+      ]).then(datas => {
+        let flag = true;
+        console.log(datas)
+        datas.forEach(data => {
+          if (data.status != 200) {
+            flag = false;
+          }
+        });
+        this.saveCheckStatus = flag;
+        this.checkList = datas;
+        this.showCheckDialog = true;
+      });
+    },
+    onSure() {
+      if (this.saveCheckStatus) {
+        let rowIds = [];
+        if (this.id) {
+          rowIds = [this.id];
+        } else {
+          this.selectedRows.forEach(function(row) {
+            rowIds.push(row.id);
+          });
+        }
+        this.checkList = [];
+        this.showCheckDialog = false;
+        this.saveCheckStatus = false;
+        auditingAPI.doAuditing(rowIds, 'Y').then(res => {
+          this.getDeclarationData();
+          this.$message.success("审核成功");
+        });
+      } else {
+        this.$message.error("审核失败");
+      }
+    },
+    notPassClick(id) {
+      let rowIds = [];
+      if (id) {
+        rowIds = [id];
+      } else {
+        this.selectedRows.forEach(function(row) {
+          rowIds.push(row.id);
+        });
+      }
+      auditingAPI.doAuditing(rowIds, 'N').then(res => {
+        this.$notify({
+          title: '提示',
+          message: res.data,
+          type: 'success',
+          duration: 2000,
+        });
+        this.getDeclarationData();
+      });
+    },
+    viewClick() {
+      this.tmpDeclaration = Object.assign({}, this.selectedRows[0]);
+      this.declarationDetailDialogModal = true;
+    },
+  },
+  created() {
+    this.clientWidth = document.documentElement.clientWidth - 200;
+    this.clientHeight = document.documentElement.clientHeight - 200;
+    this.getDeclarationData();
+  },
+  components: {
+    'packing-item': packing,
+  },
+};
 
 </script>
 
 <style scoped>
-  .main-content-wrap {
-    padding: 10px;
-  }
+.main-content-wrap {
+  padding: 10px;
+}
 
-  .search-bar {
-    width: 100%;
-    text-align: right;
-    padding-bottom: 10px;
-  }
+.search-bar {
+  width: 100%;
+  text-align: right;
+  padding-bottom: 10px;
+}
 
-  .demo-table-expand {
-    font-size: 12px;
-  }
+.demo-table-expand {
+  font-size: 12px;
+}
 
-  .demo-table-expand label {
-    color: #99a9bf;
-  }
+.demo-table-expand label {
+  color: #99a9bf;
+}
 
-  .demo-table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 45%;
-  }
+.demo-table-expand .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 45%;
+}
 
-  .page-wrap {
-    width: 100%;
-    text-align: right;
-    position: relative;
-    top: 5px;
-    padding-right: 10px;
-  }
+.page-wrap {
+  width: 100%;
+  text-align: right;
+  position: relative;
+  top: 5px;
+  padding-right: 10px;
+}
 
-  .e-form {
-    padding-left: 10%;
-  }
+.e-form {
+  padding-left: 10%;
+}
 
-  .e-form .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 45%;
-  }
+.e-form .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  width: 45%;
+}
 
-  .e-input {
-    width: 240px;
-  }
+.e-input {
+  width: 240px;
+}
 
-  .search-select {
-    width: 140px;
-  }
+.search-select {
+  width: 140px;
+}
 
-  .detail-table {
-    font-size: 16px;
-    width: 100%;
-  }
+.detail-table {
+  font-size: 16px;
+  width: 100%;
+}
 
-  .detail-table span {
-    font-size: 12px;
-    padding-left: 5px;
-  }
+.detail-table span {
+  font-size: 12px;
+  padding-left: 5px;
+}
 
-  .detail-table .t1 {
-    height: 40px;
-  }
+.detail-table .t1 {
+  height: 40px;
+}
 
-  .detail-table .t2 {
-    height: 80px;
-  }
+.detail-table .t2 {
+  height: 80px;
+}
 
-  .detail-table .t3 {
-    height: 120px;
-  }
+.detail-table .t3 {
+  height: 120px;
+}
 
-  .detail-table .t4 {
-    height: 160px;
-  }
+.detail-table .t4 {
+  height: 160px;
+}
 
-  .detail-table .t5 {
-    height: 200px;
-  }
+.detail-table .t5 {
+  height: 200px;
+}
 
-  .inline-table {
-    width: 100%;
-  }
+.inline-table {
+  width: 100%;
+}
 
-  .inline-table .b1 {
-    border-bottom: 1px solid #ccc;
-  }
+.inline-table .b1 {
+  border-bottom: 1px solid #ccc;
+}
 
-  .inline-table .b2 {
-    border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-  }
+.inline-table .b2 {
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
 
-  .inline-table .b3 {
-    border-left: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-  }
+.inline-table .b3 {
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
 
-  .inline-table .b4 {
-    border-left: 1px solid #ccc;
-  }
-
+.inline-table .b4 {
+  border-left: 1px solid #ccc;
+}
 </style>

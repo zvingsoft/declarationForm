@@ -43,13 +43,13 @@ public class ManifestServiceImpl implements ManifestService {
 			for (ManifestItem item : manifest.getItems()) {
 				boolean flag = false;
 				for (PackingItem p : form.getPackingList()) {
-					if (p.getSKU() == item.getSKU() && Double.parseDouble(p.getAmount()) == item.getQuantity()) {
+					if (p.getSKU().equals(item.getSKU()) && Double.parseDouble(p.getAmount()) == item.getQuantity()) {
 						flag = true;
 						break;
 					}
 				}
 				if (!flag) {
-					throw new RuntimeException(InetAddress.getLocalHost().getHostName() + ":舱单核对失败：" + item.getSKUName() + "未找到或者数量不符");
+					return (InetAddress.getLocalHost().getHostName() + ":舱单核对失败：" + item.getSKUName() + "未找到或者数量不符");
 				}
 			}
 			return InetAddress.getLocalHost().getHostName() + ":舱单核对通过";
