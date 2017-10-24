@@ -1,5 +1,7 @@
 package com.zving.declarationform.processingtrade.provider;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -37,7 +39,11 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@RequestMapping(path = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public String check(@RequestBody DeclarationForm form) {
-		return "check成功：processingTrade";
+		try {
+			return InetAddress.getLocalHost().getHostName() + ":加贸检查通过";
+		} catch (UnknownHostException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override

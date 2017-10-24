@@ -1,5 +1,7 @@
 package com.zving.declarationform.manifest.provider;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.manifest.model.Manifest;
+import com.zving.declarationform.manifest.model.ManifestItem;
 import com.zving.declarationform.manifest.schema.ManifestService;
 import com.zving.declarationform.model.DeclarationForm;
+import com.zving.declarationform.model.PackingItem;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 
@@ -31,7 +35,27 @@ public class ManifestServiceImpl implements ManifestService {
 	@RequestMapping(path = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public String check(@RequestBody DeclarationForm form) {
-		return "check成功：manifest";
+		try {
+			Manifest manifest = new Manifest();
+			manifest.setId(Long.parseLong(form.getShippingNumbers()));
+			manifest = StorageUtil.getInstance().get(Manifest.class, manifest);
+
+			for (ManifestItem item : manifest.getItems()) {
+				boolean flag = false;
+				for (PackingItem p : form.getPackingList()) {
+					if (p.getSKU() == item.getSKU() && Double.parseDouble(p.getAmount()) == item.getQuantity()) {
+						flag = true;
+						break;
+					}
+				}
+				if (!flag) {
+					throw new RuntimeException(InetAddress.getLocalHost().getHostName() + ":舱单核对失败：" + item.getSKUName() + "未找到或者数量不符");
+				}
+			}
+			return InetAddress.getLocalHost().getHostName() + ":舱单核对通过";
+		} catch (UnknownHostException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override

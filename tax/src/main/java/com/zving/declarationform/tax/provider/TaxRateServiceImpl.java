@@ -3,6 +3,8 @@ package com.zving.declarationform.tax.provider;
 import io.servicecomb.provider.rest.common.RestSchema;
 import io.vertx.core.json.JsonObject;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,7 +42,11 @@ public class TaxRateServiceImpl implements TaxRateService {
 	@RequestMapping(path = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public String check(@RequestBody DeclarationForm form) {
-		return "check成功：tax";
+		try {
+			return InetAddress.getLocalHost().getHostName() + ":计税检查通过";
+		} catch (UnknownHostException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@RequestMapping(path = "taxrate", method = RequestMethod.POST)

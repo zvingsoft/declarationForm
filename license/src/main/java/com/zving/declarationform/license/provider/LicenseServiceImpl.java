@@ -2,6 +2,8 @@ package com.zving.declarationform.license.provider;
 
 import io.servicecomb.provider.rest.common.RestSchema;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -34,7 +36,11 @@ public class LicenseServiceImpl implements LicenseService {
 	@RequestMapping(path = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public String check(@RequestBody DeclarationForm form) {
-		return "check成功：license";
+		try {
+			return InetAddress.getLocalHost().getHostName() + ":进出口许可证检查通过";
+		} catch (UnknownHostException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override

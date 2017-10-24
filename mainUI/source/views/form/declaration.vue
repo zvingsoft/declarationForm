@@ -293,7 +293,7 @@
           <el-form-item label="许可证号：">
             <el-input class="e-input" v-model="tmpDeclaration.licenseKey"></el-input>
           </el-form-item>
-          <el-form-item label="提运单号：">
+          <el-form-item label="舱单号：">
             <el-input class="e-input" v-model="tmpDeclaration.shippingNumbers"></el-input>
           </el-form-item>
           <el-form-item label="运费：">

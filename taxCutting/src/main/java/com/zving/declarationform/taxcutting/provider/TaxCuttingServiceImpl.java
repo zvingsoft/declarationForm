@@ -1,5 +1,7 @@
 package com.zving.declarationform.taxcutting.provider;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +31,13 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 	@RequestMapping(path = "check", method = RequestMethod.POST)
 	@ResponseBody
 	public String check(@RequestBody DeclarationForm form) {
-		return "check成功：taxCutting";
+		try {
+			return InetAddress.getLocalHost().getHostName() + ":税收减免检查通过";
+		} catch (UnknownHostException e) {
+			throw new RuntimeException(e);
+		}
 	}
-	
+
 	@Override
 	@RequestMapping(path = "confirm", method = RequestMethod.POST)
 	@ResponseBody
@@ -45,6 +51,7 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 	public String compensate(@RequestBody DeclarationForm form) {
 		return null;
 	}
+
 	@RequestMapping(path = "taxcutting", method = RequestMethod.POST)
 	@ResponseBody
 	public String add(@RequestBody TaxCuttingRule taxCuttingRule) {
