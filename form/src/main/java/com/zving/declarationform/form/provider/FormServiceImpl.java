@@ -2,12 +2,17 @@ package com.zving.declarationform.form.provider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.huawei.paas.cse.tcc.annotation.TccTransaction;
 import com.zving.declarationform.form.schema.FormService;
 import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.storage.IStorage;
@@ -155,7 +161,7 @@ public class FormServiceImpl implements FormService {
 		String componsateFormat = "cse://?/componsate";
 		List<String> successList = new ArrayList<>();
 		Optional<String> fail = services.stream().filter(item -> {
-			//验证
+			// 验证
 			ResponseEntity<String> entry = RestTemplateBuilder.create().postForEntity(String.format(confirmFormat, item), form,
 					String.class);
 			if (entry.getStatusCode().is2xxSuccessful()) {
@@ -167,7 +173,7 @@ public class FormServiceImpl implements FormService {
 		}).findAny();
 		if (fail.isPresent()) {
 			if (successList.size() > 0) {
-				//补偿
+				// 补偿
 				successList.stream().forEach(
 						item -> RestTemplateBuilder.create().postForObject(String.format(componsateFormat, item), form, String.class));
 			}
@@ -175,4 +181,59 @@ public class FormServiceImpl implements FormService {
 		}
 		return "confirm成功：form";
 	}
+
+	@Override
+	@RequestMapping(path = "try", method = RequestMethod.POST)
+	@ResponseBody
+	@TccTransaction(cancelMethod = "cancelMethod", confirmMethod = "confirmMethod")
+	public String tryConfirm(@RequestBody DeclarationForm form) {
+		// TODO try阶段 锁定资源
+		List<String> services = Arrays.asList("license", "cottonQuota", "manifest", "riskAnalysis", "processingTrade");
+		String confirmFormat = "cse://?/confirm";
+		List<String> successList = (List<String>) context.getBean("successList");
+		Optional<String> fail = services.stream().filter(item -> {
+			// 验证
+			ResponseEntity<String> entry = RestTemplateBuilder.create().postForEntity(String.format(confirmFormat, item), form,
+					String.class);
+			if (entry.getStatusCode().is2xxSuccessful()) {
+				successList.add(item);
+				return false;
+			} else {
+				return true;
+			}
+		}).findAny();
+		if (fail.isPresent()) {
+			throw new RuntimeException("confirm失败：form");
+		} else {
+			return "confirm成功：form";
+		}
+	}
+
+	@Bean(name = "successList")
+	@Scope("request")
+	public List<String> getMap() {
+		return new ArrayList<>();
+	}
+
+	@Autowired
+	private ApplicationContext context;
+
+	public Map<String, Object> map = new HashMap<>();
+
+	public void confirmMethod(DeclarationForm form) {
+		// TODO 释放lock资源
+	}
+
+	public void cancelMethod(DeclarationForm form) {
+		// 失败补偿
+		List<String> successList = (List<String>) context.getBean("successList");
+		String componsateFormat = "cse://?/componsate";
+		if (successList.size() > 0) {
+			// 已经confirm部分执行补偿
+			successList.stream()
+					.forEach(item -> RestTemplateBuilder.create().postForObject(String.format(componsateFormat, item), form, String.class));
+		}
+		// TODO 释放资源
+	}
+
 }

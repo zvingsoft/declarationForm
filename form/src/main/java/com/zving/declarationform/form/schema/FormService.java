@@ -49,8 +49,13 @@ public interface FormService {
 	String audit(Map<String, String> map);
 
 	/**
-	 * 确认
+	 * saga确认
 	 */
 	String confirm(DeclarationForm form);
+
+	/**
+	 * tcc确认
+	 */
+	String tryConfirm(DeclarationForm form);
 
 }
