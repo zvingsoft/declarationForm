@@ -9,8 +9,8 @@
       <div class="search-bar fr">
         税号:
         <el-input v-model="search.taxNum" size="small" placeholder="请输入税号" style="width: 200px;"></el-input>
-        货品名称：
-        <el-input v-model="search.taxGoodsType" size="small" placeholder="请输入货品名称" style="width: 200px;"></el-input>
+        商品名称：
+        <el-input v-model="search.taxGoodsType" size="small" placeholder="请输入商品名称" style="width: 200px;"></el-input>
         <el-button size="small" type="primary" @click="handleSearchBtn" style="width: 60px;">搜索</el-button>
       </div>
       <!--表格-->
@@ -23,7 +23,7 @@
                 <el-form-item label="税号">
                   <span>{{props.row.taxNum}}</span>
                 </el-form-item>
-                <el-form-item label="货品名称">
+                <el-form-item label="商品名称">
                   <span>{{props.row.skuname}}</span>
                 </el-form-item>
                 <!-- <el-form-item label="单位">
@@ -49,7 +49,7 @@
              <a @click="lookClick(scope.row)" class="a-btn">{{scope.row.taxNum}}</a>
            </template>
           </el-table-column>
-          <el-table-column prop="skuname" min-width="35%" label="货品名称"></el-table-column>
+          <el-table-column prop="skuname" min-width="35%" label="商品名称"></el-table-column>
           <!-- <el-table-column prop="unit" min-width="10%" label="单位"></el-table-column> -->
           <el-table-column prop="rate" min-width="10%" label="税率"></el-table-column>
           <el-table-column prop="exemption" min-width="10%" label="免征额"></el-table-column>
@@ -69,8 +69,8 @@
         <el-form-item label="税号：" prop="taxNum">
           <el-input placeholder="请输入税号" v-model="tmpTax.taxNum" class="width-230"></el-input>
         </el-form-item>
-        <el-form-item label="货号：" >
-        <el-select class="width-230" filterable v-model="tmpTax.sku" placeholder="请选择一种货品" @change="selectSku" >
+        <el-form-item label="商品：" >
+        <el-select class="width-230" filterable v-model="tmpTax.sku" placeholder="请选择一种商品" @change="selectSku" >
               <el-option v-for="item in SKUData" :key="item.sn" :label="item.name" :value="item.sn">
                 <span style="float: left">{{ item.sn }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
@@ -148,7 +148,7 @@ export default {
           );
         }
       }
-      this.total=this.taxTable.length;
+      this.total = this.taxTable.length;
     },
     sizeChangeHandler(val) {
       this.pageSize = val;
@@ -219,7 +219,16 @@ export default {
     saveTax() {
       this.$refs['taxForm'].validate(valid => {
         if (valid) {
+          let temRate = this.tmpTax.rate;
+          if (temRate && temRate != '') {
+            if (isNaN(temRate)) {
+              this.$alert('税率必须是数字！', '提示');
+              return;
+            }
+          }
           this.saveTaxStatus = true;
+          if (this.tmpTax.rate && this.tmpTax.rate != '') {
+          }
           if (this.addOrEdit == 1) {
             taxAPI.addTax(this.tmpTax).then(data => {
               if (data.status == 1) {
@@ -269,7 +278,7 @@ export default {
                   val => !rowIds.includes(val.id)
                 );
                 this.temtaxTable = Object.assign([], this.taxTable);
-                 this.total=this.taxTable.length;
+                this.total = this.taxTable.length;
                 this.$notify({
                   title: '成功',
                   message: data.message,
@@ -324,7 +333,7 @@ export default {
       taxAPI.getTaxData().then(data => {
         this.taxTable = data.data;
         this.temtaxTable = Object.assign([], this.taxTable);
-        this.total=this.taxTable.length;
+        this.total = this.taxTable.length;
       });
     },
     selectSku(val) {
