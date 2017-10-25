@@ -42,6 +42,21 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 	@RequestMapping(path = "confirm", method = RequestMethod.POST)
 	@ResponseBody
 	public String confirm(@RequestBody DeclarationForm form) {
+//		try {
+//			List<PackingItem> packingList = form.getPackingList();
+//			for (PackingItem packingItem : packingList) {
+//				TaxCuttingRule tcr = get(packingItem.getSKU());
+//				if (tcr.getCount() >= Double.parseDouble(packingItem.getAmount())) {
+//					tcr.setCount(tcr.getCount() - Double.parseDouble(packingItem.getAmount()));
+//					update(tcr);
+//					return "confirm成功：taxCutting";
+//				} else {
+//					throw new RuntimeException();
+//				}
+//			}
+//		} catch (Exception e) {
+//			throw new RuntimeException();
+//		}
 		return "confirm成功：taxCutting";
 	}
 
@@ -49,12 +64,24 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 	@RequestMapping(path = "compensate/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public String compensate(@RequestBody DeclarationForm form) {
-		return null;
+//		try {
+//			List<PackingItem> packingList = form.getPackingList();
+//			for (PackingItem packingItem : packingList) {
+//				TaxCuttingRule tcr = get(packingItem.getSKU());
+//				tcr.setCount(tcr.getCount() + Double.parseDouble(packingItem.getAmount()));
+//				update(tcr);
+//				return "compensate成功：taxCutting";
+//			}
+//		} catch (Exception e) {
+//			throw new RuntimeException();
+//		}
+		return "compensate成功：taxCutting";
 	}
 
 	@RequestMapping(path = "taxcutting", method = RequestMethod.POST)
 	@ResponseBody
 	public String add(@RequestBody TaxCuttingRule taxCuttingRule) {
+		//taxCuttingRule.setCount(taxCuttingRule.getTopLmit());
 		StorageUtil.getInstance().add(TaxCuttingRule.class, taxCuttingRule);
 		return "新建成功";
 	}

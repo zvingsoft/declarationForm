@@ -10,10 +10,10 @@
       <div class="search-bar fr">
        <!--  编号：
         <el-input v-model="searchTaxCutting.id" placeholder="请输入编号" size="small" style="width:150px"></el-input> -->
-        货号：
-        <el-input v-model="searchTaxCutting.sku" placeholder="请输入货号" size="small" style="width:150px"></el-input>
-        货品名称：
-        <el-input v-model="searchTaxCutting.skuName" placeholder="请输入货品名称" size="small" style="width:150px"></el-input>
+        商品编号：
+        <el-input v-model="searchTaxCutting.sku" placeholder="请输入商品编号" size="small" style="width:150px"></el-input>
+        商品名称：
+        <el-input v-model="searchTaxCutting.skuName" placeholder="请输入商品名称" size="small" style="width:150px"></el-input>
         有效期：
         <el-date-picker v-model="searchTaxCutting.startTime" type="date" placeholder="请选择日期" size="small" style="width:150px" @change="dateStartTimeChangeClick"></el-date-picker>
         -
@@ -29,13 +29,16 @@
               <!-- <el-form-item label="编号">
                 <span>{{ props.row.id }}</span>
               </el-form-item> -->
-               <el-form-item label="货号">
+               <el-form-item label="商品编号">
                 <span>{{ props.row.sku }}</span>
               </el-form-item>
-              <el-form-item label="货品名称">
+              <el-form-item label="商品名称">
                 <span>{{ props.row.skuName }}</span>
               </el-form-item>
-              <el-form-item label="减免上限">
+              <!-- <el-form-item label="可用数量">
+                <span>{{ props.row.count }}</span>
+              </el-form-item> -->
+              <el-form-item label="减免数量上限">
                 <span>{{ props.row.topLmit }}</span>
               </el-form-item>
               <el-form-item label="减免税率">
@@ -50,9 +53,10 @@
             </el-form>
           </template>
         </el-table-column>
-        <el-table-column prop="sku" show-overflow-tooltip min-width="15%" label="货号"></el-table-column>
-         <el-table-column prop="skuName" show-overflow-tooltip min-width="30%" label="货品名称"></el-table-column>
-        <el-table-column prop="topLmit" show-overflow-tooltip min-width="20%" label="减免上限"></el-table-column>
+        <el-table-column prop="sku" show-overflow-tooltip min-width="15%" label="商品编号"></el-table-column>
+        <el-table-column prop="skuName" show-overflow-tooltip min-width="25%" label="商品名称"></el-table-column>
+        <!--<el-table-column prop="count" show-overflow-tooltip min-width="20%" label="可用数量"></el-table-column>-->
+        <el-table-column prop="topLmit" show-overflow-tooltip min-width="25%" label="减免数量上限"></el-table-column>
         <el-table-column prop="rate" show-overflow-tooltip min-width="20%" label="减免税率"></el-table-column>
         <el-table-column show-overflow-tooltip min-width="35%" label="政策文件">
            <template slot-scope="scope">
@@ -70,25 +74,28 @@
     <!-- 新建、编辑 -->
     <el-dialog :title="showTitleMode === 0 ? '新建' : '编辑'" :visible.sync="showAddDialog" class="mode-dialog">
       <el-form label-width="140px" :model="tmpTaxCutting" :rules="taxCuttingRules" ref="taxCuttingForm">
-        <el-form-item label="货号：">
+        <el-form-item label="商品编号：">
           <el-select class="e-input" filterable v-model="tmpTaxCutting.sku" placeholder="请选择"  @change="selectSKUChangeClick">
               <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
                 <span style="float: left">{{ item.sn }}</span>
                 <span style="float: right; color: #8492a6; font-size: 13px">{{ item.name }}</span>
               </el-option>
-            </el-select>
+          </el-select>
         </el-form-item>
-        <el-form-item prop="topLmit" label="减免上限：">
-          <el-input placeholder="请输入减免上限" type="age" v-model="tmpTaxCutting.topLmit" style="width:215px;"></el-input>
+        <!--<el-form-item prop="count" label="可用数量：">
+          <el-input-number v-model="tmpTaxCutting.count" :min="1" :step="1"  style="width:215px;"></el-input-number>
+        </el-form-item>-->
+        <el-form-item prop="topLmit" label="减免数量上限：">
+          <el-input placeholder="请输入减免数量上限" v-model="tmpTaxCutting.topLmit" style="width:215px;"></el-input>
         </el-form-item>
         <el-form-item prop="rate" label="减免税率：">
           <el-input placeholder="请输入减免税率" v-model="tmpTaxCutting.rate" style="width:215px;"></el-input>
         </el-form-item>
         <el-form-item label="生效起始时间：">
-          <el-date-picker v-model="tmpTaxCutting.startTime" type="date" placeholder="请选择日期" size="small" @change="dateStartDateChangeClick" style="width:215px;"></el-date-picker>
+          <el-date-picker v-model="tmpTaxCutting.startTime" type="date" placeholder="请选择日期"  @change="dateStartDateChangeClick" style="width:215px;"></el-date-picker>
         </el-form-item>
         <el-form-item label="生效结束时间：">
-          <el-date-picker v-model="tmpTaxCutting.endTime" type="date" placeholder="请选择日期" size="small" @change="dateEndDateChangeClick" style="width:215px;"></el-date-picker>
+          <el-date-picker v-model="tmpTaxCutting.endTime" type="date" placeholder="请选择日期"  @change="dateEndDateChangeClick" style="width:215px;"></el-date-picker>
         </el-form-item>
         <el-form-item prop="policyPaperTitle" label="政策文件标题：">
           <el-input placeholder="请输入政策文件标题" v-model="tmpTaxCutting.policyPaperTitle" ></el-input>
@@ -144,9 +151,9 @@ export default {
             topLmit: [
                 {required: true,trigger:'blur',
                   validator:(rule,value,callback)=>{
-                    console.log(value)
-                  if(!/[0-9]+$/.test(value)) {
-                      callback(new Error("请输入数字值"));
+                 /*  if(!/^\d+$/ .test(value)) { */
+                 if(!/[0-9]+$/ .test(value)) {
+                      callback(new Error("请输入数字"));
                   } else {
                       callback();
                   }
@@ -155,10 +162,11 @@ export default {
             ],
             rate: [
                 {required: true,trigger:'blur',
-                  validator:(rule,value,callback)=>{
-                    console.log(value)
-                  if(!/[0-9]+$/.test(value)) {
-                      callback(new Error("请输入数字值"));
+                  validator:(rule,value,callback)=> {
+                  //if(!/^[0-9][\.]{1}[0-9]{2}$/.test(value)) { //小数，保留两位
+                   /*  if(!/^[0-9]+[\.]{1}[0-9]+$/.test(value)) { */   //小数  不限位数
+                  if(!/[0-9]+$/ .test(value)) {
+                      callback(new Error("请输入数字"));
                   } else {
                       callback();
                   }
@@ -296,6 +304,7 @@ export default {
           id: '',
           sku: '',
           skuName: '',
+          count: '',
           topLmit: '',
           rate: '',
           policyPaperTitle: '',
