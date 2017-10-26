@@ -74,14 +74,14 @@
             <el-form-item label="提运单号：">
               <el-input class="s-input" v-model="searchDeclaration.shippingNumbers"></el-input>
             </el-form-item>
-            <el-form-item label="运费：">
-              <el-input class="s-input" v-model="searchDeclaration.freight"></el-input>
+            <el-form-item label="运费：" prop="freight" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+              <el-input class="s-input" v-model.number="searchDeclaration.freight"></el-input>
             </el-form-item>
-            <el-form-item label="保费：">
-              <el-input class="s-input" v-model="searchDeclaration.premium"></el-input>
+            <el-form-item label="保费：" prop="premium" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+              <el-input class="s-input" v-model.number="searchDeclaration.premium"></el-input>
             </el-form-item>
-            <el-form-item label="杂费：">
-              <el-input class="s-input" v-model="searchDeclaration.incidental"></el-input>
+            <el-form-item label="杂费：" prop="incidental" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+              <el-input class="s-input" v-model.number="searchDeclaration.incidental"></el-input>
             </el-form-item>
             <el-form-item label="合同协议号：">
               <el-input class="s-input" v-model="searchDeclaration.agreementNumber"></el-input>
@@ -359,7 +359,7 @@
         <i class="fa fa-check"></i>提交审核</el-button>
     </el-toolbar>
     <div class="main-content-wrap" style="background-color:#f5f5f5">
-      <el-form label-position="right" :model="tmpDeclaration" label-width="160px" class="e-form">
+      <el-form label-position="right" ref="declarationForm" :model="tmpDeclaration" label-width="160px" class="e-form">
         <div class="form-title">基本信息</div>
         <div class="form-panel">
           <el-form-item label="报关单类型：">
@@ -368,10 +368,10 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="预录入编号：">
+          <el-form-item label="预录入编号：" prop="preentryNumber" :rules="[{ required: true, message: '预录入编号不能为空', trigger: 'change' }]">
             <el-input class="e-input" v-model="tmpDeclaration.preentryNumber"></el-input>
           </el-form-item>
-          <el-form-item label="海关编号：">
+          <el-form-item label="海关编号：" prop="customsNumber" :rules="[{ required: true, message: '海关编号不能为空', trigger: 'change' }]">
             <el-input class="e-input" v-model="tmpDeclaration.customsNumber"></el-input>
           </el-form-item>
           <el-form-item label="贸易方式：">
@@ -424,13 +424,13 @@
           <el-form-item label="提运单号：">
             <el-input class="e-input" v-model="tmpDeclaration.shippingNumbers"></el-input>
           </el-form-item>
-          <el-form-item label="运费：">
+          <el-form-item label="运费：" prop="freight" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
             <el-input class="e-input" v-model="tmpDeclaration.freight"></el-input>
           </el-form-item>
-          <el-form-item label="保费：">
+          <el-form-item label="保费：" prop="premium" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
             <el-input class="e-input" v-model="tmpDeclaration.premium"></el-input>
           </el-form-item>
-          <el-form-item label="杂费：">
+          <el-form-item label="杂费：" prop="incidental" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
             <el-input class="e-input" v-model="tmpDeclaration.incidental"></el-input>
           </el-form-item>
           <el-form-item label="合同协议号：">
@@ -798,41 +798,53 @@ export default {
       this.declarationDialogmodel = false;
     },
     confirm() {
-      this.declarationTypeOptions.forEach(o => {
-        if (o.key == this.tmpDeclaration.declarationType) {
-          Vue.set(this.tmpDeclaration, 'declarationTypeName', o.value);
-          return;
+      this.$refs['declarationForm'].validate(valid => {
+        if (valid) {
+          this.declarationTypeOptions.forEach(o => {
+            if (o.key == this.tmpDeclaration.declarationType) {
+              Vue.set(this.tmpDeclaration, 'declarationTypeName', o.value);
+              return;
+            }
+          });
+          if (this.editMode == 1) {
+            declarationAPI.updateDeclaration(this.tmpDeclaration).then(res => {
+              if (res.status == 200) {
+                this.$notify({
+                  title: '成功',
+                  message: res.data,
+                  type: 'success',
+                  duration: 2000,
+                });
+                this.getDeclarationData();
+              }
+            });
+          } else {
+            Vue.set(this.tmpDeclaration, 'id', this.declarationID);
+            declarationAPI.addDeclaration(this.tmpDeclaration).then(res => {
+              if (res.status == 200) {
+                this.$notify({
+                  title: '成功',
+                  message: res.data,
+                  type: 'success',
+                  duration: 2000,
+                });
+              }
+              this.tmpDeclaration = {
+                declarationType: this.tmpDeclaration.declarationType,
+              };
+              this.getDeclarationData();
+            });
+          }
+        } else {
+          this.$notify({
+            title: '操作失败',
+            message: '请正确填写表单项',
+            type: 'error',
+            duration: 2000,
+          });
+          return false;
         }
       });
-      if (this.editMode == 1) {
-        declarationAPI.updateDeclaration(this.tmpDeclaration).then(res => {
-          if (res.status == 200) {
-            this.$notify({
-              title: '成功',
-              message: res.data,
-              type: 'success',
-              duration: 2000,
-            });
-            this.getDeclarationData();
-          }
-        });
-      } else {
-        Vue.set(this.tmpDeclaration, 'id', this.declarationID);
-        declarationAPI.addDeclaration(this.tmpDeclaration).then(res => {
-          if (res.status == 200) {
-            this.$notify({
-              title: '成功',
-              message: res.data,
-              type: 'success',
-              duration: 2000,
-            });
-          }
-          this.tmpDeclaration = {
-            declarationType: this.tmpDeclaration.declarationType,
-          };
-          this.getDeclarationData();
-        });
-      }
     },
   },
   created() {

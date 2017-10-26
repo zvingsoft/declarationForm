@@ -33,14 +33,14 @@ public class DeclarationForm {
 	String destinationOrConsignmentPlace;
 	String approvalNumber;
 	String transactionMethod;
-	String freight;
-	String premium;
-	String incidental;
+	double freight;
+	double premium;
+	double incidental;
 	String agreementNumber;
-	String goodsNumber;
+	double goodsNumber;
 	String packagingType;
-	String grossWeight;
-	String netWeight;
+	double grossWeight;
+	double netWeight;
 	String containerNumber;
 	String documentSattached;
 	String purposeOrManufacturer;
@@ -262,27 +262,27 @@ public class DeclarationForm {
 		this.transactionMethod = transactionMethod;
 	}
 
-	public String getFreight() {
+	public double getFreight() {
 		return freight;
 	}
 
-	public void setFreight(String freight) {
+	public void setFreight(double freight) {
 		this.freight = freight;
 	}
 
-	public String getPremium() {
+	public double getPremium() {
 		return premium;
 	}
 
-	public void setPremium(String premium) {
+	public void setPremium(double premium) {
 		this.premium = premium;
 	}
 
-	public String getIncidental() {
+	public double getIncidental() {
 		return incidental;
 	}
 
-	public void setIncidental(String incidental) {
+	public void setIncidental(double incidental) {
 		this.incidental = incidental;
 	}
 
@@ -294,11 +294,11 @@ public class DeclarationForm {
 		this.agreementNumber = agreementNumber;
 	}
 
-	public String getGoodsNumber() {
+	public double getGoodsNumber() {
 		return goodsNumber;
 	}
 
-	public void setGoodsNumber(String goodsNumber) {
+	public void setGoodsNumber(double goodsNumber) {
 		this.goodsNumber = goodsNumber;
 	}
 
@@ -310,19 +310,19 @@ public class DeclarationForm {
 		this.packagingType = packagingType;
 	}
 
-	public String getGrossWeight() {
+	public double getGrossWeight() {
 		return grossWeight;
 	}
 
-	public void setGrossWeight(String grossWeight) {
+	public void setGrossWeight(double grossWeight) {
 		this.grossWeight = grossWeight;
 	}
 
-	public String getNetWeight() {
+	public double getNetWeight() {
 		return netWeight;
 	}
 
-	public void setNetWeight(String netWeight) {
+	public void setNetWeight(double netWeight) {
 		this.netWeight = netWeight;
 	}
 

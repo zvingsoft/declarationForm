@@ -19,8 +19,8 @@
       <el-table-column v-if="declarationType == 'import'" min-width="80px" prop="country" label="原产国"></el-table-column>
       <el-table-column v-else prop="country" min-width="80px" label="最终目的国"></el-table-column>
     </el-table>
-    <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal"  size="tiny" :close-on-click-modal="false" @open="beforeDialogOpen">
-      <el-form label-position="right" :model="tmpPacking" label-width="160px">
+    <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="packingdetailDialogModal" :close-on-click-modal="false" @open="beforeDialogOpen">
+      <el-form label-position="right" ref="packingForm" :model="tmpPacking" label-width="160px">
         <el-form-item label="商品编号：">
           <el-select class="e-input" filterable v-model="tmpPacking.sku" placeholder="请选择" @change="selectChange">
               <el-option v-for="item in SKUData" :key="item.sn" :label="item.sn" :value="item.sn">
@@ -32,14 +32,14 @@
         <el-form-item label="商品名称：">
           <el-input class="e-input" type="textarea" :rows="3" v-model="tmpPacking.name" disabled></el-input>
         </el-form-item>
-        <el-form-item label="数量：">
-          <el-input class="e-input" v-model="tmpPacking.amount"></el-input>
+        <el-form-item label="数量：" prop="amount" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+          <el-input class="e-input" v-model.number="tmpPacking.amount"></el-input>
         </el-form-item>
-        <el-form-item label="单价：">
-          <el-input class="e-input" v-model="tmpPacking.singlePrice"></el-input>
+        <el-form-item label="单价：" prop="singlePrice" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+          <el-input class="e-input" v-model.number="tmpPacking.singlePrice"></el-input>
         </el-form-item>
-        <el-form-item label="总价：">
-          <el-input class="e-input" v-model="tmpPacking.totalPrice"></el-input>
+        <el-form-item label="总价：" prop="totalPrice" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+          <el-input class="e-input" v-model.number="tmpPacking.totalPrice"></el-input>
         </el-form-item>
         <el-form-item v-if="this.declarationType == 'import'" label="原产国：">
           <el-input class="e-input" v-model="tmpPacking.country"></el-input>
@@ -146,36 +146,48 @@ export default {
         });
     },
     packingdetailConfirm() {
-      if (this.editMode == 0) {
-        this.$notify({
-          title: '成功',
-          message: '添加成功',
-          type: 'success',
-          duration: 2000,
-        });
-        this.packinglistData = [
-          ...this.packinglistData,
-          Object.assign({}, this.tmpPacking),
-        ];
-      }
-      if (this.editMode == 1) {
-        this.$notify({
-          title: '成功',
-          message: '修改成功',
-          type: 'success',
-          duration: 2000,
-        });
-        let index = this.packinglistData.findIndex(
-          val => val.id === this.tmpPacking.id
-        );
-        this.packinglistData = [
-          ...this.packinglistData.slice(0, index),
-          Object.assign({}, this.tmpPacking),
-          ...this.packinglistData.slice(index + 1),
-        ];
-      }
-      this.$emit('update:packinglistData', this.packinglistData);
-      this.packingdetailDialogModal = false;
+      this.$refs['packingForm'].validate(valid => {
+        if (valid) {
+          if (this.editMode == 0) {
+            this.$notify({
+              title: '成功',
+              message: '添加成功',
+              type: 'success',
+              duration: 2000,
+            });
+            this.packinglistData = [
+              ...this.packinglistData,
+              Object.assign({}, this.tmpPacking),
+            ];
+          }
+          if (this.editMode == 1) {
+            this.$notify({
+              title: '成功',
+              message: '修改成功',
+              type: 'success',
+              duration: 2000,
+            });
+            let index = this.packinglistData.findIndex(
+              val => val.id === this.tmpPacking.id
+            );
+            this.packinglistData = [
+              ...this.packinglistData.slice(0, index),
+              Object.assign({}, this.tmpPacking),
+              ...this.packinglistData.slice(index + 1),
+            ];
+          }
+          this.$emit('update:packinglistData', this.packinglistData);
+          this.packingdetailDialogModal = false;
+        } else {
+          this.$notify({
+            title: '操作失败',
+            message: '请正确填写表单项',
+            type: 'error',
+            duration: 2000,
+          });
+          return false;
+        }
+      });
     },
     rowClick(row) {
       this.$emit('row-click', row);

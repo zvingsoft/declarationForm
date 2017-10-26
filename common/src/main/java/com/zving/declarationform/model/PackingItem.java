@@ -10,7 +10,7 @@ package com.zving.declarationform.model;
 public class PackingItem {
 	long id;
 	String SKU;// SKU编号
-	String amount;// 数量及单位
+	double amount;// 数量及单位
 	String name;//商品名称、规格型号
 	double singlePrice;//单价
 	double totalPrice;//总价
@@ -36,11 +36,11 @@ public class PackingItem {
 		SKU = sKU;
 	}
 
-	public String getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(String amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 
