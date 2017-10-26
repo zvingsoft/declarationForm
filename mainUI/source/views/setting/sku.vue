@@ -27,7 +27,7 @@
         </el-pagination>
       </div>
     </div>
-      <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="SKUDialogModal" :close-on-click-modal="false" size="tiny">
+      <el-dialog :title="editMode==1? '编辑商品信息': '添加商品'" :visible.sync="SKUDialogModal" :close-on-click-modal="false">
       <el-form label-position="right" :model="tmpSKU" label-width="150px">
         <el-form-item label="商品编号：">
           <el-input class="e-input" v-model="tmpSKU.sn"></el-input>

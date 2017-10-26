@@ -21,7 +21,7 @@ public interface FormService {
 	/**
 	 * 获取报关单
 	 */
-	DeclarationForm get(String id);
+	DeclarationForm get(long id);
 
 	/**
 	 * 添加报关单
@@ -36,13 +36,18 @@ public interface FormService {
 	/**
 	 * 删除报关单
 	 */
-	String delete(String id);
+	String delete(String ids);
 
 	/**
 	 * 获取审核报关单列表
 	 */
 	List<DeclarationForm> auditList(String searchItem);
-
+	
+	/**
+	 * 获取未缴税的报关单列表
+	 */
+	List<DeclarationForm> unRegisterDeclarationList(String searchItem);
+	
 	/**
 	 * 审核
 	 */
@@ -57,5 +62,4 @@ public interface FormService {
 	 * tcc确认
 	 */
 	String tryConfirm(DeclarationForm form);
-
 }

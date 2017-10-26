@@ -45,8 +45,11 @@ public class FormServiceImpl implements FormService {
 	@RequestMapping(path = "form", method = RequestMethod.POST)
 	@ResponseBody
 	public String add(@RequestBody DeclarationForm form) {
+		form.setTaxStatus("N");
 		form.setAuditStatusName("初稿");
 		form.setAuditStatus("C");
+		form.setTaxStatus("N");
+		form.setTaxStatusName("未缴税");
 		StorageUtil.getInstance().add(DeclarationForm.class, form);
 		return "添加成功";
 	}
@@ -58,7 +61,7 @@ public class FormServiceImpl implements FormService {
 		IStorage storage = StorageUtil.getInstance();
 		List<DeclarationForm> list = storage.find(DeclarationForm.class, null);
 		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getId().equals(form.getId())) {
+			if (list.get(i).getId() == form.getId()) {
 				storage.delete(DeclarationForm.class, list.get(i));
 			}
 		}
@@ -76,7 +79,7 @@ public class FormServiceImpl implements FormService {
 		List<DeclarationForm> list = iStorage.find(DeclarationForm.class, null);
 		for (int i = 0; i < list.size(); i++) {
 			for (int j = 0; j < strId.length; j++) {
-				if (list.get(i).getId().equals(strId[j])) {
+				if (list.get(i).getId() == Long.parseLong(strId[j])) {
 					iStorage.delete(DeclarationForm.class, list.get(i));
 				}
 			}
@@ -87,7 +90,7 @@ public class FormServiceImpl implements FormService {
 	@Override
 	@RequestMapping(path = "form/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public DeclarationForm get(@PathVariable("id") String id) {
+	public DeclarationForm get(@PathVariable("id") long id) {
 		DeclarationForm declarationForm = new DeclarationForm();
 		declarationForm.setId(id);
 		return StorageUtil.getInstance().get(DeclarationForm.class, declarationForm);
@@ -113,6 +116,21 @@ public class FormServiceImpl implements FormService {
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i).getAuditStatus());
 			if (!list.get(i).getAuditStatus().equals("C")) {
+				list1.add(list.get(i));
+			}
+		}
+		return list1;
+	}
+
+	@Override
+	@RequestMapping(path = "unRegisterDeclaration", method = RequestMethod.GET)
+	@ResponseBody
+	public List<DeclarationForm> unRegisterDeclarationList(@RequestParam String searchItem) {
+		System.out.println(searchItem);
+		List<DeclarationForm> list = StorageUtil.getInstance().find(DeclarationForm.class, null);
+		List<DeclarationForm> list1 = new ArrayList<>();
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getTaxStatus().equals("N")) {
 				list1.add(list.get(i));
 			}
 		}
@@ -164,8 +182,8 @@ public class FormServiceImpl implements FormService {
 		List<String> successList = new ArrayList<>();
 		Optional<String> fail = services.stream().filter(item -> {
 			// 验证
-			ResponseEntity<String> entry = RestTemplateBuilder.create().postForEntity(String.format(confirmFormat, item), form,
-					String.class);
+			ResponseEntity<String> entry = RestTemplateBuilder.create()
+					.postForEntity(String.format(confirmFormat, item), form, String.class);
 			if (entry.getStatusCode().is2xxSuccessful()) {
 				successList.add(item);
 				return false;
@@ -176,8 +194,8 @@ public class FormServiceImpl implements FormService {
 		if (fail.isPresent()) {
 			if (successList.size() > 0) {
 				// 补偿
-				successList.stream().forEach(
-						item -> RestTemplateBuilder.create().postForObject(String.format(componsateFormat, item), form, String.class));
+				successList.stream().forEach(item -> RestTemplateBuilder.create()
+						.postForObject(String.format(componsateFormat, item), form, String.class));
 			}
 			return "confirm失败：form";
 		}
@@ -195,8 +213,8 @@ public class FormServiceImpl implements FormService {
 		List<String> successList = (List<String>) context.getBean("successList");
 		Optional<String> fail = services.stream().filter(item -> {
 			// 验证
-			ResponseEntity<String> entry = RestTemplateBuilder.create().postForEntity(String.format(confirmFormat, item), form,
-					String.class);
+			ResponseEntity<String> entry = RestTemplateBuilder.create()
+					.postForEntity(String.format(confirmFormat, item), form, String.class);
 			if (entry.getStatusCode().is2xxSuccessful()) {
 				successList.add(item);
 				return false;
@@ -232,8 +250,8 @@ public class FormServiceImpl implements FormService {
 		String componsateFormat = "cse://?/componsate";
 		if (successList.size() > 0) {
 			// 已经confirm部分执行补偿
-			successList.stream()
-					.forEach(item -> RestTemplateBuilder.create().postForObject(String.format(componsateFormat, item), form, String.class));
+			successList.stream().forEach(item -> RestTemplateBuilder.create()
+					.postForObject(String.format(componsateFormat, item), form, String.class));
 		}
 		// TODO 释放资源
 	}

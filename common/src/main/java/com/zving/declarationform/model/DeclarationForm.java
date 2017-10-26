@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @date 2017年10月20日
  */
 public class DeclarationForm {
-	String id;
+	long id;
 	String declarationType;
 	String declarationTypeName;
 	String preentryNumber;
@@ -58,15 +58,43 @@ public class DeclarationForm {
 	String auditStatusName;
 	String entryDate;
 
+	double taxDue;// 应缴税额
+	String taxStatus;// 是否缴税
+	String taxStatusName;// 是否缴税
+
 	ArrayList<Document> documents;// 单证信息
 	ArrayList<PackingItem> packingList;// 装箱清单
+	
+	
+	public String getTaxStatusName() {
+		return taxStatusName;
+	}
 
+	public void setTaxStatusName(String taxStatusName) {
+		this.taxStatusName = taxStatusName;
+	}
 
-	public String getId() {
+	public double getTaxDue() {
+		return taxDue;
+	}
+
+	public void setTaxDue(double taxDue) {
+		this.taxDue = taxDue;
+	}
+
+	public String getTaxStatus() {
+		return taxStatus;
+	}
+
+	public void setTaxStatus(String taxStatus) {
+		this.taxStatus = taxStatus;
+	}
+
+	public long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
