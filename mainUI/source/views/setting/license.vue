@@ -751,6 +751,7 @@ export default {
   },
 };
 </script>
+
 <style>
 .projPage .el-tabs__header {
   margin-bottom: 0;
