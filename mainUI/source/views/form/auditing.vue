@@ -444,12 +444,12 @@ export default {
           value: '报关单类型',
         },
         {
-          key: 'preentryNumber',
-          value: '预录入编号',
+          key: 'customsNumber',
+          value: '海关编号',
         },
         {
           key: 'importOrExportPort',
-          value: '进口/出口口岸',
+          value: '海关口岸',
         },
         {
           key: 'managementUnit',
@@ -476,11 +476,15 @@ export default {
         },
         {
           key: 'Y',
-          value: '通过',
+          value: '审核通过',
         },
         {
           key: 'N',
           value: '不通过',
+        },
+        {
+          key: 'P',
+          value: '放行',
         },
       ],
       retrieval: '',
@@ -490,16 +494,16 @@ export default {
           value: '请选择检索字段',
         },
         {
-          key: 'declarationType',
+          key: 'declarationTypeName',
           value: '报关单类型',
         },
         {
-          key: 'preentryNumber',
-          value: '预录入编号',
+          key: 'customsNumber',
+          value: '海关编号',
         },
         {
           key: 'importOrExportPort',
-          value: '进口/出口口岸',
+          value: '海关口岸',
         },
         {
           key: 'managementUnit',
@@ -574,10 +578,27 @@ export default {
       };
       auditingAPI.getDeclaration(obj).then(data => {
         console.log(data);
-        this.declarationData = data;
+        this.declarationData = [];
         if (data.length > 0) {
           this.total = data[0].total;
         }
+        data.forEach(o => {
+          if (this.auditStatus != '') {
+            if (this.auditStatus == o.auditStatus) {
+              if (this.retrieval == '' || this.searchWord == '') {
+                this.declarationData.push(o);
+              } else if (this.searchWord == o[this.retrieval]) {
+                this.declarationData.push(o);
+              }
+            }
+          } else {
+            if (this.retrieval == '' || this.searchWord == '') {
+              this.declarationData.push(o);
+            } else if (this.searchWord == o[this.retrieval]) {
+              this.declarationData.push(o);
+            }
+          }
+        });
         this.dataLoading = false;
       });
     },
