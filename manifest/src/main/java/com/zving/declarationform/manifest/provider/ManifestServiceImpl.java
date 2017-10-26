@@ -43,7 +43,7 @@ public class ManifestServiceImpl implements ManifestService {
 			for (ManifestItem item : manifest.getItems()) {
 				boolean flag = false;
 				for (PackingItem p : form.getPackingList()) {
-					if (p.getSKU().equals(item.getSKU()) && Double.parseDouble(p.getAmount()) == item.getQuantity()) {
+					if (p.getSKU().equals(item.getSKU()) && p.getAmount() == item.getQuantity()) {
 						flag = true;
 						break;
 					}

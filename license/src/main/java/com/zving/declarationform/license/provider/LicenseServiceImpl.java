@@ -49,7 +49,7 @@ public class LicenseServiceImpl implements LicenseService {
 	public String confirm(@RequestBody DeclarationForm form) {
 		String licenseKey = form.getLicenseKey();
 		try {
-			double count = Double.parseDouble(form.getGoodsNumber());
+			double count = form.getGoodsNumber();
 			List<License> licenses = list();
 			for (License license : licenses) {
 				if (license.getLicenseKey().equals(licenseKey)) {
@@ -74,7 +74,7 @@ public class LicenseServiceImpl implements LicenseService {
 	public String compensate(@RequestBody DeclarationForm form) {
 		String licenseKey = form.getLicenseKey();
 		try {
-			double count = Double.parseDouble(form.getGoodsNumber());
+			double count = form.getGoodsNumber();
 			List<License> licenses = list();
 			for (License license : licenses) {
 				if (license.getLicenseKey().equals(licenseKey)) {

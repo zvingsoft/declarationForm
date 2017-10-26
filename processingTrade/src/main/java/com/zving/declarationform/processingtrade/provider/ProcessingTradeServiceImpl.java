@@ -119,7 +119,7 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 				for (PackingItem item : form.getPackingList()) {
 					if (processingTrade.getSku().equals(item.getSKU())) {
 						if (processingTrade.getUsed() < processingTrade.getAmount()) {
-							processingTrade.setUsed(processingTrade.getUsed() + Double.parseDouble(form.getGoodsNumber()));
+							processingTrade.setUsed(processingTrade.getUsed() + form.getGoodsNumber());
 							update(processingTrade);
 							return "compensate成功：processingTrade";
 						}
