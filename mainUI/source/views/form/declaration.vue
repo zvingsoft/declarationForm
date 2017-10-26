@@ -188,6 +188,12 @@
               <el-form-item label="审核状态：">
                 <span>{{props.row.auditStatusName}}</span>
               </el-form-item>
+              <el-form-item label="应缴税额">
+                <span>{{props.row.taxDue}}</span>
+              </el-form-item>
+              <el-form-item label="缴税状态">
+                <span>{{props.row.taxStatusName}}</span>
+              </el-form-item>
             </el-form>
           </template>
         </el-table-column>
@@ -318,7 +324,10 @@
             <el-input class="e-input" v-model="tmpDeclaration.licenseKey"></el-input>
           </el-form-item>
           <el-form-item label="舱单号：">
-            <el-input class="e-input" v-model="tmpDeclaration.shippingNumbers"></el-input>
+            <el-select class="e-input" filterable v-model="tmpDeclaration.shippingNumbers" placeholder="请选择">
+              <el-option v-for="item in shippingNumbersOptions" :key="item.id" :label="item.manifestNum" :value="item.id">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="运费：" prop="freight" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
             <el-input class="e-input" v-model.number="tmpDeclaration.freight" auto-complete="off"></el-input>
@@ -399,6 +408,7 @@ import packing from './components/packing.vue';
 export default {
   data() {
     return {
+      shippingNumbersOptions: [],
       audited: false,
       id: 0,
       saveCheckStatus: false,
@@ -461,6 +471,10 @@ export default {
         companyAPI.getCompany().then(res => {
           console.log(res);
           this.unitOptions = res.data;
+        });
+        declarationAPI.getManifestData().then(data => {
+          console.log(data);
+          this.shippingNumbersOptions = data;
         });
       }
     },
@@ -534,6 +548,7 @@ export default {
     },
     commitAudit(commit) {
       this.id = commit;
+      this.showCheckDialog = true;
       Promise.all([
         this.checkOrConfirm(this.tmpDeclaration, 'cottonQuota', 'check'),
         this.checkOrConfirm(this.tmpDeclaration, 'riskAnalysis', 'check'),
@@ -551,7 +566,6 @@ export default {
         });
         this.saveCheckStatus = flag;
         this.checkList = datas;
-        this.showCheckDialog = true;
       });
     },
     onSure() {
@@ -651,6 +665,7 @@ export default {
     },
     onSelectionChange(selection) {
       this.selectedRows = selection;
+      this.tmpDeclaration = Object.assign({}, selection[0]);
       this.audited = false;
       console.log(selection);
       selection.forEach(select => {
@@ -731,6 +746,7 @@ export default {
       this.declarationDialogmodel = false;
     },
     confirm() {
+      console.log(this.tmpDeclaration);
       this.$refs['declarationForm'].validate(valid => {
         if (valid) {
           this.declarationTypeOptions.forEach(o => {

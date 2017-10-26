@@ -192,6 +192,13 @@
               <el-form-item label="审核状态：">
                 <span>{{props.row.auditStatusName}}</span>
               </el-form-item>
+              <el-form-item label="应缴税额">
+                <span>{{props.row.taxDue}}</span>
+              </el-form-item>
+              <el-form-item label="缴税状态">
+                <span>{{props.row.taxStatusName}}</span>
+              </el-form-item>
+
             </el-form>
           </template>
         </el-table-column>

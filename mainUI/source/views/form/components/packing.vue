@@ -39,7 +39,7 @@
           <el-input class="e-input" v-model.number="tmpPacking.singlePrice"></el-input>
         </el-form-item>
         <el-form-item label="总价：" prop="totalPrice" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
-          <el-input class="e-input" v-model.number="tmpPacking.totalPrice"></el-input>
+          <el-input class="e-input" v-model.number="tmpPacking.totalPrice" disabled></el-input>
         </el-form-item>
         <el-form-item v-if="this.declarationType == 'import'" label="原产国：">
           <el-input class="e-input" v-model="tmpPacking.country"></el-input>
@@ -78,6 +78,15 @@ export default {
         { key: 'pound', value: '英镑' },
       ],
     };
+  },
+  watch:{
+    'tmpPacking.amount':function(){
+      this.tmpPacking.totalPrice = this.tmpPacking.amount*this.tmpPacking.singlePrice;
+    },
+    'tmpPacking.singlePrice':function(){
+
+      this.tmpPacking.totalPrice = this.tmpPacking.amount*this.tmpPacking.singlePrice;
+    },
   },
   mounted() {
     skuAPI.getSKU().then(data => {

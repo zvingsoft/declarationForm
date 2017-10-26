@@ -29,6 +29,9 @@ const declarationAPI = {
       ids: strIds,
       statu: 'W'
     })
+  },
+  getManifestData () {
+    return axios.get('/manifest/manifest').then(res => res.data)
   }
 }
 

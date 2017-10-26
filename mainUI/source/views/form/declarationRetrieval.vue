@@ -316,6 +316,12 @@
               <el-form-item label="审核状态：">
                 <span>{{props.row.auditStatusName}}</span>
               </el-form-item>
+              <el-form-item label="应缴税额">
+                <span>{{props.row.taxDue}}</span>
+              </el-form-item>
+              <el-form-item label="缴税状态">
+                <span>{{props.row.taxStatusName}}</span>
+              </el-form-item>
             </el-form>
           </template>
         </el-table-column>
@@ -802,6 +808,7 @@ export default {
     },
     onSelectionChange(selection) {
       this.selectedRows = selection;
+      this.tmpDeclaration = Object.assign({},selection[0]);
       this.audited = false;
       selection.forEach(select => {
         if (select.auditStatus != 'C' && select.auditStatus != 'N') {
