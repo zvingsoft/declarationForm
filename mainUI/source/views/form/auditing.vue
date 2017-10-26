@@ -6,7 +6,7 @@
       <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0 || noPassStatu" @click="notPassClick()">
         <i class="fa fa-remove"></i>审核不通过</el-button>
       <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0 || passStatu" @click="goodsPassClick()">
-        <i class="fa fa-remove"></i>货物放行</el-button>
+        <i class="fa fa-hand-lizard-o"></i>货物放行</el-button>
       <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="viewClick()">
         <i class="fa fa-search"></i>查看详情</el-button>
     </el-toolbar>

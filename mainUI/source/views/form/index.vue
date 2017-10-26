@@ -35,6 +35,10 @@ const menus = [
   {
     path: '/form/auditing',
     meta: { title: '审核', icon: 'fa fa-check-square-o' }
+  },
+  {
+    path: '/form/taxRegister',
+    meta: { title: '缴税登记', icon: 'fa fa-files-o' }
   }
 ]
 

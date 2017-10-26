@@ -19,13 +19,18 @@ const routes = [
       },
       {
         path: 'declarationRetrieval',
-        meta: { title: '报关单检索', icon: 'fa fa-file-text-o' },
+        meta: { title: '报关单检索', icon: 'fa fa-search' },
         component: resolve => require.ensure([], () => resolve(require('../views/form/declarationRetrieval.vue')), 'formUI-declarationRetrieval')
       },
       {
         path: 'auditing',
-        meta: { title: '审核', icon: 'fa fa-file-text-o' },
+        meta: { title: '审核', icon: 'fa fa-check-square-o' },
         component: resolve => require.ensure([], () => resolve(require('../views/form/auditing.vue')), 'formUI-auditing')
+      },
+      {
+        path: 'taxRegister',
+        meta: { title: '缴税登记', icon: 'fa fa-files-o' },
+        component: resolve => require.ensure([], () => resolve(require('../views/form/taxRegister.vue')), 'formUI-taxRegister')
       }
     ]
   },
