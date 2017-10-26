@@ -215,6 +215,30 @@
       </packing-item>
     </el-dialog>
 
+    <!-- 提交审核信息列表 -->
+    <el-dialog size="tiny" title="审核信息列表" :visible.sync="showCheckDialog">
+      <el-table ref="checkList" :data="checkList" style="width: 100%">
+        <el-table-column label="状态" width="80">
+          <template scope="scope">
+            <span v-show="!scope.row.data.includes('失败')">
+              <i style="color:green;font-size:18px;" class="fa fa-check" />
+            </span>
+            <span v-show="scope.row.data.includes('失败')">
+              <i style="color:red;font-size:18px;" class="fa fa-close" />
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column label="结果">
+          <template scope="scope">
+            {{scope.row.data}}
+          </template>
+        </el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="showCheckDialog = false">取 消</el-button>
+        <el-button type="primary" @click="onSure" :disabled="!saveCheckStatus">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
   <div v-else>
     <el-toolbar>
@@ -536,7 +560,8 @@ export default {
         this.selectedRows.forEach(function(row) {
           rowIds.push(row.id);
         });
-        if (this.id) {
+        console.log(this.id);
+        if (!this.id) {
           if (this.editMode == 0) {
             rowIds = [this.declarationID];
             this.declarationTypeOptions.forEach(o => {
@@ -594,7 +619,6 @@ export default {
         this.checkList = [];
         this.showCheckDialog = false;
         this.saveCheckStatus = false;
-        this.$message.success('审核成功');
       } else {
         this.$message.error('审核失败');
       }

@@ -210,11 +210,11 @@
         <el-table-column prop="auditStatusName" show-overflow-tooltip min-width="11%" label="审核状态"></el-table-column>
         <el-table-column min-width="15%" label="操作">
           <template slot-scope="scope">
-            <el-button type="text">
-              <span style="color:green;" @click="passClick(scope.row.id)">通过</span>
+            <el-button type="text" :disabled="scope.row.auditStatus == 'Y' || scope.row.auditStatus == 'P'" @click="passClick(scope.row.id)">
+              <span style="color:green;">通过</span>
             </el-button>
-            <el-button type="text">
-              <span style="color:red;" @click="notPassClick(scope.row.id)">不通过</span>
+            <el-button type="text" :disabled="scope.row.auditStatus != 'W'" @click="notPassClick(scope.row.id)">
+              <span style="color:red;">不通过</span>
             </el-button>
           </template>
         </el-table-column>

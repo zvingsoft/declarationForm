@@ -136,6 +136,7 @@ public class FormServiceImpl implements FormService {
 				if (String.valueOf(list.get(i).getId()).equals(strId[j])) {
 					df = list.get(i);
 					df.setAuditStatus(statu);
+					System.out.println(statu);
 					if (statu.equals("W")) {
 						df.setAuditStatusName("未审核");
 					} else if (statu.equals("Y")) {

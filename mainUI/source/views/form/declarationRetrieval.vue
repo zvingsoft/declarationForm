@@ -677,7 +677,7 @@ export default {
         this.selectedRows.forEach(function(row) {
           rowIds.push(row.id);
         });
-        if (this.id) {
+        if (!this.id) {
           if (this.editMode == 0) {
             rowIds = [this.declarationID];
             this.declarationTypeOptions.forEach(o => {
@@ -735,7 +735,6 @@ export default {
         this.checkList = [];
         this.showCheckDialog = false;
         this.saveCheckStatus = false;
-        this.$message.success('审核成功');
       } else {
         this.$message.error('审核失败');
       }
