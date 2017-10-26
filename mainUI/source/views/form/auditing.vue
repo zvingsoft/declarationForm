@@ -1,11 +1,11 @@
 <template slot-scope="scope">
   <div :style="{width:clientWidth+'px'}">
     <el-toolbar>
-      <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="passClick()">
+      <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0 || statu" @click="passClick()">
         <i class="fa fa-check"></i>审核通过</el-button>
-      <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="notPassClick()">
+      <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0 || noPassStatu" @click="notPassClick()">
         <i class="fa fa-remove"></i>审核不通过</el-button>
-      <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="goodsPassClick()">
+      <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0 || passStatu" @click="goodsPassClick()">
         <i class="fa fa-remove"></i>货物放行</el-button>
       <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="viewClick()">
         <i class="fa fa-search"></i>查看详情</el-button>
@@ -388,30 +388,6 @@
       </table>
     </el-dialog>
 
-    <!-- 提交审核信息列表 -->
-    <el-dialog size="tiny" title="审核信息列表" :visible.sync="showCheckDialog">
-      <el-table ref="checkList" :data="checkList" style="width: 100%">
-        <el-table-column label="状态" width="80">
-          <template scope="scope">
-            <span v-show="!scope.row.data.includes('失败')">
-              <i style="color:green;font-size:18px;" class="fa fa-check" />
-            </span>
-            <span v-show="scope.row.data.includes('失败')">
-              <i style="color:red;font-size:18px;" class="fa fa-close" />
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column label="结果">
-          <template scope="scope">
-            {{scope.row.data}}
-          </template>
-        </el-table-column>
-      </el-table>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="showCheckDialog = false">取 消</el-button>
-        <el-button type="primary" @click="onSure" :disabled="!saveCheckStatus">确 定</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -425,10 +401,9 @@ import packing from './components/packing.vue';
 export default {
   data() {
     return {
-      id: 0,
-      saveCheckStatus: false,
-      showCheckDialog: false,
-      checkList: [],
+      statu: false,
+      noPassStatu: false,
+      passStatu: false,
       packingListData: [],
       declarationDetailDialogModal: false,
       packinglistDialogModal: false,
@@ -448,110 +423,115 @@ export default {
       tmpDeclaration: {},
       dataLoading: false,
       confirmLoading: false,
-      declarationTypeOptions: [{
-        key: 'import',
-        value: '进口报关单'
-      },
-      {
-        key: 'export',
-        value: '出口报关单'
-      },
+      declarationTypeOptions: [
+        {
+          key: 'import',
+          value: '进口报关单',
+        },
+        {
+          key: 'export',
+          value: '出口报关单',
+        },
       ],
       sort: '',
-      sortOptions: [{
-        key: '',
-        value: '请选择排序'
-      },
-      {
-        key: 'declarationType',
-        value: '报关单类型'
-      },
-      {
-        key: 'preentryNumber',
-        value: '预录入编号'
-      },
-      {
-        key: 'importOrExportPort',
-        value: '进口/出口口岸'
-      },
-      {
-        key: 'managementUnit',
-        value: '经营单位'
-      },
-      {
-        key: 'declarationUnit',
-        value: '申报单位'
-      },
-      {
-        key: 'declarationDate',
-        value: '申报日期'
-      },
+      sortOptions: [
+        {
+          key: '',
+          value: '请选择排序',
+        },
+        {
+          key: 'declarationType',
+          value: '报关单类型',
+        },
+        {
+          key: 'preentryNumber',
+          value: '预录入编号',
+        },
+        {
+          key: 'importOrExportPort',
+          value: '进口/出口口岸',
+        },
+        {
+          key: 'managementUnit',
+          value: '经营单位',
+        },
+        {
+          key: 'declarationUnit',
+          value: '申报单位',
+        },
+        {
+          key: 'declarationDate',
+          value: '申报日期',
+        },
       ],
       auditStatus: '',
-      auditStatusOptions: [{
-        key: '',
-        value: '请选择审核状态'
-      },
-      {
-        key: 'W',
-        value: '未审核'
-      },
-      {
-        key: 'Y',
-        value: '通过'
-      },
-      {
-        key: 'N',
-        value: '不通过'
-      },
+      auditStatusOptions: [
+        {
+          key: '',
+          value: '请选择审核状态',
+        },
+        {
+          key: 'W',
+          value: '未审核',
+        },
+        {
+          key: 'Y',
+          value: '通过',
+        },
+        {
+          key: 'N',
+          value: '不通过',
+        },
       ],
       retrieval: '',
-      retrievalOptions: [{
-        key: '',
-        value: '请选择检索字段'
-      },
-      {
-        key: 'declarationType',
-        value: '报关单类型'
-      },
-      {
-        key: 'preentryNumber',
-        value: '预录入编号'
-      },
-      {
-        key: 'importOrExportPort',
-        value: '进口/出口口岸'
-      },
-      {
-        key: 'managementUnit',
-        value: '经营单位'
-      },
-      {
-        key: 'declarationUnit',
-        value: '申报单位'
-      },
-      {
-        key: 'declarationDate',
-        value: '申报日期'
-      },
+      retrievalOptions: [
+        {
+          key: '',
+          value: '请选择检索字段',
+        },
+        {
+          key: 'declarationType',
+          value: '报关单类型',
+        },
+        {
+          key: 'preentryNumber',
+          value: '预录入编号',
+        },
+        {
+          key: 'importOrExportPort',
+          value: '进口/出口口岸',
+        },
+        {
+          key: 'managementUnit',
+          value: '经营单位',
+        },
+        {
+          key: 'declarationUnit',
+          value: '申报单位',
+        },
+        {
+          key: 'declarationDate',
+          value: '申报日期',
+        },
       ],
       logic: '',
-      logicOptions: [{
-        key: '',
-        value: '请选择逻辑'
-      },
-      {
-        key: 'and',
-        value: '与'
-      },
-      {
-        key: 'or',
-        value: '或'
-      },
-      {
-        key: 'none',
-        value: '非'
-      },
+      logicOptions: [
+        {
+          key: '',
+          value: '请选择逻辑',
+        },
+        {
+          key: 'and',
+          value: '与',
+        },
+        {
+          key: 'or',
+          value: '或',
+        },
+        {
+          key: 'none',
+          value: '非',
+        },
       ],
     };
   },
@@ -603,6 +583,29 @@ export default {
     },
     onSelectionChange(selection) {
       this.selectedRows = selection;
+      console.log(selection);
+      this.statu = false;
+      this.noPassStatu = false;
+      this.passStatu = false;
+      selection.forEach(select => {
+        if (select.auditStatus == 'P') {
+          this.statu = true;
+          this.noPassStatu = true;
+          this.passStatu = true;
+          return;
+        }
+        if (select.auditStatus == 'Y') {
+          this.noPassStatu = true;
+          this.statu = true;
+          return;
+        } else {
+          this.passStatu = true;
+        }
+        if (select.auditStatus == 'N') {
+          this.noPassStatu = true;
+        }
+      });
+      console.log(this.statu);
     },
     expandRow(row) {
       this.declarationType = row.declarationType;
@@ -616,56 +619,24 @@ export default {
       this.currentPage = val;
       this.getDeclarationData();
     },
-    checkOrConfirm(declarationForm, serviceId, method) {
-      return axios
-        .post("/" + serviceId + "/" + serviceId + "/" + method, declarationForm)
-        .then(res => res)
-    },
-    checkOrConfirm2(declarationForm, serviceId, method) {
-      return axios
-        .post("/" + serviceId + "/" + method, declarationForm)
-        .then(res => res)
-    },
     passClick(id) {
-      this.id = id;
-      Promise.all([this.checkOrConfirm(this.tmpDeclaration, 'cottonQuota', 'check'), this.checkOrConfirm(this.tmpDeclaration,
-        'riskAnalysis', 'check'),
-      this.checkOrConfirm2(this.tmpDeclaration, 'tax', 'check'), this.checkOrConfirm2(this.tmpDeclaration,
-        'taxCutting', 'check'), this.checkOrConfirm2(this.tmpDeclaration, 'manifest', 'check'),
-      this.checkOrConfirm2(this.tmpDeclaration, 'processingTrade', 'check')
-      ]).then(datas => {
-        let flag = true;
-        console.log(datas)
-        datas.forEach(data => {
-          if (data.status != 200) {
-            flag = false;
-          }
-        });
-        this.saveCheckStatus = flag;
-        this.checkList = datas;
-        this.showCheckDialog = true;
-      });
-    },
-    onSure() {
-      if (this.saveCheckStatus) {
-        let rowIds = [];
-        if (this.id) {
-          rowIds = [this.id];
-        } else {
-          this.selectedRows.forEach(function(row) {
-            rowIds.push(row.id);
-          });
-        }
-        this.checkList = [];
-        this.showCheckDialog = false;
-        this.saveCheckStatus = false;
-        auditingAPI.doAuditing(rowIds, 'Y').then(res => {
-          this.getDeclarationData();
-          this.$message.success("审核成功");
-        });
+      let rowIds = [];
+      if (id) {
+        rowIds = [id];
       } else {
-        this.$message.error("审核失败");
+        this.selectedRows.forEach(function(row) {
+          rowIds.push(row.id);
+        });
       }
+      auditingAPI.doAuditing(rowIds, 'Y').then(res => {
+        this.$notify({
+          title: '提示',
+          message: res.data,
+          type: 'success',
+          duration: 2000,
+        });
+        this.getDeclarationData();
+      });
     },
     notPassClick(id) {
       let rowIds = [];
@@ -700,7 +671,6 @@ export default {
     'packing-item': packing,
   },
 };
-
 </script>
 
 <style scoped>

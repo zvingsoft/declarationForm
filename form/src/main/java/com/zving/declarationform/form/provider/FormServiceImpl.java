@@ -45,7 +45,8 @@ public class FormServiceImpl implements FormService {
 	@RequestMapping(path = "form", method = RequestMethod.POST)
 	@ResponseBody
 	public String add(@RequestBody DeclarationForm form) {
-		form.setAuditStatusName("未提交");
+		form.setAuditStatusName("初稿");
+		form.setAuditStatus("C");
 		StorageUtil.getInstance().add(DeclarationForm.class, form);
 		return "添加成功";
 	}
@@ -111,7 +112,7 @@ public class FormServiceImpl implements FormService {
 		List<DeclarationForm> list1 = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
 			System.out.println(list.get(i).getAuditStatus());
-			if (list.get(i).getAuditStatus() != null) {
+			if (!list.get(i).getAuditStatus().equals("C")) {
 				list1.add(list.get(i));
 			}
 		}
@@ -138,7 +139,7 @@ public class FormServiceImpl implements FormService {
 					if (statu.equals("W")) {
 						df.setAuditStatusName("未审核");
 					} else if (statu.equals("Y")) {
-						df.setAuditStatusName("通过");
+						df.setAuditStatusName("审核通过");
 					} else if (statu.equals("N")) {
 						df.setAuditStatusName("不通过");
 					} else if (statu.equals("P")) {

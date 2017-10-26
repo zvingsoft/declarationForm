@@ -32,13 +32,13 @@
         <el-form-item label="商品名称：">
           <el-input class="e-input" type="textarea" :rows="3" v-model="tmpPacking.name" disabled></el-input>
         </el-form-item>
-        <el-form-item label="数量：" prop="amount" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+        <el-form-item label="数量：" prop="amount" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
           <el-input class="e-input" v-model.number="tmpPacking.amount"></el-input>
         </el-form-item>
-        <el-form-item label="单价：" prop="singlePrice" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+        <el-form-item label="单价：" prop="singlePrice" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
           <el-input class="e-input" v-model.number="tmpPacking.singlePrice"></el-input>
         </el-form-item>
-        <el-form-item label="总价：" prop="totalPrice" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+        <el-form-item label="总价：" prop="totalPrice" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
           <el-input class="e-input" v-model.number="tmpPacking.totalPrice"></el-input>
         </el-form-item>
         <el-form-item v-if="this.declarationType == 'import'" label="原产国：">

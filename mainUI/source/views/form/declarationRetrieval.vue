@@ -74,13 +74,13 @@
             <el-form-item label="提运单号：">
               <el-input class="s-input" v-model="searchDeclaration.shippingNumbers"></el-input>
             </el-form-item>
-            <el-form-item label="运费：" prop="freight" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+            <el-form-item label="运费：" prop="freight" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
               <el-input class="s-input" v-model.number="searchDeclaration.freight"></el-input>
             </el-form-item>
-            <el-form-item label="保费：" prop="premium" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+            <el-form-item label="保费：" prop="premium" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
               <el-input class="s-input" v-model.number="searchDeclaration.premium"></el-input>
             </el-form-item>
-            <el-form-item label="杂费：" prop="incidental" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+            <el-form-item label="杂费：" prop="incidental" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
               <el-input class="s-input" v-model.number="searchDeclaration.incidental"></el-input>
             </el-form-item>
             <el-form-item label="合同协议号：">
@@ -126,11 +126,11 @@
       <div style="width:100%;text-align:left;">
         <el-button class="z-toolbar-btn" :plain="true" @click="addClick">
           <i class="fa fa-plus"></i> 新建</el-button>
-        <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length !== 1" @click="editClick">
+        <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0 || audited" @click="editClick">
           <i class="fa fa-edit"></i> 编辑</el-button>
         <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="deleteClick">
           <i class="fa fa-remove"></i> 删除</el-button>
-        <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0" @click="commitAudit(true)">
+        <el-button class="z-toolbar-btn" :plain="true" :disabled="selectedRows.length === 0 || audited" @click="commitAudit(true)">
           <i class="fa fa-check"></i>提交审核</el-button>
         <div style="float:right; margin-right:10px;">
           <el-button class="z-toolbar-btn" :plain="true" @click="advanceSearch">
@@ -349,13 +349,13 @@
       <el-button class="z-toolbar-btn" :plain="true" @click="returnMain">
         <i class="fa fa-chevron-left"></i>返回</el-button>
       <span class="button-separator"></span>
-      <el-button class="z-toolbar-btn" :plain="true" @click="confirm">
+      <el-button class="z-toolbar-btn" :plain="true" @click="confirm" :disabled="audited">
         <i class="fa fa-save"></i>
         <span v-if="editMode == 1">保存编辑</span>
         <span v-else>暂存</span>
       </el-button>
       <span class="button-separator"></span>
-      <el-button class="z-toolbar-btn" :plain="true" @click="commitAudit(false)">
+      <el-button class="z-toolbar-btn" :plain="true" @click="commitAudit(false)" :disabled="audited">
         <i class="fa fa-check"></i>提交审核</el-button>
     </el-toolbar>
     <div class="main-content-wrap" style="background-color:#f5f5f5">
@@ -424,13 +424,13 @@
           <el-form-item label="提运单号：">
             <el-input class="e-input" v-model="tmpDeclaration.shippingNumbers"></el-input>
           </el-form-item>
-          <el-form-item label="运费：" prop="freight" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+          <el-form-item label="运费：" prop="freight" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
             <el-input class="e-input" v-model="tmpDeclaration.freight"></el-input>
           </el-form-item>
-          <el-form-item label="保费：" prop="premium" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+          <el-form-item label="保费：" prop="premium" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
             <el-input class="e-input" v-model="tmpDeclaration.premium"></el-input>
           </el-form-item>
-          <el-form-item label="杂费：" prop="incidental" :rules="[{ required: true, message: '请输入金额', trigger: 'change' },{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+          <el-form-item label="杂费：" prop="incidental" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
             <el-input class="e-input" v-model="tmpDeclaration.incidental"></el-input>
           </el-form-item>
           <el-form-item label="合同协议号：">
@@ -464,6 +464,31 @@
         <div style="height:100px;"></div>
       </el-form>
     </div>
+
+    <!-- 提交审核信息列表 -->
+    <el-dialog size="tiny" title="审核信息列表" :visible.sync="showCheckDialog">
+      <el-table ref="checkList" :data="checkList" style="width: 100%">
+        <el-table-column label="状态" width="80">
+          <template scope="scope">
+            <span v-show="!scope.row.data.includes('失败')">
+              <i style="color:green;font-size:18px;" class="fa fa-check" />
+            </span>
+            <span v-show="scope.row.data.includes('失败')">
+              <i style="color:red;font-size:18px;" class="fa fa-close" />
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column label="结果">
+          <template scope="scope">
+            {{scope.row.data}}
+          </template>
+        </el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="showCheckDialog = false">取 消</el-button>
+        <el-button type="primary" @click="onSure" :disabled="!saveCheckStatus">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -477,6 +502,11 @@ import packing from './components/packing.vue';
 export default {
   data() {
     return {
+      audited: false,
+      id: 0,
+      saveCheckStatus: false,
+      showCheckDialog: false,
+      checkList: [],
       declarationDataCache: [],
       unitOptions: [],
       packingListData: [],
@@ -573,8 +603,12 @@ export default {
     },
     rowDBClick(row) {
       declarationAPI.getDeclarationById(row.id).then(data => {
+        this.audited = false;
         this.editMode = 1;
         this.tmpDeclaration = data;
+        if (data.auditStatus != 'C' && data.auditStatus != 'N') {
+          this.audited = true;
+        }
         console.log(this.tmpDeclaration);
         this.declarationDialogmodel = true;
         this.selectedPackingRow = [];
@@ -605,65 +639,105 @@ export default {
       );
       this.declarationData = list.concat();
     },
+    checkOrConfirm(declarationForm, serviceId, method) {
+      return axios
+        .post('/' + serviceId + '/' + serviceId + '/' + method, declarationForm)
+        .then(res => res);
+    },
+    checkOrConfirm2(declarationForm, serviceId, method) {
+      return axios
+        .post('/' + serviceId + '/' + method, declarationForm)
+        .then(res => res);
+    },
     commitAudit(commit) {
-      let rowIds = [];
-      this.selectedRows.forEach(function(row) {
-        rowIds.push(row.id);
-      });
-      if (commit) {
-        declarationAPI.commitAudit(rowIds).then(res => {
-          this.$notify({
-            title: '成功',
-            message: res.data,
-            type: 'success',
-            duration: 2000,
-          });
-          this.getDeclarationData();
+      this.id = commit;
+      Promise.all([
+        this.checkOrConfirm(this.tmpDeclaration, 'cottonQuota', 'check'),
+        this.checkOrConfirm(this.tmpDeclaration, 'riskAnalysis', 'check'),
+        this.checkOrConfirm2(this.tmpDeclaration, 'tax', 'check'),
+        this.checkOrConfirm2(this.tmpDeclaration, 'taxCutting', 'check'),
+        this.checkOrConfirm2(this.tmpDeclaration, 'manifest', 'check'),
+        this.checkOrConfirm2(this.tmpDeclaration, 'processingTrade', 'check'),
+      ]).then(datas => {
+        let flag = true;
+        console.log(datas);
+        datas.forEach(data => {
+          if (data.status != 200) {
+            flag = false;
+          }
         });
-      } else {
-        if (this.editMode == 0) {
-          rowIds = [this.declarationID];
-          this.declarationTypeOptions.forEach(o => {
-            if (o.key == this.tmpDeclaration.declarationType) {
-              Vue.set(this.tmpDeclaration, 'declarationTypeName', o.value);
-              return;
-            }
-          });
-          Vue.set(this.tmpDeclaration, 'id', this.declarationID);
-          declarationAPI
-            .addDeclaration(this.tmpDeclaration)
-            .then(res => {
-              this.tmpDeclaration = {
-                declarationType: this.tmpDeclaration.declarationType,
-              };
-            })
-            .then(() => {
-              declarationAPI.commitAudit(rowIds).then(res => {
-                if (res.status == 200) {
-                  this.$notify({
-                    title: '成功',
-                    message: res.data,
-                    type: 'success',
-                    duration: 2000,
-                  });
-                }
-                this.getDeclarationData();
-              });
+        this.saveCheckStatus = flag;
+        this.checkList = datas;
+        this.showCheckDialog = true;
+      });
+    },
+    onSure() {
+      if (this.saveCheckStatus) {
+        let rowIds = [];
+        this.selectedRows.forEach(function(row) {
+          rowIds.push(row.id);
+        });
+        if (this.id) {
+          if (this.editMode == 0) {
+            rowIds = [this.declarationID];
+            this.declarationTypeOptions.forEach(o => {
+              if (o.key == this.tmpDeclaration.declarationType) {
+                Vue.set(this.tmpDeclaration, 'declarationTypeName', o.value);
+                return;
+              }
             });
-        } else {
-          rowIds = [this.tmpDeclaration.id];
-          declarationAPI.commitAudit(rowIds).then(res => {
-            if (res.status == 200) {
-              this.$notify({
-                title: '成功',
-                message: res.data,
-                type: 'success',
-                duration: 2000,
+            Vue.set(this.tmpDeclaration, 'id', this.declarationID);
+            declarationAPI
+              .addDeclaration(this.tmpDeclaration)
+              .then(res => {
+                this.tmpDeclaration = {
+                  declarationType: this.tmpDeclaration.declarationType,
+                };
+              })
+              .then(() => {
+                declarationAPI.commitAudit(rowIds).then(res => {
+                  if (res.status == 200) {
+                    this.$notify({
+                      title: '成功',
+                      message: res.data,
+                      type: 'success',
+                      duration: 2000,
+                    });
+                  }
+                  this.getDeclarationData();
+                });
               });
-            }
+          } else {
+            rowIds = [this.tmpDeclaration.id];
+            declarationAPI.commitAudit(rowIds).then(res => {
+              if (res.status == 200) {
+                this.$notify({
+                  title: '成功',
+                  message: res.data,
+                  type: 'success',
+                  duration: 2000,
+                });
+              }
+              this.getDeclarationData();
+            });
+          }
+        } else {
+          declarationAPI.commitAudit(rowIds).then(res => {
+            this.$notify({
+              title: '成功',
+              message: res.data,
+              type: 'success',
+              duration: 2000,
+            });
             this.getDeclarationData();
           });
         }
+        this.checkList = [];
+        this.showCheckDialog = false;
+        this.saveCheckStatus = false;
+        this.$message.success('审核成功');
+      } else {
+        this.$message.error('审核失败');
       }
     },
     advanceSearch() {
@@ -729,6 +803,13 @@ export default {
     },
     onSelectionChange(selection) {
       this.selectedRows = selection;
+      this.audited = false;
+      selection.forEach(select => {
+        if (select.auditStatus != 'C' && select.auditStatus != 'N') {
+          this.audited = true;
+          return;
+        }
+      });
     },
     handleSizeChange(val) {
       this.pageSize = val;
