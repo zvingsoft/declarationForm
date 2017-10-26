@@ -465,20 +465,6 @@ export default {
       unitOptions: [],
     };
   },
-  watch: {
-    declarationDialogmodel(show) {
-      if (show) {
-        companyAPI.getCompany().then(res => {
-          console.log(res);
-          this.unitOptions = res.data;
-        });
-        declarationAPI.getManifestData().then(data => {
-          console.log(data);
-          this.shippingNumbersOptions = data;
-        });
-      }
-    },
-  },
   methods: {
     importOrExportDateChange(val) {
       this.tmpDeclaration.importOrExportDate = val;
@@ -507,7 +493,21 @@ export default {
           this.audited = true;
         }
         console.log(this.tmpDeclaration);
-        this.declarationDialogmodel = true;
+        companyAPI
+          .getCompany()
+          .then(res => {
+            console.log(res);
+            this.unitOptions = res.data;
+          })
+          .then(() => {
+            declarationAPI.getManifestData().then(data => {
+              console.log(data);
+              this.shippingNumbersOptions = data;
+            });
+          })
+          .then(() => {
+            this.declarationDialogmodel = true;
+          });
         this.selectedPackingRow = [];
       });
     },
@@ -549,6 +549,7 @@ export default {
     commitAudit(commit) {
       this.id = commit;
       this.showCheckDialog = true;
+      console.log(this.tmpDeclaration);
       Promise.all([
         this.checkOrConfirm(this.tmpDeclaration, 'cottonQuota', 'check'),
         this.checkOrConfirm(this.tmpDeclaration, 'riskAnalysis', 'check'),
@@ -665,7 +666,7 @@ export default {
     },
     onSelectionChange(selection) {
       this.selectedRows = selection;
-      this.tmpDeclaration = Object.assign({}, selection[0]);
+      this.tmpDeclaration = Object.assign({}, this.selectedRows[0]);
       this.audited = false;
       console.log(selection);
       selection.forEach(select => {
@@ -697,7 +698,21 @@ export default {
         fillingDate: '',
       };
       this.declarationID = Math.floor(Math.random() * 999999) + 1;
-      this.declarationDialogmodel = true;
+      companyAPI
+        .getCompany()
+        .then(res => {
+          console.log(res);
+          this.unitOptions = res.data;
+        })
+        .then(() => {
+          declarationAPI.getManifestData().then(data => {
+            console.log(data);
+            this.shippingNumbersOptions = data;
+          });
+        })
+        .then(() => {
+          this.declarationDialogmodel = true;
+        });
       this.selectedPackingRow = [];
     },
     editClick() {
@@ -705,7 +720,21 @@ export default {
         this.editMode = 1;
         this.tmpDeclaration = data;
         console.log(this.tmpDeclaration);
-        this.declarationDialogmodel = true;
+        companyAPI
+          .getCompany()
+          .then(res => {
+            console.log(res);
+            this.unitOptions = res.data;
+          })
+          .then(() => {
+            declarationAPI.getManifestData().then(data => {
+              console.log(data);
+              this.shippingNumbersOptions = data;
+            });
+          })
+          .then(() => {
+            this.declarationDialogmodel = true;
+          });
         this.selectedPackingRow = [];
       });
     },

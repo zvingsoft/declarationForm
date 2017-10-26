@@ -36,6 +36,9 @@ public class ManifestServiceImpl implements ManifestService {
 	@ResponseBody
 	public String check(@RequestBody DeclarationForm form) {
 		try {
+			if("null".equals(form.getShippingNumbers()) || form.getShippingNumbers() == null){
+				return (InetAddress.getLocalHost().getHostName() + ":舱单核对失败：请为报关单添加对应的舱单号" );
+			}
 			Manifest manifest = new Manifest();
 			manifest.setId(Long.parseLong(form.getShippingNumbers()));
 			manifest = StorageUtil.getInstance().get(Manifest.class, manifest);

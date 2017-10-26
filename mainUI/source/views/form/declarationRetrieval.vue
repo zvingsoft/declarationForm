@@ -427,8 +427,11 @@
           <el-form-item label="许可证号：">
             <el-input class="e-input" v-model="tmpDeclaration.licenseKey"></el-input>
           </el-form-item>
-          <el-form-item label="提运单号：">
-            <el-input class="e-input" v-model="tmpDeclaration.shippingNumbers"></el-input>
+          <el-form-item label="舱单号：">
+            <el-select class="e-input" filterable v-model="tmpDeclaration.shippingNumbers" placeholder="请选择">
+              <el-option v-for="item in shippingNumbersOptions" :key="item.id" :label="item.manifestNum" :value="item.id">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="运费：" prop="freight" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
             <el-input class="e-input" v-model="tmpDeclaration.freight"></el-input>
@@ -508,6 +511,7 @@ import packing from './components/packing.vue';
 export default {
   data() {
     return {
+      shippingNumbersOptions: [],
       audited: false,
       id: 0,
       saveCheckStatus: false,
@@ -616,7 +620,21 @@ export default {
           this.audited = true;
         }
         console.log(this.tmpDeclaration);
-        this.declarationDialogmodel = true;
+        companyAPI
+          .getCompany()
+          .then(res => {
+            console.log(res);
+            this.unitOptions = res.data;
+          })
+          .then(() => {
+            declarationAPI.getManifestData().then(data => {
+              console.log(data);
+              this.shippingNumbersOptions = data;
+            });
+          })
+          .then(() => {
+            this.declarationDialogmodel = true;
+          });
         this.selectedPackingRow = [];
       });
     },
@@ -808,7 +826,7 @@ export default {
     },
     onSelectionChange(selection) {
       this.selectedRows = selection;
-      this.tmpDeclaration = Object.assign({},selection[0]);
+      this.tmpDeclaration = Object.assign({}, this.selectedRows[0]);
       this.audited = false;
       selection.forEach(select => {
         if (select.auditStatus != 'C' && select.auditStatus != 'N') {
@@ -836,7 +854,21 @@ export default {
         packingList: [],
       };
       this.declarationID = Math.floor(Math.random() * 999999) + 1;
-      this.declarationDialogmodel = true;
+      companyAPI
+        .getCompany()
+        .then(res => {
+          console.log(res);
+          this.unitOptions = res.data;
+        })
+        .then(() => {
+          declarationAPI.getManifestData().then(data => {
+            console.log(data);
+            this.shippingNumbersOptions = data;
+          });
+        })
+        .then(() => {
+          this.declarationDialogmodel = true;
+        });
       this.selectedPackingRow = [];
     },
     editClick() {
@@ -844,7 +876,21 @@ export default {
         this.editMode = 1;
         this.tmpDeclaration = data;
         console.log(this.tmpDeclaration);
-        this.declarationDialogmodel = true;
+        companyAPI
+          .getCompany()
+          .then(res => {
+            console.log(res);
+            this.unitOptions = res.data;
+          })
+          .then(() => {
+            declarationAPI.getManifestData().then(data => {
+              console.log(data);
+              this.shippingNumbersOptions = data;
+            });
+          })
+          .then(() => {
+            this.declarationDialogmodel = true;
+          });
         this.selectedPackingRow = [];
       });
     },
