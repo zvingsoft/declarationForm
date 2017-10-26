@@ -27,7 +27,7 @@ public class RiskAnalysisImpl implements RiskAnalysis {
 	public String check(@RequestBody DeclarationForm form) {
 		try {
 			if (form.getPackingList().size() == 0 || form.getPackingList().get(0).getAmount() < 2) {
-				return InetAddress.getLocalHost().getHostName() + "风险分析发现问题:没有货物或者货物过少!";
+				return InetAddress.getLocalHost().getHostName() + "风险分析失败:没有货物或者货物过少!";
 			} else {
 				return InetAddress.getLocalHost().getHostName() + "风险分析未发现问题";
 			}
