@@ -587,14 +587,14 @@ export default {
             if (this.auditStatus == o.auditStatus) {
               if (this.retrieval == '' || this.searchWord == '') {
                 this.declarationData.push(o);
-              } else if (this.searchWord == o[this.retrieval]) {
+              } else if (o[this.retrieval].indexOf(this.searchWord) >= 0) {
                 this.declarationData.push(o);
               }
             }
           } else {
             if (this.retrieval == '' || this.searchWord == '') {
               this.declarationData.push(o);
-            } else if (this.searchWord == o[this.retrieval]) {
+            } else if (o[this.retrieval].indexOf(this.searchWord) >= 0) {
               this.declarationData.push(o);
             }
           }
