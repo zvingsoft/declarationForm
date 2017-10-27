@@ -1,5 +1,6 @@
 package com.zving.declarationform.tax.schema;
 
+import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.model.DeclarationForm;
 
 /**
@@ -13,7 +14,7 @@ public interface TaxService {
 	/**
 	 * 计算税款
 	 */
-	String compute(DeclarationForm form);
+	ResponseDTO compute(DeclarationForm form);
 
 	/**
 	 * 计税检查

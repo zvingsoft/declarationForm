@@ -8,51 +8,55 @@ package com.zving.declarationform.dto;
  */
 public class ResponseDTO {
 
-    private int status;
-    private String message;
-    private Object data;
-    private int total;
+	private int status;
+	private String message;
+	private Object data;
+	private int total;
 
-    public ResponseDTO() {
-    }
+	public ResponseDTO() {
+	}
 
-    public ResponseDTO(int status, String message, Object data, int total) {
-        this.status = status;
-        this.message = message;
-        this.data = data;
-        this.total = total;
-    }
+	public ResponseDTO(String message) {
+		this.message = message;
+	}
 
-    public Object getData() {
-        return data;
-    }
+	public ResponseDTO(int status, String message, Object data, int total) {
+		this.status = status;
+		this.message = message;
+		this.data = data;
+		this.total = total;
+	}
 
-    public void setData(Object data) {
-        this.data = data;
-    }
+	public Object getData() {
+		return data;
+	}
 
-    public int getTotal() {
-        return total;
-    }
+	public void setData(Object data) {
+		this.data = data;
+	}
 
-    public void setTotal(int total) {
-        this.total = total;
-    }
+	public int getTotal() {
+		return total;
+	}
 
-    public int getStatus() {
-        return status;
-    }
+	public void setTotal(int total) {
+		this.total = total;
+	}
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
+	public int getStatus() {
+		return status;
+	}
 
-    public String getMessage() {
-        return message;
-    }
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 }

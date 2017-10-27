@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.license.model.License;
 import com.zving.declarationform.license.schema.LicenseService;
 import com.zving.declarationform.model.DeclarationForm;
@@ -58,17 +59,17 @@ public class LicenseServiceImpl implements LicenseService {
 	@Override
 	@RequestMapping(path = "try", method = RequestMethod.POST)
 	@ResponseBody
-	public String tccTry(@RequestBody DeclarationForm form) {
+	public ResponseDTO tccTry(@RequestBody DeclarationForm form) {
 		for (PackingItem item : form.getPackingList()) {
 			License old = new License();
 			old.setLicenseKey(form.getLicenseKey());
 			old.setSku(item.getSKU());
 			License license = StorageUtil.getInstance().get(License.class, old);
 			if (license == null) {
-				throw new RuntimeException("TCC锁定失败：没有许可证");
+				return new ResponseDTO("没有许可证");
 			}
 			if (item.getAmount() > license.getCount()) {
-				throw new RuntimeException("TCC锁定失败：许可证剩余数量不足");
+				return new ResponseDTO("许可证剩余数量不足");
 			}
 			license.setCount(license.getCount() - item.getAmount());
 			StorageUtil.getInstance().update(License.class, old, license);
@@ -81,20 +82,20 @@ public class LicenseServiceImpl implements LicenseService {
 			lock.setFormId(form.getId());
 			StorageUtil.getInstance().add(TCCLock.class, lock);
 		}
-		return "";
+		return new ResponseDTO("");
 	}
 
 	@Override
 	@RequestMapping(path = "confirm", method = RequestMethod.POST)
 	@ResponseBody
-	public String tccConfirm(@RequestBody DeclarationForm form) {
-		return "";
+	public ResponseDTO tccConfirm(@RequestBody DeclarationForm form) {
+		return new ResponseDTO("");
 	}
 
 	@Override
 	@RequestMapping(path = "cancel", method = RequestMethod.POST)
 	@ResponseBody
-	public String tccCancel(@RequestBody DeclarationForm form) {
+	public ResponseDTO tccCancel(@RequestBody DeclarationForm form) {
 		for (PackingItem item : form.getPackingList()) {
 			License old = new License();
 			old.setLicenseKey(form.getLicenseKey());
@@ -118,7 +119,7 @@ public class LicenseServiceImpl implements LicenseService {
 			StorageUtil.getInstance().update(License.class, old, license);
 			StorageUtil.getInstance().delete(TCCLock.class, lock);
 		}
-		return "";
+		return new ResponseDTO("");
 	}
 
 	@Override

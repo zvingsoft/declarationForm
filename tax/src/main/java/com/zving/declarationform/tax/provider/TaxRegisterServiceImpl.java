@@ -80,7 +80,8 @@ public class TaxRegisterServiceImpl implements TaxRegisterService {
 	public TaxRegister get(@PathVariable("id") long id) {
 		TaxRegister taxRegister = new TaxRegister();
 		taxRegister.setId(id);
-		return StorageUtil.getInstance().get(TaxRegister.class, taxRegister);
+		taxRegister = StorageUtil.getInstance().get(TaxRegister.class, taxRegister);
+		return taxRegister;
 	}
 
 	@Override

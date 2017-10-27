@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import javax.ws.rs.core.MediaType;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.huawei.paas.cse.tcc.annotation.TccTransaction;
+import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.form.schema.FormService;
 import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.storage.IStorage;
@@ -133,10 +133,11 @@ public class FormServiceImpl implements FormService {
 						df.setAuditStatusName("未审核");
 
 						// 计算税款
-						String taxStr = RestTemplateBuilder.create().postForObject("cse://tax/compute", df, String.class);
-						String taxcuttingStr = RestTemplateBuilder.create().postForObject("cse://taxCutting/compute", df, String.class);
-						Double tax = Double.parseDouble(taxStr);
-						Double taxcutting = Double.parseDouble(taxcuttingStr);
+						ResponseDTO taxR = RestTemplateBuilder.create().postForObject("cse://tax/compute", df, ResponseDTO.class);
+						ResponseDTO taxcuttingR = RestTemplateBuilder.create().postForObject("cse://taxCutting/compute", df,
+								ResponseDTO.class);
+						Double tax = Double.parseDouble(taxR.getMessage());
+						Double taxcutting = Double.parseDouble(taxcuttingR.getMessage());
 
 						if (tax > taxcutting) {
 							tax = tax - taxcutting;
@@ -148,7 +149,7 @@ public class FormServiceImpl implements FormService {
 						// 检查缴税
 						Map<?, ?> result = RestTemplateBuilder.create().getForObject("cse://tax/taxRegister/" + df.getCustomsNumber(),
 								Map.class);
-						if (result == null || result.containsKey("taxAmount")) {
+						if (result == null || !result.containsKey("taxAmount")) {
 							return "提交审核失败：未缴税";
 						}
 						double amount = Double.parseDouble(result.get("taxAmount").toString());
@@ -178,17 +179,18 @@ public class FormServiceImpl implements FormService {
 	public String tryConfirm(@RequestBody DeclarationForm form) {
 		// try阶段
 		List<String> services = Arrays.asList("license", "cottonQuota", "manifest", "processingTrade");
-		String format = "cse://?/tccTry";
+		StringBuilder sb = new StringBuilder();
 		Optional<String> fail = services.stream().filter(item -> {
 			// 验证
-			ResponseEntity<String> entry = RestTemplateBuilder.create().postForEntity(String.format(format, item), form, String.class);
-			if (!entry.getStatusCode().is2xxSuccessful()) {
+			ResponseDTO r = RestTemplateBuilder.create().postForObject("cse://" + item + "/try", form, ResponseDTO.class);
+			if (r.getMessage().contains("失败")) {
+				sb.append(r.getMessage() + "\n");
 				return true;
 			}
 			return false;
 		}).findAny();
 		if (fail.isPresent()) {
-			throw new RuntimeException("TCC.try失败");
+			return ("TCC.try失败:" + sb);
 		} else {
 			return "TCC事务成功执行";
 		}
@@ -197,11 +199,12 @@ public class FormServiceImpl implements FormService {
 	public void confirmMethod(DeclarationForm form) {
 		// confirm阶段
 		List<String> services = Arrays.asList("license", "cottonQuota", "manifest", "processingTrade");
-		String format = "cse://?/tccConfirm";
+		StringBuilder sb = new StringBuilder();
 		Optional<String> fail = services.stream().filter(item -> {
 			// 验证
-			ResponseEntity<String> entry = RestTemplateBuilder.create().postForEntity(String.format(format, item), form, String.class);
-			if (!entry.getStatusCode().is2xxSuccessful()) {
+			ResponseDTO r = RestTemplateBuilder.create().postForObject("cse://" + item + "/confirm", form, ResponseDTO.class);
+			if (r.getMessage().contains("失败")) {
+				sb.append(r.getMessage() + "\n");
 				return true;
 			}
 			return false;
@@ -214,17 +217,18 @@ public class FormServiceImpl implements FormService {
 	public void cancelMethod(DeclarationForm form) {
 		// cancel阶段
 		List<String> services = Arrays.asList("license", "cottonQuota", "manifest", "processingTrade");
-		String format = "cse://?/tccCancel";
+		StringBuilder sb = new StringBuilder();
 		Optional<String> fail = services.stream().filter(item -> {
 			// 验证
-			ResponseEntity<String> entry = RestTemplateBuilder.create().postForEntity(String.format(format, item), form, String.class);
-			if (!entry.getStatusCode().is2xxSuccessful()) {
+			ResponseDTO r = RestTemplateBuilder.create().postForObject("cse://" + item + "/cancel", form, ResponseDTO.class);
+			if (r.getMessage().contains("失败")) {
+				sb.append(r.getMessage() + "\n");
 				return true;
 			}
 			return false;
 		}).findAny();
 		if (fail.isPresent()) {
-			throw new RuntimeException("TCC.confirm失败");
+			throw new RuntimeException("TCC.cancel失败");
 		}
 	}
 

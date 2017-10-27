@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.model.PackingItem;
 import com.zving.declarationform.processingtrade.model.ProcessingTrade;
@@ -117,18 +118,18 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	public String tccTry(DeclarationForm form) {
-		return null;
+	public ResponseDTO tccTry(DeclarationForm form) {
+		return new ResponseDTO("");
 	}
 
 	@Override
-	public String tccConfirm(DeclarationForm form) {
-		return null;
+	public ResponseDTO tccConfirm(DeclarationForm form) {
+		return new ResponseDTO("");
 	}
 
 	@Override
-	public String tccCancel(DeclarationForm form) {
-		return null;
+	public ResponseDTO tccCancel(DeclarationForm form) {
+		return new ResponseDTO("");
 	}
 
 }

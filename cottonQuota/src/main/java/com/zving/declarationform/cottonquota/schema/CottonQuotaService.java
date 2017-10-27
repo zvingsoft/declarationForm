@@ -3,6 +3,7 @@ package com.zving.declarationform.cottonquota.schema;
 import java.util.List;
 
 import com.zving.declarationform.cottonquota.model.CottonQuota;
+import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.model.DeclarationForm;
 
 /**
@@ -25,10 +26,10 @@ public interface CottonQuotaService {
 
 	String check(DeclarationForm form);
 
-	String tccTry(DeclarationForm form);
+	ResponseDTO tccTry(DeclarationForm form);
 
-	String tccConfirm(DeclarationForm form);
+	ResponseDTO tccConfirm(DeclarationForm form);
 
-	String tccCancel(DeclarationForm form);
+	ResponseDTO tccCancel(DeclarationForm form);
 
 }

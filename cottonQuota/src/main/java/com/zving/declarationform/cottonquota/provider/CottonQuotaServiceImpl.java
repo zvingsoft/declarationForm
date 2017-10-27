@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.cottonquota.model.CottonQuota;
 import com.zving.declarationform.cottonquota.schema.CottonQuotaService;
+import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.model.PackingItem;
 import com.zving.declarationform.model.TCCLock;
@@ -157,14 +158,17 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
 	@Override
 	@RequestMapping(path = "try", method = RequestMethod.POST)
 	@ResponseBody
-	public String tccTry(DeclarationForm form) {
+	public ResponseDTO tccTry(@RequestBody DeclarationForm form) {
 		for (PackingItem item : form.getPackingList()) {
 			if (item.getName().contains("棉花")) {
 				CottonQuota old = new CottonQuota();
 				old.setCompanyId(form.getCompanyId());
 				CottonQuota quota = StorageUtil.getInstance().get(CottonQuota.class, old);
+				if (quota == null) {
+					return new ResponseDTO("没有棉花配额");
+				}
 				if (item.getAmount() > quota.getQuota() - quota.getUsed()) {
-					throw new RuntimeException("TCC锁定失败：棉花配额不足");
+					return new ResponseDTO("棉花配额不足");
 				}
 				quota.setUsed(quota.getUsed() + item.getAmount());
 				StorageUtil.getInstance().update(CottonQuota.class, old, quota);
@@ -178,20 +182,20 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
 				StorageUtil.getInstance().add(TCCLock.class, lock);
 			}
 		}
-		return "";
+		return new ResponseDTO("");
 	}
 
 	@Override
 	@RequestMapping(path = "confirm", method = RequestMethod.POST)
 	@ResponseBody
-	public String tccConfirm(DeclarationForm form) {
-		return "";
+	public ResponseDTO tccConfirm(@RequestBody DeclarationForm form) {
+		return new ResponseDTO("");
 	}
 
 	@Override
 	@RequestMapping(path = "cancel", method = RequestMethod.POST)
 	@ResponseBody
-	public String tccCancel(DeclarationForm form) {
+	public ResponseDTO tccCancel(@RequestBody DeclarationForm form) {
 		for (PackingItem item : form.getPackingList()) {
 			if (item.getName().contains("棉花")) {
 				CottonQuota old = new CottonQuota();
@@ -217,6 +221,6 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
 				StorageUtil.getInstance().delete(TCCLock.class, lock);
 			}
 		}
-		return "";
+		return new ResponseDTO("");
 	}
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.model.PackingItem;
 import com.zving.declarationform.storage.IStorage;
@@ -42,7 +43,7 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 	@Override
 	@RequestMapping(path = "compute", method = RequestMethod.POST)
 	@ResponseBody
-	public String compute(@RequestBody DeclarationForm form) {
+	public ResponseDTO compute(@RequestBody DeclarationForm form) {
 		double total = 0;
 		for (PackingItem item : form.getPackingList()) {
 			TaxCuttingRule rule = new TaxCuttingRule();
@@ -50,7 +51,7 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 			rule = StorageUtil.getInstance().get(TaxCuttingRule.class, rule);
 			total += rule.getRate() * item.getTotalPrice() / 100;
 		}
-		return total + "";
+		return new ResponseDTO(total + "");
 	}
 
 	@RequestMapping(path = "taxcutting", method = RequestMethod.POST)

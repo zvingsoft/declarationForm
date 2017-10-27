@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.manifest.model.Manifest;
 import com.zving.declarationform.manifest.model.ManifestItem;
 import com.zving.declarationform.manifest.schema.ManifestService;
@@ -68,22 +69,22 @@ public class ManifestServiceImpl implements ManifestService {
 	@Override
 	@RequestMapping(path = "try", method = RequestMethod.POST)
 	@ResponseBody
-	public String tccTry(@RequestBody DeclarationForm form) {
-		return "";
+	public ResponseDTO tccTry(@RequestBody DeclarationForm form) {
+		return new ResponseDTO("");
 	}
 
 	@Override
 	@RequestMapping(path = "confirm", method = RequestMethod.POST)
 	@ResponseBody
-	public String tccConfirm(@RequestBody DeclarationForm form) {
-		return "";
+	public ResponseDTO tccConfirm(@RequestBody DeclarationForm form) {
+		return new ResponseDTO("");
 	}
 
 	@Override
 	@RequestMapping(path = "cancel", method = RequestMethod.POST)
 	@ResponseBody
-	public String tccCancel(@RequestBody DeclarationForm form) {
-		return "";
+	public ResponseDTO tccCancel(@RequestBody DeclarationForm form) {
+		return new ResponseDTO("");
 	}
 
 	@Override
