@@ -42,26 +42,11 @@ public interface FormService {
 	 * 获取审核报关单列表
 	 */
 	List<DeclarationForm> auditList(String searchItem);
-	
-	/**
-	 * 获取未缴税的报关单列表
-	 */
-	List<DeclarationForm> unRegisterDeclarationList(String searchItem);
-	
-	/**
-	 * 根据缴税单的id列表查询对应的报关单
-	 */
-	List<DeclarationForm> taxRegisterDeclarationList(String ids);
-	
+
 	/**
 	 * 审核
 	 */
 	String audit(Map<String, String> map);
-
-	/**
-	 * saga确认
-	 */
-	String confirm(DeclarationForm form);
 
 	/**
 	 * tcc确认

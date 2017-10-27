@@ -26,7 +26,7 @@ public class JSONStorage implements IStorage {
 	ConcurrentHashMap<Class<?>, List<?>> map = null;
 	ReentrantLock lock = new ReentrantLock();
 
-	public JSONStorage() {
+	JSONStorage() {
 		new File("appdata/json/").mkdirs();
 	}
 

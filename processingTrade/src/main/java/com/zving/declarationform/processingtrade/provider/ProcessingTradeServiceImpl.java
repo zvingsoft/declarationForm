@@ -47,20 +47,6 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	@RequestMapping(path = "confirm", method = RequestMethod.POST)
-	@ResponseBody
-	public String confirm(@RequestBody DeclarationForm form) {
-		return "confirm成功：processingTrade";
-	}
-
-	@Override
-	@RequestMapping(path = "compensate", method = RequestMethod.POST)
-	@ResponseBody
-	public String compensate(@RequestBody DeclarationForm form) {
-		return null;
-	}
-
-	@Override
 	@RequestMapping(path = "processingtrade", method = RequestMethod.POST)
 	@ResponseBody
 	public String add(@RequestBody ProcessingTrade processingTrade) {
@@ -128,6 +114,21 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 			}
 		}
 		return "compensate失败：processingTrade";
+	}
+
+	@Override
+	public String tccTry(DeclarationForm form) {
+		return null;
+	}
+
+	@Override
+	public String tccConfirm(DeclarationForm form) {
+		return null;
+	}
+
+	@Override
+	public String tccCancel(DeclarationForm form) {
+		return null;
 	}
 
 }

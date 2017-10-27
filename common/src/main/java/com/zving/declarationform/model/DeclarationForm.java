@@ -11,6 +11,7 @@ import java.util.ArrayList;
  */
 public class DeclarationForm {
 	long id;
+	long companyId;// 公司ID
 	String declarationType;
 	String declarationTypeName;
 	String preentryNumber;
@@ -22,7 +23,7 @@ public class DeclarationForm {
 	String managementUnit;
 	String shippingType;
 	String shippingTools;
-	String shippingNumbers;
+	String shippingNumbers;// 舱单号
 	String forwardingUnit;
 	String tradingType;
 	String exemptionNature;
@@ -64,8 +65,7 @@ public class DeclarationForm {
 
 	ArrayList<Document> documents;// 单证信息
 	ArrayList<PackingItem> packingList;// 装箱清单
-	
-	
+
 	public String getTaxStatusName() {
 		return taxStatusName;
 	}
@@ -480,6 +480,14 @@ public class DeclarationForm {
 
 	public void setEntryDate(String entryDate) {
 		this.entryDate = entryDate;
+	}
+
+	public long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(long companyId) {
+		this.companyId = companyId;
 	}
 
 }

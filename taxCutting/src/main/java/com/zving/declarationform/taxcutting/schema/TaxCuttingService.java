@@ -18,9 +18,8 @@ import com.zving.declarationform.taxcutting.model.TaxCuttingRule;
 public interface TaxCuttingService {
 	String check(DeclarationForm form);
 
-	String confirm(DeclarationForm form);
+	String compute(DeclarationForm form);
 
-	String compensate(DeclarationForm form);
 	/**
 	 * 添加减免税
 	 */

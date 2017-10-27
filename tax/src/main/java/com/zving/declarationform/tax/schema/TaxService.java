@@ -16,8 +16,8 @@ public interface TaxService {
 	String compute(DeclarationForm form);
 
 	/**
-	 * 确认缴税
+	 * 计税检查
 	 */
-	String confirm(DeclarationForm form);
+	String check(DeclarationForm form);
 
 }

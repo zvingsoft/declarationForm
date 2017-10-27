@@ -1,4 +1,3 @@
-
 // 路由设置
 
 const routes = [
@@ -20,26 +19,37 @@ const routes = [
       {
         path: 'declarationRetrieval',
         meta: { title: '报关单检索', icon: 'fa fa-search' },
-        component: resolve => require.ensure([], () => resolve(require('../views/form/declarationRetrieval.vue')), 'formUI-declarationRetrieval')
-      },
-      {
-        path: 'auditing',
-        meta: { title: '审核', icon: 'fa fa-check-square-o' },
-        component: resolve => require.ensure([], () => resolve(require('../views/form/auditing.vue')), 'formUI-auditing')
+        component: resolve =>
+                    require.ensure([], () => resolve(require('../views/form/declarationRetrieval.vue')), 'formUI-declarationRetrieval')
       },
       {
         path: 'taxRegister',
         meta: { title: '缴税登记', icon: 'fa fa-files-o' },
         component: resolve => require.ensure([], () => resolve(require('../views/form/taxRegister.vue')), 'formUI-taxRegister')
+      },
+      {
+        path: 'auditing',
+        meta: { title: '审核与放行', icon: 'fa fa-check-square-o' },
+        component: resolve => require.ensure([], () => resolve(require('../views/form/auditing.vue')), 'formUI-auditing')
       }
     ]
   },
   {
     path: '/setting',
     name: 'setting',
-    meta: { title: '配置', icon: 'fa fa-sliders' },
+    meta: { title: '业务配置', icon: 'fa fa-sliders' },
     component: require('../views/setting/index.vue'),
     children: [
+      {
+        path: 'sku',
+        meta: { title: '商品管理', icon: 'fa fa-file-text-o' },
+        component: resolve => require.ensure([], () => resolve(require('../views/setting/sku.vue')), 'formUI-sku')
+      },
+      {
+        path: 'company',
+        meta: { title: '企业管理', icon: 'fa fa-file-text-o' },
+        component: resolve => require.ensure([], () => resolve(require('../views/setting/company.vue')), 'formUI-company')
+      },
       {
         path: 'tax',
         meta: { title: '税率管理', icon: 'fa fa-file-text-o' },
@@ -53,7 +63,8 @@ const routes = [
       {
         path: 'taxCutting',
         meta: { title: '减免税管理', icon: 'fa fa-file-text-o' },
-        component: resolve => require.ensure([], () => resolve(require('../views/setting/taxCutting.vue')), 'taxCuttingUI-taxCutting')
+        component: resolve =>
+                    require.ensure([], () => resolve(require('../views/setting/taxCutting.vue')), 'taxCuttingUI-taxCutting')
       },
       {
         path: 'manifest',
@@ -63,22 +74,14 @@ const routes = [
       {
         path: 'processingTrade',
         meta: { title: '加贸管理', icon: 'fa fa-file-text-o' },
-        component: resolve => require.ensure([], () => resolve(require('../views/setting/processingTrade.vue')), 'processingTradeUI-processingTrade')
+        component: resolve =>
+                    require.ensure([], () => resolve(require('../views/setting/processingTrade.vue')), 'processingTradeUI-processingTrade')
       },
       {
         path: 'cottonQuota',
         meta: { title: '棉花配额管理', icon: 'fa fa-file-text-o' },
-        component: resolve => require.ensure([], () => resolve(require('../views/setting/cottonQuota.vue')), 'cottonQuotaUI-cottonQuota')
-      },
-      {
-        path: 'sku',
-        meta: { title: '商品管理', icon: 'fa fa-file-text-o' },
-        component: resolve => require.ensure([], () => resolve(require('../views/setting/sku.vue')), 'formUI-sku')
-      },
-      {
-        path: 'company',
-        meta: { title: '企业管理', icon: 'fa fa-file-text-o' },
-        component: resolve => require.ensure([], () => resolve(require('../views/setting/company.vue')), 'formUI-company')
+        component: resolve =>
+                    require.ensure([], () => resolve(require('../views/setting/cottonQuota.vue')), 'cottonQuotaUI-cottonQuota')
       }
     ]
   },
@@ -107,4 +110,3 @@ const routes = [
 ]
 
 module.exports = routes
-

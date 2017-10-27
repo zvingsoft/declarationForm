@@ -23,11 +23,6 @@ public interface TaxRegisterService {
 	String update(TaxRegister taxRegister);
 
 	/**
-	 * 确认缴税
-	 */
-	String registerConfrim(String ids);
-
-	/**
 	 * 删除缴税单
 	 */
 	String delete(String ids);

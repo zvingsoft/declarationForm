@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.model.DeclarationForm;
+import com.zving.declarationform.model.PackingItem;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 import com.zving.declarationform.taxcutting.model.TaxCuttingRule;
@@ -41,47 +42,21 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 	@Override
 	@RequestMapping(path = "confirm", method = RequestMethod.POST)
 	@ResponseBody
-	public String confirm(@RequestBody DeclarationForm form) {
-//		try {
-//			List<PackingItem> packingList = form.getPackingList();
-//			for (PackingItem packingItem : packingList) {
-//				TaxCuttingRule tcr = get(packingItem.getSKU());
-//				if (tcr.getCount() >= Double.parseDouble(packingItem.getAmount())) {
-//					tcr.setCount(tcr.getCount() - Double.parseDouble(packingItem.getAmount()));
-//					update(tcr);
-//					return "confirm成功：taxCutting";
-//				} else {
-//					throw new RuntimeException();
-//				}
-//			}
-//		} catch (Exception e) {
-//			throw new RuntimeException();
-//		}
-		return "confirm成功：taxCutting";
-	}
-
-	@Override
-	@RequestMapping(path = "compensate/{id}", method = RequestMethod.POST)
-	@ResponseBody
-	public String compensate(@RequestBody DeclarationForm form) {
-//		try {
-//			List<PackingItem> packingList = form.getPackingList();
-//			for (PackingItem packingItem : packingList) {
-//				TaxCuttingRule tcr = get(packingItem.getSKU());
-//				tcr.setCount(tcr.getCount() + Double.parseDouble(packingItem.getAmount()));
-//				update(tcr);
-//				return "compensate成功：taxCutting";
-//			}
-//		} catch (Exception e) {
-//			throw new RuntimeException();
-//		}
-		return "compensate成功：taxCutting";
+	public String compute(@RequestBody DeclarationForm form) {
+		double total = 0;
+		for (PackingItem item : form.getPackingList()) {
+			TaxCuttingRule rule = new TaxCuttingRule();
+			rule.setSku(item.getSKU());
+			rule = StorageUtil.getInstance().get(TaxCuttingRule.class, rule);
+			total += rule.getRate() * item.getTotalPrice();
+		}
+		return total + "";
 	}
 
 	@RequestMapping(path = "taxcutting", method = RequestMethod.POST)
 	@ResponseBody
 	public String add(@RequestBody TaxCuttingRule taxCuttingRule) {
-		//taxCuttingRule.setCount(taxCuttingRule.getTopLmit());
+		// taxCuttingRule.setCount(taxCuttingRule.getTopLmit());
 		StorageUtil.getInstance().add(TaxCuttingRule.class, taxCuttingRule);
 		return "新建成功";
 	}

@@ -2,17 +2,12 @@ package com.zving.declarationform.form.provider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.ws.rs.core.MediaType;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -102,7 +97,6 @@ public class FormServiceImpl implements FormService {
 	public List<DeclarationForm> list(@RequestParam String searchItem) {
 		System.out.println(searchItem);
 		List<DeclarationForm> list = StorageUtil.getInstance().find(DeclarationForm.class, null);
-
 		return list;
 	}
 
@@ -123,66 +117,47 @@ public class FormServiceImpl implements FormService {
 	}
 
 	@Override
-	@RequestMapping(path = "taxRegister", method = RequestMethod.GET)
-	@ResponseBody
-	public List<DeclarationForm> taxRegisterDeclarationList(@RequestParam("ids") String ids) {
-		String[] strId = ids.split(",");
-		IStorage iStorage = StorageUtil.getInstance();
-		List<DeclarationForm> list = iStorage.find(DeclarationForm.class, null);
-		List<DeclarationForm> list1 = new ArrayList<>();
-		for (int i = 0; i < list.size(); i++) {
-			for (int j = 0; j < strId.length; j++) {
-				if (list.get(i).getId() == Long.parseLong(strId[j])) {
-					list1.add(list.get(i));
-				}
-			}
-		}
-		return list1;
-	}
-
-	@Override
-	@RequestMapping(path = "unRegisterDeclaration", method = RequestMethod.GET)
-	@ResponseBody
-	public List<DeclarationForm> unRegisterDeclarationList(@RequestParam String searchItem) {
-		System.out.println(searchItem);
-		List<DeclarationForm> list = StorageUtil.getInstance().find(DeclarationForm.class, null);
-		List<DeclarationForm> list1 = new ArrayList<>();
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getTaxStatus().equals("N")) {
-				list1.add(list.get(i));
-			}
-		}
-		return list1;
-	}
-
-	@Override
 	@RequestMapping(path = "audit", method = RequestMethod.PUT)
 	@ResponseBody
 	public String audit(@RequestBody Map<String, String> map) {
 		String ids = map.get("ids");
 		String statu = map.get("statu");
-		System.out.println(ids);
-		System.out.println(statu);
 		IStorage storage = StorageUtil.getInstance();
-		String[] strId = ids.split(",");
+		String[] idArr = ids.split(",");
 		List<DeclarationForm> list = storage.find(DeclarationForm.class, null);
-		DeclarationForm df = new DeclarationForm();
-		for (int i = 0; i < list.size(); i++) {
-			for (int j = 0; j < strId.length; j++) {
-				if (String.valueOf(list.get(i).getId()).equals(strId[j])) {
-					df = list.get(i);
+		for (DeclarationForm df : list) {
+			for (String id : idArr) {
+				if (String.valueOf(df.getId()).equals(id)) {
 					df.setAuditStatus(statu);
-					System.out.println(statu);
 					if (statu.equals("W")) {
 						df.setAuditStatusName("未审核");
+
+						// 计算税款
+						Double tax = RestTemplateBuilder.create().postForObject("cse://tax/compute", df, Double.class);
+						Double taxcutting = RestTemplateBuilder.create().postForObject("cse://taxcutting/compute", df, Double.class);
+						if (tax > taxcutting) {
+							tax = tax - taxcutting;
+						}
+						df.setTaxDue(tax);// 计算应交税款
 					} else if (statu.equals("Y")) {
 						df.setAuditStatusName("审核通过");
+
+						// 检查缴税
+						Map<?, ?> result = RestTemplateBuilder.create().getForObject("cse://tax/taxRegister/" + df.getCustomsNumber(),
+								Map.class);
+						if (result == null || result.containsKey("taxAmount")) {
+							return "提交审核失败：未缴税";
+						}
+						double amount = Double.parseDouble(result.get("taxAmount").toString());
+						if (amount != df.getTaxDue()) {// 缴税一致
+							return "提交审核失败：缴税款项与应缴数额不符";
+						}
 					} else if (statu.equals("N")) {
 						df.setAuditStatusName("不通过");
 					} else if (statu.equals("P")) {
 						df.setAuditStatusName("放行");
 					}
-					storage.delete(DeclarationForm.class, list.get(i));
+					storage.delete(DeclarationForm.class, df);
 					storage.add(DeclarationForm.class, df);
 				}
 			}
@@ -191,87 +166,60 @@ public class FormServiceImpl implements FormService {
 	}
 
 	@Override
-	@RequestMapping(path = "form/confirm", method = RequestMethod.POST)
-	@ResponseBody
-	public String confirm(@RequestBody DeclarationForm form) {
-		List<String> services = Arrays.asList("license", "cottonQuota", "manifest", "riskAnalysis", "processingTrade");
-		String confirmFormat = "cse://?/confirm";
-		String componsateFormat = "cse://?/componsate";
-		List<String> successList = new ArrayList<>();
-		Optional<String> fail = services.stream().filter(item -> {
-			// 验证
-			ResponseEntity<String> entry = RestTemplateBuilder.create()
-					.postForEntity(String.format(confirmFormat, item), form, String.class);
-			if (entry.getStatusCode().is2xxSuccessful()) {
-				successList.add(item);
-				return false;
-			} else {
-				return true;
-			}
-		}).findAny();
-		if (fail.isPresent()) {
-			if (successList.size() > 0) {
-				// 补偿
-				successList.stream().forEach(item -> RestTemplateBuilder.create()
-						.postForObject(String.format(componsateFormat, item), form, String.class));
-			}
-			return "confirm失败：form";
-		}
-		return "confirm成功：form";
-	}
-
-	@Override
 	@RequestMapping(path = "try", method = RequestMethod.POST)
 	@ResponseBody
 	@TccTransaction(cancelMethod = "cancelMethod", confirmMethod = "confirmMethod")
 	public String tryConfirm(@RequestBody DeclarationForm form) {
-		// TODO try阶段 锁定资源
-		List<String> services = Arrays.asList("license", "cottonQuota", "manifest", "riskAnalysis", "processingTrade");
-		String confirmFormat = "cse://?/confirm";
-		List<String> successList = (List<String>) context.getBean("successList");
+		// try阶段
+		List<String> services = Arrays.asList("license", "cottonQuota", "manifest", "processingTrade");
+		String format = "cse://?/tccTry";
 		Optional<String> fail = services.stream().filter(item -> {
 			// 验证
-			ResponseEntity<String> entry = RestTemplateBuilder.create()
-					.postForEntity(String.format(confirmFormat, item), form, String.class);
-			if (entry.getStatusCode().is2xxSuccessful()) {
-				successList.add(item);
-				return false;
-			} else {
+			ResponseEntity<String> entry = RestTemplateBuilder.create().postForEntity(String.format(format, item), form, String.class);
+			if (!entry.getStatusCode().is2xxSuccessful()) {
 				return true;
 			}
+			return false;
 		}).findAny();
 		if (fail.isPresent()) {
-			throw new RuntimeException("confirm失败：form");
+			throw new RuntimeException("TCC.try失败");
 		} else {
-			return "confirm成功：form";
+			return "TCC事务成功执行";
 		}
 	}
 
-	@Bean(name = "successList")
-	@Scope("request")
-	public List<String> getMap() {
-		return new ArrayList<>();
-	}
-
-	@Autowired
-	private ApplicationContext context;
-
-	public Map<String, Object> map = new HashMap<>();
-
 	public void confirmMethod(DeclarationForm form) {
-		// TODO 释放lock资源
+		// confirm阶段
+		List<String> services = Arrays.asList("license", "cottonQuota", "manifest", "processingTrade");
+		String format = "cse://?/tccConfirm";
+		Optional<String> fail = services.stream().filter(item -> {
+			// 验证
+			ResponseEntity<String> entry = RestTemplateBuilder.create().postForEntity(String.format(format, item), form, String.class);
+			if (!entry.getStatusCode().is2xxSuccessful()) {
+				return true;
+			}
+			return false;
+		}).findAny();
+		if (fail.isPresent()) {
+			throw new RuntimeException("TCC.confirm失败");
+		}
 	}
 
 	public void cancelMethod(DeclarationForm form) {
-		// 失败补偿
-		List<String> successList = (List<String>) context.getBean("successList");
-		String componsateFormat = "cse://?/componsate";
-		if (successList.size() > 0) {
-			// 已经confirm部分执行补偿
-			successList.stream().forEach(item -> RestTemplateBuilder.create()
-					.postForObject(String.format(componsateFormat, item), form, String.class));
+		// cancel阶段
+		List<String> services = Arrays.asList("license", "cottonQuota", "manifest", "processingTrade");
+		String format = "cse://?/tccCancel";
+		Optional<String> fail = services.stream().filter(item -> {
+			// 验证
+			ResponseEntity<String> entry = RestTemplateBuilder.create().postForEntity(String.format(format, item), form, String.class);
+			if (!entry.getStatusCode().is2xxSuccessful()) {
+				return true;
+			}
+			return false;
+		}).findAny();
+		if (fail.isPresent()) {
+			throw new RuntimeException("TCC.confirm失败");
 		}
-		// TODO 释放资源
 	}
 
 }

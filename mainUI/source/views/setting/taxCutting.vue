@@ -41,7 +41,7 @@
               <el-form-item label="减免数量上限">
                 <span>{{ props.row.topLmit }}</span>
               </el-form-item>
-              <el-form-item label="减免税率">
+              <el-form-item label="减免税率%">
                 <span>{{ props.row.rate }}</span>
               </el-form-item>
                <el-form-item label="有效期">
@@ -88,7 +88,7 @@
         <el-form-item prop="topLmit" label="减免数量上限：">
           <el-input placeholder="请输入减免数量上限" v-model="tmpTaxCutting.topLmit" style="width:215px;"></el-input>
         </el-form-item>
-        <el-form-item prop="rate" label="减免税率：">
+        <el-form-item prop="rate" label="减免税率%：">
           <el-input placeholder="请输入减免税率" v-model="tmpTaxCutting.rate" style="width:215px;"></el-input>
         </el-form-item>
         <el-form-item label="生效起始时间：">

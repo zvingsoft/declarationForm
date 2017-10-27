@@ -15,9 +15,11 @@ import com.zving.declarationform.model.DeclarationForm;
 public interface ManifestService {
 	String check(DeclarationForm form);
 
-	String confirm(DeclarationForm form);
+	String tccTry(DeclarationForm form);
 
-	String compensate(long manifestID);
+	String tccConfirm(DeclarationForm form);
+
+	String tccCancel(DeclarationForm form);
 
 	String add(Manifest manifest);
 

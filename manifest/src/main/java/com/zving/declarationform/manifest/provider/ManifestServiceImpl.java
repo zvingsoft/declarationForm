@@ -36,8 +36,8 @@ public class ManifestServiceImpl implements ManifestService {
 	@ResponseBody
 	public String check(@RequestBody DeclarationForm form) {
 		try {
-			if("null".equals(form.getShippingNumbers()) || form.getShippingNumbers() == null){
-				return (InetAddress.getLocalHost().getHostName() + ":舱单核对失败：请为报关单添加对应的舱单号" );
+			if ("null".equals(form.getShippingNumbers()) || form.getShippingNumbers() == null) {
+				return (InetAddress.getLocalHost().getHostName() + ":舱单核对失败：请为报关单添加对应的舱单号");
 			}
 			Manifest manifest = new Manifest();
 			manifest.setId(Long.parseLong(form.getShippingNumbers()));
@@ -62,17 +62,24 @@ public class ManifestServiceImpl implements ManifestService {
 	}
 
 	@Override
-	@RequestMapping(path = "confirm", method = RequestMethod.POST)
+	@RequestMapping(path = "try", method = RequestMethod.POST)
 	@ResponseBody
-	public String confirm(@RequestBody DeclarationForm form) {
-		return "confirm成功：manifest";
+	public String tccTry(@RequestBody DeclarationForm form) {
+		return "";
 	}
 
 	@Override
-	@RequestMapping(path = "compensate/{id}", method = RequestMethod.POST)
+	@RequestMapping(path = "confirm", method = RequestMethod.POST)
 	@ResponseBody
-	public String compensate(@PathVariable("id") long id) {
-		return null;
+	public String tccConfirm(@RequestBody DeclarationForm form) {
+		return "";
+	}
+
+	@Override
+	@RequestMapping(path = "cancel", method = RequestMethod.POST)
+	@ResponseBody
+	public String tccCancel(@RequestBody DeclarationForm form) {
+		return "";
 	}
 
 	@Override

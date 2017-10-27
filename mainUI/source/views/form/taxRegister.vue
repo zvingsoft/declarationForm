@@ -32,18 +32,9 @@
       </div>
       <el-table :data="taxRegisterData" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange" @row-dblclick="rowDBClick">
         <el-table-column type="selection" width="55" align="center"></el-table-column>
-        <el-table-column prop="taxNumber" show-overflow-tooltip min-width="15%" label="缴税单号"></el-table-column>
-        <el-table-column min-width="12%" label="报关单详情">
-          <template slot-scope="scope">
-            <el-button type="text">
-              <span style="color:green;" @click="showDeclarationist(scope.row.id,scope.row.declarationIds)">查看报关单</span>
-            </el-button>
-          </template>
-        </el-table-column>
+        <el-table-column prop="id" show-overflow-tooltip min-width="12%" label="报关单海关编号"></el-table-column>
         <el-table-column prop="taxAmount" show-overflow-tooltip min-width="15%" label="缴税金额"></el-table-column>
-        <!-- <el-table-column prop="taxUser" show-overflow-tooltip min-width="12%" label="缴税人"></el-table-column> -->
         <el-table-column prop="registerDate" show-overflow-tooltip min-width="15%" label="缴税时间"></el-table-column>
-        <el-table-column prop="registerStatusName" show-overflow-tooltip min-width="12%" label="缴税状态"></el-table-column>
         <el-table-column min-width="15%" label="操作">
           <template slot-scope="scope">
             <el-button type="text" :disabled="scope.row.registerStatus == 'Y'" @click="registerClick(scope.row.id)">
@@ -59,36 +50,21 @@
     </div>
     <el-dialog :title="editMode==1? '编辑缴税单信息': '添加缴税单'" :visible.sync="registerDialogModal" :close-on-click-modal="false">
       <el-form label-position="right" ref="taxRegisterForm" :model="tmpTaxRegister" label-width="150px">
-        <el-form-item label="缴税单号：" prop="taxNumber" :rules="[{ required: true, message: '缴税单号不能为空', trigger: 'change' }]">
-          <el-input class="e-input" v-model="tmpTaxRegister.taxNumber"></el-input>
+        <el-form-item label="报关单海关编号：">
+          <el-input class="e-input" v-model.number="tmpTaxRegister.id"></el-input>
         </el-form-item>
-        <!-- <el-form-item label="缴税人：" prop="taxUser" :rules="[{ required: true, message: '缴税人不能为空', trigger: 'change' }]">
-          <el-input class="e-input" v-model="tmpTaxRegister.taxUser"></el-input>
-        </el-form-item> -->
         <el-form-item label="缴税金额：" prop="taxAmount" :rules="[{ type: 'number', message: '缴税金额必须为数字值', trigger: 'change'}]">
           <el-input class="e-input" v-model.number="tmpTaxRegister.taxAmount"></el-input>
         </el-form-item>
         <el-form-item label="缴税时间：">
-            <el-date-picker v-model="tmpTaxRegister.registerDate" @change="registerDateChange" type="date" class="e-input" placeholder="选择缴税日期">
-            </el-date-picker>
-        </el-form-item>
-        <el-form-item label="关联报关单：">
-          <!-- <div style="border:1px solid #f5f5f5">
-          <declaration-list @callback="listCallback" :id="tmpTaxRegister.id"></declaration-list>
-          </div> -->
-          <el-select class="e-input" v-model="tmpTaxRegister.declarationIds" filterable multiple placeholder="请选择">
-            <el-option v-for="item in declarationOptions"  :key="item.id" :label="item.customsNumber" :value="item.id">
-            </el-option>
-          </el-select>
+          <el-date-picker v-model="tmpTaxRegister.registerDate" @change="registerDateChange" type="date" class="e-input" placeholder="选择缴税日期">
+          </el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer">
         <el-button @click="registerDialogModal = false">取 消</el-button>
         <el-button type="primary" @click="registerDialogConfirm">确 定</el-button>
       </div>
-    </el-dialog>
-    <el-dialog title="报关单列表详情" :visible.sync="declarationListDialogModal">
-      <declaration-list :onlyView="true" :declarationIds="declarationIds"></declaration-list>
     </el-dialog>
 
   </div>
@@ -161,12 +137,8 @@ export default {
           value: '请选择检索字段',
         },
         {
-          key: 'taxNumber',
-          value: '缴税单号',
-        },
-        {
-          key: 'taxUser',
-          value: '缴税人',
+          key: 'id',
+          value: '报关单海关编号',
         },
         {
           key: 'registerDate',
@@ -190,32 +162,16 @@ export default {
         id: Math.random() * 99999 + 1,
         declarationIds: [],
       };
-      taxRegisterAPI
-        .getUnregisterDeclaration({})
-        .then(data => {
-          console.log(data);
-          this.declarationOptions = data;
-        })
-        .then(() => {
-          this.registerDialogModal = true;
-        });
+      this.registerDialogModal = true;
     },
     editClick() {
       if (this.selectedRows.length == 0) {
         this.$message('请选择要编辑的缴税单', 'info');
         return;
       }
-      taxRegisterAPI
-        .getUnregisterDeclaration({})
-        .then(data => {
-          console.log(data);
-          this.declarationOptions = data;
-        })
-        .then(() => {
-          this.tmpTaxRegister = Object.assign({}, this.selectedRows[0]);
-          this.editMode = 1;
-          this.registerDialogModal = true;
-        });
+      this.tmpTaxRegister = Object.assign({}, this.selectedRows[0]);
+      this.editMode = 1;
+      this.registerDialogModal = true;
     },
     registerDialogConfirm() {
       this.$refs['taxRegisterForm'].validate(valid => {

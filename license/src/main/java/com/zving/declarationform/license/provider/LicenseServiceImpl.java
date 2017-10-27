@@ -1,7 +1,5 @@
 package com.zving.declarationform.license.provider;
 
-import io.servicecomb.provider.rest.common.RestSchema;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -9,8 +7,6 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.MediaType;
-
-import net.sf.json.JSONObject;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,18 +16,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.zving.declarationform.license.exception.LicenseOptionFailedException;
 import com.zving.declarationform.license.model.License;
 import com.zving.declarationform.license.schema.LicenseService;
 import com.zving.declarationform.model.DeclarationForm;
+import com.zving.declarationform.model.PackingItem;
+import com.zving.declarationform.model.TCCLock;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
+
+import io.servicecomb.provider.rest.common.RestSchema;
+import net.sf.json.JSONObject;
 
 @RestSchema(schemaId = "license")
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
 @Controller
 public class LicenseServiceImpl implements LicenseService {
 
+	/**
+	 * 提交审核前的检查
+	 */
 	@Override
 	@RequestMapping(path = "check", method = RequestMethod.POST)
 	@ResponseBody
@@ -44,49 +47,69 @@ public class LicenseServiceImpl implements LicenseService {
 	}
 
 	@Override
-	@RequestMapping(path = "confirm", method = RequestMethod.POST)
+	@RequestMapping(path = "try", method = RequestMethod.POST)
 	@ResponseBody
-	public String confirm(@RequestBody DeclarationForm form) {
-		String licenseKey = form.getLicenseKey();
-		try {
-			double count = form.getGoodsNumber();
-			List<License> licenses = list();
-			for (License license : licenses) {
-				if (license.getLicenseKey().equals(licenseKey)) {
-					if (license.getCount() >= count) {
-						license.setCount(license.getCount() - count);
-						update(license);
-						return "confirm成功：license";
-					} else {
-						throw new LicenseOptionFailedException();
-					}
-				}
+	public String tccTry(@RequestBody DeclarationForm form) {
+		for (PackingItem item : form.getPackingList()) {
+			License old = new License();
+			old.setLicenseKey(form.getLicenseKey());
+			old.setSku(item.getSKU());
+			License license = StorageUtil.getInstance().get(License.class, old);
+			if (license == null) {
+				throw new RuntimeException("TCC锁定失败：没有许可证");
 			}
-		} catch (Exception e) {
-			throw new LicenseOptionFailedException();
+			if (item.getAmount() > license.getCount()) {
+				throw new RuntimeException("TCC锁定失败：许可证剩余数量不足");
+			}
+			license.setCount(license.getCount() - item.getAmount());
+			StorageUtil.getInstance().update(License.class, old, license);
+
+			// 记录资源锁定
+			TCCLock lock = new TCCLock();
+			lock.setType("License");
+			lock.setRelaId(item.getSKU());
+			lock.setLockedValue(item.getAmount() + "");
+			lock.setFormId(form.getId());
+			StorageUtil.getInstance().add(TCCLock.class, lock);
 		}
-		return "confirm成功：license";
+		return "";
 	}
 
 	@Override
-	@RequestMapping(path = "compensate", method = RequestMethod.POST)
+	@RequestMapping(path = "confirm", method = RequestMethod.POST)
 	@ResponseBody
-	public String compensate(@RequestBody DeclarationForm form) {
-		String licenseKey = form.getLicenseKey();
-		try {
-			double count = form.getGoodsNumber();
-			List<License> licenses = list();
-			for (License license : licenses) {
-				if (license.getLicenseKey().equals(licenseKey)) {
-					license.setCount(license.getCount() + count);
-					update(license);
-					return "compensate成功：license";
-				}
+	public String tccConfirm(@RequestBody DeclarationForm form) {
+		return "";
+	}
+
+	@Override
+	@RequestMapping(path = "cancel", method = RequestMethod.POST)
+	@ResponseBody
+	public String tccCancel(@RequestBody DeclarationForm form) {
+		for (PackingItem item : form.getPackingList()) {
+			License old = new License();
+			old.setLicenseKey(form.getLicenseKey());
+			old.setSku(item.getSKU());
+			License license = StorageUtil.getInstance().get(License.class, old);
+			if (license == null) {
+				continue;
 			}
-		} catch (Exception e) {
-			throw new LicenseOptionFailedException();
+
+			// 记录资源锁定
+			TCCLock lock = new TCCLock();
+			lock.setType("License");
+			lock.setRelaId(item.getSKU());
+			lock.setFormId(form.getId());
+			lock = StorageUtil.getInstance().get(TCCLock.class, lock);
+			if (lock == null) {
+				continue;
+			}
+
+			license.setCount(license.getCount() + Double.parseDouble(lock.getLockedValue()));
+			StorageUtil.getInstance().update(License.class, old, license);
+			StorageUtil.getInstance().delete(TCCLock.class, lock);
 		}
-		return "compensate成功：license";
+		return "";
 	}
 
 	@Override

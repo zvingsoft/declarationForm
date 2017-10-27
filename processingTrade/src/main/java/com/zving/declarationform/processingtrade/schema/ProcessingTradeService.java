@@ -24,7 +24,10 @@ public interface ProcessingTradeService {
 
 	String check(DeclarationForm form);
 
-	String confirm(DeclarationForm form);
+	String tccTry(DeclarationForm form);
 
-	String compensate(DeclarationForm form);
+	String tccConfirm(DeclarationForm form);
+
+	String tccCancel(DeclarationForm form);
+
 }

@@ -1,10 +1,5 @@
 package com.zving.declarationform.tax.provider;
 
-import io.servicecomb.provider.rest.common.RestSchema;
-import io.vertx.core.json.JsonObject;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 import com.zving.declarationform.tax.model.TaxRate;
 import com.zving.declarationform.tax.schema.TaxRateService;
+
+import io.servicecomb.provider.rest.common.RestSchema;
+import io.vertx.core.json.JsonObject;
 
 /**
  * 税率服务实现类
@@ -38,16 +35,6 @@ import com.zving.declarationform.tax.schema.TaxRateService;
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
 @Controller
 public class TaxRateServiceImpl implements TaxRateService {
-
-	@RequestMapping(path = "check", method = RequestMethod.POST)
-	@ResponseBody
-	public String check(@RequestBody DeclarationForm form) {
-		try {
-			return InetAddress.getLocalHost().getHostName() + ":计税检查通过";
-		} catch (UnknownHostException e) {
-			throw new RuntimeException(e);
-		}
-	}
 
 	@RequestMapping(path = "taxrate", method = RequestMethod.POST)
 	@ResponseBody

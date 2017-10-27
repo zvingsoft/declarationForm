@@ -1,7 +1,5 @@
 package com.zving.declarationform.tax.model;
 
-import java.util.List;
-
 /**
  * 缴税登记
  * 
@@ -10,24 +8,13 @@ import java.util.List;
  * @date 2017年10月26日
  */
 public class TaxRegister {
-	long id;//id
-	String taxNumber;//缴税单号
-	String taxUser;//缴税人
-	double taxAmount;//缴税金额
-	String registerDate;//缴税时间
-	String registerStatus;//缴税状态
-	String registerStatusName;//缴税状态名称
-	
-	List<Long> declarationIds ;//报关单编号
-
-	
-	public List<Long> getDeclarationIds() {
-		return declarationIds;
-	}
-
-	public void setDeclarationIds(List<Long> declarationIds) {
-		this.declarationIds = declarationIds;
-	}
+	long id;// 报关单海关编号
+	String taxNumber;// 缴税单号
+	String taxUser;// 缴税人
+	double taxAmount;// 缴税金额
+	String registerDate;// 缴税时间
+	String registerStatus;// 缴税状态
+	String registerStatusName;// 缴税状态名称
 
 	public String getRegisterStatusName() {
 		return registerStatusName;
@@ -84,6 +71,5 @@ public class TaxRegister {
 	public void setTaxUser(String taxUser) {
 		this.taxUser = taxUser;
 	}
-	
-	
+
 }

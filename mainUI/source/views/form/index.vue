@@ -33,12 +33,11 @@ const menus = [
     meta: { title: '报关单检索', icon: 'fa fa-search' }
   },
   {
-    path: '/form/auditing',
-    meta: { title: '审核', icon: 'fa fa-check-square-o' }
-  },
-  {
     path: '/form/taxRegister',
     meta: { title: '缴税登记', icon: 'fa fa-files-o' }
+  }, {
+    path: '/form/auditing',
+    meta: { title: '审核与放行', icon: 'fa fa-check-square-o' }
   }
 ]
 
@@ -102,7 +101,7 @@ export default {
 }
 </style>
 <style>
-.menu-wrap .el-menu{
-  width:200px;
+.menu-wrap .el-menu {
+  width: 200px;
 }
 </style>

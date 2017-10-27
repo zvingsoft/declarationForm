@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.JSONStorage;
+import com.zving.declarationform.storage.StorageUtil;
 
 /**
  * @author 王育春
@@ -13,7 +14,7 @@ import com.zving.declarationform.storage.JSONStorage;
 public class TestJSONStorage {
 
 	public static void main(String[] args) {
-		IStorage jsonStorage = new JSONStorage();
+		IStorage jsonStorage = StorageUtil.getInstance();
 		jsonStorage.add(Person.class, new Person("wang", new Date()));
 		Person p = jsonStorage.find(Person.class, new Person(null, null)).get(0);
 		System.out.println(p.getBirthday());

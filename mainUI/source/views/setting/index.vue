@@ -2,7 +2,7 @@
   <div class="layout">
     <div class="body-list" style="background-color:white;">
       <el-toolbar>
-        <span><i class="fa fa-sliders"/> 配置</span>
+        <span><i class="fa fa-sliders"/> 业务配置</span>
       </el-toolbar>
       <div class="menu-wrap">
         <el-menu :default-active="activeMenu" @select="onSelectMenu">
@@ -23,6 +23,14 @@
 
 <script>
 const menus = [
+  {
+    path: '/setting/sku',
+    meta: { title: '商品管理', icon: 'fa fa-th-list' },
+  },
+  {
+    path: '/setting/company',
+    meta: { title: '企业管理', icon: 'fa fa-american-sign-language-interpreting' },
+  },
   {
     path: '/setting/tax',
     meta: { title: '税率管理', icon: 'fa fa-money' },
@@ -46,14 +54,6 @@ const menus = [
   {
     path: '/setting/cottonQuota',
     meta: { title: '棉花配额管理', icon: 'fa fa-meetup' },
-  },
-  {
-    path: '/setting/sku',
-    meta: { title: '商品管理', icon: 'fa fa-th-list' },
-  },
-  {
-    path: '/setting/company',
-    meta: { title: '企业管理', icon: 'fa fa-american-sign-language-interpreting' },
   },
 ];
 

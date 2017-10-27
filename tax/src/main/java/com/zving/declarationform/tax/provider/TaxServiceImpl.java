@@ -1,5 +1,8 @@
 package com.zving.declarationform.tax.provider;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.stereotype.Controller;
@@ -9,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.model.DeclarationForm;
+import com.zving.declarationform.model.PackingItem;
+import com.zving.declarationform.storage.StorageUtil;
+import com.zving.declarationform.tax.model.TaxRate;
 import com.zving.declarationform.tax.schema.TaxService;
 
 import io.servicecomb.provider.rest.common.RestSchema;
@@ -25,18 +31,31 @@ import io.servicecomb.provider.rest.common.RestSchema;
 @Controller
 public class TaxServiceImpl implements TaxService {
 
+	@RequestMapping(path = "check", method = RequestMethod.POST)
+	@ResponseBody
+	public String check(@RequestBody DeclarationForm form) {
+		try {
+			return InetAddress.getLocalHost().getHostName() + ":计税检查通过";
+		} catch (UnknownHostException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	@Override
 	@RequestMapping(path = "compute", method = RequestMethod.POST)
 	@ResponseBody
 	public String compute(@RequestBody DeclarationForm form) {
-		return "报关单税费：" + System.currentTimeMillis() / 1000000;
-	}
-
-	@Override
-	@RequestMapping(path = "confirm", method = RequestMethod.POST)
-	@ResponseBody
-	public String confirm(@RequestBody DeclarationForm form) {
-		return "confirm成功：tax";
+		double total = 0;
+		for (PackingItem item : form.getPackingList()) {
+			TaxRate rate = new TaxRate();
+			rate.setSKU(item.getSKU());
+			rate = StorageUtil.getInstance().get(TaxRate.class, rate);
+			if (item.getTotalPrice() < rate.getExemption()) {// 低于免征额
+				continue;
+			}
+			total += rate.getRate() * item.getTotalPrice();
+		}
+		return total + "";
 	}
 
 }

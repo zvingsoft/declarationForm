@@ -13,9 +13,11 @@ import com.zving.declarationform.model.DeclarationForm;
 public interface LicenseService {
 	String check(DeclarationForm form);
 
-	String confirm(DeclarationForm form);
+	String tccTry(DeclarationForm form);
 
-	String compensate(DeclarationForm form);
+	String tccConfirm(DeclarationForm form);
+
+	String tccCancel(DeclarationForm form);
 
 	String add(License license);
 

@@ -1,6 +1,5 @@
 package com.zving.declarationform.tax.provider;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.MediaType;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 import com.zving.declarationform.tax.model.TaxRegister;
@@ -37,7 +35,6 @@ public class TaxRegisterServiceImpl implements TaxRegisterService {
 	@RequestMapping(path = "taxRegister", method = RequestMethod.POST)
 	@ResponseBody
 	public String add(@RequestBody TaxRegister taxRegister) {
-		taxRegister.setId((long) Math.floor(Math.random() * 999999 + 1));
 		taxRegister.setRegisterStatus("N");
 		taxRegister.setRegisterStatusName("未缴税");
 		StorageUtil.getInstance().add(TaxRegister.class, taxRegister);
@@ -58,40 +55,6 @@ public class TaxRegisterServiceImpl implements TaxRegisterService {
 
 		storage.add(TaxRegister.class, taxRegister);
 		return "更新成功";
-	}
-
-	@Override
-	@RequestMapping(path = "registerConfrim/{ids}", method = RequestMethod.PUT)
-	@ResponseBody
-	public String registerConfrim(@PathVariable String ids) {
-		String[] strId = ids.split(",");
-		System.out.println(ids);
-		IStorage iStorage = StorageUtil.getInstance();
-		IStorage storage = StorageUtil.getInstance();
-		List<TaxRegister> list = iStorage.find(TaxRegister.class, null);
-		List<DeclarationForm> formList = new ArrayList<>();
-		DeclarationForm declarationForm = new DeclarationForm();
-		TaxRegister taxRegister = new TaxRegister();
-		for (int i = 0; i < list.size(); i++) {
-			for (int j = 0; j < strId.length; j++) {
-				if (list.get(i).getId() == Long.parseLong(strId[j])) {
-					taxRegister = list.get(i);
-					taxRegister.setRegisterStatus("Y");
-					taxRegister.setRegisterStatusName("已缴税");
-//					formList = list.get(i).getdeclarationList();
-//					for (int k = 0; k < formList.size(); k++) {
-//						declarationForm = formList.get(k);
-//						declarationForm.setTaxStatus("Y");
-//						declarationForm.setTaxStatusName("已缴税");
-//						storage.delete(DeclarationForm.class, formList.get(k));
-//						storage.add(DeclarationForm.class, declarationForm);
-//					}
-					iStorage.delete(TaxRegister.class, list.get(i));
-					iStorage.add(TaxRegister.class, taxRegister);
-				}
-			}
-		}
-		return "确认缴税成功";
 	}
 
 	@Override

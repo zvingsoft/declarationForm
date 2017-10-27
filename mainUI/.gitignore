@@ -13,3 +13,4 @@ WEB-INF
 /target/
 *.log
 *.psd
+*/resources/static/*

@@ -31,19 +31,19 @@ public class MysqlStorage implements IStorage {
 	static final String DriverName = "com.mysql.jdbc.Driver";
 	Connection conn;
 
-	void init() {
-		String address = System.getenv("mysql.address");
-		String user = System.getenv("mysql.user");
-		String password = System.getenv("mysql.password");
+	public MysqlStorage() {
+		String address = System.getenv("mysql_address");
+		String user = System.getenv("mysql_user");
+		String password = System.getenv("mysql_password");
 
 		if (address == null) {
-			address = System.getProperty("mysql.address");
+			address = System.getProperty("mysql_address");
 		}
 		if (user == null) {
-			user = System.getProperty("mysql.user");
+			user = System.getProperty("mysql_user");
 		}
 		if (password == null) {
-			password = System.getProperty("mysql.password");
+			password = System.getProperty("mysql_password");
 		}
 
 		try {
@@ -76,7 +76,7 @@ public class MysqlStorage implements IStorage {
 				stmt.execute("create table classdata(classtype varchar(100),jsondata mediumtext)");
 			}
 			stmt.close();
-
+			map = new ConcurrentHashMap<>();
 			this.conn = conn;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,18 +85,6 @@ public class MysqlStorage implements IStorage {
 
 	@SuppressWarnings("unchecked")
 	<T> List<T> getList(Class<T> clazz) {
-		if (map == null) {
-			lock.lock();
-			try {
-				if (map == null) {
-					init();
-					map = new ConcurrentHashMap<>();
-				}
-			} finally {
-				lock.unlock();
-			}
-		}
-
 		if (map.containsKey(clazz)) {
 			return (List<T>) map.get(clazz);
 		} else {
@@ -176,6 +164,12 @@ public class MysqlStorage implements IStorage {
 				if (e.getValue() == null) {
 					continue;
 				} else {
+					if (e.getValue() instanceof Long || e.getValue() instanceof Integer || e.getValue() instanceof Float
+							|| e.getValue() instanceof Double) {
+						if (((Number) e.getValue()).doubleValue() == 0) {
+							continue;
+						}
+					}
 					if (!e.getValue().equals(map2.get(e.getKey()))) {
 						flag = false;
 						break;

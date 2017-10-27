@@ -478,6 +478,7 @@ export default {
     selectUnitChange(val) {
       this.unitOptions.forEach(o => {
         if (o.name == val) {
+          Vue.set(this.tmpDeclaration, 'companyId', o.id);
           Vue.set(this.tmpDeclaration, 'unitAddress', o.address);
           Vue.set(this.tmpDeclaration, 'zipCode', o.postCode);
           Vue.set(this.tmpDeclaration, 'telephone', o.phone);

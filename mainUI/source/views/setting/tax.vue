@@ -29,7 +29,7 @@
                 <!-- <el-form-item label="单位">
                   <span>{{props.row.unit}}</span>
                 </el-form-item> -->
-                <el-form-item label="税率">
+                <el-form-item label="税率%">
                   <span>{{props.row.rate}}</span>
                 </el-form-item>
                 <el-form-item label="免征额">
@@ -51,7 +51,7 @@
           </el-table-column>
           <el-table-column prop="skuname" min-width="35%" label="商品名称"></el-table-column>
           <!-- <el-table-column prop="unit" min-width="10%" label="单位"></el-table-column> -->
-          <el-table-column prop="rate" min-width="10%" label="税率"></el-table-column>
+          <el-table-column prop="rate" min-width="10%" label="税率%"></el-table-column>
           <el-table-column prop="exemption" min-width="10%" label="免征额"></el-table-column>
           <el-table-column prop="modifyDate" min-width="20%" label="最后修改"></el-table-column>
         </el-table>
@@ -80,7 +80,7 @@
         <!-- <el-form-item label="单位：">
           <el-input placeholder="请输入单位" v-model="tmpTax.unit" class="width-230"></el-input>
         </el-form-item> -->
-        <el-form-item label="税率：">
+        <el-form-item label="税率%：">
           <el-input placeholder="请输入税率" v-model="tmpTax.rate" class="width-230"></el-input>
         </el-form-item>
         <el-form-item label="免征额：">

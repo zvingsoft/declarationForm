@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.zving.declarationform.cottonquota.model.CottonQuota;
 import com.zving.declarationform.cottonquota.schema.CottonQuotaService;
 import com.zving.declarationform.model.DeclarationForm;
+import com.zving.declarationform.model.PackingItem;
+import com.zving.declarationform.model.TCCLock;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 
@@ -126,17 +128,20 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
 	@ResponseBody
 	public String check(@RequestBody DeclarationForm form) {
 		try {
+			for (PackingItem item : form.getPackingList()) {
+				if (item.getName().contains("棉花")) {
+					CottonQuota quota = new CottonQuota();
+					quota.setCompanyId(form.getCompanyId());
+					quota = StorageUtil.getInstance().get(CottonQuota.class, quota);
+					if (item.getAmount() > quota.getQuota() - quota.getUsed()) {
+						return InetAddress.getLocalHost().getHostName() + ":棉花配额检查失败：可用额度不足";
+					}
+				}
+			}
 			return InetAddress.getLocalHost().getHostName() + ":棉花配额检查通过";
 		} catch (UnknownHostException e) {
 			throw new RuntimeException(e);
 		}
-	}
-
-	@Override
-	@RequestMapping(path = "confirm", method = RequestMethod.POST)
-	@ResponseBody
-	public String confirm(@RequestBody DeclarationForm form) {
-		return "confirm成功：cottonQuota";
 	}
 
 	private CottonQuota getCottonQuota(long id) {
@@ -147,5 +152,71 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	@RequestMapping(path = "try", method = RequestMethod.POST)
+	@ResponseBody
+	public String tccTry(DeclarationForm form) {
+		for (PackingItem item : form.getPackingList()) {
+			if (item.getName().contains("棉花")) {
+				CottonQuota old = new CottonQuota();
+				old.setCompanyId(form.getCompanyId());
+				CottonQuota quota = StorageUtil.getInstance().get(CottonQuota.class, old);
+				if (item.getAmount() > quota.getQuota() - quota.getUsed()) {
+					throw new RuntimeException("TCC锁定失败：棉花配额不足");
+				}
+				quota.setUsed(quota.getUsed() + item.getAmount());
+				StorageUtil.getInstance().update(CottonQuota.class, old, quota);
+
+				// 记录资源锁定
+				TCCLock lock = new TCCLock();
+				lock.setType("CottonQuota");
+				lock.setRelaId(item.getId() + "");
+				lock.setLockedValue(item.getAmount() + "");
+				lock.setFormId(form.getId());
+				StorageUtil.getInstance().add(TCCLock.class, lock);
+			}
+		}
+		return "";
+	}
+
+	@Override
+	@RequestMapping(path = "confirm", method = RequestMethod.POST)
+	@ResponseBody
+	public String tccConfirm(DeclarationForm form) {
+		return "";
+	}
+
+	@Override
+	@RequestMapping(path = "cancel", method = RequestMethod.POST)
+	@ResponseBody
+	public String tccCancel(DeclarationForm form) {
+		for (PackingItem item : form.getPackingList()) {
+			if (item.getName().contains("棉花")) {
+				CottonQuota old = new CottonQuota();
+				old.setCompanyId(form.getCompanyId());
+				CottonQuota quota = StorageUtil.getInstance().get(CottonQuota.class, old);
+
+				if (quota == null) {
+					continue;
+				}
+
+				// 记录资源锁定
+				TCCLock lock = new TCCLock();
+				lock.setType("CottonQuota");
+				lock.setRelaId(item.getId() + "");
+				lock.setFormId(form.getId());
+				lock = StorageUtil.getInstance().get(TCCLock.class, lock);
+				if (lock == null) {
+					continue;
+				}
+
+				quota.setUsed(quota.getUsed() - Double.parseDouble(lock.getLockedValue()));
+				StorageUtil.getInstance().update(CottonQuota.class, old, quota);
+				StorageUtil.getInstance().delete(TCCLock.class, lock);
+			}
+		}
+		return "";
 	}
 }
