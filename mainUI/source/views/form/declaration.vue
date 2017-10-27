@@ -24,9 +24,9 @@
         </el-select>
         <el-input style="width:200px" size="small" v-model="searchWord"></el-input>
         <!--<el-select size="small" v-model="logic" class="search-select">
-                        <el-option v-for="item in logicOptions" :key="item.key" :label="item.value" :value="item.key">
-                        </el-option>
-                      </el-select>-->
+                                  <el-option v-for="item in logicOptions" :key="item.key" :label="item.value" :value="item.key">
+                                  </el-option>
+                                </el-select>-->
         <el-button size="small" type="primary" @click="doSearch" style="width:60px;">搜索</el-button>
       </div>
       <el-table :data="declarationData" ref="declarationTable" v-loading="dataLoading" tooltip-effect="dark" style="width:100%" :height="clientHeight" highlight-current-row @selection-change="onSelectionChange" @expand="expandRow" @row-dblclick="rowDBClick">
@@ -225,7 +225,7 @@
     <el-dialog size="tiny" title="审核信息列表" :visible.sync="showCheckDialog">
       <el-table ref="checkList" :data="checkList" style="width: 100%">
         <el-table-column label="状态" width="80">
-          <template  slot-scope="scope">
+          <template slot-scope="scope">
             <span v-show="!scope.row.data.includes('失败')">
               <i style="color:green;font-size:18px;" class="fa fa-check" />
             </span>
@@ -235,7 +235,7 @@
           </template>
         </el-table-column>
         <el-table-column label="结果">
-          <template  slot-scope="scope">
+          <template slot-scope="scope">
             {{scope.row.data}}
           </template>
         </el-table-column>
@@ -324,10 +324,7 @@
             <el-input class="e-input" v-model="tmpDeclaration.licenseKey"></el-input>
           </el-form-item>
           <el-form-item label="舱单号：">
-            <el-select class="e-input" filterable v-model="tmpDeclaration.shippingNumbers" placeholder="请选择">
-              <el-option v-for="item in shippingNumbersOptions" :key="item.id" :label="item.manifestNum" :value="item.id">
-              </el-option>
-            </el-select>
+            <el-input class="e-input" v-model="tmpDeclaration.shippingNumbers"></el-input>
           </el-form-item>
           <el-form-item label="运费：" prop="freight" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
             <el-input class="e-input" v-model.number="tmpDeclaration.freight" auto-complete="off"></el-input>
@@ -337,6 +334,9 @@
           </el-form-item>
           <el-form-item label="杂费：" prop="incidental" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
             <el-input class="e-input" v-model.number="tmpDeclaration.incidental" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="应缴税额：" prop="taxDue" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
+            <el-input class="e-input" readonly="true" v-model.number="tmpDeclaration.taxDue" auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item label="合同协议号：">
             <el-input class="e-input" v-model="tmpDeclaration.agreementNumber"></el-input>
@@ -374,7 +374,7 @@
     <el-dialog size="tiny" title="审核信息列表" :visible.sync="showCheckDialog">
       <el-table ref="checkList" :data="checkList" style="width: 100%">
         <el-table-column label="状态" width="80">
-          <template  slot-scope="scope">
+          <template slot-scope="scope">
             <span v-show="!scope.row.data.includes('失败')">
               <i style="color:green;font-size:18px;" class="fa fa-check" />
             </span>
@@ -384,7 +384,7 @@
           </template>
         </el-table-column>
         <el-table-column label="结果">
-          <template  slot-scope="scope">
+          <template slot-scope="scope">
             {{scope.row.data}}
           </template>
         </el-table-column>
@@ -395,7 +395,6 @@
       </div>
     </el-dialog>
   </div>
-
 </template>
 
 <script>
@@ -559,12 +558,9 @@ export default {
         this.checkOrConfirm2(this.tmpDeclaration, 'manifest', 'check'),
         this.checkOrConfirm2(this.tmpDeclaration, 'processingTrade', 'check'),
       ]).then(datas => {
-        let flag = true;
         console.log(datas);
-        datas.forEach(data => {
-          if (data.status != 200) {
-            flag = false;
-          }
+        let flag = !datas.some(data => {
+          return data.status != 200 || data.data.includes('失败')
         });
         this.saveCheckStatus = flag;
         this.checkList = datas;
@@ -772,7 +768,7 @@ export default {
     },
     returnMain() {
       this.selectedRows = [];
-      this.getDeclarationData();
+      window.location.reload();
       this.declarationDialogmodel = false;
     },
     confirm() {
@@ -812,6 +808,7 @@ export default {
               };
             });
           }
+          this.returnMain();
         } else {
           this.$notify({
             title: '操作失败',

@@ -35,7 +35,7 @@ public class TaxServiceImpl implements TaxService {
 	@ResponseBody
 	public String check(@RequestBody DeclarationForm form) {
 		try {
-			return InetAddress.getLocalHost().getHostName() + ":计税检查通过";
+			return InetAddress.getLocalHost().getHostName() + ":应缴税款:" + compute(form);
 		} catch (UnknownHostException e) {
 			throw new RuntimeException(e);
 		}
@@ -53,7 +53,7 @@ public class TaxServiceImpl implements TaxService {
 			if (item.getTotalPrice() < rate.getExemption()) {// 低于免征额
 				continue;
 			}
-			total += rate.getRate() * item.getTotalPrice();
+			total += rate.getRate() * item.getTotalPrice() / 100;
 		}
 		return total + "";
 	}

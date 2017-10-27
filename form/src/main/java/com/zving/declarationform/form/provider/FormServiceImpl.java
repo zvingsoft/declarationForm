@@ -133,8 +133,11 @@ public class FormServiceImpl implements FormService {
 						df.setAuditStatusName("未审核");
 
 						// 计算税款
-						Double tax = RestTemplateBuilder.create().postForObject("cse://tax/compute", df, Double.class);
-						Double taxcutting = RestTemplateBuilder.create().postForObject("cse://taxcutting/compute", df, Double.class);
+						String taxStr = RestTemplateBuilder.create().postForObject("cse://tax/compute", df, String.class);
+						String taxcuttingStr = RestTemplateBuilder.create().postForObject("cse://taxCutting/compute", df, String.class);
+						Double tax = Double.parseDouble(taxStr);
+						Double taxcutting = Double.parseDouble(taxcuttingStr);
+
 						if (tax > taxcutting) {
 							tax = tax - taxcutting;
 						}
@@ -156,6 +159,9 @@ public class FormServiceImpl implements FormService {
 						df.setAuditStatusName("不通过");
 					} else if (statu.equals("P")) {
 						df.setAuditStatusName("放行");
+						storage.delete(DeclarationForm.class, df);
+						storage.add(DeclarationForm.class, df);
+						return tryConfirm(df);
 					}
 					storage.delete(DeclarationForm.class, df);
 					storage.add(DeclarationForm.class, df);

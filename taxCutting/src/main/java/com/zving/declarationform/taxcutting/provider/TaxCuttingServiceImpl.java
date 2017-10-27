@@ -40,7 +40,7 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 	}
 
 	@Override
-	@RequestMapping(path = "confirm", method = RequestMethod.POST)
+	@RequestMapping(path = "compute", method = RequestMethod.POST)
 	@ResponseBody
 	public String compute(@RequestBody DeclarationForm form) {
 		double total = 0;
@@ -48,7 +48,7 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 			TaxCuttingRule rule = new TaxCuttingRule();
 			rule.setSku(item.getSKU());
 			rule = StorageUtil.getInstance().get(TaxCuttingRule.class, rule);
-			total += rule.getRate() * item.getTotalPrice();
+			total += rule.getRate() * item.getTotalPrice() / 100;
 		}
 		return total + "";
 	}

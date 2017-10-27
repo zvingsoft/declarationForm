@@ -40,6 +40,15 @@ public class LicenseServiceImpl implements LicenseService {
 	@ResponseBody
 	public String check(@RequestBody DeclarationForm form) {
 		try {
+			for (PackingItem item : form.getPackingList()) {
+				License old = new License();
+				old.setLicenseKey(form.getLicenseKey());
+				old.setSku(item.getSKU());
+				License license = StorageUtil.getInstance().get(License.class, old);
+				if (license == null) {
+					return InetAddress.getLocalHost().getHostName() + ":进出口许可证失败：没有找到许可证";
+				}
+			}
 			return InetAddress.getLocalHost().getHostName() + ":进出口许可证检查通过";
 		} catch (UnknownHostException e) {
 			throw new RuntimeException(e);

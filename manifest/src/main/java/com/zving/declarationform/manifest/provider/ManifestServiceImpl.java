@@ -40,8 +40,12 @@ public class ManifestServiceImpl implements ManifestService {
 				return (InetAddress.getLocalHost().getHostName() + ":舱单核对失败：请为报关单添加对应的舱单号");
 			}
 			Manifest manifest = new Manifest();
-			manifest.setId(Long.parseLong(form.getShippingNumbers()));
+			manifest.setManifestNum(form.getShippingNumbers());
 			manifest = StorageUtil.getInstance().get(Manifest.class, manifest);
+
+			if (manifest == null) {
+				return (InetAddress.getLocalHost().getHostName() + ":舱单核对失败：请为报关单添加对应的舱单号");
+			}
 
 			for (ManifestItem item : manifest.getItems()) {
 				boolean flag = false;

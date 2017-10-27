@@ -215,16 +215,6 @@
         <el-table-column prop="declarationDate" show-overflow-tooltip min-width="12%" label="申报日期"></el-table-column>
         <el-table-column prop="entrydate" show-overflow-tooltip min-width="12%" label="录入日期"></el-table-column>
         <el-table-column prop="auditStatusName" show-overflow-tooltip min-width="11%" label="审核状态"></el-table-column>
-        <el-table-column min-width="15%" label="操作">
-          <template slot-scope="scope">
-            <el-button type="text" :disabled="scope.row.auditStatus == 'Y' || scope.row.auditStatus == 'P'" @click="passClick(scope.row.id)">
-              <span style="color:green;">通过</span>
-            </el-button>
-            <el-button type="text" :disabled="scope.row.auditStatus != 'W'" @click="notPassClick(scope.row.id)">
-              <span style="color:red;">不通过</span>
-            </el-button>
-          </template>
-        </el-table-column>
       </el-table>
       <div class="page-wrap">
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="pageSizes" :page-size="pageSize" layout="total, sizes, prev, pager, next" :total="total">
@@ -333,7 +323,7 @@
         </tr>
         <tr class="t3">
           <td colspan="10" valign="top">
-            <span>税费征收情况　</span>{{tmpDeclaration.taxpaidOrNot}}</td>
+            <span>税费征收情况:　</span>应缴税额：{{tmpDeclaration.taxDue}}</td>
         </tr>
         <tr class="t5">
           <td colspan="10">
