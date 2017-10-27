@@ -17,7 +17,7 @@
           <el-option v-for="item in sortOptions" :key="item.key" :label="item.value" :value="item.key">
           </el-option>
         </el-select>
-        审核状态：
+        缴税状态：
         <el-select size="small" v-model="registerStatus" class="search-select">
           <el-option v-for="item in registerStatusOptions" :key="item.key" :label="item.value" :value="item.key">
           </el-option>
