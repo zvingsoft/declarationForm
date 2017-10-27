@@ -18,6 +18,14 @@
 		</dependency>
 		<dependency>
 			<groupId>io.servicecomb</groupId>
+			<artifactId>handler-tracing-zipkin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.servicecomb</groupId>
+			<artifactId>spring-cloud-zuul-zipkin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.servicecomb</groupId>
 			<artifactId>handler-bizkeeper</artifactId>
 		</dependency>
 		<dependency>
@@ -66,7 +74,7 @@
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-starter-tomcat</artifactId>
 				</exclusion>
- 			</exclusions>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

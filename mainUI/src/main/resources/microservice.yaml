@@ -6,5 +6,11 @@ cse:
   service:
     registry:
       address: http://127.0.0.1:30100
+  handler:
+    chain:
+      Consumer:
+        default: tracing-consumer
+      Provider:
+        default: tracing-provider
   rest:
     address: 0.0.0.0:8013

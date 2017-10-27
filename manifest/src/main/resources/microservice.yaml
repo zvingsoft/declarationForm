@@ -8,3 +8,7 @@ cse:
       address: http://127.0.0.1:30100
   rest:
     address: 0.0.0.0:8006
+  handler:
+    chain:
+      Provider:
+        default: tracing-provider

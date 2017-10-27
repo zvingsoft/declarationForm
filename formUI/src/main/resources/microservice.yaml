@@ -11,3 +11,7 @@ cse:
   isolation:
     Consumer:
       enabled: false
+  handler:
+    chain:
+      Provider:
+        default: tracing-provider   

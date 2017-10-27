@@ -14,7 +14,8 @@ cse:
   handler: #tcc事务配置开始
     chain:
       Provider:
-        default: tcc-server #tcc事务配置结束
+        default: tracing-provider,tcc-server #tcc事务配置结束
+        
   monitor: #关闭minitor data上传
     client:
       enable: false #关闭minitor data上传 结束
