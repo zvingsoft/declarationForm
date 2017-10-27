@@ -43,9 +43,16 @@ public class TaxServiceImpl implements TaxService {
 	}
 
 	@Override
+	@RequestMapping(path = "compute2", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseDTO compute2(@RequestBody DeclarationForm form) {
+		return new ResponseDTO(compute(form));
+	}
+
+	@Override
 	@RequestMapping(path = "compute", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseDTO compute(@RequestBody DeclarationForm form) {
+	public String compute(@RequestBody DeclarationForm form) {
 		double total = 0;
 		for (PackingItem item : form.getPackingList()) {
 			TaxRate rate = new TaxRate();
@@ -56,7 +63,7 @@ public class TaxServiceImpl implements TaxService {
 			}
 			total += rate.getRate() * item.getTotalPrice() / 100;
 		}
-		return new ResponseDTO(total + "");
+		return total + "";
 	}
 
 }

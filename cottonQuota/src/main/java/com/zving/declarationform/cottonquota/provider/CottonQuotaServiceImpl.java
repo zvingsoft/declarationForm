@@ -28,7 +28,7 @@ import com.zving.declarationform.storage.StorageUtil;
 import io.servicecomb.provider.rest.common.RestSchema;
 
 @RestSchema(schemaId = "cottonQuota")
-@RequestMapping(path = "/cottonQuota", produces = MediaType.APPLICATION_JSON)
+@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
 @Controller
 public class CottonQuotaServiceImpl implements CottonQuotaService {
 
@@ -39,7 +39,7 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
 	}
 
 	@Override
-	@RequestMapping(path = "", method = RequestMethod.POST)
+	@RequestMapping(path = "cottonQuota", method = RequestMethod.POST)
 	@ResponseBody
 	public String add(@RequestBody CottonQuota cottonQuota) {
 		cottonQuota.setNumber(String.valueOf(new Date().getTime()));
@@ -52,7 +52,7 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
 	}
 
 	@Override
-	@RequestMapping(path = "", method = RequestMethod.PUT)
+	@RequestMapping(path = "cottonQuota", method = RequestMethod.PUT)
 	@ResponseBody
 	public String update(@RequestBody CottonQuota cottonQuota) {
 		try {
@@ -73,7 +73,7 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
 	}
 
 	@Override
-	@RequestMapping(path = "{ids}", method = RequestMethod.DELETE)
+	@RequestMapping(path = "cottonQuota/{ids}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public String delete(@PathVariable("ids") String ids) {
 		String[] idArray = ids.split(",");
@@ -87,21 +87,21 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
 	}
 
 	@Override
-	@RequestMapping(path = "{id}", method = RequestMethod.GET)
+	@RequestMapping(path = "cottonQuota/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public CottonQuota get(@PathVariable("id") long id) {
 		return getCottonQuota(id);
 	}
 
 	@Override
-	@RequestMapping(path = "", method = RequestMethod.GET)
+	@RequestMapping(path = "cottonQuota", method = RequestMethod.GET)
 	@ResponseBody
 	public List<CottonQuota> list() {
 		return storage.find(CottonQuota.class, null);
 	}
 
 	@Override
-	@RequestMapping(path = "audit/{ids}/{status}", method = RequestMethod.PATCH)
+	@RequestMapping(path = "cottonQuota/audit/{ids}/{status}", method = RequestMethod.PATCH)
 	@ResponseBody
 	public String audit(@PathVariable("ids") String ids, @PathVariable("status") String status) {
 		String[] idArray = ids.split(",");
@@ -125,7 +125,7 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
 	}
 
 	@Override
-	@RequestMapping(path = "check", method = RequestMethod.POST)
+	@RequestMapping(path = "cottonQuota/check", method = RequestMethod.POST)
 	@ResponseBody
 	public String check(@RequestBody DeclarationForm form) {
 		try {

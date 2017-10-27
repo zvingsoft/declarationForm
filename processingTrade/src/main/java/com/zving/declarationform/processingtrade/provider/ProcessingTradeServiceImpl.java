@@ -118,17 +118,23 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	public ResponseDTO tccTry(DeclarationForm form) {
+	@RequestMapping(path = "try", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseDTO tccTry(@RequestBody DeclarationForm form) {
 		return new ResponseDTO("");
 	}
 
 	@Override
-	public ResponseDTO tccConfirm(DeclarationForm form) {
+	@RequestMapping(path = "confirm", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseDTO tccConfirm(@RequestBody DeclarationForm form) {
 		return new ResponseDTO("");
 	}
 
 	@Override
-	public ResponseDTO tccCancel(DeclarationForm form) {
+	@RequestMapping(path = "cancel", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseDTO tccCancel(@RequestBody DeclarationForm form) {
 		return new ResponseDTO("");
 	}
 

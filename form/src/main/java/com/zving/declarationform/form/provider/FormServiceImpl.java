@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,7 @@ import com.zving.declarationform.storage.StorageUtil;
 
 import io.servicecomb.provider.rest.common.RestSchema;
 import io.servicecomb.provider.springmvc.reference.RestTemplateBuilder;
+import net.sf.json.JSONObject;
 
 /**
  * @author 王育春
@@ -133,7 +135,7 @@ public class FormServiceImpl implements FormService {
 						df.setAuditStatusName("未审核");
 
 						// 计算税款
-						ResponseDTO taxR = RestTemplateBuilder.create().postForObject("cse://tax/compute", df, ResponseDTO.class);
+						ResponseDTO taxR = RestTemplateBuilder.create().postForObject("cse://tax/compute2", df, ResponseDTO.class);
 						ResponseDTO taxcuttingR = RestTemplateBuilder.create().postForObject("cse://taxCutting/compute", df,
 								ResponseDTO.class);
 						Double tax = Double.parseDouble(taxR.getMessage());
@@ -147,12 +149,17 @@ public class FormServiceImpl implements FormService {
 						df.setAuditStatusName("审核通过");
 
 						// 检查缴税
-						Map<?, ?> result = RestTemplateBuilder.create().getForObject("cse://tax/taxRegister/" + df.getCustomsNumber(),
-								Map.class);
-						if (result == null || !result.containsKey("taxAmount")) {
+						ResponseEntity<String> result = RestTemplateBuilder.create()
+								.getForEntity("cse://tax/taxRegister/" + df.getCustomsNumber(), String.class);
+						if (result == null || result.getBody() == null) {
 							return "提交审核失败：未缴税";
 						}
-						double amount = Double.parseDouble(result.get("taxAmount").toString());
+						JSONObject jo = JSONObject.fromObject(result.getBody());
+						if (jo.get("taxAmount") == null) {
+							return "提交审核失败：未缴税";
+						}
+
+						double amount = Double.parseDouble(jo.get("taxAmount").toString());
 						if (amount != df.getTaxDue()) {// 缴税一致
 							return "提交审核失败：缴税款项与应缴数额不符";
 						}

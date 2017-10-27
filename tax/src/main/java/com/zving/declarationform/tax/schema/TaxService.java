@@ -14,7 +14,12 @@ public interface TaxService {
 	/**
 	 * 计算税款
 	 */
-	ResponseDTO compute(DeclarationForm form);
+	String compute(DeclarationForm form);
+
+	/**
+	 * 计算税款
+	 */
+	ResponseDTO compute2(DeclarationForm form);
 
 	/**
 	 * 计税检查

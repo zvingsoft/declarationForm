@@ -81,6 +81,9 @@ public class TaxRegisterServiceImpl implements TaxRegisterService {
 		TaxRegister taxRegister = new TaxRegister();
 		taxRegister.setId(id);
 		taxRegister = StorageUtil.getInstance().get(TaxRegister.class, taxRegister);
+		if (taxRegister == null) {
+			taxRegister = new TaxRegister();
+		}
 		return taxRegister;
 	}
 
