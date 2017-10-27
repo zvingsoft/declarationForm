@@ -478,7 +478,7 @@
     <el-dialog size="tiny" title="审核信息列表" :visible.sync="showCheckDialog">
       <el-table ref="checkList" :data="checkList" style="width: 100%">
         <el-table-column label="状态" width="80">
-          <template scope="scope">
+          <template  slot-scope="scope">
             <span v-show="!scope.row.data.includes('失败')">
               <i style="color:green;font-size:18px;" class="fa fa-check" />
             </span>
@@ -488,7 +488,7 @@
           </template>
         </el-table-column>
         <el-table-column label="结果">
-          <template scope="scope">
+          <template  slot-scope="scope">
             {{scope.row.data}}
           </template>
         </el-table-column>

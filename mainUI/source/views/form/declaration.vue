@@ -1,4 +1,4 @@
-<template>
+<template slot-scope="scope">
   <div v-if="!declarationDialogmodel" :style="{width:clientWidth+'px'}">
     <el-toolbar>
       <el-button class="z-toolbar-btn" :plain="true" @click="addClick">
@@ -202,7 +202,7 @@
         <el-table-column prop="importOrExportPort" show-overflow-tooltip min-width="20%" label="海关口岸"></el-table-column>
         <el-table-column prop="declarationUnit" show-overflow-tooltip min-width="30%" label="申报单位"></el-table-column>
         <el-table-column min-width="20%" label="商品详情">
-          <template slot-scope="scope">
+          <template slot- slot-scope="scope">
             <el-button type="text">
               <span style="color:green;" @click="showPackinglist(scope.row.packingList,scope.row.declarationType)">查看商品</span>
             </el-button>
@@ -225,7 +225,7 @@
     <el-dialog size="tiny" title="审核信息列表" :visible.sync="showCheckDialog">
       <el-table ref="checkList" :data="checkList" style="width: 100%">
         <el-table-column label="状态" width="80">
-          <template scope="scope">
+          <template  slot-scope="scope">
             <span v-show="!scope.row.data.includes('失败')">
               <i style="color:green;font-size:18px;" class="fa fa-check" />
             </span>
@@ -235,7 +235,7 @@
           </template>
         </el-table-column>
         <el-table-column label="结果">
-          <template scope="scope">
+          <template  slot-scope="scope">
             {{scope.row.data}}
           </template>
         </el-table-column>
@@ -374,7 +374,7 @@
     <el-dialog size="tiny" title="审核信息列表" :visible.sync="showCheckDialog">
       <el-table ref="checkList" :data="checkList" style="width: 100%">
         <el-table-column label="状态" width="80">
-          <template scope="scope">
+          <template  slot-scope="scope">
             <span v-show="!scope.row.data.includes('失败')">
               <i style="color:green;font-size:18px;" class="fa fa-check" />
             </span>
@@ -384,7 +384,7 @@
           </template>
         </el-table-column>
         <el-table-column label="结果">
-          <template scope="scope">
+          <template  slot-scope="scope">
             {{scope.row.data}}
           </template>
         </el-table-column>
