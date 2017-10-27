@@ -45,6 +45,14 @@ const taxRegisterAPI = {
         }
       })
       .then(res => res.data)
+  },
+  getDeclarationByIds(ids){
+    let strIds = ids.join(',')
+    return axios.get('/form/taxRegister',{
+      params:{
+        ids:strIds
+      }
+    }).then(res => res.data)
   }
 }
 

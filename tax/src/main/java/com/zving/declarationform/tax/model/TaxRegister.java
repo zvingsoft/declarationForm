@@ -2,8 +2,6 @@ package com.zving.declarationform.tax.model;
 
 import java.util.List;
 
-import com.zving.declarationform.model.DeclarationForm;
-
 /**
  * 缴税登记
  * 
@@ -20,9 +18,17 @@ public class TaxRegister {
 	String registerStatus;//缴税状态
 	String registerStatusName;//缴税状态名称
 	
-	List<DeclarationForm> declarationList ;//报关单编号
+	List<Long> declarationIds ;//报关单编号
 
 	
+	public List<Long> getDeclarationIds() {
+		return declarationIds;
+	}
+
+	public void setDeclarationIds(List<Long> declarationIds) {
+		this.declarationIds = declarationIds;
+	}
+
 	public String getRegisterStatusName() {
 		return registerStatusName;
 	}
@@ -77,14 +83,6 @@ public class TaxRegister {
 
 	public void setTaxUser(String taxUser) {
 		this.taxUser = taxUser;
-	}
-
-	public List<DeclarationForm> getdeclarationList() {
-		return declarationList;
-	}
-
-	public void setdeclarationList(List<DeclarationForm> declarationList) {
-		this.declarationList = declarationList;
 	}
 	
 	

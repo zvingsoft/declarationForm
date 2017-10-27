@@ -123,6 +123,24 @@ public class FormServiceImpl implements FormService {
 	}
 
 	@Override
+	@RequestMapping(path = "taxRegister", method = RequestMethod.GET)
+	@ResponseBody
+	public List<DeclarationForm> taxRegisterDeclarationList(@RequestParam("ids") String ids) {
+		String[] strId = ids.split(",");
+		IStorage iStorage = StorageUtil.getInstance();
+		List<DeclarationForm> list = iStorage.find(DeclarationForm.class, null);
+		List<DeclarationForm> list1 = new ArrayList<>();
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = 0; j < strId.length; j++) {
+				if (list.get(i).getId() == Long.parseLong(strId[j])) {
+					list1.add(list.get(i));
+				}
+			}
+		}
+		return list1;
+	}
+
+	@Override
 	@RequestMapping(path = "unRegisterDeclaration", method = RequestMethod.GET)
 	@ResponseBody
 	public List<DeclarationForm> unRegisterDeclarationList(@RequestParam String searchItem) {

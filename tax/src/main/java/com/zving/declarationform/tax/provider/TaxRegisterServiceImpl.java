@@ -78,14 +78,14 @@ public class TaxRegisterServiceImpl implements TaxRegisterService {
 					taxRegister = list.get(i);
 					taxRegister.setRegisterStatus("Y");
 					taxRegister.setRegisterStatusName("已缴税");
-					formList = list.get(i).getdeclarationList();
-					for (int k = 0; k < formList.size(); k++) {
-						declarationForm = formList.get(k);
-						declarationForm.setTaxStatus("Y");
-						declarationForm.setTaxStatusName("已缴税");
-						storage.delete(DeclarationForm.class, formList.get(k));
-						storage.add(DeclarationForm.class, declarationForm);
-					}
+//					formList = list.get(i).getdeclarationList();
+//					for (int k = 0; k < formList.size(); k++) {
+//						declarationForm = formList.get(k);
+//						declarationForm.setTaxStatus("Y");
+//						declarationForm.setTaxStatusName("已缴税");
+//						storage.delete(DeclarationForm.class, formList.get(k));
+//						storage.add(DeclarationForm.class, declarationForm);
+//					}
 					iStorage.delete(TaxRegister.class, list.get(i));
 					iStorage.add(TaxRegister.class, taxRegister);
 				}

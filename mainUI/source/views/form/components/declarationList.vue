@@ -9,6 +9,7 @@
       <el-table-column type="index" width="70" label="序号" align="center" v-if="onlyView"></el-table-column>
       <el-table-column type="selection" width="60" align="center" v-else></el-table-column>
         <el-table-column prop="customsNumber" show-overflow-tooltip min-width="20%" label="海关编号"></el-table-column>
+        <el-table-column prop="importOrExportPort" show-overflow-tooltip min-width="30%" label="海关口岸"></el-table-column>
         <el-table-column prop="declarationUnit" show-overflow-tooltip min-width="30%" label="申报单位"></el-table-column>
         <el-table-column prop="declarationDate" show-overflow-tooltip min-width="15%" label="申报日期"></el-table-column>
     </el-table>
@@ -27,46 +28,36 @@ export default {
     };
   },
   watch: {
-    id() {
-      if (this.onlyView) {
-        this.declarationData = this.data;
-      } else {
-        this.getDeclarationData();
-      }
+    declarationIds() {
+      this.getDeclarationData();
     },
   },
   mounted() {
-    if (this.onlyView) {
-      this.declarationData = this.data;
-    } else {
-      this.getDeclarationData();
-    }
+    this.getDeclarationData();
   },
   methods: {
     getDeclarationData() {
-      let obj = {
-        searchWord: this.searchWord,
-      };
-      this.selectedRows = [];
-      taxRegisterAPI.getUnregisterDeclaration(obj).then(data => {
-        console.log(data);
-        this.declarationData = data;
-        if (this.searchWord != '') {
-          this.declarationData = [];
-          data.forEach(o => {
-            if (o.customsNumber.indexOf(this.searchWord) >= 0) {
-              this.declarationData.push(o);
-            }
-          });
-        }
-      });
+      taxRegisterAPI
+        .getDeclarationByIds(this.declarationIds)
+        .then(data => {
+          console.log(data);
+          this.declarationData = data;
+          if (this.searchWord != '') {
+            this.declarationData = [];
+            data.forEach(o => {
+              if (o.customsNumber.indexOf(this.searchWord) >= 0) {
+                this.declarationData.push(o);
+              }
+            });
+          }
+        });
     },
     onSelectionChange(selection) {
       this.selectedRows = selection;
       this.$emit('callback', selection);
     },
   },
-  props: ['data', 'onlyView', 'id'],
+  props: ['declarationIds', 'onlyView'],
 };
 </script>
 

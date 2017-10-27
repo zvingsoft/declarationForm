@@ -36,13 +36,13 @@
         <el-table-column min-width="12%" label="报关单详情">
           <template slot-scope="scope">
             <el-button type="text">
-              <span style="color:green;" @click="showDeclarationist(scope.row.id,scope.row.declarationList)">查看报关单</span>
+              <span style="color:green;" @click="showDeclarationist(scope.row.id,scope.row.declarationIds)">查看报关单</span>
             </el-button>
           </template>
         </el-table-column>
         <el-table-column prop="taxAmount" show-overflow-tooltip min-width="15%" label="缴税金额"></el-table-column>
-        <el-table-column prop="taxUser" show-overflow-tooltip min-width="12%" label="缴税人"></el-table-column>
-        <el-table-column prop="registerDate" show-overflow-tooltip min-width="20%" label="缴税时间"></el-table-column>
+        <!-- <el-table-column prop="taxUser" show-overflow-tooltip min-width="12%" label="缴税人"></el-table-column> -->
+        <el-table-column prop="registerDate" show-overflow-tooltip min-width="15%" label="缴税时间"></el-table-column>
         <el-table-column prop="registerStatusName" show-overflow-tooltip min-width="12%" label="缴税状态"></el-table-column>
         <el-table-column min-width="15%" label="操作">
           <template slot-scope="scope">
@@ -62,9 +62,9 @@
         <el-form-item label="缴税单号：" prop="taxNumber" :rules="[{ required: true, message: '缴税单号不能为空', trigger: 'change' }]">
           <el-input class="e-input" v-model="tmpTaxRegister.taxNumber"></el-input>
         </el-form-item>
-        <el-form-item label="缴税人：" prop="taxUser" :rules="[{ required: true, message: '缴税人不能为空', trigger: 'change' }]">
+        <!-- <el-form-item label="缴税人：" prop="taxUser" :rules="[{ required: true, message: '缴税人不能为空', trigger: 'change' }]">
           <el-input class="e-input" v-model="tmpTaxRegister.taxUser"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="缴税金额：" prop="taxAmount" :rules="[{ type: 'number', message: '缴税金额必须为数字值', trigger: 'change'}]">
           <el-input class="e-input" v-model.number="tmpTaxRegister.taxAmount"></el-input>
         </el-form-item>
@@ -73,9 +73,13 @@
             </el-date-picker>
         </el-form-item>
         <el-form-item label="关联报关单：">
-          <div style="border:1px solid #f5f5f5">
+          <!-- <div style="border:1px solid #f5f5f5">
           <declaration-list @callback="listCallback" :id="tmpTaxRegister.id"></declaration-list>
-          </div>
+          </div> -->
+          <el-select class="e-input" v-model="tmpTaxRegister.declarationIds" filterable multiple placeholder="请选择">
+            <el-option v-for="item in declarationOptions"  :key="item.id" :label="item.customsNumber" :value="item.id">
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -84,7 +88,7 @@
       </div>
     </el-dialog>
     <el-dialog title="报关单列表详情" :visible.sync="declarationListDialogModal">
-      <declaration-list :onlyView="true" :data="declarationList" :id="id"></declaration-list>
+      <declaration-list :onlyView="true" :declarationIds="declarationIds"></declaration-list>
     </el-dialog>
 
   </div>
@@ -101,7 +105,8 @@ import declarationList from './components/declarationList.vue';
 export default {
   data() {
     return {
-      id: '',
+      declarationIds: [],
+      declarationOptions: [],
       registered: false,
       declarationList: [],
       declarationListDialogModal: false,
@@ -171,9 +176,9 @@ export default {
     };
   },
   methods: {
-    showDeclarationist(id, list) {
+    showDeclarationist(id, ids) {
       this.id = id;
-      this.declarationList = list;
+      this.declarationIds = ids;
       this.declarationListDialogModal = true;
     },
     listCallback(selection) {
@@ -183,20 +188,34 @@ export default {
       this.editMode = 0;
       this.tmpTaxRegister = {
         id: Math.random() * 99999 + 1,
+        declarationIds: [],
       };
-      this.registerDialogModal = true;
+      taxRegisterAPI
+        .getUnregisterDeclaration({})
+        .then(data => {
+          console.log(data);
+          this.declarationOptions = data;
+        })
+        .then(() => {
+          this.registerDialogModal = true;
+        });
     },
     editClick() {
       if (this.selectedRows.length == 0) {
         this.$message('请选择要编辑的缴税单', 'info');
         return;
       }
-      taxRegisterAPI.getTaxRegisterById(this.selectedRows[0].id).then(data => {
-        console.log(data);
-        this.editMode = 1;
-        this.tmpTaxRegister = data;
-        this.registerDialogModal = true;
-      });
+      taxRegisterAPI
+        .getUnregisterDeclaration({})
+        .then(data => {
+          console.log(data);
+          this.declarationOptions = data;
+        })
+        .then(() => {
+          this.tmpTaxRegister = Object.assign({}, this.selectedRows[0]);
+          this.editMode = 1;
+          this.registerDialogModal = true;
+        });
     },
     registerDialogConfirm() {
       this.$refs['taxRegisterForm'].validate(valid => {
@@ -391,5 +410,4 @@ export default {
 .search-select {
   width: 140px;
 }
-
 </style>
