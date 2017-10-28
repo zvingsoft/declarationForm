@@ -10,7 +10,7 @@ public class ResponseDTO {
 
 	private int status;
 	private String message;
-	private Object data;
+	private String data;
 	private int total;
 
 	public ResponseDTO() {
@@ -20,18 +20,18 @@ public class ResponseDTO {
 		this.message = message;
 	}
 
-	public ResponseDTO(int status, String message, Object data, int total) {
+	public ResponseDTO(int status, String message, String data, int total) {
 		this.status = status;
 		this.message = message;
 		this.data = data;
 		this.total = total;
 	}
 
-	public Object getData() {
+	public String getData() {
 		return data;
 	}
 
-	public void setData(Object data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 

@@ -17,19 +17,20 @@ public class CopyJar {
 		File parent = new File("G:/git/declarationForm");
 		for (File project : parent.listFiles()) {
 			File war = new File(project.getAbsolutePath() + "/target/" + project.getName() + "-0.0.1-SNAPSHOT.war");
+			String projectName = project.getName().toLowerCase();
 			if (war.exists()) {
-				copyFile(war, new File(parent.getAbsolutePath() + "/Docker/" + project.getName() + "/" + war.getName()));
-				new File(parent.getAbsolutePath() + "/Docker/" + project.getName() + "/").mkdirs();
+				new File(parent.getAbsolutePath() + "/Docker/" + projectName + "/").mkdirs();
+				copyFile(war, new File(parent.getAbsolutePath() + "/Docker/" + projectName + "/" + war.getName()));
 			} else {
 				continue;
 			}
 			File sh = new File(project.getAbsolutePath() + "/start.sh");
 			if (sh.exists()) {
-				copyFile(sh, new File(parent.getAbsolutePath() + "/Docker/" + project.getName() + "/start.sh"));
+				copyFile(sh, new File(parent.getAbsolutePath() + "/Docker/" + projectName + "/start.sh"));
 			}
 			File dockerfile = new File(project.getAbsolutePath() + "/Dockerfile");
 			if (dockerfile.exists()) {
-				copyFile(dockerfile, new File(parent.getAbsolutePath() + "/Docker/" + project.getName() + "/Dockerfile"));
+				copyFile(dockerfile, new File(parent.getAbsolutePath() + "/Docker/" + projectName + "/Dockerfile"));
 			}
 		}
 	}

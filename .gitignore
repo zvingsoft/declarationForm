@@ -15,3 +15,5 @@ WEB-INF
 /target/
 *.log
 *.psd
+/Docker/
+*.dat
