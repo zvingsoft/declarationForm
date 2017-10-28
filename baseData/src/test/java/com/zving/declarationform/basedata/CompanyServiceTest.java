@@ -19,7 +19,11 @@ import junit.framework.TestCase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = BootBaseData.class)
+<<<<<<< HEAD
 public class CompanyServiceTest {
+=======
+public class CompanyServiceImplTest {
+>>>>>>> branch 'master' of https://github.com/zvingsoft/declarationForm.git
 	@Autowired
 	private CompanyService service;
 
