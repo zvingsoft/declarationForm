@@ -8,3 +8,7 @@ cse:
       address: http://127.0.0.1:9980
   rest:
     address: 0.0.0.0:8014
+  handler:
+    chain:
+      Provider:
+        default: tracing-provider,bizkeeper-provider

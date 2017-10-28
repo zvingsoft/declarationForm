@@ -6,11 +6,14 @@ cse:
   service:
     registry:
       address: http://127.0.0.1:9980
+  rest:
+    address: 0.0.0.0:8013
   handler:
     chain:
       Consumer:
-        default: tracing-consumer
-      Provider:
-        default: tracing-provider
-  rest:
-    address: 0.0.0.0:8013
+        default: loadbalance,bizkeeper-consumer,tcc-client,tracing-consumer,sla-consumer,qps-flowcontrol-consumer
+  flowcontrol:
+    Consumer:
+      qps:
+        enabled: true
+        limit: 5

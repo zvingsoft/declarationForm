@@ -9,6 +9,6 @@ cse:
   handler:
     chain:
       Provider:
-        default: tracing-provider   
+        default: tracing-provider,bizkeeper-provider
   rest:
     address: 0.0.0.0:8003

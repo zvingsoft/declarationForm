@@ -11,14 +11,15 @@ cse:
   isolation:
     Consumer:
       enabled: false
-  handler: #tcc事务配置开始
+  handler:
     chain:
       Provider:
-        default: tracing-provider,tcc-server #tcc事务配置结束
-        
-  monitor: #关闭minitor data上传
+        default: tracing-provider,tcc-server,bizkeeper-provider
+      Consumer:
+        default: tracing-consumer,tcc-client,bizkeeper-consumer,loadblance,sla-consumer,qps-flowcontrol-consumer
+  monitor:
     client:
-      enable: false #关闭minitor data上传 结束
+      enable: false
   references:
     riskAnalysis:
       version-rule: 0.0.1

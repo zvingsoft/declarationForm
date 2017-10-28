@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
@@ -26,7 +25,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @date 2017年10月19日
  */
 public class MysqlStorage implements IStorage {
-	ConcurrentHashMap<Class<?>, List<?>> map = null;
 	ReentrantLock lock = new ReentrantLock();
 	static final String DriverName = "com.mysql.jdbc.Driver";
 	Connection conn;
@@ -76,47 +74,32 @@ public class MysqlStorage implements IStorage {
 				stmt.execute("create table classdata(classtype varchar(100),jsondata mediumtext)");
 			}
 			stmt.close();
-			map = new ConcurrentHashMap<>();
 			this.conn = conn;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	<T> List<T> getList(Class<T> clazz) {
-		if (map.containsKey(clazz)) {
-			return (List<T>) map.get(clazz);
-		} else {
-			lock.lock();
-			try {
-				if (!map.containsKey(clazz)) {
-					ObjectMapper om = new ObjectMapper();
-					JavaType type = om.getTypeFactory().constructParametricType(ArrayList.class, clazz);
-					try {
-						Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-						ResultSet rs = stmt.executeQuery("select jsondata from classdata where classtype='" + clazz.getName() + "'");
-						String json = null;
-						if (rs.next()) {
-							json = rs.getString(1);
-						}
-						stmt.close();
-
-						if (json != null) {
-							List<T> list = om.readValue(json, type);
-							map.put(clazz, list);
-							return list;
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			} finally {
-				lock.unlock();
+		ObjectMapper om = new ObjectMapper();
+		JavaType type = om.getTypeFactory().constructParametricType(ArrayList.class, clazz);
+		try {
+			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			ResultSet rs = stmt.executeQuery("select jsondata from classdata where classtype='" + clazz.getName() + "'");
+			String json = null;
+			if (rs.next()) {
+				json = rs.getString(1);
 			}
+			stmt.close();
+
+			if (json != null) {
+				List<T> list = om.readValue(json, type);
+				return list;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		List<T> list = new ArrayList<T>();
-		map.put(clazz, list);
 		return list;
 	}
 

@@ -11,4 +11,4 @@ cse:
   handler:
     chain:
       Provider:
-        default: tracing-provider    
+        default: tracing-provider,bizkeeper-provider
