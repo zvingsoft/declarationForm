@@ -17,3 +17,4 @@ WEB-INF
 *.psd
 /Docker/
 *.dat
+*.log
