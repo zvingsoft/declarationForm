@@ -17,12 +17,16 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>io.servicecomb</groupId>
-			<artifactId>handler-tracing-zipkin</artifactId>
+			<groupId>com.huawei.paas.cse</groupId>
+			<artifactId>foundation-auth</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.servicecomb</groupId>
-			<artifactId>spring-cloud-zuul-zipkin</artifactId>
+			<artifactId>transport-highway</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.servicecomb</groupId>
+			<artifactId>provider-pojo</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.servicecomb</groupId>
@@ -33,9 +37,18 @@
 			<artifactId>handler-loadbalance</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.huawei.paas.cse</groupId>
+			<artifactId>cse-handler-tracing</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>io.servicecomb</groupId>
 			<artifactId>handler-flowcontrol-qps</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.huawei.paas.cse</groupId>
+			<artifactId>cse-handler-performance-stats</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -69,21 +82,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-tomcat</artifactId>
-				</exclusion>
-			</exclusions>
+
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-undertow</artifactId>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
