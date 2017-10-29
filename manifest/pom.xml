@@ -21,6 +21,22 @@
 			<artifactId>foundation-auth</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.huawei.paas.cse</groupId>
+			<artifactId>foundation-config-cc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.huawei.paas.cse</groupId>
+			<artifactId>cse-handler-tcc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.huawei.paas.cse</groupId>
+			<artifactId>foundation-config-cc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.huawei.paas.cse</groupId>
+			<artifactId>cse-handler-tcc</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>io.servicecomb</groupId>
 			<artifactId>transport-highway</artifactId>
 		</dependency>
@@ -48,7 +64,6 @@
 			<groupId>com.huawei.paas.cse</groupId>
 			<artifactId>cse-handler-performance-stats</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
