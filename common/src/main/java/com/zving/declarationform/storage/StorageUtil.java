@@ -11,7 +11,8 @@ public class StorageUtil {
 	public static IStorage getInstance() {
 		if (instance == null) {
 			String address = System.getenv("mysql_address");
-			if (address != null) {
+			String address2 = System.getProperty("mysql_address");
+			if (address != null || address2 != null) {
 				System.out.println("Init MysqlStorage");
 				instance = new MysqlStorage();
 			} else {
@@ -20,5 +21,17 @@ public class StorageUtil {
 			}
 		}
 		return instance;
+	}
+
+	static Class<?>[] basicTypes = new Class<?>[] { int.class, float.class, double.class, short.class, long.class, String.class, char.class,
+			Integer.class, Float.class, Double.class, Short.class, Long.class, boolean.class, Boolean.class };
+
+	public static boolean isBasicType(Class<?> clazz) {
+		for (Class<?> c : basicTypes) {
+			if (c == clazz) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

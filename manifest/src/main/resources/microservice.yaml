@@ -17,3 +17,7 @@ cse:
   tracing:
     enabled: true
     samplingRate: 1
+  metrics:
+    enabled: true
+    cycle:
+      ms: 10000

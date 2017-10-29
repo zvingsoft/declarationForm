@@ -63,4 +63,7 @@ cse:
   fallbackpolicy:
     Consumer:
       policy: returnnull
-    
+  metrics:
+    enabled: true
+    cycle:
+      ms: 10000

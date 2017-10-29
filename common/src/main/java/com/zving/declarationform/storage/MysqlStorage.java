@@ -152,7 +152,7 @@ public class MysqlStorage implements IStorage {
 			BeanMap map2 = new BeanMap(item);
 			boolean flag = true;
 			for (Entry<?, ?> e : map1.entrySet()) {
-				if (e.getValue() == null) {
+				if (e.getValue() == null || !StorageUtil.isBasicType(e.getValue().getClass())) {
 					continue;
 				} else {
 					if (e.getValue() instanceof Long || e.getValue() instanceof Integer || e.getValue() instanceof Float
@@ -181,7 +181,7 @@ public class MysqlStorage implements IStorage {
 	@Override
 	public <T> void update(Class<T> clazz, T bean, T newBean) {
 		List<T> list = getList(clazz);
-		T dest = get(clazz, bean);
+		T dest = get(clazz, list, bean);
 		try {
 			BeanUtils.copyProperties(dest, newBean);
 		} catch (Exception e) {
@@ -193,7 +193,8 @@ public class MysqlStorage implements IStorage {
 	@Override
 	public <T> void delete(Class<T> clazz, T bean) {
 		List<T> list = getList(clazz);
-		list.remove(bean);
+		List<T> list2 = find(clazz, list, bean);
+		list.removeAll(list2);
 		write(clazz, list);
 	}
 }

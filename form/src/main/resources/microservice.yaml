@@ -58,3 +58,7 @@ cse:
       sleepWindowInMilliseconds: 10000
       requestVolumeThreshold: 5
       errorThresholdPercentage: 50
+  metrics:
+    enabled: true
+    cycle:
+      ms: 10000

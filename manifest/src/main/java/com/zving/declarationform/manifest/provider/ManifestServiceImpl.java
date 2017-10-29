@@ -168,16 +168,9 @@ public class ManifestServiceImpl implements ManifestService {
 	@RequestMapping(path = "manifest", method = RequestMethod.PUT)
 	@ResponseBody
 	public String update(@RequestBody Manifest manifest) {
-		IStorage storage = StorageUtil.getInstance();
-		List<Manifest> list = storage.find(Manifest.class, null);
-		for (Manifest item : list) {
-			if (manifest.getId() == item.getId()) {
-				Manifest mf = new Manifest();
-				mf.setId(manifest.getId());
-				StorageUtil.getInstance().update(Manifest.class, mf, manifest);
-				return "更新成功";
-			}
-		}
+		Manifest mf = new Manifest();
+		mf.setId(manifest.getId());
+		StorageUtil.getInstance().update(Manifest.class, mf, manifest);
 		return "更新成功";
 	}
 

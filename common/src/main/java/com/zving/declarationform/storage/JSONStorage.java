@@ -102,7 +102,7 @@ public class JSONStorage implements IStorage {
 			BeanMap map2 = new BeanMap(item);
 			boolean flag = true;
 			for (Entry<?, ?> e : map1.entrySet()) {
-				if (e.getValue() == null) {
+				if (e.getValue() == null || !StorageUtil.isBasicType(e.getValue().getClass())) {
 					continue;
 				} else {
 					if (e.getValue() instanceof Long || e.getValue() instanceof Integer || e.getValue() instanceof Float

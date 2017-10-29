@@ -62,14 +62,9 @@ public class FormServiceImpl implements FormService {
 	@ResponseBody
 	public String update(@RequestBody DeclarationForm form) {
 		IStorage storage = StorageUtil.getInstance();
-		List<DeclarationForm> list = storage.find(DeclarationForm.class, null);
-		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getId() == form.getId()) {
-				storage.delete(DeclarationForm.class, list.get(i));
-			}
-		}
-
-		storage.add(DeclarationForm.class, form);
+		DeclarationForm old = new DeclarationForm();
+		old.setId(form.getId());
+		storage.update(DeclarationForm.class, old, form);
 		return "更新成功";
 	}
 
@@ -136,6 +131,9 @@ public class FormServiceImpl implements FormService {
 		for (DeclarationForm df : list) {
 			for (String id : idArr) {
 				if (String.valueOf(df.getId()).equals(id)) {
+					DeclarationForm old = new DeclarationForm();
+					old.setId(df.getId());
+
 					if (statu.equals("W")) {
 						df.setAuditStatusName("未审核");
 
@@ -182,13 +180,10 @@ public class FormServiceImpl implements FormService {
 						if (!message.contains("失败") && !message.contains("Exception")) {
 							df.setAuditStatusName("放行");
 							df.setAuditStatus(statu);
-							storage.delete(DeclarationForm.class, df);
-							storage.add(DeclarationForm.class, df);
 						}
 						return message;
 					}
-					storage.delete(DeclarationForm.class, df);
-					storage.add(DeclarationForm.class, df);
+					storage.update(DeclarationForm.class, old, df);
 				}
 			}
 		}
