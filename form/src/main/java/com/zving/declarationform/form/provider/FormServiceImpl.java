@@ -178,14 +178,14 @@ public class FormServiceImpl implements FormService {
 						df.setAuditStatusName("不通过");
 						df.setAuditStatus(statu);
 					} else if (statu.equals("P")) {
-						try {
-							return tryConfirm(df);
-						} finally {
+						String message = tryConfirm(df);
+						if (!message.contains("失败") && !message.contains("Exception")) {
 							df.setAuditStatusName("放行");
 							df.setAuditStatus(statu);
 							storage.delete(DeclarationForm.class, df);
 							storage.add(DeclarationForm.class, df);
 						}
+						return message;
 					}
 					storage.delete(DeclarationForm.class, df);
 					storage.add(DeclarationForm.class, df);
