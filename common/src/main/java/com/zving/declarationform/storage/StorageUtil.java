@@ -12,8 +12,10 @@ public class StorageUtil {
 		if (instance == null) {
 			String address = System.getenv("mysql_address");
 			if (address != null) {
+				System.out.println("Init MysqlStorage");
 				instance = new MysqlStorage();
 			} else {
+				System.out.println("Init JSONStorage");
 				instance = new JSONStorage();
 			}
 		}
