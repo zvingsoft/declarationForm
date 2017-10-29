@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 import com.zving.declarationform.tax.model.TaxRegister;
@@ -85,6 +86,14 @@ public class TaxRegisterServiceImpl implements TaxRegisterService {
 			taxRegister = new TaxRegister();
 		}
 		return taxRegister;
+	}
+
+	@Override
+	@RequestMapping(path = "taxAmount/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseDTO taxAmount(@PathVariable("id") long id) {
+		TaxRegister taxRegister = get(id);
+		return new ResponseDTO(taxRegister.getTaxAmount() + "");
 	}
 
 	@Override

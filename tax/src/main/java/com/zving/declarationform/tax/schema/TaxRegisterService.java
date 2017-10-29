@@ -2,6 +2,7 @@ package com.zving.declarationform.tax.schema;
 
 import java.util.List;
 
+import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.tax.model.TaxRegister;
 
 /**
@@ -36,4 +37,7 @@ public interface TaxRegisterService {
 	 * 获取所有缴税单
 	 */
 	List<TaxRegister> list(String searchItem);
+
+	ResponseDTO taxAmount(long id);
+
 }

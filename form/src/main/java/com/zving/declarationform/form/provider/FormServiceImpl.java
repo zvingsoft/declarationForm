@@ -11,7 +11,6 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +29,6 @@ import com.zving.declarationform.storage.StorageUtil;
 
 import io.servicecomb.provider.rest.common.RestSchema;
 import io.servicecomb.provider.springmvc.reference.RestTemplateBuilder;
-import net.sf.json.JSONObject;
 
 /**
  * @author 王育春
@@ -156,22 +154,26 @@ public class FormServiceImpl implements FormService {
 						df.setAuditStatus(statu);
 					} else if (statu.equals("Y")) {
 						// 检查缴税
-						ResponseEntity<String> result = RestTemplateBuilder.create()
-								.getForEntity("cse://tax/taxRegister/" + df.getCustomsNumber(), String.class);
-						if (result == null || result.getBody() == null) {
+						ResponseDTO result = RestTemplateBuilder.create().getForObject("cse://tax/taxAmount/" + df.getCustomsNumber(),
+								ResponseDTO.class);
+						if (result == null) {
 							return "提交审核失败：未缴税";
 						}
-						JSONObject jo = JSONObject.fromObject(result.getBody());
-						if (jo.get("taxAmount") == null) {
-							return "提交审核失败：未缴税";
-						}
+						try {
+							if (result.getMessage() == null) {
+								return "提交审核失败：未缴税";
+							}
 
-						double amount = Double.parseDouble(jo.get("taxAmount").toString());
-						if (amount != df.getTaxDue()) {// 缴税一致
-							return "提交审核失败：缴税款项与应缴数额不符";
+							double amount = Double.parseDouble(result.getMessage());
+							if (amount != df.getTaxDue()) {// 缴税一致
+								return "提交审核失败：缴税款项与应缴数额不符";
+							}
+							df.setAuditStatusName("审核通过");
+							df.setAuditStatus(statu);
+						} catch (Exception e) {
+							e.printStackTrace();
+							return "提交审核失败：" + e.getMessage();
 						}
-						df.setAuditStatusName("审核通过");
-						df.setAuditStatus(statu);
 					} else if (statu.equals("N")) {
 						df.setAuditStatusName("不通过");
 						df.setAuditStatus(statu);
