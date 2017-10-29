@@ -47,7 +47,10 @@ public class LicenseServiceImpl implements LicenseService {
 				old.setSku(item.getSKU());
 				License license = StorageUtil.getInstance().get(License.class, old);
 				if (license == null) {
-					return InetAddress.getLocalHost().getHostName() + ":进出口许可证失败：没有找到许可证";
+					return InetAddress.getLocalHost().getHostName() + ":进出口许可证检查失败，没有找到许可证";
+				}
+				if (license.getCount() < item.getAmount()) {
+					return InetAddress.getLocalHost().getHostName() + ":进出口许可证检查失败，许可数量不足";
 				}
 			}
 			return InetAddress.getLocalHost().getHostName() + ":进出口许可证检查通过";

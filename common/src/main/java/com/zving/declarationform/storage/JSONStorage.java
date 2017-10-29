@@ -105,6 +105,12 @@ public class JSONStorage implements IStorage {
 				if (e.getValue() == null) {
 					continue;
 				} else {
+					if (e.getValue() instanceof Long || e.getValue() instanceof Integer || e.getValue() instanceof Float
+							|| e.getValue() instanceof Double) {
+						if (((Number) e.getValue()).doubleValue() == 0) {
+							continue;
+						}
+					}
 					if (!e.getValue().equals(map2.get(e.getKey()))) {
 						flag = false;
 						break;

@@ -36,10 +36,25 @@ public class TaxServiceImpl implements TaxService {
 	@ResponseBody
 	public String check(@RequestBody DeclarationForm form) {
 		try {
+			for (PackingItem item : form.getPackingList()) {
+				TaxRate rate = new TaxRate();
+				rate.setSKU(item.getSKU());
+				rate = StorageUtil.getInstance().get(TaxRate.class, rate);
+				if (rate == null) {
+					return InetAddress.getLocalHost().getHostName() + ":计税检查失败，未找到税率";
+				}
+			}
 			return InetAddress.getLocalHost().getHostName() + ":应缴税款:" + compute(form);
 		} catch (UnknownHostException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public static void main(String[] args) {
+		TaxRate rate = new TaxRate();
+		rate.setSKU("S0001");
+		rate = StorageUtil.getInstance().get(TaxRate.class, rate);
+		System.out.println(rate);
 	}
 
 	@Override

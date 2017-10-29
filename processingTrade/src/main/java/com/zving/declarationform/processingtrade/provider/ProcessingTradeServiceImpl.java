@@ -41,6 +41,20 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@ResponseBody
 	public String check(@RequestBody DeclarationForm form) {
 		try {
+			if ("processingTrade".equals(form.getTradingType())) {
+				for (PackingItem item : form.getPackingList()) {
+					ProcessingTrade pt = new ProcessingTrade();
+					pt.setSku(item.getSKU());
+					pt = StorageUtil.getInstance().get(ProcessingTrade.class, pt);
+					if (pt == null) {
+						return InetAddress.getLocalHost().getHostName() + ":加贸检查失败，没有找到加工贸易配额";
+					}
+					if (pt.getAmount() - pt.getUsed() < item.getAmount()) {
+						return InetAddress.getLocalHost().getHostName() + ":加贸检查失败，加工贸易配额不足";
+					}
+
+				}
+			}
 			return InetAddress.getLocalHost().getHostName() + ":加贸检查通过";
 		} catch (UnknownHostException e) {
 			throw new RuntimeException(e);
