@@ -30,16 +30,37 @@ cse:
     license:
       NFLoadBalancerRuleClassName: com.netflix.loadbalancer.SessionStickinessRule
   circuitBreaker:
-    tax:
-      test:
-        failBreak:
-          enabled: true
-          sleepWindowInMilliseconds: 5000
-          errorThresholdPercentage: 30
-        requestBreak:
-          enabled: true
-          sleepWindowInMilliseconds: 5000
-          requestVolumeThreshold: 10
+    Consumer:
+      enabled: false
+      forceOpen: false
+      forceClosed: false
+      sleepWindowInMilliseconds: 10000
+      requestVolumeThreshold: 5
+      errorThresholdPercentage: 50
+      tax:
+        test:
+          failBreak:
+            enabled: true
+            sleepWindowInMilliseconds: 5000
+            errorThresholdPercentage: 30
+          requestBreak:
+            enabled: true
+            sleepWindowInMilliseconds: 5000
+            requestVolumeThreshold: 10
   tracing:
     enabled: true
     samplingRate: 1
+  isolation:
+    Consumer:
+      timeout:
+        enabled: false
+      timeoutInMilliseconds: 30
+      maxConcurrentRequests: 2
+  fallback:
+    Consumer:
+      enabled: false
+      maxConcurrentRequest: 10
+  fallbackpolicy:
+    Consumer:
+      policy: returnnull
+    

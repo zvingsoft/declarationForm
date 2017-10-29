@@ -17,11 +17,6 @@ cse:
         default: perf-stats,qps-flowcontrol-provider,bizkeeper-provider,tcc-server,sla-provider,tracing-provider
       Consumer:
         default: perf-stats,qps-flowcontrol-consumer,loadbalance,bizkeeper-consumer,tcc-client,sla-consumer,tracing-consumer
-  flowcontrol:
-    Consumer:
-      qps:
-        enabled: true
-        limit: 5
   tracing:
     enabled: true
     samplingRate: 1
@@ -40,3 +35,26 @@ cse:
       version-rule: 0.0.1
     processingTrade:
       version-rule: 0.0.1
+  loadbalance:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+  isolation:
+    Consumer:
+      timeout:
+        enabled: false
+      timeoutInMilliseconds: 30
+      maxConcurrentRequests: 2
+  fallback:
+    Consumer:
+      enabled: false
+      maxConcurrentRequest: 10
+  fallbackpolicy:
+    Consumer:
+      policy: returnnull
+  circuitBreaker:
+    Consumer:
+      enabled: false
+      forceOpen: false
+      forceClosed: false
+      sleepWindowInMilliseconds: 10000
+      requestVolumeThreshold: 5
+      errorThresholdPercentage: 50
