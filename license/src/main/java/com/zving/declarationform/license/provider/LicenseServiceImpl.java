@@ -69,10 +69,10 @@ public class LicenseServiceImpl implements LicenseService {
 			old.setSku(item.getSKU());
 			License license = StorageUtil.getInstance().get(License.class, old);
 			if (license == null) {
-				return new ResponseDTO("没有许可证");
+				return new ResponseDTO("许可证锁定失败，没有许可证");
 			}
 			if (item.getAmount() > license.getCount()) {
-				return new ResponseDTO("许可证剩余数量不足");
+				return new ResponseDTO("许可证锁定失败，许可证剩余数量不足");
 			}
 			license.setCount(license.getCount() - item.getAmount());
 			StorageUtil.getInstance().update(License.class, old, license);

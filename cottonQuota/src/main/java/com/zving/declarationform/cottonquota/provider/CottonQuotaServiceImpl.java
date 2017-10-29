@@ -165,10 +165,10 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
 				old.setCompanyId(form.getCompanyId());
 				CottonQuota quota = StorageUtil.getInstance().get(CottonQuota.class, old);
 				if (quota == null) {
-					return new ResponseDTO("没有棉花配额");
+					return new ResponseDTO("棉花配额锁定失败，没有棉花配额");
 				}
 				if (item.getAmount() > quota.getQuota() - quota.getUsed()) {
-					return new ResponseDTO("棉花配额不足");
+					return new ResponseDTO("棉花配额锁定失败，棉花配额不足");
 				}
 				quota.setUsed(quota.getUsed() + item.getAmount());
 				StorageUtil.getInstance().update(CottonQuota.class, old, quota);

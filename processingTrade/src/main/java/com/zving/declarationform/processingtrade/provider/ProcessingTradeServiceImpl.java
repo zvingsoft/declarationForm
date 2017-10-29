@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.model.PackingItem;
+import com.zving.declarationform.model.TCCLock;
 import com.zving.declarationform.processingtrade.model.ProcessingTrade;
 import com.zving.declarationform.processingtrade.schema.ProcessingTradeService;
 import com.zving.declarationform.storage.IStorage;
@@ -135,6 +136,27 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@RequestMapping(path = "try", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseDTO tccTry(@RequestBody DeclarationForm form) {
+		for (PackingItem item : form.getPackingList()) {
+			ProcessingTrade old = new ProcessingTrade();
+			old.setSku(item.getSKU());
+			ProcessingTrade pt = StorageUtil.getInstance().get(ProcessingTrade.class, old);
+			if (pt == null) {
+				return new ResponseDTO("加贸锁定失败，没有加贸配额");
+			}
+			if (item.getAmount() > pt.getAmount()) {
+				return new ResponseDTO("加贸锁定失败，加贸配额不足");
+			}
+			pt.setUsed(pt.getUsed() + item.getAmount());
+			StorageUtil.getInstance().update(ProcessingTrade.class, old, pt);
+
+			// 记录资源锁定
+			TCCLock lock = new TCCLock();
+			lock.setType("ProcessingTrade");
+			lock.setRelaId(item.getSKU());
+			lock.setLockedValue(item.getAmount() + "");
+			lock.setFormId(form.getId());
+			StorageUtil.getInstance().add(TCCLock.class, lock);
+		}
 		return new ResponseDTO("");
 	}
 
@@ -149,6 +171,28 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@RequestMapping(path = "cancel", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseDTO tccCancel(@RequestBody DeclarationForm form) {
+		for (PackingItem item : form.getPackingList()) {
+			ProcessingTrade old = new ProcessingTrade();
+			old.setSku(item.getSKU());
+			ProcessingTrade pt = StorageUtil.getInstance().get(ProcessingTrade.class, old);
+			if (pt == null) {
+				continue;
+			}
+
+			// 记录资源锁定
+			TCCLock lock = new TCCLock();
+			lock.setType("ProcessingTrade");
+			lock.setRelaId(item.getSKU());
+			lock.setFormId(form.getId());
+			lock = StorageUtil.getInstance().get(TCCLock.class, lock);
+			if (lock == null) {
+				continue;
+			}
+
+			pt.setUsed(pt.getUsed() - Double.parseDouble(lock.getLockedValue()));
+			StorageUtil.getInstance().update(ProcessingTrade.class, old, pt);
+			StorageUtil.getInstance().delete(TCCLock.class, lock);
+		}
 		return new ResponseDTO("");
 	}
 

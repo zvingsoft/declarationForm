@@ -32,8 +32,8 @@
                 <el-form-item label="商品">
                   <span>{{props.row.skunames}}</span>
                 </el-form-item>
-                <el-form-item label="发货地">
-                  <span>{{props.row.sendAddress}}</span>
+                <el-form-item label="状态">
+                  <span>{{props.row.status}}</span>
                 </el-form-item>
                 <el-form-item label="收货人">
                   <span>{{props.row.receivePerson}}</span>
@@ -51,7 +51,7 @@
           </el-table-column>
           <el-table-column prop="receiveCompany" min-width="15%" label="收件公司"></el-table-column>
           <el-table-column prop="skunames" min-width="30%" label="商品"></el-table-column>
-          <el-table-column prop="sendAddress" min-width="10%" label="发货地"></el-table-column>
+          <el-table-column prop="status" min-width="10%" label="状态"></el-table-column>
           <el-table-column prop="receivePerson" min-width="10%" label="收货人"></el-table-column>
           <el-table-column prop="telephone" min-width="15%" label="电话"></el-table-column>
         </el-table>

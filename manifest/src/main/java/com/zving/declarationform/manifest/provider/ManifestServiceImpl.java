@@ -5,7 +5,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import javax.ws.rs.core.MediaType;
@@ -23,6 +22,7 @@ import com.zving.declarationform.manifest.model.ManifestItem;
 import com.zving.declarationform.manifest.schema.ManifestService;
 import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.model.PackingItem;
+import com.zving.declarationform.model.TCCLock;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
 
@@ -71,6 +71,37 @@ public class ManifestServiceImpl implements ManifestService {
 	@RequestMapping(path = "try", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseDTO tccTry(@RequestBody DeclarationForm form) {
+		Manifest old = new Manifest();
+		old.setManifestNum(form.getShippingNumbers());
+		Manifest manifest = StorageUtil.getInstance().get(Manifest.class, old);
+		if (manifest == null) {
+			return new ResponseDTO("舱单锁定失败，没有找到对应舱单");
+		}
+
+		for (PackingItem item : form.getPackingList()) {
+			ManifestItem current = null;
+			for (ManifestItem mi : manifest.getItems()) {
+				if (mi.getSKU() != null && mi.getSKU().equals(item.getSKU())) {
+					current = mi;
+					break;
+				}
+			}
+			if (current == null || current.getQuantity() != item.getAmount()) {
+				return new ResponseDTO("舱单锁定失败，舱单中的商品和报关单不符");
+			}
+		}
+
+		manifest.setStatus("1");
+		StorageUtil.getInstance().update(Manifest.class, old, manifest);
+
+		// 记录资源锁定
+		TCCLock lock = new TCCLock();
+		lock.setType("Manifest");
+		lock.setRelaId(manifest.getManifestNum());
+		lock.setLockedValue(manifest.getStatus());
+		lock.setFormId(form.getId());
+		StorageUtil.getInstance().add(TCCLock.class, lock);
+
 		return new ResponseDTO("");
 	}
 
@@ -85,6 +116,25 @@ public class ManifestServiceImpl implements ManifestService {
 	@RequestMapping(path = "cancel", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseDTO tccCancel(@RequestBody DeclarationForm form) {
+		// 记录资源锁定
+		TCCLock lock = new TCCLock();
+		lock.setType("Manifest");
+		lock.setRelaId(form.getShippingNumbers());
+		lock.setFormId(form.getId());
+		lock = StorageUtil.getInstance().get(TCCLock.class, lock);
+		if (lock == null) {
+			return new ResponseDTO("");
+		}
+		Manifest old = new Manifest();
+		old.setManifestNum(form.getShippingNumbers());
+		Manifest manifest = StorageUtil.getInstance().get(Manifest.class, old);
+		if (manifest == null) {
+			return new ResponseDTO("");
+		}
+
+		StorageUtil.getInstance().update(Manifest.class, old, manifest);
+		StorageUtil.getInstance().delete(TCCLock.class, lock);
+
 		return new ResponseDTO("");
 	}
 
@@ -165,19 +215,4 @@ public class ManifestServiceImpl implements ManifestService {
 		List<Manifest> list = StorageUtil.getInstance().find(Manifest.class, null);
 		return list;
 	}
-
-	static long id = Math.abs(new Random().nextInt(100000000));
-
-	@Override
-	@RequestMapping(path = "/loadblanceTest", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseDTO loadblanceTest() {
-		try {
-			return new ResponseDTO(String.format("Microservice manifest: HostName=%s Time=%s", InetAddress.getLocalHost().getHostName(),
-					System.currentTimeMillis()));
-		} catch (UnknownHostException e) {
-			return new ResponseDTO(String.format("Microservice manifest: ID=%s Time=%s", id, System.currentTimeMillis()));
-		}
-	}
-
 }
