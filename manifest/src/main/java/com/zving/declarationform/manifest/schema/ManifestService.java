@@ -31,4 +31,6 @@ public interface ManifestService {
 	String delete(String ids);
 
 	List<Manifest> list();
+
+	ResponseDTO loadblanceTest();
 }

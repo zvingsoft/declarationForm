@@ -2,6 +2,7 @@ package com.zving.declarationform.basedata.schema;
 
 import java.util.List;
 
+import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.model.Company;
 
 /**
@@ -11,13 +12,16 @@ import com.zving.declarationform.model.Company;
  * @description:
  */
 public interface CompanyService {
-    List<Company> list();
+	List<Company> list();
 
-    Company get(long id);
+	Company get(long id);
 
-    String delete(String ids);
+	String delete(String ids);
 
-    String add(Company company);
+	String add(Company company);
 
-    String update(Company company);
+	String update(Company company);
+
+	ResponseDTO loadblanceTest();
+
 }

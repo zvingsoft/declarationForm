@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import javax.ws.rs.core.MediaType;
@@ -164,4 +165,19 @@ public class ManifestServiceImpl implements ManifestService {
 		List<Manifest> list = StorageUtil.getInstance().find(Manifest.class, null);
 		return list;
 	}
+
+	static long id = Math.abs(new Random().nextInt(100000000));
+
+	@Override
+	@RequestMapping(path = "loadblanceTest", method = RequestMethod.PUT)
+	@ResponseBody
+	public ResponseDTO loadblanceTest() {
+		try {
+			return new ResponseDTO(String.format("Microservice manifest: HostName=%s Time=%s", InetAddress.getLocalHost().getHostName(),
+					System.currentTimeMillis()));
+		} catch (UnknownHostException e) {
+			return new ResponseDTO(String.format("Microservice manifest: ID=%s Time=%s", id, System.currentTimeMillis()));
+		}
+	}
+
 }

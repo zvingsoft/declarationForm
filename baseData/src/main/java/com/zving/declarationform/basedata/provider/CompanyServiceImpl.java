@@ -1,7 +1,10 @@
 package com.zving.declarationform.basedata.provider;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.ws.rs.core.MediaType;
 
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.basedata.schema.CompanyService;
+import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.model.Company;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
@@ -31,76 +35,90 @@ import io.servicecomb.provider.rest.common.RestSchema;
 @Controller
 public class CompanyServiceImpl implements CompanyService {
 
-    IStorage storage = StorageUtil.getInstance();
+	IStorage storage = StorageUtil.getInstance();
 
-    private long getId() {
-        return (long) ((Math.random() * 100000) + 1);
-    }
+	private long getId() {
+		return (long) ((Math.random() * 100000) + 1);
+	}
 
-    @Override
-    @RequestMapping(path = "", method = RequestMethod.GET)
-    @ResponseBody
-    public List<Company> list() {
-        return storage.find(Company.class, null);
-    }
+	@Override
+	@RequestMapping(path = "", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Company> list() {
+		return storage.find(Company.class, null);
+	}
 
-    @Override
-    @RequestMapping(path = "{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public Company get(@PathVariable("id") long id) {
-        return getCompany(id);
-    }
+	@Override
+	@RequestMapping(path = "{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public Company get(@PathVariable("id") long id) {
+		return getCompany(id);
+	}
 
-    @Override
-    @RequestMapping(path = "{ids}", method = RequestMethod.DELETE)
-    @ResponseBody
-    public String delete(@PathVariable("ids") String ids) {
-        String[] idArray = ids.split(",");
-        for (String id : idArray) {
-            if (NumberUtils.isNumber(id)) {
-                Company cottonQuota = getCompany(Long.valueOf(id));
-                storage.delete(Company.class, cottonQuota);
-            }
-        }
-        return "删除成功";
-    }
+	@Override
+	@RequestMapping(path = "{ids}", method = RequestMethod.DELETE)
+	@ResponseBody
+	public String delete(@PathVariable("ids") String ids) {
+		String[] idArray = ids.split(",");
+		for (String id : idArray) {
+			if (NumberUtils.isNumber(id)) {
+				Company cottonQuota = getCompany(Long.valueOf(id));
+				storage.delete(Company.class, cottonQuota);
+			}
+		}
+		return "删除成功";
+	}
 
-    @Override
-    @RequestMapping(path = "", method = RequestMethod.POST)
-    @ResponseBody
-    public String add(@RequestBody Company company) {
-        company.setId(getId());
-        company.setAddTime(new Date());
-        company.setAddUser("demo");
-        storage.add(Company.class, company);
-        return "添加成功";
-    }
+	@Override
+	@RequestMapping(path = "", method = RequestMethod.POST)
+	@ResponseBody
+	public String add(@RequestBody Company company) {
+		company.setId(getId());
+		company.setAddTime(new Date());
+		company.setAddUser("demo");
+		storage.add(Company.class, company);
+		return "添加成功";
+	}
 
-    @Override
-    @RequestMapping(path = "", method = RequestMethod.PUT)
-    @ResponseBody
-    public String update(@RequestBody Company company) {
-        try {
-            Company companyOrigin = getCompany(company.getId());
-            company.setAddTime(companyOrigin.getAddTime());
-            company.setAddUser(companyOrigin.getAddUser());
-            company.setModifyTime(new Date());
-            company.setModifyUser("demo");
-            storage.update(Company.class, companyOrigin, company);
-            return "更新成功";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "更新失败";
-    }
+	@Override
+	@RequestMapping(path = "", method = RequestMethod.PUT)
+	@ResponseBody
+	public String update(@RequestBody Company company) {
+		try {
+			Company companyOrigin = getCompany(company.getId());
+			company.setAddTime(companyOrigin.getAddTime());
+			company.setAddUser(companyOrigin.getAddUser());
+			company.setModifyTime(new Date());
+			company.setModifyUser("demo");
+			storage.update(Company.class, companyOrigin, company);
+			return "更新成功";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "更新失败";
+	}
 
-    private Company getCompany(long id) {
-        List<Company> list = storage.find(Company.class, null);
-        for (Company company : list) {
-            if (company.getId() == id) {
-                return company;
-            }
-        }
-        return null;
-    }
+	private Company getCompany(long id) {
+		List<Company> list = storage.find(Company.class, null);
+		for (Company company : list) {
+			if (company.getId() == id) {
+				return company;
+			}
+		}
+		return null;
+	}
+
+	static long id = Math.abs(new Random().nextInt(100000000));
+
+	@Override
+	@RequestMapping(path = "loadblanceTest", method = RequestMethod.PUT)
+	@ResponseBody
+	public ResponseDTO loadblanceTest() {
+		try {
+			return new ResponseDTO(String.format("Microservice baseData: HostName=%s Time=%s", InetAddress.getLocalHost().getHostName(),
+					System.currentTimeMillis()));
+		} catch (UnknownHostException e) {
+			return new ResponseDTO(String.format("Microservice baseData: ID=%s Time=%s", id, System.currentTimeMillis()));
+		}
+	}
 }

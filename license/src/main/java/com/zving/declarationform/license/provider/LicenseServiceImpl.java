@@ -197,4 +197,19 @@ public class LicenseServiceImpl implements LicenseService {
 		}).collect(Collectors.toList());
 		return list;
 	}
+
+	static long id = Math.abs(new Random().nextInt(100000000));
+
+	@Override
+	@RequestMapping(path = "loadblanceTest", method = RequestMethod.PUT)
+	@ResponseBody
+	public ResponseDTO loadblanceTest() {
+		try {
+			return new ResponseDTO(String.format("Microservice license: HostName=%s Time=%s", InetAddress.getLocalHost().getHostName(),
+					System.currentTimeMillis()));
+		} catch (UnknownHostException e) {
+			return new ResponseDTO(String.format("Microservice license: ID=%s Time=%s", id, System.currentTimeMillis()));
+		}
+	}
+
 }

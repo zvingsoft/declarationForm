@@ -29,4 +29,6 @@ public interface LicenseService {
 	String delete(long id);
 
 	List<License> list();
+
+	ResponseDTO loadblanceTest();
 }

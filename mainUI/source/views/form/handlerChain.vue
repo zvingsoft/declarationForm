@@ -26,8 +26,7 @@
  				</div>
 				<div class="form-title">QPS流控</div>
 				<div class="form-panel">
-					<el-form-item> <el-button style="width:200px;" @click="qps1" type="primary">单次调用</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:200px;" @click="qps10" type="primary">连续调用10次</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="qps1" type="primary">每秒点击超过5次触发流控</el-button> </el-form-item>
 				</div>
 			</div>
 			</el-form>

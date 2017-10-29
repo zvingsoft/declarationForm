@@ -23,10 +23,7 @@ cse:
   loadblance:
     baseData:
       NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
-      isolation:
-        err:
-          orThresholdPercentage: 50
-    cottonQuota:
+    manifest:
       NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
     form:
       NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule

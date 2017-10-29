@@ -232,9 +232,10 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
 	@ResponseBody
 	public ResponseDTO qpsTest() {
 		try {
-			return new ResponseDTO(String.format("HostName=%s Time=%T", InetAddress.getLocalHost().getHostName(), id, new Date()));
+			return new ResponseDTO(
+					String.format("HostName=%s Time=%s", InetAddress.getLocalHost().getHostName(), System.currentTimeMillis()));
 		} catch (UnknownHostException e) {
-			return new ResponseDTO(String.format("ID=%s Time=%T", id, new Date()));
+			return new ResponseDTO(String.format("ID=%s Time=%s", id, System.currentTimeMillis()));
 		}
 	}
 }
