@@ -31,7 +31,4 @@ public interface CottonQuotaService {
 	ResponseDTO tccConfirm(DeclarationForm form);
 
 	ResponseDTO tccCancel(DeclarationForm form);
-
-	ResponseDTO qpsTest();
-
 }

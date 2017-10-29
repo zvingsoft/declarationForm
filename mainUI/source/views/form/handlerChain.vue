@@ -13,13 +13,12 @@
 				</div>
 				<div class="form-title">负载均衡</div>
 				<div class="form-panel">
-					<el-form-item> <el-button style="width:200px;" @click="loadblanceRoundRobin" type="primary">轮询调用10次</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:200px;" @click="loadblanceRandom" type="primary">随机调用10次</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:200px;" @click="loadblanceWeight" type="primary">基于响应时间调用10次</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:200px;" @click="loadblanceSessionStick" type="primary">基于会话保持调用10次</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:200px;" @click="loadblanceIsolation" type="primary">随机故障</el-button> </el-form-item>
-				</div>
-				<div class="form-title">隔离、熔断、容错</div>
+					<el-form-item> <el-button style="width:200px;" @click="loadblanceRoundRobin" type="primary">轮询调用</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="loadblanceRandom" type="primary">随机调用</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="loadblanceWeight" type="primary">基于响应时间调用</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="loadblanceSessionStick" type="primary">基于会话保持调用</el-button> </el-form-item>
+ 				</div>
+				<div class="form-title">熔断与容错</div>
 				<div class="form-panel">
 					<el-form-item> <el-button style="width:200px;" @click="circuitBreakerFail" type="primary">失败熔断</el-button> </el-form-item>
 					<el-form-item> <el-button style="width:200px;" @click="circuitBreakerConcurrent" type="primary">并发检测熔断</el-button> </el-form-item>

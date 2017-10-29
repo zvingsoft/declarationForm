@@ -1,10 +1,7 @@
 package com.zving.declarationform.basedata.provider;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import javax.ws.rs.core.MediaType;
 
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.basedata.schema.CompanyService;
-import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.model.Company;
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
@@ -108,17 +104,4 @@ public class CompanyServiceImpl implements CompanyService {
 		return null;
 	}
 
-	static long id = Math.abs(new Random().nextInt(100000000));
-
-	@Override
-	@RequestMapping(path = "loadblanceTest", method = RequestMethod.PUT)
-	@ResponseBody
-	public ResponseDTO loadblanceTest() {
-		try {
-			return new ResponseDTO(String.format("Microservice baseData: HostName=%s Time=%s", InetAddress.getLocalHost().getHostName(),
-					System.currentTimeMillis()));
-		} catch (UnknownHostException e) {
-			return new ResponseDTO(String.format("Microservice baseData: ID=%s Time=%s", id, System.currentTimeMillis()));
-		}
-	}
 }

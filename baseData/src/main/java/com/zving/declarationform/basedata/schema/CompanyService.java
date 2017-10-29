@@ -2,7 +2,6 @@ package com.zving.declarationform.basedata.schema;
 
 import java.util.List;
 
-import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.model.Company;
 
 /**
@@ -21,7 +20,5 @@ public interface CompanyService {
 	String add(Company company);
 
 	String update(Company company);
-
-	ResponseDTO loadblanceTest();
 
 }

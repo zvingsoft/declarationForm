@@ -62,7 +62,8 @@ public class HandlerChain {
 	@RequestMapping(path = "loadblanceRoundRobin", method = RequestMethod.GET)
 	@ResponseBody
 	public String loadblanceRoundRobin() {
-		return "loadblanceRoundRobin";
+		ResponseDTO dto = RestTemplateBuilder.create().getForObject("cse://baseData/test/loadblance", ResponseDTO.class);
+		return dto.getMessage();
 	}
 
 	/**
@@ -71,16 +72,18 @@ public class HandlerChain {
 	@RequestMapping(path = "loadblanceRandom", method = RequestMethod.GET)
 	@ResponseBody
 	public String loadblanceRandom() {
-		return "loadblanceRandom";
+		ResponseDTO dto = RestTemplateBuilder.create().getForObject("cse://manifest/test/loadblance", ResponseDTO.class);
+		return dto.getMessage();
 	}
 
 	/**
 	 * 负载均衡基于响应时间
 	 */
-	@RequestMapping(path = "loadblanceWeighted", method = RequestMethod.GET)
+	@RequestMapping(path = "loadblanceWeight", method = RequestMethod.GET)
 	@ResponseBody
-	public String loadblanceWeighted() {
-		return "loadblanceWeighted";
+	public String loadblanceWeight() {
+		ResponseDTO dto = RestTemplateBuilder.create().getForObject("cse://form/test/loadblance", ResponseDTO.class);
+		return dto.getMessage();
 	}
 
 	/**
@@ -89,7 +92,8 @@ public class HandlerChain {
 	@RequestMapping(path = "loadblanceSessionStick", method = RequestMethod.GET)
 	@ResponseBody
 	public String loadblanceSessionStick() {
-		return "loadblanceSessionStick";
+		ResponseDTO dto = RestTemplateBuilder.create().getForObject("cse://license/test/loadblance", ResponseDTO.class);
+		return dto.getMessage();
 	}
 
 	/**
@@ -125,7 +129,7 @@ public class HandlerChain {
 	@RequestMapping(path = "qps1", method = RequestMethod.GET)
 	@ResponseBody
 	public String qps1() {
-		ResponseDTO dto = RestTemplateBuilder.create().getForObject("cse://cottonQuota/qpsTest", ResponseDTO.class);
+		ResponseDTO dto = RestTemplateBuilder.create().getForObject("cse://cottonQuota/test/qps", ResponseDTO.class);
 		return dto.getMessage();
 	}
 

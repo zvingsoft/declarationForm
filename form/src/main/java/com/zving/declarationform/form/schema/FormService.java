@@ -3,7 +3,6 @@ package com.zving.declarationform.form.schema;
 import java.util.List;
 import java.util.Map;
 
-import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.model.DeclarationForm;
 
 /**
@@ -53,6 +52,4 @@ public interface FormService {
 	 * tcc确认
 	 */
 	String tryConfirm(DeclarationForm form);
-
-	ResponseDTO loadblanceTest();
 }

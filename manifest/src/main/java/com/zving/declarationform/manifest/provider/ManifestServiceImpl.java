@@ -169,7 +169,7 @@ public class ManifestServiceImpl implements ManifestService {
 	static long id = Math.abs(new Random().nextInt(100000000));
 
 	@Override
-	@RequestMapping(path = "loadblanceTest", method = RequestMethod.PUT)
+	@RequestMapping(path = "/loadblanceTest", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseDTO loadblanceTest() {
 		try {

@@ -1,13 +1,10 @@
 package com.zving.declarationform.form.provider;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 
 import javax.ws.rs.core.MediaType;
 
@@ -241,26 +238,4 @@ public class FormServiceImpl implements FormService {
 			throw new RuntimeException("TCC.cancel失败");
 		}
 	}
-
-	static long id = Math.abs(new Random().nextInt(100000000));
-	static long sleepTime = Math.abs(new Random().nextInt(15000));
-
-	@Override
-	@RequestMapping(path = "loadblanceTest", method = RequestMethod.PUT)
-	@ResponseBody
-	public ResponseDTO loadblanceTest() {
-		long time = System.currentTimeMillis();
-		try {
-			try {
-				Thread.sleep(sleepTime);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			return new ResponseDTO(String.format("Microservice form: HostName=%s Cost(ms)=%s", InetAddress.getLocalHost().getHostName(),
-					System.currentTimeMillis() - time));
-		} catch (UnknownHostException e) {
-			return new ResponseDTO(String.format("Microservice form: ID=%s Cost(ms)=%s", id, System.currentTimeMillis() - time));
-		}
-	}
-
 }
