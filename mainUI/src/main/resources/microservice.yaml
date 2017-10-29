@@ -10,8 +10,10 @@ cse:
     address: 0.0.0.0:8013
   handler:
     chain:
+      Provider:
+        default: perf-stats,qps-flowcontrol-provider,bizkeeper-provider,tcc-server,sla-provider,tracing-provider
       Consumer:
-        default: loadbalance,bizkeeper-consumer,tcc-client,tracing-consumer,sla-consumer,qps-flowcontrol-consumer
+        default: perf-stats,qps-flowcontrol-consumer,loadbalance,bizkeeper-consumer,tcc-client,sla-consumer,tracing-consumer
   flowcontrol:
     Consumer:
       qps:

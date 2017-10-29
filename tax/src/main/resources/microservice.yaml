@@ -9,6 +9,8 @@ cse:
   handler:
     chain:
       Provider:
-        default: tracing-provider,bizkeeper-provider
+        default: perf-stats,qps-flowcontrol-provider,bizkeeper-provider,tcc-server,sla-provider,tracing-provider
+      Consumer:
+        default: perf-stats,qps-flowcontrol-consumer,loadbalance,bizkeeper-consumer,tcc-client,sla-consumer,tracing-consumer
   rest:
     address: 0.0.0.0:8003

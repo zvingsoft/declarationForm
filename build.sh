@@ -1,6 +1,6 @@
 #!/bin/bash
 #´ò°ü³Édocker¾µÏñ
-images=("baseData" "cottonQuota" "form" "license" "mainui" "manifest" "processingTrade" "riskAnalysis" "tax" "taxCutting")
+images=("baseData" "cottonQuota" "form" "license" "mainUI" "manifest" "processingTrade" "riskAnalysis" "tax" "taxCutting")
 for var in ${images[@]};  
 do  
     typeset -l lowerVar

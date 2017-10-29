@@ -14,9 +14,14 @@ cse:
   handler:
     chain:
       Provider:
-        default: tracing-provider,tcc-server,bizkeeper-provider
+        default: perf-stats,qps-flowcontrol-provider,bizkeeper-provider,tcc-server,sla-provider,tracing-provider
       Consumer:
-        default: tracing-consumer,tcc-client,bizkeeper-consumer,loadblance,sla-consumer,qps-flowcontrol-consumer
+        default: perf-stats,qps-flowcontrol-consumer,loadbalance,bizkeeper-consumer,tcc-client,sla-consumer,tracing-consumer
+  flowcontrol:
+    Consumer:
+      qps:
+        enabled: true
+        limit: 5
   monitor:
     client:
       enable: false

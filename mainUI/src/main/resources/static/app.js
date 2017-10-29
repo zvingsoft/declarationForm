@@ -29,7 +29,7 @@
 /******/
 /******/ 	// objects to store loaded and loading chunks
 /******/ 	var installedChunks = {
-/******/ 		12: 0
+/******/ 		13: 0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -86,7 +86,7 @@
 /******/ 		if (__webpack_require__.nc) {
 /******/ 			script.setAttribute("nonce", __webpack_require__.nc);
 /******/ 		}
-/******/ 		script.src = __webpack_require__.p + "" + ({"0":"licenseUI-license","1":"formUI-declarationRetrieval","2":"formUI-declaration","3":"formUI-taxRegister","4":"formUI-auditing","5":"cottonQuotaUI-cottonQuota","6":"formUI-company","7":"taxCuttingUI-taxCutting","8":"manifestUI-manifest","9":"taxUI-tax","10":"formUI-sku","11":"processingTradeUI-processingTrade"}[chunkId]||chunkId) + ".js";
+/******/ 		script.src = __webpack_require__.p + "" + ({"0":"licenseUI-license","1":"formUI-declarationRetrieval","2":"formUI-declaration","3":"formUI-taxRegister","4":"formUI-auditing","5":"cottonQuotaUI-cottonQuota","6":"formUI-company","7":"taxCuttingUI-taxCutting","8":"manifestUI-manifest","9":"taxUI-tax","10":"formUI-sku","11":"processingTradeUI-processingTrade","12":"formUI-handlerChain"}[chunkId]||chunkId) + ".js";
 /******/ 		var timeout = setTimeout(onScriptComplete, 120000);
 /******/ 		script.onerror = script.onload = onScriptComplete;
 /******/ 		function onScriptComplete() {
@@ -1031,6 +1031,14 @@ var routes = [{
         return resolve(__webpack_require__(91));
       }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
     }
+  }, {
+    path: 'handlerChain',
+    meta: { title: '处理链示例', icon: 'fa fa-chain' },
+    component: function component(resolve) {
+      return __webpack_require__.e/* require.ensure */(12).then((function () {
+        return resolve(__webpack_require__(92));
+      }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+    }
   }]
 }, {
   path: '/setting',
@@ -1042,7 +1050,7 @@ var routes = [{
     meta: { title: '商品管理', icon: 'fa fa-file-text-o' },
     component: function component(resolve) {
       return __webpack_require__.e/* require.ensure */(10).then((function () {
-        return resolve(__webpack_require__(92));
+        return resolve(__webpack_require__(93));
       }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
     }
   }, {
@@ -1050,7 +1058,7 @@ var routes = [{
     meta: { title: '企业管理', icon: 'fa fa-file-text-o' },
     component: function component(resolve) {
       return __webpack_require__.e/* require.ensure */(6).then((function () {
-        return resolve(__webpack_require__(93));
+        return resolve(__webpack_require__(94));
       }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
     }
   }, {
@@ -1058,7 +1066,7 @@ var routes = [{
     meta: { title: '税率管理', icon: 'fa fa-file-text-o' },
     component: function component(resolve) {
       return __webpack_require__.e/* require.ensure */(9).then((function () {
-        return resolve(__webpack_require__(94));
+        return resolve(__webpack_require__(95));
       }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
     }
   }, {
@@ -1066,7 +1074,7 @@ var routes = [{
     meta: { title: '许可证管理', icon: 'fa fa-file-text-o' },
     component: function component(resolve) {
       return __webpack_require__.e/* require.ensure */(0).then((function () {
-        return resolve(__webpack_require__(95));
+        return resolve(__webpack_require__(96));
       }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
     }
   }, {
@@ -1074,7 +1082,7 @@ var routes = [{
     meta: { title: '减免税管理', icon: 'fa fa-file-text-o' },
     component: function component(resolve) {
       return __webpack_require__.e/* require.ensure */(7).then((function () {
-        return resolve(__webpack_require__(96));
+        return resolve(__webpack_require__(97));
       }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
     }
   }, {
@@ -1082,7 +1090,7 @@ var routes = [{
     meta: { title: '舱单管理', icon: 'fa fa-file-text-o' },
     component: function component(resolve) {
       return __webpack_require__.e/* require.ensure */(8).then((function () {
-        return resolve(__webpack_require__(97));
+        return resolve(__webpack_require__(98));
       }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
     }
   }, {
@@ -1090,7 +1098,7 @@ var routes = [{
     meta: { title: '加贸管理', icon: 'fa fa-file-text-o' },
     component: function component(resolve) {
       return __webpack_require__.e/* require.ensure */(11).then((function () {
-        return resolve(__webpack_require__(98));
+        return resolve(__webpack_require__(99));
       }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
     }
   }, {
@@ -1098,7 +1106,7 @@ var routes = [{
     meta: { title: '棉花配额管理', icon: 'fa fa-file-text-o' },
     component: function component(resolve) {
       return __webpack_require__.e/* require.ensure */(5).then((function () {
-        return resolve(__webpack_require__(99));
+        return resolve(__webpack_require__(100));
       }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
     }
   }]
@@ -1673,7 +1681,7 @@ exports = module.exports = __webpack_require__(0)(true);
 
 
 // module
-exports.push([module.i, "\n@keyframes ani-demo-spin-data-v-795fa0f0 {\nfrom {\n    transform: rotate(0deg);\n}\n50% {\n    transform: rotate(180deg);\n}\nto {\n    transform: rotate(360deg);\n}\n}\n.menu-wrap[data-v-795fa0f0] {\n  background-color: #F5F7FB;\n  position: absolute;\n  width: 100%;\n  top: 50px;\n  bottom: 0;\n  overflow: auto;\n}\n.el-menu[data-v-795fa0f0] {\n  background-color: #F5F7FB;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/form/index.vue?543c38b0"],"names":[],"mappings":";AA6EA;AACA;IACA,wBAAA;CACA;AACA;IACA,0BAAA;CACA;AACA;IACA,0BAAA;CACA;CACA;AAEA;EACA,0BAAA;EACA,mBAAA;EACA,YAAA;EACA,UAAA;EACA,UAAA;EACA,eAAA;CACA;AAEA;EACA,0BAAA;CACA","file":"index.vue","sourcesContent":["<template>\n  <div class=\"layout\">\n    <div class=\"body-list\" style=\"background-color:white;\">\n      <el-toolbar>\n        <span>\n          <i class=\"fa fa-ship\" /> 通关</span>\n      </el-toolbar>\n      <div class=\"menu-wrap\">\n        <el-menu :default-active=\"activeMenu\" @select=\"onSelectMenu\">\n          <el-menu-item :index=\"menu.path\" v-for=\"menu in menus\" :key=\"menu.path\">\n            <i :class=\"menu.meta.icon\"></i>&nbsp;{{menu.meta.title}}\n          </el-menu-item>\n        </el-menu>\n      </div>\n\n    </div>\n    <div class=\"body-detail\">\n      <div class=\"layout-content-main\">\n        <router-view></router-view>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script>\nconst menus = [\n  {\n    path: '/form/declaration',\n    meta: { title: '报关单', icon: 'fa fa-file-text-o' }\n  },\n  {\n    path: '/form/declarationRetrieval',\n    meta: { title: '报关单检索', icon: 'fa fa-search' }\n  },\n  {\n    path: '/form/taxRegister',\n    meta: { title: '缴税登记', icon: 'fa fa-files-o' }\n  }, {\n    path: '/form/auditing',\n    meta: { title: '审核与放行', icon: 'fa fa-check-square-o' }\n  }\n]\n\nexport default {\n  data() {\n    return {\n      menus,\n      activeMenu: menus[0].path\n    };\n  },\n  methods: {\n    onSelectMenu(path) {\n      let item = this.menus.find((val) => val.path === path)\n\n      if (item) {\n        this.$router.push({ path: item.path })\n      }\n    }\n  },\n  created() {\n    if (location.hash.split('/').length == 2) {\n      location.hash = this.activeMenu\n    }\n  },\n  beforeRouteUpdate(to, from, next) {\n    let path = to.path\n    let item = this.menus.find(val => val.path === path)\n\n    if (item) {\n      this.activeMenu = item.path\n    }\n    next()\n  }\n\n}\n</script>\n<style scoped>\n@keyframes ani-demo-spin {\n  from {\n    transform: rotate(0deg);\n  }\n  50% {\n    transform: rotate(180deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n\n.menu-wrap {\n  background-color: #F5F7FB;\n  position: absolute;\n  width: 100%;\n  top: 50px;\n  bottom: 0;\n  overflow: auto;\n}\n\n.el-menu {\n  background-color: #F5F7FB;\n}\n</style>\n<style>\n.menu-wrap .el-menu {\n  width: 200px;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n@keyframes ani-demo-spin-data-v-795fa0f0 {\nfrom {\n        transform: rotate(0deg);\n}\n50% {\n        transform: rotate(180deg);\n}\nto {\n        transform: rotate(360deg);\n}\n}\n.menu-wrap[data-v-795fa0f0] {\n    background-color: #f5f7fb;\n    position: absolute;\n    width: 100%;\n    top: 50px;\n    bottom: 0;\n    overflow: auto;\n}\n.el-menu[data-v-795fa0f0] {\n    background-color: #f5f7fb;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/form/index.vue?1d06f025"],"names":[],"mappings":";AAiFA;AACA;QACA,wBAAA;CACA;AACA;QACA,0BAAA;CACA;AACA;QACA,0BAAA;CACA;CACA;AAEA;IACA,0BAAA;IACA,mBAAA;IACA,YAAA;IACA,UAAA;IACA,UAAA;IACA,eAAA;CACA;AAEA;IACA,0BAAA;CACA","file":"index.vue","sourcesContent":["<template>\n  <div class=\"layout\">\n    <div class=\"body-list\" style=\"background-color:white;\">\n      <el-toolbar>\n        <span>\n          <i class=\"fa fa-ship\" /> 通关</span>\n      </el-toolbar>\n      <div class=\"menu-wrap\">\n        <el-menu :default-active=\"activeMenu\" @select=\"onSelectMenu\">\n          <el-menu-item :index=\"menu.path\" v-for=\"menu in menus\" :key=\"menu.path\">\n            <i :class=\"menu.meta.icon\"></i>&nbsp;{{menu.meta.title}}\n          </el-menu-item>\n        </el-menu>\n      </div>\n\n    </div>\n    <div class=\"body-detail\">\n      <div class=\"layout-content-main\">\n        <router-view></router-view>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script>\nconst menus = [\n    {\n        path: '/form/declaration',\n        meta: { title: '报关单', icon: 'fa fa-file-text-o' },\n    },\n    {\n        path: '/form/declarationRetrieval',\n        meta: { title: '报关单检索', icon: 'fa fa-search' },\n    },\n    {\n        path: '/form/taxRegister',\n        meta: { title: '缴税登记', icon: 'fa fa-files-o' },\n    },\n    {\n        path: '/form/auditing',\n        meta: { title: '审核与放行', icon: 'fa fa-check-square-o' },\n    },\n    {\n        path: '/form/handlerChain',\n        meta: { title: '处理链示例', icon: 'fa fa-chain' },\n    },\n];\n\nexport default {\n    data() {\n        return {\n            menus,\n            activeMenu: menus[0].path,\n        };\n    },\n    methods: {\n        onSelectMenu(path) {\n            let item = this.menus.find(val => val.path === path);\n\n            if (item) {\n                this.$router.push({ path: item.path });\n            }\n        },\n    },\n    created() {\n        if (location.hash.split('/').length == 2) {\n            location.hash = this.activeMenu;\n        }\n    },\n    beforeRouteUpdate(to, from, next) {\n        let path = to.path;\n        let item = this.menus.find(val => val.path === path);\n\n        if (item) {\n            this.activeMenu = item.path;\n        }\n        next();\n    },\n};\n</script>\n<style scoped>\n@keyframes ani-demo-spin {\n    from {\n        transform: rotate(0deg);\n    }\n    50% {\n        transform: rotate(180deg);\n    }\n    to {\n        transform: rotate(360deg);\n    }\n}\n\n.menu-wrap {\n    background-color: #f5f7fb;\n    position: absolute;\n    width: 100%;\n    top: 50px;\n    bottom: 0;\n    overflow: auto;\n}\n\n.el-menu {\n    background-color: #f5f7fb;\n}\n</style>\n<style>\n.menu-wrap .el-menu {\n    width: 200px;\n}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -1713,7 +1721,7 @@ exports = module.exports = __webpack_require__(0)(true);
 
 
 // module
-exports.push([module.i, "\n.menu-wrap .el-menu {\n  width: 200px;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/form/index.vue?543c38b0"],"names":[],"mappings":";AAuGA;EACA,aAAA;CACA","file":"index.vue","sourcesContent":["<template>\n  <div class=\"layout\">\n    <div class=\"body-list\" style=\"background-color:white;\">\n      <el-toolbar>\n        <span>\n          <i class=\"fa fa-ship\" /> 通关</span>\n      </el-toolbar>\n      <div class=\"menu-wrap\">\n        <el-menu :default-active=\"activeMenu\" @select=\"onSelectMenu\">\n          <el-menu-item :index=\"menu.path\" v-for=\"menu in menus\" :key=\"menu.path\">\n            <i :class=\"menu.meta.icon\"></i>&nbsp;{{menu.meta.title}}\n          </el-menu-item>\n        </el-menu>\n      </div>\n\n    </div>\n    <div class=\"body-detail\">\n      <div class=\"layout-content-main\">\n        <router-view></router-view>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script>\nconst menus = [\n  {\n    path: '/form/declaration',\n    meta: { title: '报关单', icon: 'fa fa-file-text-o' }\n  },\n  {\n    path: '/form/declarationRetrieval',\n    meta: { title: '报关单检索', icon: 'fa fa-search' }\n  },\n  {\n    path: '/form/taxRegister',\n    meta: { title: '缴税登记', icon: 'fa fa-files-o' }\n  }, {\n    path: '/form/auditing',\n    meta: { title: '审核与放行', icon: 'fa fa-check-square-o' }\n  }\n]\n\nexport default {\n  data() {\n    return {\n      menus,\n      activeMenu: menus[0].path\n    };\n  },\n  methods: {\n    onSelectMenu(path) {\n      let item = this.menus.find((val) => val.path === path)\n\n      if (item) {\n        this.$router.push({ path: item.path })\n      }\n    }\n  },\n  created() {\n    if (location.hash.split('/').length == 2) {\n      location.hash = this.activeMenu\n    }\n  },\n  beforeRouteUpdate(to, from, next) {\n    let path = to.path\n    let item = this.menus.find(val => val.path === path)\n\n    if (item) {\n      this.activeMenu = item.path\n    }\n    next()\n  }\n\n}\n</script>\n<style scoped>\n@keyframes ani-demo-spin {\n  from {\n    transform: rotate(0deg);\n  }\n  50% {\n    transform: rotate(180deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n\n.menu-wrap {\n  background-color: #F5F7FB;\n  position: absolute;\n  width: 100%;\n  top: 50px;\n  bottom: 0;\n  overflow: auto;\n}\n\n.el-menu {\n  background-color: #F5F7FB;\n}\n</style>\n<style>\n.menu-wrap .el-menu {\n  width: 200px;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.menu-wrap .el-menu {\n    width: 200px;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/form/index.vue?1d06f025"],"names":[],"mappings":";AA2GA;IACA,aAAA;CACA","file":"index.vue","sourcesContent":["<template>\n  <div class=\"layout\">\n    <div class=\"body-list\" style=\"background-color:white;\">\n      <el-toolbar>\n        <span>\n          <i class=\"fa fa-ship\" /> 通关</span>\n      </el-toolbar>\n      <div class=\"menu-wrap\">\n        <el-menu :default-active=\"activeMenu\" @select=\"onSelectMenu\">\n          <el-menu-item :index=\"menu.path\" v-for=\"menu in menus\" :key=\"menu.path\">\n            <i :class=\"menu.meta.icon\"></i>&nbsp;{{menu.meta.title}}\n          </el-menu-item>\n        </el-menu>\n      </div>\n\n    </div>\n    <div class=\"body-detail\">\n      <div class=\"layout-content-main\">\n        <router-view></router-view>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script>\nconst menus = [\n    {\n        path: '/form/declaration',\n        meta: { title: '报关单', icon: 'fa fa-file-text-o' },\n    },\n    {\n        path: '/form/declarationRetrieval',\n        meta: { title: '报关单检索', icon: 'fa fa-search' },\n    },\n    {\n        path: '/form/taxRegister',\n        meta: { title: '缴税登记', icon: 'fa fa-files-o' },\n    },\n    {\n        path: '/form/auditing',\n        meta: { title: '审核与放行', icon: 'fa fa-check-square-o' },\n    },\n    {\n        path: '/form/handlerChain',\n        meta: { title: '处理链示例', icon: 'fa fa-chain' },\n    },\n];\n\nexport default {\n    data() {\n        return {\n            menus,\n            activeMenu: menus[0].path,\n        };\n    },\n    methods: {\n        onSelectMenu(path) {\n            let item = this.menus.find(val => val.path === path);\n\n            if (item) {\n                this.$router.push({ path: item.path });\n            }\n        },\n    },\n    created() {\n        if (location.hash.split('/').length == 2) {\n            location.hash = this.activeMenu;\n        }\n    },\n    beforeRouteUpdate(to, from, next) {\n        let path = to.path;\n        let item = this.menus.find(val => val.path === path);\n\n        if (item) {\n            this.activeMenu = item.path;\n        }\n        next();\n    },\n};\n</script>\n<style scoped>\n@keyframes ani-demo-spin {\n    from {\n        transform: rotate(0deg);\n    }\n    50% {\n        transform: rotate(180deg);\n    }\n    to {\n        transform: rotate(360deg);\n    }\n}\n\n.menu-wrap {\n    background-color: #f5f7fb;\n    position: absolute;\n    width: 100%;\n    top: 50px;\n    bottom: 0;\n    overflow: auto;\n}\n\n.el-menu {\n    background-color: #f5f7fb;\n}\n</style>\n<style>\n.menu-wrap .el-menu {\n    width: 200px;\n}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -1726,7 +1734,7 @@ exports.push([module.i, "\n.menu-wrap .el-menu {\n  width: 200px;\n}\n", "", {"v
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 //
 //
@@ -1754,54 +1762,57 @@ Object.defineProperty(exports, "__esModule", {
 //
 
 var menus = [{
-  path: '/form/declaration',
-  meta: { title: '报关单', icon: 'fa fa-file-text-o' }
+    path: '/form/declaration',
+    meta: { title: '报关单', icon: 'fa fa-file-text-o' }
 }, {
-  path: '/form/declarationRetrieval',
-  meta: { title: '报关单检索', icon: 'fa fa-search' }
+    path: '/form/declarationRetrieval',
+    meta: { title: '报关单检索', icon: 'fa fa-search' }
 }, {
-  path: '/form/taxRegister',
-  meta: { title: '缴税登记', icon: 'fa fa-files-o' }
+    path: '/form/taxRegister',
+    meta: { title: '缴税登记', icon: 'fa fa-files-o' }
 }, {
-  path: '/form/auditing',
-  meta: { title: '审核与放行', icon: 'fa fa-check-square-o' }
+    path: '/form/auditing',
+    meta: { title: '审核与放行', icon: 'fa fa-check-square-o' }
+}, {
+    path: '/form/handlerChain',
+    meta: { title: '处理链示例', icon: 'fa fa-chain' }
 }];
 
 exports.default = {
-  data: function data() {
-    return {
-      menus: menus,
-      activeMenu: menus[0].path
-    };
-  },
+    data: function data() {
+        return {
+            menus: menus,
+            activeMenu: menus[0].path
+        };
+    },
 
-  methods: {
-    onSelectMenu: function onSelectMenu(path) {
-      var item = this.menus.find(function (val) {
-        return val.path === path;
-      });
+    methods: {
+        onSelectMenu: function onSelectMenu(path) {
+            var item = this.menus.find(function (val) {
+                return val.path === path;
+            });
 
-      if (item) {
-        this.$router.push({ path: item.path });
-      }
-    }
-  },
-  created: function created() {
-    if (location.hash.split('/').length == 2) {
-      location.hash = this.activeMenu;
-    }
-  },
-  beforeRouteUpdate: function beforeRouteUpdate(to, from, next) {
-    var path = to.path;
-    var item = this.menus.find(function (val) {
-      return val.path === path;
-    });
+            if (item) {
+                this.$router.push({ path: item.path });
+            }
+        }
+    },
+    created: function created() {
+        if (location.hash.split('/').length == 2) {
+            location.hash = this.activeMenu;
+        }
+    },
+    beforeRouteUpdate: function beforeRouteUpdate(to, from, next) {
+        var path = to.path;
+        var item = this.menus.find(function (val) {
+            return val.path === path;
+        });
 
-    if (item) {
-      this.activeMenu = item.path;
+        if (item) {
+            this.activeMenu = item.path;
+        }
+        next();
     }
-    next();
-  }
 };
 
 /***/ }),

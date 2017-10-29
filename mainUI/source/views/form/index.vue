@@ -24,84 +24,88 @@
 
 <script>
 const menus = [
-  {
-    path: '/form/declaration',
-    meta: { title: '报关单', icon: 'fa fa-file-text-o' }
-  },
-  {
-    path: '/form/declarationRetrieval',
-    meta: { title: '报关单检索', icon: 'fa fa-search' }
-  },
-  {
-    path: '/form/taxRegister',
-    meta: { title: '缴税登记', icon: 'fa fa-files-o' }
-  }, {
-    path: '/form/auditing',
-    meta: { title: '审核与放行', icon: 'fa fa-check-square-o' }
-  }
-]
+    {
+        path: '/form/declaration',
+        meta: { title: '报关单', icon: 'fa fa-file-text-o' },
+    },
+    {
+        path: '/form/declarationRetrieval',
+        meta: { title: '报关单检索', icon: 'fa fa-search' },
+    },
+    {
+        path: '/form/taxRegister',
+        meta: { title: '缴税登记', icon: 'fa fa-files-o' },
+    },
+    {
+        path: '/form/auditing',
+        meta: { title: '审核与放行', icon: 'fa fa-check-square-o' },
+    },
+    {
+        path: '/form/handlerChain',
+        meta: { title: '处理链示例', icon: 'fa fa-chain' },
+    },
+];
 
 export default {
-  data() {
-    return {
-      menus,
-      activeMenu: menus[0].path
-    };
-  },
-  methods: {
-    onSelectMenu(path) {
-      let item = this.menus.find((val) => val.path === path)
+    data() {
+        return {
+            menus,
+            activeMenu: menus[0].path,
+        };
+    },
+    methods: {
+        onSelectMenu(path) {
+            let item = this.menus.find(val => val.path === path);
 
-      if (item) {
-        this.$router.push({ path: item.path })
-      }
-    }
-  },
-  created() {
-    if (location.hash.split('/').length == 2) {
-      location.hash = this.activeMenu
-    }
-  },
-  beforeRouteUpdate(to, from, next) {
-    let path = to.path
-    let item = this.menus.find(val => val.path === path)
+            if (item) {
+                this.$router.push({ path: item.path });
+            }
+        },
+    },
+    created() {
+        if (location.hash.split('/').length == 2) {
+            location.hash = this.activeMenu;
+        }
+    },
+    beforeRouteUpdate(to, from, next) {
+        let path = to.path;
+        let item = this.menus.find(val => val.path === path);
 
-    if (item) {
-      this.activeMenu = item.path
-    }
-    next()
-  }
-
-}
+        if (item) {
+            this.activeMenu = item.path;
+        }
+        next();
+    },
+};
 </script>
 <style scoped>
 @keyframes ani-demo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .menu-wrap {
-  background-color: #F5F7FB;
-  position: absolute;
-  width: 100%;
-  top: 50px;
-  bottom: 0;
-  overflow: auto;
+    background-color: #f5f7fb;
+    position: absolute;
+    width: 100%;
+    top: 50px;
+    bottom: 0;
+    overflow: auto;
 }
 
 .el-menu {
-  background-color: #F5F7FB;
+    background-color: #f5f7fb;
 }
 </style>
 <style>
 .menu-wrap .el-menu {
-  width: 200px;
+    width: 200px;
 }
 </style>

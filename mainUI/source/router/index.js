@@ -31,6 +31,11 @@ const routes = [
         path: 'auditing',
         meta: { title: '审核与放行', icon: 'fa fa-check-square-o' },
         component: resolve => require.ensure([], () => resolve(require('../views/form/auditing.vue')), 'formUI-auditing')
+      },
+      {
+        path: 'handlerChain',
+        meta: { title: '处理链示例', icon: 'fa fa-chain' },
+        component: resolve => require.ensure([], () => resolve(require('../views/form/handlerChain.vue')), 'formUI-handlerChain')
       }
     ]
   },
