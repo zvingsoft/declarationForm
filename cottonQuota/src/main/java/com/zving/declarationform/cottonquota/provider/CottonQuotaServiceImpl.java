@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.ws.rs.core.MediaType;
 
@@ -222,5 +223,18 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
 			}
 		}
 		return new ResponseDTO("");
+	}
+
+	static long id = Math.abs(new Random().nextInt(100000000));
+
+	@Override
+	@RequestMapping(path = "qpsTest", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseDTO qpsTest() {
+		try {
+			return new ResponseDTO(String.format("HostName=%s Time=%T", InetAddress.getLocalHost().getHostName(), id, new Date()));
+		} catch (UnknownHostException e) {
+			return new ResponseDTO(String.format("ID=%s Time=%T", id, new Date()));
+		}
 	}
 }

@@ -35,7 +35,7 @@ exports = module.exports = __webpack_require__(0)(true);
 
 
 // module
-exports.push([module.i, "\n.form-title[data-v-9b0b9c5e] {\n    font-size: 24px;\n    font-weight: bold;\n    margin-left: 6%;\n    padding: 20px 0 5px 0;\n}\n.form-panel[data-v-9b0b9c5e] {\n    width: 80%;\n    margin-left: 5%;\n    padding: 20px 0 0 20px;\n    border-top: 2px solid #ccc;\n    border-radius: 4px;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/form/handlerChain.vue?51d60909"],"names":[],"mappings":";AAuHA;IACA,gBAAA;IACA,kBAAA;IACA,gBAAA;IACA,sBAAA;CACA;AAEA;IACA,WAAA;IACA,gBAAA;IACA,uBAAA;IACA,2BAAA;IACA,mBAAA;CACA","file":"handlerChain.vue","sourcesContent":["<template>\n<div style=\"width: 100%; text-align: center; margin: auto;\">\n\t<div style=\"display: flex;\">\n\t\t<div style=\"flex: 1;margin-top:10px;margin-bottom:200px;\">\n\t\t\t<el-form label-position=\"left\" label-width=\"200px\" class=\"e-form\">\n\t\t\t<div style=\"width: 100%; margin: auto; text-align: left; margin-left: 20px;\">\n\t\t\t\t<div class=\"form-title\">TCC事务</div>\n\t\t\t\t<div class=\"form-panel\">\n          <div></div>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:220px;\" @click=\"trySuccessConfirmSuccess\" type=\"primary\">Try成功Confirm成功</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:220px;\" @click=\"trySuccessConfirmFail\" type=\"primary\">Try成功Confirm失败</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:220px;\" @click=\"tryFailCancelSuccess\" type=\"primary\">Try失败Cancel成功</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:220px;\" @click=\"tryFailCancelFail\" type=\"primary\">Try失败Cancel失败</el-button> </el-form-item>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-title\">负载均衡</div>\n\t\t\t\t<div class=\"form-panel\">\n\t\t\t\t\t<el-form-item> <el-button style=\"width:220px;\" @click=\"loadblanceRoundRobin\" type=\"primary\">轮询调用10次</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:220px;\" @click=\"loadblanceRandom\" type=\"primary\">随机调用10次</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:220px;\" @click=\"loadblanceWeight\" type=\"primary\">基于响应时间调用10次</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:220px;\" @click=\"loadblanceSessionStick\" type=\"primary\">基于会话保持调用10次</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:220px;\" @click=\"loadblanceIsolation\" type=\"primary\">随机故障</el-button> </el-form-item>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-title\">隔离、熔断、容错</div>\n\t\t\t\t<div class=\"form-panel\">\n\t\t\t\t\t<el-form-item> <el-button style=\"width:220px;\" @click=\"circuitBreakerFail\" type=\"primary\">失败熔断</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:220px;\" @click=\"circuitBreakerConcurrent\" type=\"primary\">并发检测熔断</el-button> </el-form-item>\n \t\t\t\t</div>\n\t\t\t\t<div class=\"form-title\">QPS流控</div>\n\t\t\t\t<div class=\"form-panel\">\n\t\t\t\t\t<el-form-item> <el-button style=\"width:220px;\" @click=\"qps1\" type=\"primary\">单次调用</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:220px;\" @click=\"qps10\" type=\"primary\">连续调用10次</el-button> </el-form-item>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t</el-form>\n\t\t</div>\n\t\t<div style=\"flex: 1; border-left:2px solid #ccc;border-radius: 4px;font-size:20px;margin-top:40px;\">{{message}}</div>\n\t</div>\n</div>\n</template>\n\n<script>\nexport default {\n    data() {\n        return {\n            message: '',\n        };\n    },\n    methods: {\n        trySuccessConfirmSuccess() {\n            axios.get('/handlerChain/trySuccessConfirmSuccess').then(res => {\n                this.message = res.data;\n            });\n        },\n        trySuccessConfirmFail() {\n            axios.get('/handlerChain/trySuccessConfirmFail').then(res => {\n                this.message = res.data;\n            });\n        },\n        tryFailCancelSuccess() {\n            axios.get('/handlerChain/tryFailCancelSuccess').then(res => {\n                this.message = res.data;\n            });\n        },\n        tryFailCancelFail() {\n            axios.get('/handlerChain/tryFailCancelFail').then(res => {\n                this.message = res.data;\n            });\n        },\n        loadblanceRoundRobin() {\n            axios.get('/handlerChain/loadblanceRoundRobin').then(res => {\n                this.message = res.data;\n            });\n        },\n        loadblanceRandom() {\n            axios.get('/handlerChain/loadblanceRandom').then(res => {\n                this.message = res.data;\n            });\n        },\n        loadblanceWeight() {\n            axios.get('/handlerChain/loadblanceWeight').then(res => {\n                this.message = res.data;\n            });\n        },\n        loadblanceSessionStick() {\n            axios.get('/handlerChain/loadblanceSessionStick').then(res => {\n                this.message = res.data;\n            });\n        },\n        loadblanceIsolation() {\n            axios.get('/handlerChain/loadblanceIsolation').then(res => {\n                this.message = res.data;\n            });\n        },\n        circuitBreakerFail() {\n            axios.get('/handlerChain/circuitBreakerFail').then(res => {\n                this.message = res.data;\n            });\n        },\n        circuitBreakerConcurrent() {\n            axios.get('/handlerChain/circuitBreakerConcurrent').then(res => {\n                this.message = res.data;\n            });\n        },\n        qps1() {\n            axios.get('/handlerChain/qps1').then(res => {\n                this.message = res.data;\n            });\n        },\n        qps10() {\n            axios.get('/handlerChain/qps10').then(res => {\n                this.message = res.data;\n            });\n        },\n    },\n    created() {},\n};\n</script>\n\n<style scoped>\n.form-title {\n    font-size: 24px;\n    font-weight: bold;\n    margin-left: 6%;\n    padding: 20px 0 5px 0;\n}\n\n.form-panel {\n    width: 80%;\n    margin-left: 5%;\n    padding: 20px 0 0 20px;\n    border-top: 2px solid #ccc;\n    border-radius: 4px;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n.form-title[data-v-9b0b9c5e] {\n    font-size: 24px;\n    font-weight: bold;\n    margin: 0 20px 0 20px;\n    padding: 10px 0 0 10px;\n}\n.form-panel[data-v-9b0b9c5e] {\n    margin: 0 20px 0 20px;\n    padding: 10px 0 0 10px;\n    border-top: 2px solid #ccc;\n    border-radius: 4px;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/form/handlerChain.vue?9b1deebc"],"names":[],"mappings":";AAoHA;IACA,gBAAA;IACA,kBAAA;IACA,sBAAA;IACA,uBAAA;CACA;AAEA;IACA,sBAAA;IACA,uBAAA;IACA,2BAAA;IACA,mBAAA;CACA","file":"handlerChain.vue","sourcesContent":["<template>\n<div style=\"width: 100%; text-align: center; margin: auto;\">\n\t<div style=\"display: flex;\">\n\t\t<div style=\"width:300px;margin-top:10px;margin-bottom:200px;\">\n\t\t\t<el-form>\n\t\t\t<div>\n\t\t\t\t<div class=\"form-title\">TCC事务</div>\n\t\t\t\t<div class=\"form-panel\">\n \t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"trySuccessConfirmSuccess\" type=\"primary\">Try成功Confirm成功</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"trySuccessConfirmFail\" type=\"primary\">Try成功Confirm失败</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"tryFailCancelSuccess\" type=\"primary\">Try失败Cancel成功</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"tryFailCancelFail\" type=\"primary\">Try失败Cancel失败</el-button> </el-form-item>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-title\">负载均衡</div>\n\t\t\t\t<div class=\"form-panel\">\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"loadblanceRoundRobin\" type=\"primary\">轮询调用10次</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"loadblanceRandom\" type=\"primary\">随机调用10次</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"loadblanceWeight\" type=\"primary\">基于响应时间调用10次</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"loadblanceSessionStick\" type=\"primary\">基于会话保持调用10次</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"loadblanceIsolation\" type=\"primary\">随机故障</el-button> </el-form-item>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"form-title\">隔离、熔断、容错</div>\n\t\t\t\t<div class=\"form-panel\">\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"circuitBreakerFail\" type=\"primary\">失败熔断</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"circuitBreakerConcurrent\" type=\"primary\">并发检测熔断</el-button> </el-form-item>\n \t\t\t\t</div>\n\t\t\t\t<div class=\"form-title\">QPS流控</div>\n\t\t\t\t<div class=\"form-panel\">\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"qps1\" type=\"primary\">单次调用</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"qps10\" type=\"primary\">连续调用10次</el-button> </el-form-item>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t</el-form>\n\t\t</div>\n\t\t<div style=\"flex: 1; text-align:left;border-left:2px solid #ccc;border-radius: 4px;font-size:16px;margin-top:10px;\">\n\t\t\t\t<div class=\"form-title\">\n          日志<el-button size=\"small\" style=\"margin-right:10px;float:right;margin-bottom:5px;\" @click=\"lines.splice(0,lines.length)\" type=\"medium\">清空</el-button>\n          </div>\n\t\t\t\t<div class=\"form-panel\">\n          <p v-for=\"line in lines\" :key=\"line.number\" :style=\"{color:line.color}\">{{line.message}}</p>\n\t\t\t\t</div>\n     </div>\n\t</div>\n</div>\n</template>\n\n<script>\nexport default {\n    data() {\n        return {\n            lines: [],\n        };\n    },\n    methods: {\n        trySuccessConfirmSuccess() {\n            this.handlerChainCall('trySuccessConfirmSuccess');\n        },\n        trySuccessConfirmFail() {\n            this.handlerChainCall('trySuccessConfirmFail');\n        },\n        tryFailCancelSuccess() {\n            this.handlerChainCall('tryFailCancelSuccess');\n        },\n        tryFailCancelFail() {\n            this.handlerChainCall('tryFailCancelFail');\n        },\n        loadblanceRoundRobin() {\n            this.handlerChainCall('loadblanceRoundRobin');\n        },\n        loadblanceRandom() {\n            this.handlerChainCall('loadblanceRandom');\n        },\n        loadblanceWeight() {\n            this.handlerChainCall('loadblanceWeight');\n        },\n        loadblanceSessionStick() {\n            this.handlerChainCall('loadblanceSessionStick');\n        },\n        loadblanceIsolation() {\n            this.handlerChainCall('loadblanceIsolation');\n        },\n        circuitBreakerFail() {\n            this.handlerChainCall('circuitBreakerFail');\n        },\n        circuitBreakerConcurrent() {\n            this.handlerChainCall('circuitBreakerConcurrent');\n        },\n        qps1() {\n            this.handlerChainCall('qps1');\n        },\n        qps10() {\n            this.handlerChainCall('qps10');\n        },\n        handlerChainCall(name) {\n            axios\n                .get('/handlerChain/' + name)\n                .then(res => {\n                    this.lines.push({ color: this.getColor(res.data), message: res.data });\n                })\n                .catch(err => {\n                    console.log(err.response);\n                    this.lines.push({ color: this.getColor(err.response.data.message), message: err.response.data.message });\n                });\n        },\n        getColor(message) {\n            if (message.includes('xception') || message.includes('Fail') || message.includes('fail') || message.includes('失败')) {\n                return 'red';\n            }\n            return '';\n        },\n    },\n    created() {},\n};\n</script>\n\n<style scoped>\n.form-title {\n    font-size: 24px;\n    font-weight: bold;\n    margin: 0 20px 0 20px;\n    padding: 10px 0 0 10px;\n}\n\n.form-panel {\n    margin: 0 20px 0 20px;\n    padding: 10px 0 0 10px;\n    border-top: 2px solid #ccc;\n    border-radius: 4px;\n}\n</style>\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -91,105 +91,75 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 exports.default = {
     data: function data() {
         return {
-            message: ''
+            lines: []
         };
     },
 
     methods: {
         trySuccessConfirmSuccess: function trySuccessConfirmSuccess() {
-            var _this = this;
-
-            axios.get('/handlerChain/trySuccessConfirmSuccess').then(function (res) {
-                _this.message = res.data;
-            });
+            this.handlerChainCall('trySuccessConfirmSuccess');
         },
         trySuccessConfirmFail: function trySuccessConfirmFail() {
-            var _this2 = this;
-
-            axios.get('/handlerChain/trySuccessConfirmFail').then(function (res) {
-                _this2.message = res.data;
-            });
+            this.handlerChainCall('trySuccessConfirmFail');
         },
         tryFailCancelSuccess: function tryFailCancelSuccess() {
-            var _this3 = this;
-
-            axios.get('/handlerChain/tryFailCancelSuccess').then(function (res) {
-                _this3.message = res.data;
-            });
+            this.handlerChainCall('tryFailCancelSuccess');
         },
         tryFailCancelFail: function tryFailCancelFail() {
-            var _this4 = this;
-
-            axios.get('/handlerChain/tryFailCancelFail').then(function (res) {
-                _this4.message = res.data;
-            });
+            this.handlerChainCall('tryFailCancelFail');
         },
         loadblanceRoundRobin: function loadblanceRoundRobin() {
-            var _this5 = this;
-
-            axios.get('/handlerChain/loadblanceRoundRobin').then(function (res) {
-                _this5.message = res.data;
-            });
+            this.handlerChainCall('loadblanceRoundRobin');
         },
         loadblanceRandom: function loadblanceRandom() {
-            var _this6 = this;
-
-            axios.get('/handlerChain/loadblanceRandom').then(function (res) {
-                _this6.message = res.data;
-            });
+            this.handlerChainCall('loadblanceRandom');
         },
         loadblanceWeight: function loadblanceWeight() {
-            var _this7 = this;
-
-            axios.get('/handlerChain/loadblanceWeight').then(function (res) {
-                _this7.message = res.data;
-            });
+            this.handlerChainCall('loadblanceWeight');
         },
         loadblanceSessionStick: function loadblanceSessionStick() {
-            var _this8 = this;
-
-            axios.get('/handlerChain/loadblanceSessionStick').then(function (res) {
-                _this8.message = res.data;
-            });
+            this.handlerChainCall('loadblanceSessionStick');
         },
         loadblanceIsolation: function loadblanceIsolation() {
-            var _this9 = this;
-
-            axios.get('/handlerChain/loadblanceIsolation').then(function (res) {
-                _this9.message = res.data;
-            });
+            this.handlerChainCall('loadblanceIsolation');
         },
         circuitBreakerFail: function circuitBreakerFail() {
-            var _this10 = this;
-
-            axios.get('/handlerChain/circuitBreakerFail').then(function (res) {
-                _this10.message = res.data;
-            });
+            this.handlerChainCall('circuitBreakerFail');
         },
         circuitBreakerConcurrent: function circuitBreakerConcurrent() {
-            var _this11 = this;
-
-            axios.get('/handlerChain/circuitBreakerConcurrent').then(function (res) {
-                _this11.message = res.data;
-            });
+            this.handlerChainCall('circuitBreakerConcurrent');
         },
         qps1: function qps1() {
-            var _this12 = this;
-
-            axios.get('/handlerChain/qps1').then(function (res) {
-                _this12.message = res.data;
-            });
+            this.handlerChainCall('qps1');
         },
         qps10: function qps10() {
-            var _this13 = this;
+            this.handlerChainCall('qps10');
+        },
+        handlerChainCall: function handlerChainCall(name) {
+            var _this = this;
 
-            axios.get('/handlerChain/qps10').then(function (res) {
-                _this13.message = res.data;
+            axios.get('/handlerChain/' + name).then(function (res) {
+                _this.lines.push({ color: _this.getColor(res.data), message: res.data });
+            }).catch(function (err) {
+                console.log(err.response);
+                _this.lines.push({ color: _this.getColor(err.response.data.message), message: err.response.data.message });
             });
+        },
+        getColor: function getColor(message) {
+            if (message.includes('xception') || message.includes('Fail') || message.includes('fail') || message.includes('失败')) {
+                return 'red';
+            }
+            return '';
         }
     },
     created: function created() {}
@@ -213,30 +183,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticStyle: {
-      "flex": "1",
+      "width": "300px",
       "margin-top": "10px",
       "margin-bottom": "200px"
     }
-  }, [_c('el-form', {
-    staticClass: "e-form",
-    attrs: {
-      "label-position": "left",
-      "label-width": "200px"
-    }
-  }, [_c('div', {
-    staticStyle: {
-      "width": "100%",
-      "margin": "auto",
-      "text-align": "left",
-      "margin-left": "20px"
-    }
-  }, [_c('div', {
+  }, [_c('el-form', [_c('div', [_c('div', {
     staticClass: "form-title"
   }, [_vm._v("TCC事务")]), _vm._v(" "), _c('div', {
     staticClass: "form-panel"
-  }, [_c('div'), _vm._v(" "), _c('el-form-item', [_c('el-button', {
+  }, [_c('el-form-item', [_c('el-button', {
     staticStyle: {
-      "width": "220px"
+      "width": "200px"
     },
     attrs: {
       "type": "primary"
@@ -246,7 +203,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Try成功Confirm成功")])], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
     staticStyle: {
-      "width": "220px"
+      "width": "200px"
     },
     attrs: {
       "type": "primary"
@@ -256,7 +213,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Try成功Confirm失败")])], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
     staticStyle: {
-      "width": "220px"
+      "width": "200px"
     },
     attrs: {
       "type": "primary"
@@ -266,7 +223,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Try失败Cancel成功")])], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
     staticStyle: {
-      "width": "220px"
+      "width": "200px"
     },
     attrs: {
       "type": "primary"
@@ -280,7 +237,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-panel"
   }, [_c('el-form-item', [_c('el-button', {
     staticStyle: {
-      "width": "220px"
+      "width": "200px"
     },
     attrs: {
       "type": "primary"
@@ -290,7 +247,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("轮询调用10次")])], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
     staticStyle: {
-      "width": "220px"
+      "width": "200px"
     },
     attrs: {
       "type": "primary"
@@ -300,7 +257,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("随机调用10次")])], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
     staticStyle: {
-      "width": "220px"
+      "width": "200px"
     },
     attrs: {
       "type": "primary"
@@ -310,7 +267,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("基于响应时间调用10次")])], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
     staticStyle: {
-      "width": "220px"
+      "width": "200px"
     },
     attrs: {
       "type": "primary"
@@ -320,7 +277,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("基于会话保持调用10次")])], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
     staticStyle: {
-      "width": "220px"
+      "width": "200px"
     },
     attrs: {
       "type": "primary"
@@ -334,7 +291,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-panel"
   }, [_c('el-form-item', [_c('el-button', {
     staticStyle: {
-      "width": "220px"
+      "width": "200px"
     },
     attrs: {
       "type": "primary"
@@ -344,7 +301,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("失败熔断")])], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
     staticStyle: {
-      "width": "220px"
+      "width": "200px"
     },
     attrs: {
       "type": "primary"
@@ -358,7 +315,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-panel"
   }, [_c('el-form-item', [_c('el-button', {
     staticStyle: {
-      "width": "220px"
+      "width": "200px"
     },
     attrs: {
       "type": "primary"
@@ -368,7 +325,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("单次调用")])], 1), _vm._v(" "), _c('el-form-item', [_c('el-button', {
     staticStyle: {
-      "width": "220px"
+      "width": "200px"
     },
     attrs: {
       "type": "primary"
@@ -379,12 +336,39 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("连续调用10次")])], 1)], 1)])])], 1), _vm._v(" "), _c('div', {
     staticStyle: {
       "flex": "1",
+      "text-align": "left",
       "border-left": "2px solid #ccc",
       "border-radius": "4px",
-      "font-size": "20px",
-      "margin-top": "40px"
+      "font-size": "16px",
+      "margin-top": "10px"
     }
-  }, [_vm._v(_vm._s(_vm.message))])])])
+  }, [_c('div', {
+    staticClass: "form-title"
+  }, [_vm._v("\n          日志"), _c('el-button', {
+    staticStyle: {
+      "margin-right": "10px",
+      "float": "right",
+      "margin-bottom": "5px"
+    },
+    attrs: {
+      "size": "small",
+      "type": "medium"
+    },
+    on: {
+      "click": function($event) {
+        _vm.lines.splice(0, _vm.lines.length)
+      }
+    }
+  }, [_vm._v("清空")])], 1), _vm._v(" "), _c('div', {
+    staticClass: "form-panel"
+  }, _vm._l((_vm.lines), function(line) {
+    return _c('p', {
+      key: line.number,
+      style: ({
+        color: line.color
+      })
+    }, [_vm._v(_vm._s(line.message))])
+  }))])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

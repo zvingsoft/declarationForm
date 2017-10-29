@@ -32,4 +32,3 @@ cse:
       NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
     license:
       NFLoadBalancerRuleClassName: com.netflix.loadbalancer.SessionStickinessRule
-      

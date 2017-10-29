@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zving.declarationform.dto.ResponseDTO;
+
+import io.servicecomb.provider.springmvc.reference.RestTemplateBuilder;
+
 /**
  * @author 王育春
  * @mail wyuch@zving.com
@@ -121,7 +125,8 @@ public class HandlerChain {
 	@RequestMapping(path = "qps1", method = RequestMethod.GET)
 	@ResponseBody
 	public String qps1() {
-		return "qps1";
+		ResponseDTO dto = RestTemplateBuilder.create().getForObject("cse://cottonQuota/qpsTest", ResponseDTO.class);
+		return dto.getMessage();
 	}
 
 	/**

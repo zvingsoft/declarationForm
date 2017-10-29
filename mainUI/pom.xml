@@ -12,10 +12,6 @@
 	<packaging>war</packaging>
 	<dependencies>
 		<dependency>
-			<groupId>io.servicecomb</groupId>
-			<artifactId>handler-tracing-zipkin</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.zving.declarationform</groupId>
 			<artifactId>common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -34,6 +30,14 @@
 		</dependency>
 		<dependency>
 			<groupId>io.servicecomb</groupId>
+			<artifactId>transport-highway</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.servicecomb</groupId>
+			<artifactId>provider-pojo</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.servicecomb</groupId>
 			<artifactId>handler-bizkeeper</artifactId>
 		</dependency>
 		<dependency>
@@ -41,16 +45,21 @@
 			<artifactId>handler-loadbalance</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.huawei.paas.cse</groupId>
+			<artifactId>cse-handler-tracing</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>io.servicecomb</groupId>
 			<artifactId>handler-flowcontrol-qps</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-zuul</artifactId>
+			<groupId>com.huawei.paas.cse</groupId>
+			<artifactId>cse-handler-performance-stats</artifactId>
 		</dependency>
+
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-log4j2</artifactId>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -81,6 +90,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -89,18 +99,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.huawei.paas.cse</groupId>
-			<artifactId>cse-handler-performance-stats</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.huawei.paas.cse</groupId>
-			<artifactId>cse-handler-tracing</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.huawei.paas.cse</groupId>
-			<artifactId>foundation-auth</artifactId>
 		</dependency>
 	</dependencies>
 

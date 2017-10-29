@@ -1,39 +1,45 @@
 <template>
 <div style="width: 100%; text-align: center; margin: auto;">
 	<div style="display: flex;">
-		<div style="flex: 1;margin-top:10px;margin-bottom:200px;">
-			<el-form label-position="left" label-width="200px" class="e-form">
-			<div style="width: 100%; margin: auto; text-align: left; margin-left: 20px;">
+		<div style="width:300px;margin-top:10px;margin-bottom:200px;">
+			<el-form>
+			<div>
 				<div class="form-title">TCC事务</div>
 				<div class="form-panel">
-          <div></div>
-					<el-form-item> <el-button style="width:220px;" @click="trySuccessConfirmSuccess" type="primary">Try成功Confirm成功</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:220px;" @click="trySuccessConfirmFail" type="primary">Try成功Confirm失败</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:220px;" @click="tryFailCancelSuccess" type="primary">Try失败Cancel成功</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:220px;" @click="tryFailCancelFail" type="primary">Try失败Cancel失败</el-button> </el-form-item>
+ 					<el-form-item> <el-button style="width:200px;" @click="trySuccessConfirmSuccess" type="primary">Try成功Confirm成功</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="trySuccessConfirmFail" type="primary">Try成功Confirm失败</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="tryFailCancelSuccess" type="primary">Try失败Cancel成功</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="tryFailCancelFail" type="primary">Try失败Cancel失败</el-button> </el-form-item>
 				</div>
 				<div class="form-title">负载均衡</div>
 				<div class="form-panel">
-					<el-form-item> <el-button style="width:220px;" @click="loadblanceRoundRobin" type="primary">轮询调用10次</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:220px;" @click="loadblanceRandom" type="primary">随机调用10次</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:220px;" @click="loadblanceWeight" type="primary">基于响应时间调用10次</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:220px;" @click="loadblanceSessionStick" type="primary">基于会话保持调用10次</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:220px;" @click="loadblanceIsolation" type="primary">随机故障</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="loadblanceRoundRobin" type="primary">轮询调用10次</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="loadblanceRandom" type="primary">随机调用10次</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="loadblanceWeight" type="primary">基于响应时间调用10次</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="loadblanceSessionStick" type="primary">基于会话保持调用10次</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="loadblanceIsolation" type="primary">随机故障</el-button> </el-form-item>
 				</div>
 				<div class="form-title">隔离、熔断、容错</div>
 				<div class="form-panel">
-					<el-form-item> <el-button style="width:220px;" @click="circuitBreakerFail" type="primary">失败熔断</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:220px;" @click="circuitBreakerConcurrent" type="primary">并发检测熔断</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="circuitBreakerFail" type="primary">失败熔断</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="circuitBreakerConcurrent" type="primary">并发检测熔断</el-button> </el-form-item>
  				</div>
 				<div class="form-title">QPS流控</div>
 				<div class="form-panel">
-					<el-form-item> <el-button style="width:220px;" @click="qps1" type="primary">单次调用</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:220px;" @click="qps10" type="primary">连续调用10次</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="qps1" type="primary">单次调用</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="qps10" type="primary">连续调用10次</el-button> </el-form-item>
 				</div>
 			</div>
 			</el-form>
 		</div>
-		<div style="flex: 1; border-left:2px solid #ccc;border-radius: 4px;font-size:20px;margin-top:40px;">{{message}}</div>
+		<div style="flex: 1; text-align:left;border-left:2px solid #ccc;border-radius: 4px;font-size:16px;margin-top:10px;">
+				<div class="form-title">
+          日志<el-button size="small" style="margin-right:10px;float:right;margin-bottom:5px;" @click="lines.splice(0,lines.length)" type="medium">清空</el-button>
+          </div>
+				<div class="form-panel">
+          <p v-for="line in lines" :key="line.number" :style="{color:line.color}">{{line.message}}</p>
+				</div>
+     </div>
 	</div>
 </div>
 </template>
@@ -42,74 +48,65 @@
 export default {
     data() {
         return {
-            message: '',
+            lines: [],
         };
     },
     methods: {
         trySuccessConfirmSuccess() {
-            axios.get('/handlerChain/trySuccessConfirmSuccess').then(res => {
-                this.message = res.data;
-            });
+            this.handlerChainCall('trySuccessConfirmSuccess');
         },
         trySuccessConfirmFail() {
-            axios.get('/handlerChain/trySuccessConfirmFail').then(res => {
-                this.message = res.data;
-            });
+            this.handlerChainCall('trySuccessConfirmFail');
         },
         tryFailCancelSuccess() {
-            axios.get('/handlerChain/tryFailCancelSuccess').then(res => {
-                this.message = res.data;
-            });
+            this.handlerChainCall('tryFailCancelSuccess');
         },
         tryFailCancelFail() {
-            axios.get('/handlerChain/tryFailCancelFail').then(res => {
-                this.message = res.data;
-            });
+            this.handlerChainCall('tryFailCancelFail');
         },
         loadblanceRoundRobin() {
-            axios.get('/handlerChain/loadblanceRoundRobin').then(res => {
-                this.message = res.data;
-            });
+            this.handlerChainCall('loadblanceRoundRobin');
         },
         loadblanceRandom() {
-            axios.get('/handlerChain/loadblanceRandom').then(res => {
-                this.message = res.data;
-            });
+            this.handlerChainCall('loadblanceRandom');
         },
         loadblanceWeight() {
-            axios.get('/handlerChain/loadblanceWeight').then(res => {
-                this.message = res.data;
-            });
+            this.handlerChainCall('loadblanceWeight');
         },
         loadblanceSessionStick() {
-            axios.get('/handlerChain/loadblanceSessionStick').then(res => {
-                this.message = res.data;
-            });
+            this.handlerChainCall('loadblanceSessionStick');
         },
         loadblanceIsolation() {
-            axios.get('/handlerChain/loadblanceIsolation').then(res => {
-                this.message = res.data;
-            });
+            this.handlerChainCall('loadblanceIsolation');
         },
         circuitBreakerFail() {
-            axios.get('/handlerChain/circuitBreakerFail').then(res => {
-                this.message = res.data;
-            });
+            this.handlerChainCall('circuitBreakerFail');
         },
         circuitBreakerConcurrent() {
-            axios.get('/handlerChain/circuitBreakerConcurrent').then(res => {
-                this.message = res.data;
-            });
+            this.handlerChainCall('circuitBreakerConcurrent');
         },
         qps1() {
-            axios.get('/handlerChain/qps1').then(res => {
-                this.message = res.data;
-            });
+            this.handlerChainCall('qps1');
         },
         qps10() {
-            axios.get('/handlerChain/qps10').then(res => {
-                this.message = res.data;
-            });
+            this.handlerChainCall('qps10');
+        },
+        handlerChainCall(name) {
+            axios
+                .get('/handlerChain/' + name)
+                .then(res => {
+                    this.lines.push({ color: this.getColor(res.data), message: res.data });
+                })
+                .catch(err => {
+                    console.log(err.response);
+                    this.lines.push({ color: this.getColor(err.response.data.message), message: err.response.data.message });
+                });
+        },
+        getColor(message) {
+            if (message.includes('xception') || message.includes('Fail') || message.includes('fail') || message.includes('失败')) {
+                return 'red';
+            }
+            return '';
         },
     },
     created() {},
@@ -120,14 +117,13 @@ export default {
 .form-title {
     font-size: 24px;
     font-weight: bold;
-    margin-left: 6%;
-    padding: 20px 0 5px 0;
+    margin: 0 20px 0 20px;
+    padding: 10px 0 0 10px;
 }
 
 .form-panel {
-    width: 80%;
-    margin-left: 5%;
-    padding: 20px 0 0 20px;
+    margin: 0 20px 0 20px;
+    padding: 10px 0 0 10px;
     border-top: 2px solid #ccc;
     border-radius: 4px;
 }
