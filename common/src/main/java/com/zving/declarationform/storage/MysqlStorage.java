@@ -103,8 +103,7 @@ public class MysqlStorage implements IStorage {
 		return list;
 	}
 
-	<T> void write(Class<T> clazz) {
-		List<T> list = getList(clazz);
+	<T> void write(Class<T> clazz, List<T> list) {
 		ObjectMapper om = new ObjectMapper();
 		try {
 			Statement stmt1 = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -125,9 +124,14 @@ public class MysqlStorage implements IStorage {
 
 	@Override
 	public <T> T get(Class<T> clazz, T bean) {
-		List<T> arr = find(clazz, bean);
-		if (arr != null && arr.size() > 0) {
-			return arr.get(0);
+		List<T> list = find(clazz, bean);
+		return get(clazz, list, bean);
+	}
+
+	public <T> T get(Class<T> clazz, List<T> list, T bean) {
+		list = find(clazz, list, bean);
+		if (list != null && list.size() > 0) {
+			return list.get(0);
 		}
 		return null;
 	}
@@ -135,6 +139,10 @@ public class MysqlStorage implements IStorage {
 	@Override
 	public <T> List<T> find(Class<T> clazz, T bean) {
 		List<T> list = getList(clazz);
+		return find(clazz, list, bean);
+	}
+
+	public <T> List<T> find(Class<T> clazz, List<T> list, T bean) {
 		if (bean == null) {
 			return list;
 		}
@@ -167,23 +175,25 @@ public class MysqlStorage implements IStorage {
 	public <T> void add(Class<T> clazz, T bean) {
 		List<T> list = getList(clazz);
 		list.add(bean);
-		write(clazz);
+		write(clazz, list);
 	}
 
 	@Override
 	public <T> void update(Class<T> clazz, T bean, T newBean) {
+		List<T> list = getList(clazz);
 		T dest = get(clazz, bean);
 		try {
 			BeanUtils.copyProperties(dest, newBean);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		write(clazz);
+		write(clazz, list);
 	}
 
 	@Override
 	public <T> void delete(Class<T> clazz, T bean) {
-		getList(clazz).remove(bean);
-		write(clazz);
+		List<T> list = getList(clazz);
+		list.remove(bean);
+		write(clazz, list);
 	}
 }
