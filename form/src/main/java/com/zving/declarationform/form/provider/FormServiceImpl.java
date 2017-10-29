@@ -208,8 +208,10 @@ public class FormServiceImpl implements FormService {
 			return false;
 		}).findAny();
 		if (fail.isPresent()) {
-			return ("TCC.try失败:" + sb);
+			cancelMethod(form);
+			throw new RuntimeException("TCC.try失败:" + sb);
 		} else {
+			confirmMethod(form);
 			ObjectMapper om = new ObjectMapper();
 			try {
 				String json = om.writeValueAsString(form);

@@ -396,401 +396,411 @@ import auditingAPI from './api/auditingAPI.js';
 import packing from './components/packing.vue';
 
 export default {
-  data() {
-    return {
-      statu: false,
-      noPassStatu: false,
-      passStatu: false,
-      packingListData: [],
-      declarationDetailDialogModal: false,
-      packinglistDialogModal: false,
-      declarationID: '',
-      declarationType: '',
-      clientWidth: 0,
-      clientHeight: 0,
-      searchWord: '',
-      selectedRows: [],
-      declarationData: [],
-      currentPage: 1,
-      pageSizes: [10, 20, 50],
-      pageSize: 10,
-      total: 0,
-      editMode: 1,
-      declarationDialogmodel: false,
-      tmpDeclaration: {},
-      dataLoading: false,
-      confirmLoading: false,
-      declarationTypeOptions: [
-        {
-          key: 'import',
-          value: '进口报关单',
-        },
-        {
-          key: 'export',
-          value: '出口报关单',
-        },
-      ],
-      sort: '',
-      sortOptions: [
-        {
-          key: '',
-          value: '请选择排序',
-        },
-        {
-          key: 'declarationType',
-          value: '报关单类型',
-        },
-        {
-          key: 'customsNumber',
-          value: '海关编号',
-        },
-        {
-          key: 'importOrExportPort',
-          value: '海关口岸',
-        },
-        {
-          key: 'managementUnit',
-          value: '经营单位',
-        },
-        {
-          key: 'declarationUnit',
-          value: '申报单位',
-        },
-        {
-          key: 'declarationDate',
-          value: '申报日期',
-        },
-      ],
-      auditStatus: '',
-      auditStatusOptions: [
-        {
-          key: '',
-          value: '请选择审核状态',
-        },
-        {
-          key: 'W',
-          value: '未审核',
-        },
-        {
-          key: 'Y',
-          value: '审核通过',
-        },
-        {
-          key: 'N',
-          value: '不通过',
-        },
-        {
-          key: 'P',
-          value: '放行',
-        },
-      ],
-      retrieval: '',
-      retrievalOptions: [
-        {
-          key: '',
-          value: '请选择检索字段',
-        },
-        {
-          key: 'declarationTypeName',
-          value: '报关单类型',
-        },
-        {
-          key: 'customsNumber',
-          value: '海关编号',
-        },
-        {
-          key: 'importOrExportPort',
-          value: '海关口岸',
-        },
-        {
-          key: 'managementUnit',
-          value: '经营单位',
-        },
-        {
-          key: 'declarationUnit',
-          value: '申报单位',
-        },
-        {
-          key: 'declarationDate',
-          value: '申报日期',
-        },
-      ],
-      logic: '',
-      logicOptions: [
-        {
-          key: '',
-          value: '请选择逻辑',
-        },
-        {
-          key: 'and',
-          value: '与',
-        },
-        {
-          key: 'or',
-          value: '或',
-        },
-        {
-          key: 'none',
-          value: '非',
-        },
-      ],
-    };
-  },
-  methods: {
-    rowDBClick(row) {
-      this.tmpDeclaration = Object.assign({}, row);
-      this.declarationDetailDialogModal = true;
+    data() {
+        return {
+            statu: false,
+            noPassStatu: false,
+            passStatu: false,
+            packingListData: [],
+            declarationDetailDialogModal: false,
+            packinglistDialogModal: false,
+            declarationID: '',
+            declarationType: '',
+            clientWidth: 0,
+            clientHeight: 0,
+            searchWord: '',
+            selectedRows: [],
+            declarationData: [],
+            currentPage: 1,
+            pageSizes: [10, 20, 50],
+            pageSize: 10,
+            total: 0,
+            editMode: 1,
+            declarationDialogmodel: false,
+            tmpDeclaration: {},
+            dataLoading: false,
+            confirmLoading: false,
+            declarationTypeOptions: [
+                {
+                    key: 'import',
+                    value: '进口报关单',
+                },
+                {
+                    key: 'export',
+                    value: '出口报关单',
+                },
+            ],
+            sort: '',
+            sortOptions: [
+                {
+                    key: '',
+                    value: '请选择排序',
+                },
+                {
+                    key: 'declarationType',
+                    value: '报关单类型',
+                },
+                {
+                    key: 'customsNumber',
+                    value: '海关编号',
+                },
+                {
+                    key: 'importOrExportPort',
+                    value: '海关口岸',
+                },
+                {
+                    key: 'managementUnit',
+                    value: '经营单位',
+                },
+                {
+                    key: 'declarationUnit',
+                    value: '申报单位',
+                },
+                {
+                    key: 'declarationDate',
+                    value: '申报日期',
+                },
+            ],
+            auditStatus: '',
+            auditStatusOptions: [
+                {
+                    key: '',
+                    value: '请选择审核状态',
+                },
+                {
+                    key: 'W',
+                    value: '未审核',
+                },
+                {
+                    key: 'Y',
+                    value: '审核通过',
+                },
+                {
+                    key: 'N',
+                    value: '不通过',
+                },
+                {
+                    key: 'P',
+                    value: '放行',
+                },
+            ],
+            retrieval: '',
+            retrievalOptions: [
+                {
+                    key: '',
+                    value: '请选择检索字段',
+                },
+                {
+                    key: 'declarationTypeName',
+                    value: '报关单类型',
+                },
+                {
+                    key: 'customsNumber',
+                    value: '海关编号',
+                },
+                {
+                    key: 'importOrExportPort',
+                    value: '海关口岸',
+                },
+                {
+                    key: 'managementUnit',
+                    value: '经营单位',
+                },
+                {
+                    key: 'declarationUnit',
+                    value: '申报单位',
+                },
+                {
+                    key: 'declarationDate',
+                    value: '申报日期',
+                },
+            ],
+            logic: '',
+            logicOptions: [
+                {
+                    key: '',
+                    value: '请选择逻辑',
+                },
+                {
+                    key: 'and',
+                    value: '与',
+                },
+                {
+                    key: 'or',
+                    value: '或',
+                },
+                {
+                    key: 'none',
+                    value: '非',
+                },
+            ],
+        };
     },
-    goodsPassClick(id) {
-      let rowIds = [];
-      if (id) {
-        rowIds = [id];
-      } else {
-        this.selectedRows.forEach(function(row) {
-          rowIds.push(row.id);
-        });
-      }
-      auditingAPI.doAuditing(rowIds, 'P').then(res => {
-        this.$notify({
-          title: '提示',
-          message: res.data,
-          type: 'success',
-          duration: 2000,
-        });
-        this.getDeclarationData();
-      });
-    },
-    showPackinglist(packingList, type) {
-      this.packingListData = packingList;
-      this.declarationType = type;
-      this.packinglistDialogModal = true;
-    },
-    getDeclarationData() {
-      this.dataLoading = true;
-      let obj = {
-        retrieval: this.retrieval,
-        searchWord: this.searchWord,
-        pageSize: this.pageSize,
-        pageIndex: this.currentPage,
-      };
-      auditingAPI.getDeclaration(obj).then(data => {
-        console.log(data);
-        this.declarationData = [];
-        if (data.length > 0) {
-          this.total = data[0].total;
-        }
-        data.forEach(o => {
-          if (this.auditStatus != '') {
-            if (this.auditStatus == o.auditStatus) {
-              if (this.retrieval == '' || this.searchWord == '') {
-                this.declarationData.push(o);
-              } else if (o[this.retrieval].indexOf(this.searchWord) >= 0) {
-                this.declarationData.push(o);
-              }
+    methods: {
+        rowDBClick(row) {
+            this.tmpDeclaration = Object.assign({}, row);
+            this.declarationDetailDialogModal = true;
+        },
+        goodsPassClick(id) {
+            let rowIds = [];
+            if (id) {
+                rowIds = [id];
+            } else {
+                this.selectedRows.forEach(function(row) {
+                    rowIds.push(row.id);
+                });
             }
-          } else {
-            if (this.retrieval == '' || this.searchWord == '') {
-              this.declarationData.push(o);
-            } else if (o[this.retrieval].indexOf(this.searchWord) >= 0) {
-              this.declarationData.push(o);
+            auditingAPI
+                .doAuditing(rowIds, 'P')
+                .then(res => {
+                    this.$notify({
+                        title: '提示',
+                        message: res.data,
+                        type: 'success',
+                        duration: 2000,
+                    });
+                    this.getDeclarationData();
+                })
+                .catch(err => {
+                    this.$notify({
+                        title: '提示',
+                        message: err.response.data.message,
+                        type: 'error',
+                        duration: 2000,
+                    });
+                });
+        },
+        showPackinglist(packingList, type) {
+            this.packingListData = packingList;
+            this.declarationType = type;
+            this.packinglistDialogModal = true;
+        },
+        getDeclarationData() {
+            this.dataLoading = true;
+            let obj = {
+                retrieval: this.retrieval,
+                searchWord: this.searchWord,
+                pageSize: this.pageSize,
+                pageIndex: this.currentPage,
+            };
+            auditingAPI.getDeclaration(obj).then(data => {
+                console.log(data);
+                this.declarationData = [];
+                if (data.length > 0) {
+                    this.total = data[0].total;
+                }
+                data.forEach(o => {
+                    if (this.auditStatus != '') {
+                        if (this.auditStatus == o.auditStatus) {
+                            if (this.retrieval == '' || this.searchWord == '') {
+                                this.declarationData.push(o);
+                            } else if (o[this.retrieval].indexOf(this.searchWord) >= 0) {
+                                this.declarationData.push(o);
+                            }
+                        }
+                    } else {
+                        if (this.retrieval == '' || this.searchWord == '') {
+                            this.declarationData.push(o);
+                        } else if (o[this.retrieval].indexOf(this.searchWord) >= 0) {
+                            this.declarationData.push(o);
+                        }
+                    }
+                });
+                this.dataLoading = false;
+            });
+        },
+        onSelectionChange(selection) {
+            this.selectedRows = selection;
+            console.log(selection);
+            this.statu = false;
+            this.noPassStatu = false;
+            this.passStatu = false;
+            selection.forEach(select => {
+                if (select.auditStatus == 'P') {
+                    this.statu = true;
+                    this.noPassStatu = true;
+                    this.passStatu = true;
+                    return;
+                }
+                if (select.auditStatus == 'Y') {
+                    this.noPassStatu = true;
+                    this.statu = true;
+                    return;
+                } else {
+                    this.passStatu = true;
+                }
+                if (select.auditStatus == 'N') {
+                    this.noPassStatu = true;
+                }
+            });
+            console.log(this.statu);
+        },
+        expandRow(row) {
+            this.declarationType = row.declarationType;
+            this.packingListData = row.packingList;
+        },
+        handleSizeChange(val) {
+            this.pageSize = val;
+            this.getDeclarationData();
+        },
+        handleCurrentChange(val) {
+            this.currentPage = val;
+            this.getDeclarationData();
+        },
+        passClick(id) {
+            let rowIds = [];
+            if (id) {
+                rowIds = [id];
+            } else {
+                this.selectedRows.forEach(function(row) {
+                    rowIds.push(row.id);
+                });
             }
-          }
-        });
-        this.dataLoading = false;
-      });
+            auditingAPI.doAuditing(rowIds, 'Y').then(res => {
+                this.$notify({
+                    title: '提示',
+                    message: res.data,
+                    type: 'success',
+                    duration: 2000,
+                });
+                this.getDeclarationData();
+            });
+        },
+        notPassClick(id) {
+            let rowIds = [];
+            if (id) {
+                rowIds = [id];
+            } else {
+                this.selectedRows.forEach(function(row) {
+                    rowIds.push(row.id);
+                });
+            }
+            auditingAPI.doAuditing(rowIds, 'N').then(res => {
+                this.$notify({
+                    title: '提示',
+                    message: res.data,
+                    type: 'success',
+                    duration: 2000,
+                });
+                this.getDeclarationData();
+            });
+        },
+        viewClick() {
+            this.tmpDeclaration = Object.assign({}, this.selectedRows[0]);
+            this.declarationDetailDialogModal = true;
+        },
     },
-    onSelectionChange(selection) {
-      this.selectedRows = selection;
-      console.log(selection);
-      this.statu = false;
-      this.noPassStatu = false;
-      this.passStatu = false;
-      selection.forEach(select => {
-        if (select.auditStatus == 'P') {
-          this.statu = true;
-          this.noPassStatu = true;
-          this.passStatu = true;
-          return;
-        }
-        if (select.auditStatus == 'Y') {
-          this.noPassStatu = true;
-          this.statu = true;
-          return;
-        } else {
-          this.passStatu = true;
-        }
-        if (select.auditStatus == 'N') {
-          this.noPassStatu = true;
-        }
-      });
-      console.log(this.statu);
-    },
-    expandRow(row) {
-      this.declarationType = row.declarationType;
-      this.packingListData = row.packingList;
-    },
-    handleSizeChange(val) {
-      this.pageSize = val;
-      this.getDeclarationData();
-    },
-    handleCurrentChange(val) {
-      this.currentPage = val;
-      this.getDeclarationData();
-    },
-    passClick(id) {
-      let rowIds = [];
-      if (id) {
-        rowIds = [id];
-      } else {
-        this.selectedRows.forEach(function(row) {
-          rowIds.push(row.id);
-        });
-      }
-      auditingAPI.doAuditing(rowIds, 'Y').then(res => {
-        this.$notify({
-          title: '提示',
-          message: res.data,
-          type: 'success',
-          duration: 2000,
-        });
+    created() {
+        this.clientWidth = document.documentElement.clientWidth - 200;
+        this.clientHeight = document.documentElement.clientHeight - 200;
         this.getDeclarationData();
-      });
     },
-    notPassClick(id) {
-      let rowIds = [];
-      if (id) {
-        rowIds = [id];
-      } else {
-        this.selectedRows.forEach(function(row) {
-          rowIds.push(row.id);
-        });
-      }
-      auditingAPI.doAuditing(rowIds, 'N').then(res => {
-        this.$notify({
-          title: '提示',
-          message: res.data,
-          type: 'success',
-          duration: 2000,
-        });
-        this.getDeclarationData();
-      });
+    components: {
+        'packing-item': packing,
     },
-    viewClick() {
-      this.tmpDeclaration = Object.assign({}, this.selectedRows[0]);
-      this.declarationDetailDialogModal = true;
-    },
-  },
-  created() {
-    this.clientWidth = document.documentElement.clientWidth - 200;
-    this.clientHeight = document.documentElement.clientHeight - 200;
-    this.getDeclarationData();
-  },
-  components: {
-    'packing-item': packing,
-  },
 };
 </script>
 
 <style scoped>
 .main-content-wrap {
-  padding: 10px;
+    padding: 10px;
 }
 
 .search-bar {
-  width: 100%;
-  text-align: right;
-  padding-bottom: 10px;
+    width: 100%;
+    text-align: right;
+    padding-bottom: 10px;
 }
 
 .demo-table-expand {
-  font-size: 12px;
+    font-size: 12px;
 }
 
 .demo-table-expand label {
-  color: #99a9bf;
+    color: #99a9bf;
 }
 
 .demo-table-expand .el-form-item {
-  margin-right: 0;
-  margin-bottom: 0;
-  width: 45%;
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 45%;
 }
 
 .page-wrap {
-  width: 100%;
-  text-align: right;
-  position: relative;
-  top: 5px;
-  padding-right: 10px;
+    width: 100%;
+    text-align: right;
+    position: relative;
+    top: 5px;
+    padding-right: 10px;
 }
 
 .e-form {
-  padding-left: 10%;
+    padding-left: 10%;
 }
 
 .e-form .el-form-item {
-  margin-right: 0;
-  margin-bottom: 0;
-  width: 45%;
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 45%;
 }
 
 .e-input {
-  width: 240px;
+    width: 240px;
 }
 
 .search-select {
-  width: 140px;
+    width: 140px;
 }
 
 .detail-table {
-  font-size: 16px;
-  width: 100%;
+    font-size: 16px;
+    width: 100%;
 }
 
 .detail-table span {
-  font-size: 12px;
-  padding-left: 5px;
+    font-size: 12px;
+    padding-left: 5px;
 }
 
 .detail-table .t1 {
-  height: 40px;
+    height: 40px;
 }
 
 .detail-table .t2 {
-  height: 80px;
+    height: 80px;
 }
 
 .detail-table .t3 {
-  height: 120px;
+    height: 120px;
 }
 
 .detail-table .t4 {
-  height: 160px;
+    height: 160px;
 }
 
 .detail-table .t5 {
-  height: 200px;
+    height: 200px;
 }
 
 .inline-table {
-  width: 100%;
+    width: 100%;
 }
 
 .inline-table .b1 {
-  border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
 .inline-table .b2 {
-  border-right: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
 .inline-table .b3 {
-  border-left: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
 .inline-table .b4 {
-  border-left: 1px solid #ccc;
+    border-left: 1px solid #ccc;
 }
 </style>

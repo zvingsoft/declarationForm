@@ -4,13 +4,13 @@
 		<div style="width:300px;margin-top:10px;margin-bottom:200px;">
 			<el-form>
 			<div>
-				<div class="form-title">TCC事务</div>
+				<!-- <div class="form-title">TCC事务</div>
 				<div class="form-panel">
  					<el-form-item> <el-button style="width:200px;" @click="trySuccessConfirmSuccess" type="info">Try成功Confirm成功</el-button> </el-form-item>
 					<el-form-item> <el-button style="width:200px;" @click="trySuccessConfirmFail" type="info">Try成功Confirm失败</el-button> </el-form-item>
 					<el-form-item> <el-button style="width:200px;" @click="tryFailCancelSuccess" type="info">Try失败Cancel成功</el-button> </el-form-item>
 					<el-form-item> <el-button style="width:200px;" @click="tryFailCancelFail" type="info">Try失败Cancel失败</el-button> </el-form-item>
-				</div>
+				</div> -->
 				<div class="form-title">负载均衡</div>
 				<div class="form-panel">
 					<el-form-item> <el-button style="width:200px;" @click="loadblanceRoundRobin" type="info">轮询调用baseData</el-button> </el-form-item>
