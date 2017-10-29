@@ -47,56 +47,69 @@ export default {
     },
     methods: {
         trySuccessConfirmSuccess() {
-            axios.get('form/handlerChain/trySuccessConfirmSuccess');
-            this.message = res.data;
+            axios.get('/handlerChain/trySuccessConfirmSuccess').then(res => {
+                this.message = res.data;
+            });
         },
         trySuccessConfirmFail() {
-            axios.get('form/handlerChain/trySuccessConfirmFail');
-            this.message = res.data;
+            axios.get('/handlerChain/trySuccessConfirmFail').then(res => {
+                this.message = res.data;
+            });
         },
         tryFailCancelSuccess() {
-            axios.get('form/handlerChain/tryFailCancelSuccess');
-            this.message = res.data;
+            axios.get('/handlerChain/tryFailCancelSuccess').then(res => {
+                this.message = res.data;
+            });
         },
         tryFailCancelFail() {
-            axios.get('form/handlerChain/tryFailCancelFail');
-            this.message = res.data;
+            axios.get('/handlerChain/tryFailCancelFail').then(res => {
+                this.message = res.data;
+            });
         },
         loadblanceRoundRobin() {
-            axios.get('form/handlerChain/loadblanceRoundRobin');
-            this.message = res.data;
+            axios.get('/handlerChain/loadblanceRoundRobin').then(res => {
+                this.message = res.data;
+            });
         },
         loadblanceRandom() {
-            axios.get('form/handlerChain/loadblanceRandom');
-            this.message = res.data;
+            axios.get('/handlerChain/loadblanceRandom').then(res => {
+                this.message = res.data;
+            });
         },
         loadblanceWeight() {
-            axios.get('form/handlerChain/loadblanceWeight');
-            this.message = res.data;
+            axios.get('/handlerChain/loadblanceWeight').then(res => {
+                this.message = res.data;
+            });
         },
         loadblanceSessionStick() {
-            axios.get('form/handlerChain/loadblanceSessionStick');
-            this.message = res.data;
+            axios.get('/handlerChain/loadblanceSessionStick').then(res => {
+                this.message = res.data;
+            });
         },
         loadblanceIsolation() {
-            axios.get('form/handlerChain/loadblanceIsolation');
-            this.message = res.data;
+            axios.get('/handlerChain/loadblanceIsolation').then(res => {
+                this.message = res.data;
+            });
         },
         circuitBreakerFail() {
-            axios.get('form/handlerChain/circuitBreakerFail');
-            this.message = res.data;
+            axios.get('/handlerChain/circuitBreakerFail').then(res => {
+                this.message = res.data;
+            });
         },
         circuitBreakerConcurrent() {
-            axios.get('form/handlerChain/circuitBreakerConcurrent');
-            this.message = res.data;
+            axios.get('/handlerChain/circuitBreakerConcurrent').then(res => {
+                this.message = res.data;
+            });
         },
         qps1() {
-            axios.get('form/handlerChain/qps1');
-            this.message = res.data;
+            axios.get('/handlerChain/qps1').then(res => {
+                this.message = res.data;
+            });
         },
         qps10() {
-            axios.get('form/handlerChain/qps10');
-            this.message = res.data;
+            axios.get('/handlerChain/qps10').then(res => {
+                this.message = res.data;
+            });
         },
     },
     created() {},
