@@ -136,6 +136,9 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	@RequestMapping(path = "try", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseDTO tccTry(@RequestBody DeclarationForm form) {
+		if (!"processingTrade".equals(form.getTradingType())) {
+			return new ResponseDTO("");
+		}
 		for (PackingItem item : form.getPackingList()) {
 			ProcessingTrade old = new ProcessingTrade();
 			old.setSku(item.getSKU());
