@@ -8,6 +8,9 @@ import java.util.Optional;
 
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.huawei.paas.cse.tcc.annotation.TccTransaction;
 import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.form.schema.FormService;
@@ -37,6 +41,10 @@ import net.sf.json.JSONObject;
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
 @Controller
 public class FormServiceImpl implements FormService {
+	@Autowired
+	private AmqpTemplate rabbitTemplate;
+	@Value("${rabbitmq.queue}")
+	private String queueName;
 
 	@Override
 	@RequestMapping(path = "form", method = RequestMethod.POST)
@@ -199,6 +207,14 @@ public class FormServiceImpl implements FormService {
 		if (fail.isPresent()) {
 			return ("TCC.try失败:" + sb);
 		} else {
+			ObjectMapper om = new ObjectMapper();
+			try {
+				String json = om.writeValueAsString(form);
+				rabbitTemplate.convertAndSend("queueName", json);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
 			return "TCC事务成功执行";
 		}
 	}
