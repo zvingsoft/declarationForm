@@ -1,10 +1,10 @@
 FROM cse-jre:1.8
 MAINTAINER wyuch@zving.com
 WORKDIR /
-COPY ./target/processingtrade-0.0.1-SNAPSHOT.war /
+COPY ./target/processingTrade-0.0.1-SNAPSHOT.war /
 EXPOSE 8008
 ENV sc="http://192.168.1.12:30100"
 ENV cc="http://192.168.1.12:30103"
 COPY ./start.sh /
 RUN chmod 777 /start.sh
-CMD ["/start.sh","processingtrade-0.0.1-SNAPSHOT.war"]
+CMD ["/start.sh","processingTrade-0.0.1-SNAPSHOT.war"]
