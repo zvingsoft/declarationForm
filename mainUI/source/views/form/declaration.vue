@@ -564,7 +564,6 @@ export default {
         });
         this.saveCheckStatus = flag;
         this.checkList = datas;
-        this.returnMain();
       });
     },
     onSure() {

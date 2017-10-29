@@ -4,7 +4,7 @@ rabbitmq:
   queue: declarationform
 spring:
   rabbitmq:
-    host: 192.168.1.100
+    host: 192.168.1.11
     port: 5672
     username: guest
     password: guest
