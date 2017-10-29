@@ -46,7 +46,8 @@ public class MysqlStorage implements IStorage {
 
 		try {
 			Class.forName(DriverName);
-			Connection conn = DriverManager.getConnection("jdbc:mysql://" + address, user, password);
+			Connection conn = DriverManager.getConnection("jdbc:mysql://" + address + "?useUnicode=true&characterEncoding=utf8", user,
+					password);
 			Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			stmt.execute("SET NAMES 'utf8'");
 			stmt.close();
@@ -58,7 +59,7 @@ public class MysqlStorage implements IStorage {
 			if (!rs.next()) {
 				stmt.close();
 				stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-				stmt.execute("create schema declaration_form;");
+				stmt.execute("create database declaration_form charset utf8;");
 			}
 			stmt.close();
 			stmt = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);

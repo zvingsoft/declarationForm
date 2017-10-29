@@ -21,7 +21,7 @@
 				<div class="form-title">熔断与容错</div>
 				<div class="form-panel">
 					<el-form-item> <el-button style="width:200px;" @click="circuitBreakerFail" type="info">错误率30%熔断</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:200px;" @click="circuitBreakerConcurrent" type="info">10秒请求数超10熔断</el-button> </el-form-item>
+					<!-- <el-form-item> <el-button style="width:200px;" @click="circuitBreakerConcurrent" type="info">10秒请求数超10熔断</el-button> </el-form-item> -->
  				</div>
 				<div class="form-title">QPS流控</div>
 				<div class="form-panel">
