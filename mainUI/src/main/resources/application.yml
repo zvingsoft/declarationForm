@@ -1,42 +1,27 @@
 server:
-   port: 8013
-
+  port: 8013
 zuul:
   routes:
     tax:
       serviceId: tax
-    taxUI:
-      serviceId: taxUI
     taxCutting:
       serviceId: taxCutting
-    taxCuttingUI:
-      serviceId: taxCuttingUI
     license:
       serviceId: license
-    licenseUI:
-      serviceId: licenseUI
     form:
       serviceId: form
     formUI:
       serviceId: formUI
     manifest:
       serviceId: manifest
-    manifestUI:
-      serviceId: manifestUI
     riskAnalysis:
       serviceId: riskAnalysis
     cottonQuota:
       serviceId: cottonQuota
-    cottonQuotaUI:
-      serviceId: cottonQuotaUI
     processingTrade:
       serviceId: processingTrade
-    processingTradeUI:
-      serviceId: processingTradeUI
     baseData:
       serviceId: baseData
-
-# disable netflix eurkea since it's not used for service discovery
 ribbon:
   eureka:
     enabled: false

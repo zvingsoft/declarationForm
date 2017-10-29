@@ -117,46 +117,6 @@ export default {
 </script>
 
 <style scoped>
-.main-content-wrap {
-    padding: 10px;
-}
-
-.search-bar {
-    width: 100%;
-    text-align: right;
-    padding-bottom: 10px;
-}
-
-.demo-table-expand {
-    font-size: 12px;
-}
-
-.demo-table-expand label {
-    color: #99a9bf;
-}
-
-.demo-table-expand .el-form-item {
-    margin-right: 0;
-    margin-bottom: 0;
-    width: 45%;
-}
-
-.page-wrap {
-    width: 100%;
-    text-align: right;
-    position: relative;
-    top: 5px;
-    padding-right: 10px;
-}
-
-.e-input {
-    width: 270px;
-}
-
-.search-select {
-    width: 150px;
-}
-
 .form-title {
     font-size: 24px;
     font-weight: bold;
@@ -170,21 +130,5 @@ export default {
     padding: 20px 0 0 20px;
     border-top: 2px solid #ccc;
     border-radius: 4px;
-}
-
-.s-input {
-    width: 400px;
-}
-
-.search-form-title {
-    padding: 20px 0;
-}
-
-.packinglist-panel {
-    width: 80%;
-    margin-left: 5%;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
 }
 </style>

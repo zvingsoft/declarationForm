@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.zving.declarationform.dto.ResponseDTO;
-
 /**
  * @author 王育春
  * @mail wyuch@zving.com
@@ -23,8 +21,8 @@ public class HandlerChain {
 	 */
 	@RequestMapping(path = "trySuccessConfirmSuccess", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseDTO trySuccessConfirmSuccess() {
-		return null;
+	public String trySuccessConfirmSuccess() {
+		return "trySuccessConfirmSuccess";
 	}
 
 	/**
@@ -32,8 +30,8 @@ public class HandlerChain {
 	 */
 	@RequestMapping(path = "trySuccessConfirmFail", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseDTO trySuccessConfirmFail() {
-		return null;
+	public String trySuccessConfirmFail() {
+		return "trySuccessConfirmFail";
 	}
 
 	/**
@@ -41,8 +39,8 @@ public class HandlerChain {
 	 */
 	@RequestMapping(path = "tryFailCancelSuccess", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseDTO tryFailCancelSuccess() {
-		return null;
+	public String tryFailCancelSuccess() {
+		return "tryFailCancelSuccess";
 	}
 
 	/**
@@ -50,8 +48,8 @@ public class HandlerChain {
 	 */
 	@RequestMapping(path = "tryFailCancelFail", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseDTO tryFailCancelFail() {
-		return null;
+	public String tryFailCancelFail() {
+		return "tryFailCancelFail";
 	}
 
 	/**
@@ -59,8 +57,8 @@ public class HandlerChain {
 	 */
 	@RequestMapping(path = "loadblanceRoundRobin", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseDTO loadblanceRoundRobin() {
-		return null;
+	public String loadblanceRoundRobin() {
+		return "loadblanceRoundRobin";
 	}
 
 	/**
@@ -68,8 +66,8 @@ public class HandlerChain {
 	 */
 	@RequestMapping(path = "loadblanceRandom", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseDTO loadblanceRandom() {
-		return null;
+	public String loadblanceRandom() {
+		return "loadblanceRandom";
 	}
 
 	/**
@@ -77,8 +75,8 @@ public class HandlerChain {
 	 */
 	@RequestMapping(path = "loadblanceWeighted", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseDTO loadblanceWeighted() {
-		return null;
+	public String loadblanceWeighted() {
+		return "loadblanceWeighted";
 	}
 
 	/**
@@ -86,8 +84,8 @@ public class HandlerChain {
 	 */
 	@RequestMapping(path = "loadblanceSessionStick", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseDTO loadblanceSessionStick() {
-		return null;
+	public String loadblanceSessionStick() {
+		return "loadblanceSessionStick";
 	}
 
 	/**
@@ -95,8 +93,8 @@ public class HandlerChain {
 	 */
 	@RequestMapping(path = "loadblanceIsolation", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseDTO loadblanceIsolation() {
-		return null;
+	public String loadblanceIsolation() {
+		return "loadblanceIsolation";
 	}
 
 	/**
@@ -104,8 +102,8 @@ public class HandlerChain {
 	 */
 	@RequestMapping(path = "circuitBreakerConcurrent", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseDTO circuitBreakerConcurrent() {
-		return null;
+	public String circuitBreakerConcurrent() {
+		return "circuitBreakerConcurrent";
 	}
 
 	/**
@@ -113,8 +111,8 @@ public class HandlerChain {
 	 */
 	@RequestMapping(path = "circuitBreakerFail", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseDTO circuitBreakerFail() {
-		return null;
+	public String circuitBreakerFail() {
+		return "circuitBreakerFail";
 	}
 
 	/**
@@ -122,8 +120,8 @@ public class HandlerChain {
 	 */
 	@RequestMapping(path = "qps1", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseDTO qps1() {
-		return null;
+	public String qps1() {
+		return "qps1";
 	}
 
 	/**
@@ -131,8 +129,8 @@ public class HandlerChain {
 	 */
 	@RequestMapping(path = "qps10", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseDTO qps10() {
-		return null;
+	public String qps10() {
+		return "qps10";
 	}
 
 }

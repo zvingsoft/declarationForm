@@ -18,4 +18,18 @@ cse:
     Consumer:
       qps:
         enabled: true
-        limit: 5
+        limit:
+          cottonQuota: 5
+  loadblance:
+    baseData:
+      NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+      isolation:
+        err:
+          orThresholdPercentage: 50
+    cottonQuota:
+      NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+    form:
+      NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
+    license:
+      NFLoadBalancerRuleClassName: com.netflix.loadbalancer.SessionStickinessRule
+      
