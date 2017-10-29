@@ -29,3 +29,14 @@ cse:
       NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
     license:
       NFLoadBalancerRuleClassName: com.netflix.loadbalancer.SessionStickinessRule
+  circuitBreaker:
+    tax:
+      test:
+        failBreak:
+          enabled: true
+          sleepWindowInMilliseconds: 5000
+          errorThresholdPercentage: 30
+        requestBreak:
+          enabled: true
+          sleepWindowInMilliseconds: 5000
+          requestVolumeThreshold: 10

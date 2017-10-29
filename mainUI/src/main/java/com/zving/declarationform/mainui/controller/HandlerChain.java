@@ -111,7 +111,12 @@ public class HandlerChain {
 	@RequestMapping(path = "circuitBreakerConcurrent", method = RequestMethod.GET)
 	@ResponseBody
 	public String circuitBreakerConcurrent() {
-		return "circuitBreakerConcurrent";
+		try {
+			ResponseDTO dto = RestTemplateBuilder.create().getForObject("cse://tax/test/requestBreak", ResponseDTO.class);
+			return dto.getMessage();
+		} catch (Exception e) {
+			return e.getCause().getMessage();
+		}
 	}
 
 	/**
@@ -120,7 +125,12 @@ public class HandlerChain {
 	@RequestMapping(path = "circuitBreakerFail", method = RequestMethod.GET)
 	@ResponseBody
 	public String circuitBreakerFail() {
-		return "circuitBreakerFail";
+		try {
+			ResponseDTO dto = RestTemplateBuilder.create().getForObject("cse://tax/test/failBreak", ResponseDTO.class);
+			return dto.getMessage();
+		} catch (Exception e) {
+			return e.getCause().getMessage();
+		}
 	}
 
 	/**

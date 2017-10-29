@@ -6,26 +6,26 @@
 			<div>
 				<div class="form-title">TCC事务</div>
 				<div class="form-panel">
- 					<el-form-item> <el-button style="width:200px;" @click="trySuccessConfirmSuccess" type="primary">Try成功Confirm成功</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:200px;" @click="trySuccessConfirmFail" type="primary">Try成功Confirm失败</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:200px;" @click="tryFailCancelSuccess" type="primary">Try失败Cancel成功</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:200px;" @click="tryFailCancelFail" type="primary">Try失败Cancel失败</el-button> </el-form-item>
+ 					<el-form-item> <el-button style="width:200px;" @click="trySuccessConfirmSuccess" type="info">Try成功Confirm成功</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="trySuccessConfirmFail" type="info">Try成功Confirm失败</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="tryFailCancelSuccess" type="info">Try失败Cancel成功</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="tryFailCancelFail" type="info">Try失败Cancel失败</el-button> </el-form-item>
 				</div>
 				<div class="form-title">负载均衡</div>
 				<div class="form-panel">
-					<el-form-item> <el-button style="width:200px;" @click="loadblanceRoundRobin" type="primary">轮询调用</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:200px;" @click="loadblanceRandom" type="primary">随机调用</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:200px;" @click="loadblanceWeight" type="primary">基于响应时间调用</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:200px;" @click="loadblanceSessionStick" type="primary">基于会话保持调用</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="loadblanceRoundRobin" type="info">轮询调用baseData</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="loadblanceRandom" type="info">随机调用manifest</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="loadblanceWeight" type="info">基于响应时间调用form</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="loadblanceSessionStick" type="info">基于会话保持调用license</el-button> </el-form-item>
  				</div>
 				<div class="form-title">熔断与容错</div>
 				<div class="form-panel">
-					<el-form-item> <el-button style="width:200px;" @click="circuitBreakerFail" type="primary">失败熔断</el-button> </el-form-item>
-					<el-form-item> <el-button style="width:200px;" @click="circuitBreakerConcurrent" type="primary">并发检测熔断</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="circuitBreakerFail" type="info">错误率30%熔断</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="circuitBreakerConcurrent" type="info">10秒请求数超10熔断</el-button> </el-form-item>
  				</div>
 				<div class="form-title">QPS流控</div>
 				<div class="form-panel">
-					<el-form-item> <el-button style="width:200px;" @click="qps1" type="primary">每秒点击超过5次触发流控</el-button> </el-form-item>
+					<el-form-item> <el-button style="width:200px;" @click="qps1" type="info">每秒点击超过5次触发流控</el-button> </el-form-item>
 				</div>
 			</div>
 			</el-form>
