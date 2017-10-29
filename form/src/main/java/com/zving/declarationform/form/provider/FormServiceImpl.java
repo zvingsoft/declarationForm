@@ -41,7 +41,7 @@ import net.sf.json.JSONObject;
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
 @Controller
 public class FormServiceImpl implements FormService {
-	@Autowired
+	@Autowired(required = false)
 	private AmqpTemplate rabbitTemplate;
 	@Value("${rabbitmq.queue}")
 	private String queueName;
@@ -138,7 +138,6 @@ public class FormServiceImpl implements FormService {
 		for (DeclarationForm df : list) {
 			for (String id : idArr) {
 				if (String.valueOf(df.getId()).equals(id)) {
-					df.setAuditStatus(statu);
 					if (statu.equals("W")) {
 						df.setAuditStatusName("未审核");
 
@@ -152,10 +151,10 @@ public class FormServiceImpl implements FormService {
 						if (tax > taxcutting) {
 							tax = tax - taxcutting;
 						}
+						tax = Double.parseDouble(String.format("%.2f", tax));
 						df.setTaxDue(tax);// 计算应交税款
+						df.setAuditStatus(statu);
 					} else if (statu.equals("Y")) {
-						df.setAuditStatusName("审核通过");
-
 						// 检查缴税
 						ResponseEntity<String> result = RestTemplateBuilder.create()
 								.getForEntity("cse://tax/taxRegister/" + df.getCustomsNumber(), String.class);
@@ -171,13 +170,20 @@ public class FormServiceImpl implements FormService {
 						if (amount != df.getTaxDue()) {// 缴税一致
 							return "提交审核失败：缴税款项与应缴数额不符";
 						}
+						df.setAuditStatusName("审核通过");
+						df.setAuditStatus(statu);
 					} else if (statu.equals("N")) {
 						df.setAuditStatusName("不通过");
+						df.setAuditStatus(statu);
 					} else if (statu.equals("P")) {
-						df.setAuditStatusName("放行");
-						storage.delete(DeclarationForm.class, df);
-						storage.add(DeclarationForm.class, df);
-						return tryConfirm(df);
+						try {
+							return tryConfirm(df);
+						} finally {
+							df.setAuditStatusName("放行");
+							df.setAuditStatus(statu);
+							storage.delete(DeclarationForm.class, df);
+							storage.add(DeclarationForm.class, df);
+						}
 					}
 					storage.delete(DeclarationForm.class, df);
 					storage.add(DeclarationForm.class, df);
@@ -210,7 +216,9 @@ public class FormServiceImpl implements FormService {
 			ObjectMapper om = new ObjectMapper();
 			try {
 				String json = om.writeValueAsString(form);
-				rabbitTemplate.convertAndSend("queueName", json);
+				if (rabbitTemplate != null) {
+					rabbitTemplate.convertAndSend("queueName", json);
+				}
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();

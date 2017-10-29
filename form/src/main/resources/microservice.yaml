@@ -25,9 +25,6 @@ cse:
   tracing:
     enabled: true
     samplingRate: 1
-  monitor:
-    client:
-      enable: false
   references:
     riskAnalysis:
       version-rule: 0.0.1

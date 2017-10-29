@@ -159,8 +159,7 @@ export default {
     addClick() {
       this.editMode = 0;
       this.tmpTaxRegister = {
-        id: Math.random() * 99999 + 1,
-        declarationIds: [],
+         declarationIds: [],
       };
       this.registerDialogModal = true;
     },

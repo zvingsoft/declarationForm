@@ -71,7 +71,8 @@ public class TaxServiceImpl implements TaxService {
 			}
 			total += rate.getRate() * item.getTotalPrice() / 100;
 		}
-		return total + "";
+		return (String.format("%.2f", total));
+
 	}
 
 }

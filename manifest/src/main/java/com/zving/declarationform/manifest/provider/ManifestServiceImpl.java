@@ -109,6 +109,16 @@ public class ManifestServiceImpl implements ManifestService {
 	@RequestMapping(path = "confirm", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseDTO tccConfirm(@RequestBody DeclarationForm form) {
+		// 删除资源锁定
+		TCCLock lock = new TCCLock();
+		lock.setType("Manifest");
+		lock.setRelaId(form.getShippingNumbers());
+		lock.setFormId(form.getId());
+		lock = StorageUtil.getInstance().get(TCCLock.class, lock);
+		if (lock == null) {
+			return new ResponseDTO("");
+		}
+		StorageUtil.getInstance().delete(TCCLock.class, lock);
 		return new ResponseDTO("");
 	}
 
@@ -116,7 +126,7 @@ public class ManifestServiceImpl implements ManifestService {
 	@RequestMapping(path = "cancel", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseDTO tccCancel(@RequestBody DeclarationForm form) {
-		// 记录资源锁定
+		// 根据资源锁定还原
 		TCCLock lock = new TCCLock();
 		lock.setType("Manifest");
 		lock.setRelaId(form.getShippingNumbers());

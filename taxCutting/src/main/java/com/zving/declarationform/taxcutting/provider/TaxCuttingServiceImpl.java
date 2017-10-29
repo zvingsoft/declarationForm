@@ -49,9 +49,12 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 			TaxCuttingRule rule = new TaxCuttingRule();
 			rule.setSku(item.getSKU());
 			rule = StorageUtil.getInstance().get(TaxCuttingRule.class, rule);
+			if (rule == null) {
+				continue;
+			}
 			total += rule.getRate() * item.getTotalPrice() / 100;
 		}
-		return new ResponseDTO(total + "");
+		return new ResponseDTO(String.format("%.2f", total));
 	}
 
 	@RequestMapping(path = "taxcutting", method = RequestMethod.POST)

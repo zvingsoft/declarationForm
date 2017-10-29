@@ -189,6 +189,20 @@ public class CottonQuotaServiceImpl implements CottonQuotaService {
 	@RequestMapping(path = "confirm", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseDTO tccConfirm(@RequestBody DeclarationForm form) {
+		for (PackingItem item : form.getPackingList()) {
+			if (item.getName().contains("棉花")) {
+				// 删除资源锁定
+				TCCLock lock = new TCCLock();
+				lock.setType("CottonQuota");
+				lock.setRelaId(item.getId() + "");
+				lock.setFormId(form.getId());
+				lock = StorageUtil.getInstance().get(TCCLock.class, lock);
+				if (lock == null) {
+					continue;
+				}
+				StorageUtil.getInstance().delete(TCCLock.class, lock);
+			}
+		}
 		return new ResponseDTO("");
 	}
 
