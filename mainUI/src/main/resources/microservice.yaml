@@ -40,3 +40,6 @@ cse:
           enabled: true
           sleepWindowInMilliseconds: 5000
           requestVolumeThreshold: 10
+  tracing:
+    enabled: true
+    samplingRate: 1

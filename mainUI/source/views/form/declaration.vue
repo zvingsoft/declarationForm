@@ -70,7 +70,7 @@
               <el-form-item label="运输工具名称：">
                 <span>{{props.row.shippingTools}}</span>
               </el-form-item>
-              <el-form-item label="提运单号：">
+              <el-form-item label="舱单号：">
                 <span>{{props.row.shippingNumbers}}</span>
               </el-form-item>
               <el-form-item label="收货单位：">

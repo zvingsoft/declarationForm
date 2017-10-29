@@ -14,3 +14,6 @@ cse:
         default: perf-stats,qps-flowcontrol-provider,bizkeeper-provider,tcc-server,sla-provider,tracing-provider
       Consumer:
         default: perf-stats,qps-flowcontrol-consumer,loadbalance,bizkeeper-consumer,tcc-client,sla-consumer,tracing-consumer
+  tracing:
+    enabled: true
+    samplingRate: 1

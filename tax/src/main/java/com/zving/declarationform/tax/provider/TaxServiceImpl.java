@@ -50,13 +50,6 @@ public class TaxServiceImpl implements TaxService {
 		}
 	}
 
-	public static void main(String[] args) {
-		TaxRate rate = new TaxRate();
-		rate.setSKU("S0001");
-		rate = StorageUtil.getInstance().get(TaxRate.class, rate);
-		System.out.println(rate);
-	}
-
 	@Override
 	@RequestMapping(path = "compute2", method = RequestMethod.POST)
 	@ResponseBody

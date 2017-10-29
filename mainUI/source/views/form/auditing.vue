@@ -253,7 +253,7 @@
           <td colspan="2">
             <span>运输工具名称　</span>{{tmpDeclaration.shippingTools}}</td>
           <td colspan="2">
-            <span>提运单号　</span>{{tmpDeclaration.shippingNumbers}}</td>
+            <span>舱单号　</span>{{tmpDeclaration.shippingNumbers}}</td>
         </tr>
         <tr class="t1">
           <td colspan="4">

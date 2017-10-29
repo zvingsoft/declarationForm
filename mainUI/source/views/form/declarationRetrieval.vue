@@ -71,7 +71,7 @@
             <el-form-item label="许可证号：">
               <el-input class="s-input" v-model="searchDeclaration.licenseKey"></el-input>
             </el-form-item>
-            <el-form-item label="提运单号：">
+            <el-form-item label="舱单号：">
               <el-input class="s-input" v-model="searchDeclaration.shippingNumbers"></el-input>
             </el-form-item>
             <el-form-item label="运费：" prop="freight" :rules="[{ type: 'number', message: '必须为数字值', trigger: 'change'}]">
@@ -198,7 +198,7 @@
               <el-form-item label="运输工具名称：">
                 <span>{{props.row.shippingTools}}</span>
               </el-form-item>
-              <el-form-item label="提运单号：">
+              <el-form-item label="舱单号：">
                 <span>{{props.row.shippingNumbers}}</span>
               </el-form-item>
               <el-form-item label="收货单位：">

@@ -22,6 +22,9 @@ cse:
       qps:
         enabled: true
         limit: 5
+  tracing:
+    enabled: true
+    samplingRate: 1
   monitor:
     client:
       enable: false
