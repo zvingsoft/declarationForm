@@ -209,7 +209,7 @@ public class FormServiceImpl implements FormService {
 		}).findAny();
 		if (fail.isPresent()) {
 			cancelMethod(form);
-			throw new RuntimeException("TCC.try失败:" + sb);
+			return ("TCC.try失败:" + sb);
 		} else {
 			confirmMethod(form);
 			ObjectMapper om = new ObjectMapper();

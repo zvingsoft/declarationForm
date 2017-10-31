@@ -699,17 +699,13 @@ var manifestAPI = {
     });
   },
   addManifest: function addManifest(manifest) {
-    manifest.items.forEach(function (item) {
-      return delete item.id;
-    });
+    this.cleanFields(manifest);
     return axios.post('manifest/manifest', manifest).then(function (res) {
       return res;
     });
   },
   editManifest: function editManifest(id, manifest) {
-    manifest.items.forEach(function (item) {
-      return delete item.id;
-    });
+    this.cleanFields(manifest);
     return axios.put('manifest/manifest', manifest).then(function (res) {
       return res;
     });
@@ -724,6 +720,17 @@ var manifestAPI = {
     return axios.get('/manifest/manifest/' + id).then(function (res) {
       return res;
     });
+  },
+  cleanFields: function cleanFields(obj) {
+    obj.items.forEach(function (item) {
+      return delete item.id;
+    });
+    var arr = ['items', 'goodsName', 'status', 'telephone', 'location', 'manifestNum', 'receivePerson', 'receiveCompany', 'id', 'sendAddress'];
+    for (var prop in obj) {
+      if (!arr.includes(prop)) {
+        delete obj[prop];
+      }
+    }
   }
 };
 

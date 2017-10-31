@@ -119,11 +119,13 @@ var licenseAPI = {
     });
   },
   addLicense: function addLicense(license) {
+    this.cleanFields(license);
     return axios.post('/license/license', license).then(function (res) {
       return res;
     });
   },
   updateLicense: function updateLicense(license) {
+    this.cleanFields(license);
     return axios.put('/license/license', license).then(function (res) {
       return res;
     });
@@ -178,6 +180,14 @@ var licenseAPI = {
     return axios.delete('/license/license/goods/' + strIds).then(function (res) {
       return res.data;
     });
+  },
+  cleanFields: function cleanFields(obj) {
+    var arr = ['skuName', 'memo', 'id', 'sku', 'licenseKey', 'count', 'companyName', 'type', 'expirationDateOfLicense'];
+    for (var prop in obj) {
+      if (!arr.includes(prop)) {
+        delete obj[prop];
+      }
+    }
   }
 };
 

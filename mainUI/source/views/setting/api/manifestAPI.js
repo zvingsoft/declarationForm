@@ -5,11 +5,11 @@ const manifestAPI = {
     })
   },
   addManifest (manifest) {
-    manifest.items.forEach(item => delete item.id)
+    this.cleanFields(manifest)
     return axios.post('manifest/manifest', manifest).then(res => res)
   },
   editManifest (id, manifest) {
-    manifest.items.forEach(item => delete item.id)
+    this.cleanFields(manifest)
     return axios.put('manifest/manifest', manifest).then(res => res)
   },
   deleteManifests (ids) {
@@ -18,6 +18,26 @@ const manifestAPI = {
   },
   viewManifestsGoods (id) {
     return axios.get(`/manifest/manifest/${id}`).then(res => res)
+  },
+  cleanFields (obj) {
+    obj.items.forEach(item => delete item.id)
+    let arr = [
+      'items',
+      'goodsName',
+      'status',
+      'telephone',
+      'location',
+      'manifestNum',
+      'receivePerson',
+      'receiveCompany',
+      'id',
+      'sendAddress'
+    ]
+    for (let prop in obj) {
+      if (!arr.includes(prop)) {
+        delete obj[prop]
+      }
+    }
   }
 }
 
