@@ -173,10 +173,12 @@ var taxRegisterAPI = {
     });
   },
   addTaxRegister: function addTaxRegister(taxRegister) {
+    this.cleanFields(taxRegister);
     console.log(taxRegister);
     return axios.post('/tax/taxRegister', JSON.parse(JSON.stringify(taxRegister)));
   },
   updateTaxRegister: function updateTaxRegister(taxRegister) {
+    this.cleanFields(taxRegister);
     return axios.put('/tax/taxRegister', JSON.parse(JSON.stringify(taxRegister)));
   },
   deleteTaxRegister: function deleteTaxRegister(ids) {
@@ -210,6 +212,14 @@ var taxRegisterAPI = {
     }).then(function (res) {
       return res.data;
     });
+  },
+  cleanFields: function cleanFields(tax) {
+    var arr = ['registerStatusName', 'registerDate', 'taxAmount', 'taxNumber', 'registerStatus', 'taxUser', 'id'];
+    for (var prop in tax) {
+      if (!arr.includes(prop)) {
+        delete tax[prop];
+      }
+    }
   }
 };
 

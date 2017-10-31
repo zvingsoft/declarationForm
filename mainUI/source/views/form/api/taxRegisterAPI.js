@@ -12,6 +12,7 @@ const taxRegisterAPI = {
     return axios.get('/tax/taxRegister/' + id).then(res => res.data)
   },
   addTaxRegister (taxRegister) {
+    this.cleanFields(taxRegister)
     console.log(taxRegister)
     return axios.post(
       '/tax/taxRegister',
@@ -19,6 +20,7 @@ const taxRegisterAPI = {
     )
   },
   updateTaxRegister (taxRegister) {
+    this.cleanFields(taxRegister)
     return axios.put(
       '/tax/taxRegister',
       JSON.parse(JSON.stringify(taxRegister))
@@ -53,6 +55,14 @@ const taxRegisterAPI = {
         ids:strIds
       }
     }).then(res => res.data)
+  },
+  cleanFields (tax) {
+    let arr = ['registerStatusName', 'registerDate', 'taxAmount', 'taxNumber', 'registerStatus', 'taxUser', 'id']
+    for (let prop in tax) {
+      if (!arr.includes(prop)) {
+        delete tax[prop]
+      }
+    }
   }
 }
 
