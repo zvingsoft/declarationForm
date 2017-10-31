@@ -44,3 +44,10 @@ cse:
       sleepWindowInMilliseconds: 10000
       requestVolumeThreshold: 5
       errorThresholdPercentage: 50
+  monitor:
+    client:
+      enable: false
+servicecomb:
+  rest:
+    servlet:
+      urlPattern: /*

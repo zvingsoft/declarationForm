@@ -67,3 +67,6 @@ cse:
     enabled: true
     cycle:
       ms: 10000
+  monitor:
+    client:
+      enable: false
