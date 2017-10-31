@@ -151,402 +151,385 @@ import companyAPI from './api/companyAPI.js';
 // import './mock/manifest.js'
 
 export default {
-  data() {
-    return {
-      manifestTable: [],
-      temmanifestTable: [],
-      currentPage: 1,
-      total: 50,
-      pageSize: 5,
-      pageSizes: [5, 10, 15, 20],
-      selectedRows: [],
-      showDialog: false,
-      addOrEdit: 1,
-      tmpManifest: {},
-      manifestRules: {
-        manifestNum: [{ required: true, message: '请输入舱单编号', trigger: 'blur' }],
-        receiveCompany: [
-          { required: true, message: '请输入收件公司', trigger: 'blur' },
-        ],
-        receivePerson: [{ required: true, message: '请输入收货人', trigger: 'blur' }],
-      },
-      saveManifestStatus: false,
-      search: {
-        manifestNum: '',
-        goodsName: '',
-        receiveCompany: '',
-        receivePerson: '',
-      },
-      viewDialog: false,
-      manifestGoodInfo: { goodsinfo: '', receiveCompany: '' },
-      SKUData: [],
+    data() {
+        return {
+            manifestTable: [],
+            temmanifestTable: [],
+            currentPage: 1,
+            total: 50,
+            pageSize: 5,
+            pageSizes: [5, 10, 15, 20],
+            selectedRows: [],
+            showDialog: false,
+            addOrEdit: 1,
+            tmpManifest: {},
+            manifestRules: {
+                manifestNum: [{ required: true, message: '请输入舱单编号', trigger: 'blur' }],
+                receiveCompany: [{ required: true, message: '请输入收件公司', trigger: 'blur' }],
+                receivePerson: [{ required: true, message: '请输入收货人', trigger: 'blur' }],
+            },
+            saveManifestStatus: false,
+            search: {
+                manifestNum: '',
+                goodsName: '',
+                receiveCompany: '',
+                receivePerson: '',
+            },
+            viewDialog: false,
+            manifestGoodInfo: { goodsinfo: '', receiveCompany: '' },
+            SKUData: [],
 
-      sku: [],
-      viewSelectGoods: false,
-      temsku: [],
-      selectedGoodsRows: [],
-      selectedGoodsList: [],
-      companys: [],
-    };
-  },
-  methods: {
-    onSelectionChange(selection) {
-      this.selectedRows = selection;
+            sku: [],
+            viewSelectGoods: false,
+            temsku: [],
+            selectedGoodsRows: [],
+            selectedGoodsList: [],
+            companys: [],
+        };
     },
-    openSelectGoods() {
-      let rowIds = [];
-      if (this.temsku) {
-        this.temsku.forEach(function(row) {
-          rowIds.push(row.sku);
-        });
-      }
-      skuAPI.getSKU().then(data => {
-        this.SKUData = data;
-        this.SKUData = this.SKUData.filter(val => !rowIds.includes(val.sn));
-      });
-      this.viewSelectGoods = true;
-      this.selectedGoodsRows = [];
-    },
-    //选中商品行
-    selectedGoodsChange(selection) {
-      this.selectedGoodsRows = selection;
-    },
-    //勾选商品行
-    selectedGoodsListChange(selection) {
-      this.selectedGoodsList = selection;
-    },
-    //删除勾选商品行
-    deleteSelectedGoodsList() {
-      let rowIds = [];
-      this.selectedGoodsList.forEach(function(row) {
-        rowIds.push(row.sku);
-      });
-      this.$confirm('确认删除所选的数据?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        beforeClose: (action, instance, done) => {
-          if (action == 'confirm') {
-            instance.confirmButtonLoading = true;
-            this.temsku = this.temsku.filter(val => !rowIds.includes(val.sku));
-            this.tmpManifest.items = this.temsku;
-            instance.confirmButtonLoading = false;
-          }
-          done();
+    methods: {
+        onSelectionChange(selection) {
+            this.selectedRows = selection;
         },
-      }).catch(() => {
-        this.$notify.info({
-          title: '取消',
-          message: '操作取消！',
-          duration: 2000,
-        });
-      });
-    },
-    handleSearchBtn() {
-      this.manifestTable = Object.assign([], this.temmanifestTable);
-      let temManifestnum = this.search.manifestNum;
-      // let temGoodsname = this.search.goodsName;
-      let temReceiveCompany = this.search.receiveCompany;
-      let temReceivePerson = this.search.receivePerson;
-      if (
-        temManifestnum != '' ||
-        temReceiveCompany != '' ||
-        temReceivePerson != ''
-      ) {
-        if (temManifestnum != '') {
-          this.manifestTable = this.manifestTable.filter(
-            val => val.manifestNum.indexOf(temManifestnum) != -1
-          );
-        }
-        if (temReceiveCompany != '') {
-          this.manifestTable = this.manifestTable.filter(
-            val => val.receiveCompany.indexOf(temReceiveCompany) != -1
-          );
-        }
-        if (temReceivePerson != '') {
-          this.manifestTable = this.manifestTable.filter(
-            val => val.receivePerson.indexOf(temReceivePerson) != -1
-          );
-        }
-        this.total = this.manifestTable.length;
-      }
-    },
-    sizeChangeHandler(val) {
-      this.pageSize = val;
-    },
-    currentChangeHandler(val) {
-      this.currentPage = val;
-    },
-    //关闭事件
-    closeAddOrEditDialog() {
-      if (
-        !this.tmpManifest.manifestNum ||
-        this.tmpManifest.manifestNum == '' ||
-        !this.tmpManifest.receiveCompany ||
-        this.tmpManifest.receiveCompany == '' ||
-        !this.tmpManifest.receivePerson ||
-        this.tmpManifest.receivePerson == ''
-      ) {
-        this.$refs['manifestForm'].resetFields();
-      }
-      this.showDialog = false;
-    },
-    //取消
-    resetManifest() {
-      this.$refs['manifestForm'].resetFields();
-      this.showDialog = false;
-    },
-    //新建
-    addManifest() {
-      this.addOrEdit = 1;
-      this.tmpManifest = {};
-      this.saveManifestStatus = false;
-      this.showDialog = true;
-      this.sku = [];
-      this.temsku = [];
-      skuAPI.getSKU().then(data => {
-        this.SKUData = data;
-      });
-      companyAPI.getCompany().then(data => {
-        this.companys = data.data;
-      });
-    },
-    //编辑
-    editManifest() {
-      this.addOrEdit = 2;
-      this.showDialog = true;
-      this.saveManifestStatus = false;
-      this.tmpManifest = Object.assign({}, this.selectedRows[0]);
-      this.temsku = this.tmpManifest.items;
-      skuAPI.getSKU().then(data => {
-        this.SKUData = data;
-      });
-      companyAPI.getCompany().then(data => {
-        this.companys = data.data;
-      });
-    },
-    //确认选择商品
-    selectGoodsClick() {
-      if (this.selectedGoodsRows.length === 0) {
-        this.$alert('请至少选择一种商品');
-        return;
-      }
-      let temArr = Object.assign([], this.temsku);
-      this.selectedGoodsRows.forEach(function(row) {
-        let temGoods = {};
-        temGoods.id = row.id;
-        temGoods.sku = row.sn;
-        temGoods.skuname = row.name;
-        temGoods.quantity = 0;
-        temArr.push(temGoods);
-      });
-      this.temsku = temArr;
-      this.viewSelectGoods = false;
-      this.tmpManifest.items = this.temsku;
-    },
-    //双击
-    dblclickManifest(dbrow) {
-      this.addOrEdit = 2;
-      this.showDialog = true;
-      this.saveManifestStatus = false;
-      this.tmpManifest = Object.assign({}, dbrow);
-      this.temsku = this.tmpManifest.items;
-      skuAPI.getSKU().then(data => {
-        this.SKUData = data;
-      });
-    },
-    //单机
-    rowClick(row, event, column) {
-      if (column.type != 'selection') {
-        this.$refs.manifestTable.clearSelection();
-      }
-      this.$refs.manifestTable.toggleRowSelection(row);
-    },
-
-    //链接
-    lookClick(link) {
-      this.addOrEdit = 2;
-      this.showDialog = true;
-      this.saveManifestStatus = false;
-      this.tmpManifest = Object.assign({}, link);
-      this.temsku = this.tmpManifest.items;
-      skuAPI.getSKU().then(data => {
-        this.SKUData = data;
-      });
-    },
-    //新建和编辑时保存
-    saveManifest() {
-      this.$refs['manifestForm'].validate(valid => {
-        if (valid) {
-          this.saveManifestStatus = true;
-          if (this.addOrEdit == 1) {
-            manifestAPI.addManifest(this.tmpManifest).then(data => {
-              if (data.status == 200) {
-                this.getManifestData();
-                this.temmanifestTable = Object.assign([], this.manifestTable);
-                this.$message.success(data.data);
-              } else {
-                this.$message.error(data.data);
-              }
-              this.saveManifestStatus = false;
-              this.showDialog = false;
+        openSelectGoods() {
+            let rowIds = [];
+            if (this.temsku) {
+                this.temsku.forEach(function(row) {
+                    rowIds.push(row.sku);
+                });
+            }
+            skuAPI.getSKU().then(data => {
+                this.SKUData = data;
+                this.SKUData = this.SKUData.filter(val => !rowIds.includes(val.sn));
             });
-          } else if (this.addOrEdit == 2) {
-            this.tmpManifest.items = this.temsku;
-            manifestAPI
-              .editManifest(this.tmpManifest.id, this.tmpManifest)
-              .then(data => {
-                if (data.status == 200) {
-                  this.getManifestData();
-                  this.temmanifestTable = Object.assign([], this.manifestTable);
-                  this.$message.success(data.data);
-                } else {
-                  this.$message.error(data.data);
+            this.viewSelectGoods = true;
+            this.selectedGoodsRows = [];
+        },
+        //选中商品行
+        selectedGoodsChange(selection) {
+            this.selectedGoodsRows = selection;
+        },
+        //勾选商品行
+        selectedGoodsListChange(selection) {
+            this.selectedGoodsList = selection;
+        },
+        //删除勾选商品行
+        deleteSelectedGoodsList() {
+            let rowIds = [];
+            this.selectedGoodsList.forEach(function(row) {
+                rowIds.push(row.sku);
+            });
+            this.$confirm('确认删除所选的数据?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                beforeClose: (action, instance, done) => {
+                    if (action == 'confirm') {
+                        instance.confirmButtonLoading = true;
+                        this.temsku = this.temsku.filter(val => !rowIds.includes(val.sku));
+                        this.tmpManifest.items = this.temsku;
+                        instance.confirmButtonLoading = false;
+                    }
+                    done();
+                },
+            }).catch(() => {
+                this.$notify.info({
+                    title: '取消',
+                    message: '操作取消！',
+                    duration: 2000,
+                });
+            });
+        },
+        handleSearchBtn() {
+            this.manifestTable = Object.assign([], this.temmanifestTable);
+            let temManifestnum = this.search.manifestNum;
+            // let temGoodsname = this.search.goodsName;
+            let temReceiveCompany = this.search.receiveCompany;
+            let temReceivePerson = this.search.receivePerson;
+            if (temManifestnum != '' || temReceiveCompany != '' || temReceivePerson != '') {
+                if (temManifestnum != '') {
+                    this.manifestTable = this.manifestTable.filter(val => val.manifestNum.indexOf(temManifestnum) != -1);
                 }
-                this.saveManifestStatus = false;
-                this.showDialog = false;
-              });
-          }
-        } else {
-          this.$alert('请填写正确选项', '提示');
-          return false;
-        }
-      });
-    },
-    //刪除
-    deleteManifests() {
-      let rowIds = [];
-      this.selectedRows.forEach(function(row) {
-        rowIds.push(row.id);
-      });
+                if (temReceiveCompany != '') {
+                    this.manifestTable = this.manifestTable.filter(val => val.receiveCompany.indexOf(temReceiveCompany) != -1);
+                }
+                if (temReceivePerson != '') {
+                    this.manifestTable = this.manifestTable.filter(val => val.receivePerson.indexOf(temReceivePerson) != -1);
+                }
+                this.total = this.manifestTable.length;
+            }
+        },
+        sizeChangeHandler(val) {
+            this.pageSize = val;
+        },
+        currentChangeHandler(val) {
+            this.currentPage = val;
+        },
+        //关闭事件
+        closeAddOrEditDialog() {
+            if (
+                !this.tmpManifest.manifestNum ||
+                this.tmpManifest.manifestNum == '' ||
+                !this.tmpManifest.receiveCompany ||
+                this.tmpManifest.receiveCompany == '' ||
+                !this.tmpManifest.receivePerson ||
+                this.tmpManifest.receivePerson == ''
+            ) {
+                this.$refs['manifestForm'].resetFields();
+            }
+            this.showDialog = false;
+        },
+        //取消
+        resetManifest() {
+            this.$refs['manifestForm'].resetFields();
+            this.showDialog = false;
+        },
+        //新建
+        addManifest() {
+            this.addOrEdit = 1;
+            this.tmpManifest = {};
+            this.saveManifestStatus = false;
+            this.showDialog = true;
+            this.sku = [];
+            this.temsku = [];
+            skuAPI.getSKU().then(data => {
+                this.SKUData = data;
+            });
+            companyAPI.getCompany().then(data => {
+                this.companys = data.data;
+            });
+        },
+        //编辑
+        editManifest() {
+            this.addOrEdit = 2;
+            this.showDialog = true;
+            this.saveManifestStatus = false;
+            this.tmpManifest = Object.assign({}, this.selectedRows[0]);
+            this.temsku = this.tmpManifest.items;
+            skuAPI.getSKU().then(data => {
+                this.SKUData = data;
+            });
+            companyAPI.getCompany().then(data => {
+                this.companys = data.data;
+            });
+        },
+        //确认选择商品
+        selectGoodsClick() {
+            if (this.selectedGoodsRows.length === 0) {
+                this.$alert('请至少选择一种商品');
+                return;
+            }
+            let temArr = Object.assign([], this.temsku);
+            this.selectedGoodsRows.forEach(function(row) {
+                let temGoods = {};
+                temGoods.sku = row.sn;
+                temGoods.skuname = row.name;
+                temGoods.quantity = 0;
+                temArr.push(temGoods);
+            });
+            this.temsku = temArr;
+            this.viewSelectGoods = false;
+            this.tmpManifest.items = this.temsku;
+        },
+        //双击
+        dblclickManifest(dbrow) {
+            this.addOrEdit = 2;
+            this.showDialog = true;
+            this.saveManifestStatus = false;
+            this.tmpManifest = Object.assign({}, dbrow);
+            this.temsku = this.tmpManifest.items;
+            skuAPI.getSKU().then(data => {
+                this.SKUData = data;
+            });
+        },
+        //单机
+        rowClick(row, event, column) {
+            if (column.type != 'selection') {
+                this.$refs.manifestTable.clearSelection();
+            }
+            this.$refs.manifestTable.toggleRowSelection(row);
+        },
 
-      this.$confirm('确认删除所选的数据?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        beforeClose: (action, instance, done) => {
-          if (action == 'confirm') {
-            instance.confirmButtonLoading = true;
-            return manifestAPI.deleteManifests(rowIds).then(data => {
-              if (data.status == 200) {
-                this.manifestTable = this.manifestTable.filter(
-                  val => !rowIds.includes(val.id)
-                );
+        //链接
+        lookClick(link) {
+            this.addOrEdit = 2;
+            this.showDialog = true;
+            this.saveManifestStatus = false;
+            this.tmpManifest = Object.assign({}, link);
+            this.temsku = this.tmpManifest.items;
+            skuAPI.getSKU().then(data => {
+                this.SKUData = data;
+            });
+        },
+        //新建和编辑时保存
+        saveManifest() {
+            this.$refs['manifestForm'].validate(valid => {
+                if (valid) {
+                    this.saveManifestStatus = true;
+                    if (this.addOrEdit == 1) {
+                        manifestAPI.addManifest(this.tmpManifest).then(data => {
+                            if (data.status == 200) {
+                                this.getManifestData();
+                                this.temmanifestTable = Object.assign([], this.manifestTable);
+                                this.$message.success(data.data);
+                            } else {
+                                this.$message.error(data.data);
+                            }
+                            this.saveManifestStatus = false;
+                            this.showDialog = false;
+                        });
+                    } else if (this.addOrEdit == 2) {
+                        this.tmpManifest.items = this.temsku;
+                        manifestAPI.editManifest(this.tmpManifest.id, this.tmpManifest).then(data => {
+                            if (data.status == 200) {
+                                this.getManifestData();
+                                this.temmanifestTable = Object.assign([], this.manifestTable);
+                                this.$message.success(data.data);
+                            } else {
+                                this.$message.error(data.data);
+                            }
+                            this.saveManifestStatus = false;
+                            this.showDialog = false;
+                        });
+                    }
+                } else {
+                    this.$alert('请填写正确选项', '提示');
+                    return false;
+                }
+            });
+        },
+        //刪除
+        deleteManifests() {
+            let rowIds = [];
+            this.selectedRows.forEach(function(row) {
+                rowIds.push(row.id);
+            });
+
+            this.$confirm('确认删除所选的数据?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+                beforeClose: (action, instance, done) => {
+                    if (action == 'confirm') {
+                        instance.confirmButtonLoading = true;
+                        return manifestAPI.deleteManifests(rowIds).then(data => {
+                            if (data.status == 200) {
+                                this.manifestTable = this.manifestTable.filter(val => !rowIds.includes(val.id));
+                                this.temmanifestTable = Object.assign([], this.manifestTable);
+                                this.total = this.manifestTable.length;
+                                this.$notify({
+                                    title: '成功',
+                                    message: data.data,
+                                    type: 'success',
+                                    duration: 2000,
+                                });
+                            } else {
+                                this.$alert(data.data);
+                            }
+                            instance.confirmButtonLoading = false;
+                            done(data);
+                        });
+                    } else {
+                        done();
+                    }
+                },
+            }).catch(() => {
+                this.$notify.info({
+                    title: '取消',
+                    message: '操作取消！',
+                    duration: 2000,
+                });
+            });
+        },
+        //查看商品
+        viewGoods() {
+            this.viewDialog = true;
+            this.manifestGoodInfo = { goodsinfo: [], receiveCompany: '' };
+            this.manifestGoodInfo.receiveCompany = this.selectedRows[0].receiveCompany;
+            manifestAPI.viewManifestsGoods(this.selectedRows[0].id).then(data => {
+                this.manifestGoodInfo.goodsinfo = data.data.items;
+            });
+        },
+        getManifestData() {
+            manifestAPI.getManifestData().then(data => {
+                this.manifestTable = data.data;
+                let temManifestTable = [];
+                this.manifestTable.forEach(function(row) {
+                    let temItems = row.items;
+                    let temrow = Object.assign({}, row);
+                    if (temItems) {
+                        let temArr = [];
+                        temItems.forEach(function(item) {
+                            temArr.push(item.skuname);
+                        });
+                        temrow.skunames = temArr.join(',');
+                    }
+                    temManifestTable.push(temrow);
+                });
+                this.manifestTable = temManifestTable;
                 this.temmanifestTable = Object.assign([], this.manifestTable);
                 this.total = this.manifestTable.length;
-                this.$notify({
-                  title: '成功',
-                  message: data.data,
-                  type: 'success',
-                  duration: 2000,
-                });
-              } else {
-                this.$alert(data.data);
-              }
-              instance.confirmButtonLoading = false;
-              done(data);
             });
-          } else {
-            done();
-          }
         },
-      }).catch(() => {
-        this.$notify.info({
-          title: '取消',
-          message: '操作取消！',
-          duration: 2000,
-        });
-      });
     },
-    //查看商品
-    viewGoods() {
-      this.viewDialog = true;
-      this.manifestGoodInfo = { goodsinfo: [], receiveCompany: '' };
-      this.manifestGoodInfo.receiveCompany = this.selectedRows[0].receiveCompany;
-      manifestAPI.viewManifestsGoods(this.selectedRows[0].id).then(data => {
-        this.manifestGoodInfo.goodsinfo = data.data.items;
-      });
+    created() {
+        this.getManifestData();
     },
-    getManifestData() {
-      manifestAPI.getManifestData().then(data => {
-        this.manifestTable = data.data;
-        let temManifestTable = [];
-        this.manifestTable.forEach(function(row) {
-          let temItems = row.items;
-          let temrow = Object.assign({}, row);
-          if (temItems) {
-            let temArr = [];
-            temItems.forEach(function(item) {
-              temArr.push(item.skuname);
-            });
-            temrow.skunames = temArr.join(',');
-          }
-          temManifestTable.push(temrow);
-        });
-        this.manifestTable = temManifestTable;
-        this.temmanifestTable = Object.assign([], this.manifestTable);
-        this.total = this.manifestTable.length;
-      });
-    },
-  },
-  created() {
-    this.getManifestData();
-  },
 };
 </script>
 
 <style scoped>
 .main-content-wrap {
-  padding: 10px;
+    padding: 10px;
 }
 
 .width-300 {
-  width: 300px;
+    width: 300px;
 }
 
 .width-230 {
-  width: 230px;
+    width: 230px;
 }
 
 .page-wrap {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 .page-wrap .page {
-  float: right;
+    float: right;
 }
 
 .search-bar {
-  padding-bottom: 10px;
+    padding-bottom: 10px;
 }
 
 .demo-table-expand {
-  font-size: 12px;
+    font-size: 12px;
 }
 
 .demo-table-expand label {
-  color: #99a9bf;
+    color: #99a9bf;
 }
 
 .demo-table-expand .el-form-item {
-  margin-right: 0;
-  margin-bottom: 0;
-  width: 45%;
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 45%;
 }
 
 .box-card {
-  width: 100%;
+    width: 100%;
 }
 .form-title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-left: 6%;
-  padding: 20px 0 5px 0;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 6%;
+    padding: 20px 0 5px 0;
 }
 .packinglist-panel {
-  margin-left: 5%;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
+    margin-left: 5%;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
 }
 </style>

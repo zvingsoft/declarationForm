@@ -2,6 +2,7 @@ package com.zving.declarationform.license.provider;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.Random;
 
 import javax.ws.rs.core.MediaType;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.dto.ResponseDTO;
+import com.zving.declarationform.license.model.License;
 import com.zving.declarationform.license.schema.TestService;
+import com.zving.declarationform.storage.StorageUtil;
 
 import io.servicecomb.provider.rest.common.RestSchema;
 
@@ -39,5 +42,35 @@ public class TestServiceImpl implements TestService {
 		} catch (UnknownHostException e) {
 			return new ResponseDTO(String.format("Loadblance license: ID=%s Time=%s", id, System.currentTimeMillis()));
 		}
+	}
+
+	@Override
+	@RequestMapping(path = "tccTry", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseDTO tccTry(HashMap<String, Boolean> data) {
+		License old = new License();
+		old.setLicenseKey("100");
+		License license = StorageUtil.getInstance().get(License.class, old);
+		if (license == null) {
+			return new ResponseDTO("license执行tccTry失败:不存在许可证号为100的记录");
+		}
+		if (data.containsKey("try") && data.get("try")) {
+			
+		}
+		return null;
+	}
+
+	@Override
+	@RequestMapping(path = "tccConfirm", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseDTO tccConfirm(HashMap<String, Boolean> data) {
+		return null;
+	}
+
+	@Override
+	@RequestMapping(path = "tccCancel", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseDTO tccCancel(HashMap<String, Boolean> data) {
+		return null;
 	}
 }

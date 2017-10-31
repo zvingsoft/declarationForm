@@ -32,7 +32,7 @@ public class TccTest {
 		List<String> services = Arrays.asList("license", "cottonQuota", "processingTrade");
 		StringBuilder sb = new StringBuilder();
 		Optional<String> fail = services.stream().filter(item -> {
-			ResponseDTO r = RestTemplateBuilder.create().postForObject("cse://" + item + "/tccTest/try", data, ResponseDTO.class);
+			ResponseDTO r = RestTemplateBuilder.create().postForObject("cse://" + item + "/test/tccTry", data, ResponseDTO.class);
 			sb.append(r.getMessage() + "\n");
 			return r.getMessage().contains("失败");
 		}).findAny();
@@ -51,7 +51,7 @@ public class TccTest {
 		StringBuilder sb = new StringBuilder();
 		Optional<String> fail = services.stream().filter(item -> {
 			// 验证
-			ResponseDTO r = RestTemplateBuilder.create().postForObject("cse://" + item + "/tccTest/confirm", data, ResponseDTO.class);
+			ResponseDTO r = RestTemplateBuilder.create().postForObject("cse://" + item + "/test/tccConfirm", data, ResponseDTO.class);
 			sb.append(r.getMessage() + "\n");
 			return r.getMessage().contains("失败");
 		}).findAny();
@@ -68,7 +68,7 @@ public class TccTest {
 		StringBuilder sb = new StringBuilder();
 		Optional<String> fail = services.stream().filter(item -> {
 			// 验证
-			ResponseDTO r = RestTemplateBuilder.create().postForObject("cse://" + item + "/tccTest/cancel", data, ResponseDTO.class);
+			ResponseDTO r = RestTemplateBuilder.create().postForObject("cse://" + item + "/test/tccCancel", data, ResponseDTO.class);
 			if (r.getMessage().contains("失败")) {
 				sb.append(r.getMessage() + "\n");
 				return true;

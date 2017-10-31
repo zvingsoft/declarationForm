@@ -5,9 +5,11 @@ const manifestAPI = {
     })
   },
   addManifest (manifest) {
+    manifest.items.forEach(item => delete item.id)
     return axios.post('manifest/manifest', manifest).then(res => res)
   },
   editManifest (id, manifest) {
+    manifest.items.forEach(item => delete item.id)
     return axios.put('manifest/manifest', manifest).then(res => res)
   },
   deleteManifests (ids) {

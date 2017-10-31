@@ -64,16 +64,32 @@ var declarationAPI = {
       return res.data;
     });
   },
+  cleanFields: function cleanFields(declaration) {
+    var arr = ['settlementType', 'telephone', 'shippingType', 'importOrExportDate', 'customsNumber', 'purposeOrManufacturer', 'entryUnit', 'id', 'declarationUnit', 'forwardingUnit', 'startOrArrivalCountry', 'taxStatusName', 'loadingOrFingerPort', 'containerNumber', 'auditStatus', 'zipCode', 'documents', 'taxpaidOrNot', 'shippingNumbers', 'goodsNumber', 'entryDate', 'freight', 'declarationDate', 'taxDue', 'shippingTools', 'exemptionNature', 'declarationType', 'premium', 'preentryNumber', 'grossWeight', 'importOrExportPort', 'licenseKey', 'transactionMethod', 'managementUnit', 'approvalNumber', 'agreementNumber', 'shippingMarksAndRemarks', 'netWeight', 'companyId', 'recordNumber', 'tradingType', 'incidental', 'declarationTypeName', 'entryClerk', 'destinationOrConsignmentPlace', 'documentSattached', 'fillingDate', 'unitAddress', 'auditStatusName', 'packagingType', 'packingList', 'taxStatus', 'customsBroker'];
+    for (var prop in declaration) {
+      if (!arr.includes(prop)) {
+        delete declaration[prop];
+      }
+    }
+  },
   getDeclarationById: function getDeclarationById(id) {
     return axios.get('/form/form/' + id).then(function (res) {
       return res.data;
     });
   },
   addDeclaration: function addDeclaration(declaration) {
+    declaration.packingList.forEach(function (item) {
+      return delete item.id;
+    });
+    this.cleanFields(declaration);
     console.log(declaration);
     return axios.post('/form/form', JSON.parse(JSON.stringify(declaration)));
   },
   updateDeclaration: function updateDeclaration(declaration) {
+    declaration.packingList.forEach(function (item) {
+      return delete item.id;
+    });
+    this.cleanFields(declaration);
     return axios.put('/form/form', JSON.parse(JSON.stringify(declaration)));
   },
   deleteDeclaration: function deleteDeclaration(ids) {
