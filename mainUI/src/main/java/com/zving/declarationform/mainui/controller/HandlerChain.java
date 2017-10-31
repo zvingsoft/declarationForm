@@ -26,7 +26,8 @@ public class HandlerChain {
 	@RequestMapping(path = "trySuccessConfirmSuccess", method = RequestMethod.GET)
 	@ResponseBody
 	public String trySuccessConfirmSuccess() {
-		return "trySuccessConfirmSuccess";
+		TccTest test = new TccTest(true, true, true);
+		return test.doTry();
 	}
 
 	/**
@@ -35,7 +36,8 @@ public class HandlerChain {
 	@RequestMapping(path = "trySuccessConfirmFail", method = RequestMethod.GET)
 	@ResponseBody
 	public String trySuccessConfirmFail() {
-		return "trySuccessConfirmFail";
+		TccTest test = new TccTest(true, false, true);
+		return test.doTry();
 	}
 
 	/**
@@ -44,7 +46,8 @@ public class HandlerChain {
 	@RequestMapping(path = "tryFailCancelSuccess", method = RequestMethod.GET)
 	@ResponseBody
 	public String tryFailCancelSuccess() {
-		return "tryFailCancelSuccess";
+		TccTest test = new TccTest(false, false, true);
+		return test.doTry();
 	}
 
 	/**
@@ -53,7 +56,8 @@ public class HandlerChain {
 	@RequestMapping(path = "tryFailCancelFail", method = RequestMethod.GET)
 	@ResponseBody
 	public String tryFailCancelFail() {
-		return "tryFailCancelFail";
+		TccTest test = new TccTest(false, false, false);
+		return test.doTry();
 	}
 
 	/**
