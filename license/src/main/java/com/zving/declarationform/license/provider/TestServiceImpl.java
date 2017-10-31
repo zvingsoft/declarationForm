@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.license.model.License;
 import com.zving.declarationform.license.schema.TestService;
+import com.zving.declarationform.model.TCCLock;
 import com.zving.declarationform.storage.StorageUtil;
 
 import io.servicecomb.provider.rest.common.RestSchema;
@@ -54,10 +55,20 @@ public class TestServiceImpl implements TestService {
 		if (license == null) {
 			return new ResponseDTO("license执行tccTry失败:不存在许可证号为100的记录");
 		}
-		if (data.containsKey("try") && data.get("try")) {
-			
+		if (data.containsKey("try") && data.get("try")) {// try==true
+			license.setCount(license.getCount() - 1);
+
+			TCCLock lock = new TCCLock();
+			lock.setType("License");
+			lock.setRelaId(license.getLicenseKey());
+			lock.setLockedValue("1");
+
+			StorageUtil.getInstance().add(TCCLock.class, lock);
+			StorageUtil.getInstance().update(License.class, old, license);
+			return new ResponseDTO("license执行tccTry成功");
+		} else {
+			return new ResponseDTO("license执行tccTry失败:锁定许可证失败");
 		}
-		return null;
 	}
 
 	@Override

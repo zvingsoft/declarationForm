@@ -39,7 +39,7 @@ import io.servicecomb.provider.springmvc.reference.RestTemplateBuilder;
 @RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
 @Controller
 public class FormServiceImpl implements FormService {
-	@Autowired(required = false)
+	@Autowired(required = true)
 	private AmqpTemplate rabbitTemplate;
 	@Value("${rabbitmq.queue}")
 	private String queueName;
@@ -216,7 +216,7 @@ public class FormServiceImpl implements FormService {
 			try {
 				String json = om.writeValueAsString(form);
 				if (rabbitTemplate != null) {
-					rabbitTemplate.convertAndSend("queueName", json);
+					rabbitTemplate.convertAndSend(queueName, json);
 				}
 			} catch (Exception e) {
 				System.out.println(e.getMessage());

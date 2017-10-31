@@ -6,6 +6,9 @@ import java.util.Random;
 
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +29,10 @@ import io.servicecomb.provider.rest.common.RestSchema;
 @RequestMapping(path = "/test", produces = MediaType.APPLICATION_JSON)
 @Controller
 public class TestServiceImpl implements TestService {
+	@Autowired(required = true)
+	private AmqpTemplate rabbitTemplate;
+	@Value("${rabbitmq.queue}")
+	private String queueName;
 
 	static long id = Math.abs(new Random().nextInt(100000000));
 	static long sleepTime = Math.abs(new Random().nextInt(2000));
@@ -38,6 +45,7 @@ public class TestServiceImpl implements TestService {
 		try {
 			try {
 				Thread.sleep(sleepTime + new Random().nextInt((int) sleepTime / 10));
+				rabbitTemplate.convertAndSend(queueName, "abc");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
