@@ -1,5 +1,6 @@
 # Output Directory
 target/
+bin/
 
 # C pre-compile
 *.gch
