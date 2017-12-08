@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import com.huawei.paas.cse.tcc.annotation.TccTransaction;
 import com.zving.declarationform.dto.ResponseDTO;
 
 import io.servicecomb.provider.springmvc.reference.RestTemplateBuilder;
@@ -26,7 +25,7 @@ public class TccTest {
 		data.put("cancel", trySuccess);
 	}
 
-	@TccTransaction(cancelMethod = "cancel", confirmMethod = "confirm")
+	// @TccTransaction(cancelMethod = "cancel", confirmMethod = "confirm")
 	public String doTry() {
 		// try阶段
 		List<String> services = Arrays.asList("license", "cottonQuota", "processingTrade");

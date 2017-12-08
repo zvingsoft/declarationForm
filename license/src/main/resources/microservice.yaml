@@ -5,15 +5,15 @@ service_description:
 cse:
   service:
     registry:
-      address: http://127.0.0.1:9980
+      address: http://127.0.0.1:30100
   rest:
     address: 0.0.0.0:8004
   handler:
     chain:
       Provider:
-        default: perf-stats,qps-flowcontrol-provider,bizkeeper-provider,tcc-server,sla-provider,tracing-provider
+        default: qps-flowcontrol-provider,bizkeeper-provider
       Consumer:
-        default: perf-stats,qps-flowcontrol-consumer,loadbalance,bizkeeper-consumer,tcc-client,sla-consumer,tracing-consumer
+        default: qps-flowcontrol-consumer,loadbalance,bizkeeper-consumer
   tracing:
     enabled: true
     samplingRate: 1

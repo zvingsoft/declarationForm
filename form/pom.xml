@@ -17,18 +17,6 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.huawei.paas.cse</groupId>
-			<artifactId>foundation-auth</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.huawei.paas.cse</groupId>
-			<artifactId>foundation-config-cc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.huawei.paas.cse</groupId>
-			<artifactId>cse-handler-tcc</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>io.servicecomb</groupId>
 			<artifactId>transport-highway</artifactId>
 		</dependency>
@@ -44,18 +32,12 @@
 			<groupId>io.servicecomb</groupId>
 			<artifactId>handler-loadbalance</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.huawei.paas.cse</groupId>
-			<artifactId>cse-handler-tracing</artifactId>
-		</dependency>
+
 		<dependency>
 			<groupId>io.servicecomb</groupId>
 			<artifactId>handler-flowcontrol-qps</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.huawei.paas.cse</groupId>
-			<artifactId>cse-handler-performance-stats</artifactId>
-		</dependency>
+
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -99,10 +81,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.huawei.paas.cse</groupId>
-			<artifactId>cse-handler-tcc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

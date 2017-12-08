@@ -5,49 +5,6 @@ service_description:
 cse:
   service:
     registry:
-      address: http://127.0.0.1:9980
-  handler:
-    chain:
-      Provider:
-        default: perf-stats,qps-flowcontrol-provider,bizkeeper-provider,tcc-server,sla-provider,tracing-provider
-      Consumer:
-        default: perf-stats,qps-flowcontrol-consumer,loadbalance,bizkeeper-consumer,tcc-client,sla-consumer,tracing-consumer
+      address: http://127.0.0.1:30100
   rest:
     address: 0.0.0.0:8003
-  tracing:
-    enabled: true
-    samplingRate: 1
-  isolation:
-    Consumer:
-      timeout:
-        enabled: false
-      timeoutInMilliseconds: 30
-      maxConcurrentRequests: 2
-  fallback:
-    Consumer:
-      enabled: false
-      maxConcurrentRequest: 10
-  fallbackpolicy:
-    Consumer:
-      policy: returnnull
-  metrics:
-    enabled: true
-    cycle:
-      ms: 10000
-  loadblance:
-    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
-  circuitBreaker:
-    Consumer:
-      enabled: false
-      forceOpen: false
-      forceClosed: false
-      sleepWindowInMilliseconds: 10000
-      requestVolumeThreshold: 5
-      errorThresholdPercentage: 50
-  monitor:
-    client:
-      enable: false
-servicecomb:
-  rest:
-    servlet:
-      urlPattern: /*

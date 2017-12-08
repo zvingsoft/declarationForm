@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.huawei.paas.cse.tcc.annotation.TccTransaction;
 import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.form.schema.FormService;
 import com.zving.declarationform.model.DeclarationForm;
@@ -193,7 +192,7 @@ public class FormServiceImpl implements FormService {
 	@Override
 	@RequestMapping(path = "try", method = RequestMethod.POST)
 	@ResponseBody
-	@TccTransaction(cancelMethod = "cancelMethod", confirmMethod = "confirmMethod")
+	// @TccTransaction(cancelMethod = "cancelMethod", confirmMethod = "confirmMethod")
 	public String tryConfirm(@RequestBody DeclarationForm form) {
 		// try阶段
 		List<String> services = Arrays.asList("license", "cottonQuota", "manifest", "processingTrade");
