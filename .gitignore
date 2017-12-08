@@ -12,9 +12,10 @@ appdata/*
 WEB-INF
 /bin/
 /dist/
-/target/
+**/target/
 *.log
 *.psd
 /Docker/
 *.dat
 *.log
+**/.setting/
