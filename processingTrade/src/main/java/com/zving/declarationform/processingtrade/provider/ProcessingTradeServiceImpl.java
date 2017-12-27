@@ -4,15 +4,16 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.math.NumberUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.model.DeclarationForm;
@@ -32,15 +33,17 @@ import io.servicecomb.provider.rest.common.RestSchema;
  */
 
 @RestSchema(schemaId = "processingTrade")
-@Path("/") @Produces(MediaType.APPLICATION_JSON)
+@Path("/")
+@Produces(MediaType.APPLICATION_JSON)
 public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 
 	IStorage storage = StorageUtil.getInstance();
 
 	@Override
-	@Path("check") @POST
-	
-	public String check( DeclarationForm form) {
+	@Path("check")
+	@POST
+
+	public String check(DeclarationForm form) {
 		try {
 			if ("processingTrade".equals(form.getTradingType())) {
 				for (PackingItem item : form.getPackingList()) {
@@ -63,26 +66,29 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	@Path("processingtrade") @POST
-	
-	public String add( ProcessingTrade processingTrade) {
+	@Path("processingtrade")
+	@POST
+
+	public String add(ProcessingTrade processingTrade) {
 		storage.add(ProcessingTrade.class, processingTrade);
 		return "1";
 	}
 
 	@Override
-	@Path("processingtrade") @PUT
-	
-	public String update( ProcessingTrade processingTrade) {
+	@Path("processingtrade")
+	@PUT
+
+	public String update(ProcessingTrade processingTrade) {
 		ProcessingTrade old = get(processingTrade.getId());
 		storage.update(ProcessingTrade.class, old, processingTrade);
 		return "1";
 	}
 
 	@Override
-	@Path("processingtrade/{ids}") @DELETE
-	
-	public String delete(@PathParam String ids) {
+	@Path("processingtrade/{ids}")
+	@DELETE
+
+	public String delete(@PathParam("ids") String ids) {
 		String[] idArray = ids.split(",");
 		for (String id : idArray) {
 			if (NumberUtils.isNumber(id)) {
@@ -94,9 +100,10 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	@Path("processingtrade/{id}") @GET
-	
-	public ProcessingTrade get(@PathParam long id) {
+	@Path("processingtrade/{id}")
+	@GET
+
+	public ProcessingTrade get(@PathParam("id") long id) {
 		List<ProcessingTrade> list = storage.find(ProcessingTrade.class, null);
 		for (ProcessingTrade processingTrade : list) {
 			if (processingTrade.getId() == id) {
@@ -107,8 +114,9 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	@Path("processingtrade") @GET
-	
+	@Path("processingtrade")
+	@GET
+
 	public List<ProcessingTrade> list() {
 		return storage.find(ProcessingTrade.class, null);
 	}
@@ -133,9 +141,10 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	@Path("try") @POST
-	
-	public ResponseDTO tccTry( DeclarationForm form) {
+	@Path("try")
+	@POST
+
+	public ResponseDTO tccTry(DeclarationForm form) {
 		if (!"processingTrade".equals(form.getTradingType())) {
 			return new ResponseDTO("");
 		}
@@ -164,9 +173,10 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	@Path("confirm") @POST
-	
-	public ResponseDTO tccConfirm( DeclarationForm form) {
+	@Path("confirm")
+	@POST
+
+	public ResponseDTO tccConfirm(DeclarationForm form) {
 		for (PackingItem item : form.getPackingList()) {
 			// 删除资源锁定
 			TCCLock lock = new TCCLock();
@@ -183,9 +193,10 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	@Path("cancel") @POST
-	
-	public ResponseDTO tccCancel( DeclarationForm form) {
+	@Path("cancel")
+	@POST
+
+	public ResponseDTO tccCancel(DeclarationForm form) {
 		for (PackingItem item : form.getPackingList()) {
 			ProcessingTrade old = new ProcessingTrade();
 			old.setSku(item.getSKU());
