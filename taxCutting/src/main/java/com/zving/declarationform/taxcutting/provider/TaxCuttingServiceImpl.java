@@ -5,14 +5,14 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.model.DeclarationForm;
@@ -26,13 +26,15 @@ import io.netty.util.internal.StringUtil;
 import io.servicecomb.provider.rest.common.RestSchema;
 
 @RestSchema(schemaId = "taxCutting")
-@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
-@Controller
+@Path("/")
+@Produces(MediaType.APPLICATION_JSON)
+
 public class TaxCuttingServiceImpl implements TaxCuttingService {
 	@Override
-	@RequestMapping(path = "check", method = RequestMethod.POST)
-	@ResponseBody
-	public String check(@RequestBody DeclarationForm form) {
+	@Path("check")
+	@POST
+
+	public String check(DeclarationForm form) {
 		try {
 			return InetAddress.getLocalHost().getHostName() + ":税收减免检查通过";
 		} catch (UnknownHostException e) {
@@ -41,9 +43,10 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 	}
 
 	@Override
-	@RequestMapping(path = "compute", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseDTO compute(@RequestBody DeclarationForm form) {
+	@Path("compute")
+	@POST
+
+	public ResponseDTO compute(DeclarationForm form) {
 		double total = 0;
 		for (PackingItem item : form.getPackingList()) {
 			TaxCuttingRule rule = new TaxCuttingRule();
@@ -57,25 +60,28 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 		return new ResponseDTO(String.format("%.2f", total));
 	}
 
-	@RequestMapping(path = "taxcutting", method = RequestMethod.POST)
-	@ResponseBody
-	public String add(@RequestBody TaxCuttingRule taxCuttingRule) {
+	@Path("taxcutting")
+	@POST
+
+	public String add(TaxCuttingRule taxCuttingRule) {
 		// taxCuttingRule.setCount(taxCuttingRule.getTopLmit());
 		StorageUtil.getInstance().add(TaxCuttingRule.class, taxCuttingRule);
 		return "新建成功";
 	}
 
-	@RequestMapping(path = "taxcutting", method = RequestMethod.PUT)
-	@ResponseBody
-	public String update(@RequestBody TaxCuttingRule taxCuttingRule) {
+	@Path("taxcutting")
+	@PUT
+
+	public String update(TaxCuttingRule taxCuttingRule) {
 		TaxCuttingRule tcr = get(taxCuttingRule.getId());
 		StorageUtil.getInstance().update(TaxCuttingRule.class, tcr, taxCuttingRule);
 		return "编辑成功";
 	}
 
-	@RequestMapping(path = "taxcutting/{ids}", method = RequestMethod.DELETE)
-	@ResponseBody
-	public String delete(@PathVariable("ids") String ids) {
+	@Path("taxcutting/{ids}")
+	@DELETE
+
+	public String delete(@PathParam("ids") String ids) {
 		String[] strId = ids.split(",");
 		IStorage iStorage = StorageUtil.getInstance();
 		List<TaxCuttingRule> list = iStorage.find(TaxCuttingRule.class, null);
@@ -91,8 +97,9 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 		return "删除成功";
 	}
 
-	@RequestMapping(path = "taxcutting", method = RequestMethod.GET)
-	@ResponseBody
+	@Path("taxcutting")
+	@GET
+
 	public List<TaxCuttingRule> list() {
 		List<TaxCuttingRule> list = StorageUtil.getInstance().find(TaxCuttingRule.class, null);
 		for (TaxCuttingRule taxCuttingRule : list) {
@@ -104,9 +111,10 @@ public class TaxCuttingServiceImpl implements TaxCuttingService {
 		return list;
 	}
 
-	@RequestMapping(path = "taxcutting/{id}", method = RequestMethod.GET)
-	@ResponseBody
-	public TaxCuttingRule get(@PathVariable("id") String id) {
+	@Path("taxcutting/{id}")
+	@GET
+
+	public TaxCuttingRule get(@PathParam("id") String id) {
 		List<TaxCuttingRule> taxCuttingRuleList = StorageUtil.getInstance().find(TaxCuttingRule.class, null);
 		for (TaxCuttingRule taxCuttingRule : taxCuttingRuleList) {
 			if (taxCuttingRule.getId().equals(id)) {

@@ -2,15 +2,15 @@ package com.zving.declarationform.tax.provider;
 
 import java.util.List;
 
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.storage.IStorage;
@@ -28,14 +28,16 @@ import io.servicecomb.provider.rest.common.RestSchema;
  * @date 2017年10月26日
  */
 @RestSchema(schemaId = "taxRegister")
-@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
-@Controller
+@Path("/")
+@Produces(MediaType.APPLICATION_JSON)
+
 public class TaxRegisterServiceImpl implements TaxRegisterService {
 
 	@Override
-	@RequestMapping(path = "taxRegister", method = RequestMethod.POST)
-	@ResponseBody
-	public String add(@RequestBody TaxRegister taxRegister) {
+	@Path("taxRegister")
+	@POST
+
+	public String add(TaxRegister taxRegister) {
 		taxRegister.setRegisterStatus("N");
 		taxRegister.setRegisterStatusName("未缴税");
 		StorageUtil.getInstance().add(TaxRegister.class, taxRegister);
@@ -43,9 +45,10 @@ public class TaxRegisterServiceImpl implements TaxRegisterService {
 	}
 
 	@Override
-	@RequestMapping(path = "taxRegister", method = RequestMethod.PUT)
-	@ResponseBody
-	public String update(@RequestBody TaxRegister taxRegister) {
+	@Path("taxRegister")
+	@PUT
+
+	public String update(TaxRegister taxRegister) {
 		IStorage storage = StorageUtil.getInstance();
 		List<TaxRegister> list = storage.find(TaxRegister.class, null);
 		for (int i = 0; i < list.size(); i++) {
@@ -59,9 +62,10 @@ public class TaxRegisterServiceImpl implements TaxRegisterService {
 	}
 
 	@Override
-	@RequestMapping(path = "taxRegister/{ids}", method = RequestMethod.DELETE)
-	@ResponseBody
-	public String delete(@PathVariable("ids") String ids) {
+	@Path("taxRegister/{ids}")
+	@DELETE
+
+	public String delete(@PathParam("ids") String ids) {
 		String[] strId = ids.split(",");
 		IStorage iStorage = StorageUtil.getInstance();
 		List<TaxRegister> list = iStorage.find(TaxRegister.class, null);
@@ -76,9 +80,10 @@ public class TaxRegisterServiceImpl implements TaxRegisterService {
 	}
 
 	@Override
-	@RequestMapping(path = "taxRegister/{id}", method = RequestMethod.GET)
-	@ResponseBody
-	public TaxRegister get(@PathVariable("id") long id) {
+	@Path("taxRegister/{id}")
+	@GET
+
+	public TaxRegister get(@PathParam("id") long id) {
 		TaxRegister taxRegister = new TaxRegister();
 		taxRegister.setId(id);
 		taxRegister = StorageUtil.getInstance().get(TaxRegister.class, taxRegister);
@@ -89,17 +94,19 @@ public class TaxRegisterServiceImpl implements TaxRegisterService {
 	}
 
 	@Override
-	@RequestMapping(path = "taxAmount/{id}", method = RequestMethod.GET)
-	@ResponseBody
-	public ResponseDTO taxAmount(@PathVariable("id") long id) {
+	@Path("taxAmount/{id}")
+	@GET
+
+	public ResponseDTO taxAmount(@PathParam("id") long id) {
 		TaxRegister taxRegister = get(id);
 		return new ResponseDTO(taxRegister.getTaxAmount() + "");
 	}
 
 	@Override
-	@RequestMapping(path = "taxRegister", method = RequestMethod.GET)
-	@ResponseBody
-	public List<TaxRegister> list(@RequestParam String searchItem) {
+	@Path("taxRegister")
+	@GET
+
+	public List<TaxRegister> list(@QueryParam(value = "searchItem") String searchItem) {
 		System.out.println(searchItem);
 		List<TaxRegister> list = StorageUtil.getInstance().find(TaxRegister.class, null);
 

@@ -3,13 +3,10 @@ package com.zving.declarationform.tax.provider;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.model.DeclarationForm;
@@ -28,13 +25,15 @@ import io.servicecomb.provider.rest.common.RestSchema;
  * @date 2017年10月18日
  */
 @RestSchema(schemaId = "tax")
-@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
-@Controller
+@Path("/")
+@Produces(MediaType.APPLICATION_JSON)
+
 public class TaxServiceImpl implements TaxService {
 
-	@RequestMapping(path = "check", method = RequestMethod.POST)
-	@ResponseBody
-	public String check(@RequestBody DeclarationForm form) {
+	@Path("check")
+	@POST
+
+	public String check(DeclarationForm form) {
 		try {
 			for (PackingItem item : form.getPackingList()) {
 				TaxRate rate = new TaxRate();
@@ -51,16 +50,18 @@ public class TaxServiceImpl implements TaxService {
 	}
 
 	@Override
-	@RequestMapping(path = "compute2", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseDTO compute2(@RequestBody DeclarationForm form) {
+	@Path("compute2")
+	@POST
+
+	public ResponseDTO compute2(DeclarationForm form) {
 		return new ResponseDTO(compute(form));
 	}
 
 	@Override
-	@RequestMapping(path = "compute", method = RequestMethod.POST)
-	@ResponseBody
-	public String compute(@RequestBody DeclarationForm form) {
+	@Path("compute")
+	@POST
+
+	public String compute(DeclarationForm form) {
 		double total = 0;
 		for (PackingItem item : form.getPackingList()) {
 			TaxRate rate = new TaxRate();

@@ -7,14 +7,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.manifest.model.Manifest;
@@ -29,14 +29,16 @@ import com.zving.declarationform.storage.StorageUtil;
 import io.servicecomb.provider.rest.common.RestSchema;
 
 @RestSchema(schemaId = "manifest")
-@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
-@Controller
+@Path("/")
+@Produces(MediaType.APPLICATION_JSON)
+
 public class ManifestServiceImpl implements ManifestService {
 
 	@Override
-	@RequestMapping(path = "check", method = RequestMethod.POST)
-	@ResponseBody
-	public String check(@RequestBody DeclarationForm form) {
+	@Path("check")
+	@POST
+
+	public String check(DeclarationForm form) {
 		try {
 			if ("null".equals(form.getShippingNumbers()) || form.getShippingNumbers() == null) {
 				return (InetAddress.getLocalHost().getHostName() + ":舱单核对失败：请为报关单添加对应的舱单号");
@@ -68,9 +70,10 @@ public class ManifestServiceImpl implements ManifestService {
 	}
 
 	@Override
-	@RequestMapping(path = "try", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseDTO tccTry(@RequestBody DeclarationForm form) {
+	@Path("try")
+	@POST
+
+	public ResponseDTO tccTry(DeclarationForm form) {
 		Manifest old = new Manifest();
 		old.setManifestNum(form.getShippingNumbers());
 		Manifest manifest = StorageUtil.getInstance().get(Manifest.class, old);
@@ -106,9 +109,10 @@ public class ManifestServiceImpl implements ManifestService {
 	}
 
 	@Override
-	@RequestMapping(path = "confirm", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseDTO tccConfirm(@RequestBody DeclarationForm form) {
+	@Path("confirm")
+	@POST
+
+	public ResponseDTO tccConfirm(DeclarationForm form) {
 		// 删除资源锁定
 		TCCLock lock = new TCCLock();
 		lock.setType("Manifest");
@@ -123,9 +127,10 @@ public class ManifestServiceImpl implements ManifestService {
 	}
 
 	@Override
-	@RequestMapping(path = "cancel", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseDTO tccCancel(@RequestBody DeclarationForm form) {
+	@Path("cancel")
+	@POST
+
+	public ResponseDTO tccCancel(DeclarationForm form) {
 		// 根据资源锁定还原
 		TCCLock lock = new TCCLock();
 		lock.setType("Manifest");
@@ -149,9 +154,10 @@ public class ManifestServiceImpl implements ManifestService {
 	}
 
 	@Override
-	@RequestMapping(path = "manifest", method = RequestMethod.POST)
-	@ResponseBody
-	public String add(@RequestBody Manifest manifest) {
+	@Path("manifest")
+	@POST
+
+	public String add(Manifest manifest) {
 		List<Manifest> list = StorageUtil.getInstance().find(Manifest.class, null);
 		long maxID = 1;
 		for (Manifest mf : list) {
@@ -165,9 +171,10 @@ public class ManifestServiceImpl implements ManifestService {
 	}
 
 	@Override
-	@RequestMapping(path = "manifest", method = RequestMethod.PUT)
-	@ResponseBody
-	public String update(@RequestBody Manifest manifest) {
+	@Path("manifest")
+	@PUT
+
+	public String update(Manifest manifest) {
 		Manifest mf = new Manifest();
 		mf.setId(manifest.getId());
 		StorageUtil.getInstance().update(Manifest.class, mf, manifest);
@@ -175,9 +182,10 @@ public class ManifestServiceImpl implements ManifestService {
 	}
 
 	@Override
-	@RequestMapping(path = "manifest/{ids}", method = RequestMethod.DELETE)
-	@ResponseBody
-	public String delete(@PathVariable("ids") String ids) {
+	@Path("manifest/{ids}")
+	@DELETE
+
+	public String delete(@PathParam("ids") String ids) {
 		String[] split = ids.split(",");
 		Set<Long> idSet = new HashSet<Long>();
 		for (String id : split) {
@@ -202,9 +210,10 @@ public class ManifestServiceImpl implements ManifestService {
 	}
 
 	@Override
-	@RequestMapping(path = "manifest/{id}", method = RequestMethod.GET)
-	@ResponseBody
-	public Manifest get(@PathVariable("id") long id) {
+	@Path("manifest/{id}")
+	@GET
+
+	public Manifest get(@PathParam("id") long id) {
 		Manifest manifest = new Manifest();
 		manifest.setId(id);
 		Manifest mf = StorageUtil.getInstance().get(Manifest.class, manifest);
@@ -212,8 +221,9 @@ public class ManifestServiceImpl implements ManifestService {
 	}
 
 	@Override
-	@RequestMapping(path = "manifest", method = RequestMethod.GET)
-	@ResponseBody
+	@Path("manifest")
+	@GET
+
 	public List<Manifest> list() {
 		List<Manifest> list = StorageUtil.getInstance().find(Manifest.class, null);
 		return list;

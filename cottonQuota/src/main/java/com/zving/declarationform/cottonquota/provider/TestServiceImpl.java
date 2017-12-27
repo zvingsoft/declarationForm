@@ -4,12 +4,10 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Random;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.cottonquota.schema.TestService;
 import com.zving.declarationform.dto.ResponseDTO;
@@ -23,15 +21,17 @@ import io.servicecomb.provider.rest.common.RestSchema;
  * @description:企业管理
  */
 @RestSchema(schemaId = "test")
-@RequestMapping(path = "/test", produces = MediaType.APPLICATION_JSON)
-@Controller
+@Path("/test")
+@Produces(MediaType.APPLICATION_JSON)
+
 public class TestServiceImpl implements TestService {
 
 	static long id = Math.abs(new Random().nextInt(100000000));
 
 	@Override
-	@RequestMapping(path = "qps", method = RequestMethod.GET)
-	@ResponseBody
+	@Path("qps")
+	@GET
+
 	public ResponseDTO loadblanceTest() {
 		try {
 			return new ResponseDTO(

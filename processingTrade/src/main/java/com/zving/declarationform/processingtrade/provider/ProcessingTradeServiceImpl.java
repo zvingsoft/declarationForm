@@ -30,17 +30,17 @@ import io.servicecomb.provider.rest.common.RestSchema;
  * @mail zhaochangjin@zving.com
  * @date 2017年10月20日
  */
-@Controller
+
 @RestSchema(schemaId = "processingTrade")
-@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
+@Path("/") @Produces(MediaType.APPLICATION_JSON)
 public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 
 	IStorage storage = StorageUtil.getInstance();
 
 	@Override
-	@RequestMapping(path = "check", method = RequestMethod.POST)
-	@ResponseBody
-	public String check(@RequestBody DeclarationForm form) {
+	@Path("check") @POST
+	
+	public String check( DeclarationForm form) {
 		try {
 			if ("processingTrade".equals(form.getTradingType())) {
 				for (PackingItem item : form.getPackingList()) {
@@ -63,26 +63,26 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	@RequestMapping(path = "processingtrade", method = RequestMethod.POST)
-	@ResponseBody
-	public String add(@RequestBody ProcessingTrade processingTrade) {
+	@Path("processingtrade") @POST
+	
+	public String add( ProcessingTrade processingTrade) {
 		storage.add(ProcessingTrade.class, processingTrade);
 		return "1";
 	}
 
 	@Override
-	@RequestMapping(path = "processingtrade", method = RequestMethod.PUT)
-	@ResponseBody
-	public String update(@RequestBody ProcessingTrade processingTrade) {
+	@Path("processingtrade") @PUT
+	
+	public String update( ProcessingTrade processingTrade) {
 		ProcessingTrade old = get(processingTrade.getId());
 		storage.update(ProcessingTrade.class, old, processingTrade);
 		return "1";
 	}
 
 	@Override
-	@RequestMapping(path = "processingtrade/{ids}", method = RequestMethod.DELETE)
-	@ResponseBody
-	public String delete(@PathVariable String ids) {
+	@Path("processingtrade/{ids}") @DELETE
+	
+	public String delete(@PathParam String ids) {
 		String[] idArray = ids.split(",");
 		for (String id : idArray) {
 			if (NumberUtils.isNumber(id)) {
@@ -94,9 +94,9 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	@RequestMapping(path = "processingtrade/{id}", method = RequestMethod.GET)
-	@ResponseBody
-	public ProcessingTrade get(@PathVariable long id) {
+	@Path("processingtrade/{id}") @GET
+	
+	public ProcessingTrade get(@PathParam long id) {
 		List<ProcessingTrade> list = storage.find(ProcessingTrade.class, null);
 		for (ProcessingTrade processingTrade : list) {
 			if (processingTrade.getId() == id) {
@@ -107,8 +107,8 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	@RequestMapping(path = "processingtrade", method = RequestMethod.GET)
-	@ResponseBody
+	@Path("processingtrade") @GET
+	
 	public List<ProcessingTrade> list() {
 		return storage.find(ProcessingTrade.class, null);
 	}
@@ -133,9 +133,9 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	@RequestMapping(path = "try", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseDTO tccTry(@RequestBody DeclarationForm form) {
+	@Path("try") @POST
+	
+	public ResponseDTO tccTry( DeclarationForm form) {
 		if (!"processingTrade".equals(form.getTradingType())) {
 			return new ResponseDTO("");
 		}
@@ -164,9 +164,9 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	@RequestMapping(path = "confirm", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseDTO tccConfirm(@RequestBody DeclarationForm form) {
+	@Path("confirm") @POST
+	
+	public ResponseDTO tccConfirm( DeclarationForm form) {
 		for (PackingItem item : form.getPackingList()) {
 			// 删除资源锁定
 			TCCLock lock = new TCCLock();
@@ -183,9 +183,9 @@ public class ProcessingTradeServiceImpl implements ProcessingTradeService {
 	}
 
 	@Override
-	@RequestMapping(path = "cancel", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseDTO tccCancel(@RequestBody DeclarationForm form) {
+	@Path("cancel") @POST
+	
+	public ResponseDTO tccCancel( DeclarationForm form) {
 		for (PackingItem item : form.getPackingList()) {
 			ProcessingTrade old = new ProcessingTrade();
 			old.setSku(item.getSKU());

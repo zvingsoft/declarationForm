@@ -6,15 +6,15 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.dto.ResponseDTO;
 import com.zving.declarationform.license.model.License;
@@ -29,17 +29,19 @@ import io.servicecomb.provider.rest.common.RestSchema;
 import net.sf.json.JSONObject;
 
 @RestSchema(schemaId = "license")
-@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
-@Controller
+@Path("/")
+@Produces(MediaType.APPLICATION_JSON)
+
 public class LicenseServiceImpl implements LicenseService {
 
 	/**
 	 * 提交审核前的检查
 	 */
 	@Override
-	@RequestMapping(path = "check", method = RequestMethod.POST)
-	@ResponseBody
-	public String check(@RequestBody DeclarationForm form) {
+	@Path("check")
+	@POST
+
+	public String check(DeclarationForm form) {
 		try {
 			for (PackingItem item : form.getPackingList()) {
 				License old = new License();
@@ -60,9 +62,10 @@ public class LicenseServiceImpl implements LicenseService {
 	}
 
 	@Override
-	@RequestMapping(path = "try", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseDTO tccTry(@RequestBody DeclarationForm form) {
+	@Path("try")
+	@POST
+
+	public ResponseDTO tccTry(DeclarationForm form) {
 		for (PackingItem item : form.getPackingList()) {
 			License old = new License();
 			old.setLicenseKey(form.getLicenseKey());
@@ -89,9 +92,10 @@ public class LicenseServiceImpl implements LicenseService {
 	}
 
 	@Override
-	@RequestMapping(path = "confirm", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseDTO tccConfirm(@RequestBody DeclarationForm form) {
+	@Path("confirm")
+	@POST
+
+	public ResponseDTO tccConfirm(DeclarationForm form) {
 		for (PackingItem item : form.getPackingList()) {
 			// 删除资源锁定
 			TCCLock lock = new TCCLock();
@@ -108,9 +112,10 @@ public class LicenseServiceImpl implements LicenseService {
 	}
 
 	@Override
-	@RequestMapping(path = "cancel", method = RequestMethod.POST)
-	@ResponseBody
-	public ResponseDTO tccCancel(@RequestBody DeclarationForm form) {
+	@Path("cancel")
+	@POST
+
+	public ResponseDTO tccCancel(DeclarationForm form) {
 		for (PackingItem item : form.getPackingList()) {
 			License old = new License();
 			old.setLicenseKey(form.getLicenseKey());
@@ -138,18 +143,20 @@ public class LicenseServiceImpl implements LicenseService {
 	}
 
 	@Override
-	@RequestMapping(path = "license", method = RequestMethod.POST)
-	@ResponseBody
-	public String add(@RequestBody License license) {
+	@Path("license")
+	@POST
+
+	public String add(License license) {
 		license.setId(new Random().nextInt(1000000));
 		StorageUtil.getInstance().add(License.class, license);
 		return "添加成功";
 	}
 
 	@Override
-	@RequestMapping(path = "license", method = RequestMethod.PUT)
-	@ResponseBody
-	public String update(@RequestBody License license) {
+	@Path("license")
+	@PUT
+
+	public String update(License license) {
 		final IStorage storage = StorageUtil.getInstance();
 		List<License> licenses = storage.find(License.class, null);
 		for (License item : licenses) {
@@ -162,9 +169,10 @@ public class LicenseServiceImpl implements LicenseService {
 	}
 
 	@Override
-	@RequestMapping(path = "license/{id}", method = RequestMethod.DELETE)
-	@ResponseBody
-	public String delete(@PathVariable("id") long id) {
+	@Path("license/{id}")
+	@DELETE
+
+	public String delete(@PathParam("id") long id) {
 		final IStorage storage = StorageUtil.getInstance();
 		List<License> licenses = storage.find(License.class, null);
 		for (License license : licenses) {
@@ -177,9 +185,10 @@ public class LicenseServiceImpl implements LicenseService {
 	}
 
 	@Override
-	@RequestMapping(path = "license/{id}", method = RequestMethod.GET)
-	@ResponseBody
-	public License get(@PathVariable("id") long id) {
+	@Path("license/{id}")
+	@GET
+
+	public License get(@PathParam("id") long id) {
 		List<License> licenses = StorageUtil.getInstance().find(License.class, null);
 		for (License license : licenses) {
 			if (license.getId() == id) {
@@ -194,9 +203,10 @@ public class LicenseServiceImpl implements LicenseService {
 		return StorageUtil.getInstance().find(License.class, null);
 	}
 
-	@RequestMapping(path = "license", method = RequestMethod.GET)
-	@ResponseBody
-	public List<License> searchList(@RequestParam(value = "search", defaultValue = "{}", required = false) String search) {
+	@Path("license")
+	@GET
+
+	public List<License> searchList(@QueryParam(value = "search") String search) {
 		JSONObject jo = JSONObject.fromObject(search);
 		String type = "in";
 		if (jo.containsKey("type")) {
@@ -216,8 +226,9 @@ public class LicenseServiceImpl implements LicenseService {
 	static long id = Math.abs(new Random().nextInt(100000000));
 
 	@Override
-	@RequestMapping(path = "/loadblanceTest", method = RequestMethod.GET)
-	@ResponseBody
+	@Path("/loadblanceTest")
+	@GET
+
 	public ResponseDTO loadblanceTest() {
 		try {
 			return new ResponseDTO(String.format("Microservice license: HostName=%s Time=%s", InetAddress.getLocalHost().getHostName(),

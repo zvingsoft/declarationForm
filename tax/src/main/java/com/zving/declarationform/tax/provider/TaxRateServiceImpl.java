@@ -7,14 +7,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.storage.IStorage;
 import com.zving.declarationform.storage.StorageUtil;
@@ -32,13 +32,15 @@ import io.vertx.core.json.JsonObject;
  * @date 2017年10月18日
  */
 @RestSchema(schemaId = "taxRate")
-@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
-@Controller
+@Path("/")
+@Produces(MediaType.APPLICATION_JSON)
+
 public class TaxRateServiceImpl implements TaxRateService {
 
-	@RequestMapping(path = "taxrate", method = RequestMethod.POST)
-	@ResponseBody
-	public String add(@RequestBody TaxRate rate) {
+	@Path("taxrate")
+	@POST
+
+	public String add(TaxRate rate) {
 
 		List<TaxRate> list = StorageUtil.getInstance().find(TaxRate.class, null);
 		long maxID = 1;
@@ -59,9 +61,10 @@ public class TaxRateServiceImpl implements TaxRateService {
 		return o.toString();
 	}
 
-	@RequestMapping(path = "taxrate", method = RequestMethod.PUT)
-	@ResponseBody
-	public String update(@RequestBody TaxRate rate) {
+	@Path("taxrate")
+	@PUT
+
+	public String update(TaxRate rate) {
 		IStorage storage = StorageUtil.getInstance();
 		List<TaxRate> list = storage.find(TaxRate.class, null);
 		JsonObject o = new JsonObject();
@@ -81,9 +84,10 @@ public class TaxRateServiceImpl implements TaxRateService {
 		return o.toString();
 	}
 
-	@RequestMapping(path = "taxrate/{ids}", method = RequestMethod.DELETE)
-	@ResponseBody
-	public String delete(@PathVariable("ids") String ids) {
+	@Path("taxrate/{ids}")
+	@DELETE
+
+	public String delete(@PathParam("ids") String ids) {
 		String[] split = ids.split(",");
 		Set<Long> idSet = new HashSet<Long>();
 		for (String id : split) {
@@ -111,9 +115,10 @@ public class TaxRateServiceImpl implements TaxRateService {
 		return o.toString();
 	}
 
-	@RequestMapping(path = "taxrate/{id}", method = RequestMethod.GET)
-	@ResponseBody
-	public TaxRate get(@PathVariable("id") String id) {
+	@Path("taxrate/{id}")
+	@GET
+
+	public TaxRate get(@PathParam("id") String id) {
 		TaxRate rate = new TaxRate();
 		long longID = 0;
 		try {
@@ -126,8 +131,9 @@ public class TaxRateServiceImpl implements TaxRateService {
 		return StorageUtil.getInstance().get(TaxRate.class, rate);
 	}
 
-	@RequestMapping(path = "taxrate", method = RequestMethod.GET)
-	@ResponseBody
+	@Path("taxrate")
+	@GET
+
 	public List<TaxRate> list() {
 		List<TaxRate> list = StorageUtil.getInstance().find(TaxRate.class, null);
 		return list;

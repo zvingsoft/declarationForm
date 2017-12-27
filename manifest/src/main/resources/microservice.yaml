@@ -11,9 +11,9 @@ cse:
   handler:
     chain:
       Provider:
-        default: perf-stats,qps-flowcontrol-provider,bizkeeper-provider,tcc-server,sla-provider,tracing-provider
+        default: qps-flowcontrol-provider,bizkeeper-provider
       Consumer:
-        default: perf-stats,qps-flowcontrol-consumer,loadbalance,bizkeeper-consumer,tcc-client,sla-consumer,tracing-consumer
+        default: qps-flowcontrol-consumer,loadbalance,bizkeeper-consumer
   tracing:
     enabled: true
     samplingRate: 1

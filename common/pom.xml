@@ -25,5 +25,9 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.servicecomb</groupId>
+			<artifactId>provider-jaxrs</artifactId>
+		</dependency>
 	</dependencies>
 </project>

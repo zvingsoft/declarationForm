@@ -3,15 +3,17 @@ package com.zving.declarationform.basedata.provider;
 import java.util.Date;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.math.NumberUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.basedata.schema.CompanyService;
 import com.zving.declarationform.model.Company;
@@ -27,8 +29,8 @@ import io.servicecomb.provider.rest.common.RestSchema;
  * @description:企业管理
  */
 @RestSchema(schemaId = "company")
-@RequestMapping(path = "/company", produces = MediaType.APPLICATION_JSON)
-@Controller
+@Path("/company")
+@Produces(MediaType.APPLICATION_JSON)
 public class CompanyServiceImpl implements CompanyService {
 
 	IStorage storage = StorageUtil.getInstance();
@@ -38,23 +40,25 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	@RequestMapping(path = "", method = RequestMethod.GET)
-	@ResponseBody
+	@GET
+	@Produces("application/json")
 	public List<Company> list() {
 		return storage.find(Company.class, null);
 	}
 
 	@Override
-	@RequestMapping(path = "{id}", method = RequestMethod.GET)
-	@ResponseBody
-	public Company get(@PathVariable("id") long id) {
+	@Path("{id}")
+	@GET
+	@Produces("application/json")
+	public Company get(@PathParam("id") long id) {
 		return getCompany(id);
 	}
 
 	@Override
-	@RequestMapping(path = "{ids}", method = RequestMethod.DELETE)
-	@ResponseBody
-	public String delete(@PathVariable("ids") String ids) {
+	@Path("{ids}")
+	@DELETE
+	@Produces("application/json")
+	public String delete(@PathParam("ids") String ids) {
 		String[] idArray = ids.split(",");
 		for (String id : idArray) {
 			if (NumberUtils.isNumber(id)) {
@@ -66,9 +70,9 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	@RequestMapping(path = "", method = RequestMethod.POST)
-	@ResponseBody
-	public String add(@RequestBody Company company) {
+	@POST
+	@Consumes("application/json")
+	public String add(Company company) {
 		company.setId(getId());
 		company.setAddTime(new Date());
 		company.setAddUser("demo");
@@ -77,9 +81,9 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	@RequestMapping(path = "", method = RequestMethod.PUT)
-	@ResponseBody
-	public String update(@RequestBody Company company) {
+	@PUT
+	@Consumes("application/json")
+	public String update(Company company) {
 		try {
 			Company companyOrigin = getCompany(company.getId());
 			company.setAddTime(companyOrigin.getAddTime());

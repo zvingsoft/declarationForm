@@ -2,15 +2,15 @@ package com.zving.declarationform.basedata.provider;
 
 import java.util.List;
 
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.basedata.schema.SKUService;
 import com.zving.declarationform.model.SKU;
@@ -26,31 +26,34 @@ import io.servicecomb.provider.rest.common.RestSchema;
  * @description:SKU商品管理
  */
 @RestSchema(schemaId = "sku")
-@RequestMapping(path = "/", produces = MediaType.APPLICATION_JSON)
-@Controller
+@Path("/")
+@Produces(MediaType.APPLICATION_JSON)
+
 public class SKUServiceImpl implements SKUService {
 
-
 	@Override
-	@RequestMapping(path = "sku", method = RequestMethod.GET)
-	@ResponseBody
-	public List<SKU> list(@RequestParam String searchWord) {
+	@Path("sku")
+	@GET
+	@Produces("application/json")
+	public List<SKU> list(@QueryParam(value = "searchWord") String searchWord) {
 		return StorageUtil.getInstance().find(SKU.class, null);
 	}
 
 	@Override
-	@RequestMapping(path = "sku/{id}", method = RequestMethod.GET)
-	@ResponseBody
-	public SKU get(@PathVariable("id") long id) {
+	@Path("sku/{id}")
+	@GET
+	@Produces("application/json")
+	public SKU get(@PathParam("id") long id) {
 		SKU sku = new SKU();
 		sku.setId(id);
 		return StorageUtil.getInstance().get(SKU.class, sku);
 	}
 
 	@Override
-	@RequestMapping(path = "sku/{ids}", method = RequestMethod.DELETE)
-	@ResponseBody
-	public String delete(@PathVariable("ids") String ids) {
+	@Path("sku/{ids}")
+	@DELETE
+	@Produces("application/json")
+	public String delete(@PathParam("ids") String ids) {
 		IStorage storage = StorageUtil.getInstance();
 		String[] strId = ids.split(",");
 		List<SKU> list = storage.find(SKU.class, null);
@@ -63,23 +66,25 @@ public class SKUServiceImpl implements SKUService {
 		}
 		return "删除成功";
 	}
-	
+
 	@Override
-	@RequestMapping(path = "sku", method = RequestMethod.POST)
-	@ResponseBody
-	public String add(@RequestBody SKU sku) {
+	@Path("sku")
+	@POST
+	@Produces("application/json")
+	public String add(SKU sku) {
 		StorageUtil.getInstance().add(SKU.class, sku);
 		return "添加成功";
 	}
 
 	@Override
-	@RequestMapping(path = "sku", method = RequestMethod.PUT)
-	@ResponseBody
-	public String update(@RequestBody SKU sku) {
+	@Path("sku")
+	@PUT
+	@Produces("application/json")
+	public String update(SKU sku) {
 		IStorage storage = StorageUtil.getInstance();
 		List<SKU> list = storage.find(SKU.class, null);
 		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getId()==sku.getId()) {
+			if (list.get(i).getId() == sku.getId()) {
 				storage.delete(SKU.class, list.get(i));
 			}
 		}

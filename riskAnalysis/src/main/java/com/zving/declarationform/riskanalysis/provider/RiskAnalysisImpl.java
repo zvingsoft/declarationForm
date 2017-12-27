@@ -3,13 +3,10 @@ package com.zving.declarationform.riskanalysis.provider;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zving.declarationform.model.DeclarationForm;
 import com.zving.declarationform.riskanalysis.schema.RiskAnalysis;
@@ -17,14 +14,16 @@ import com.zving.declarationform.riskanalysis.schema.RiskAnalysis;
 import io.servicecomb.provider.rest.common.RestSchema;
 
 @RestSchema(schemaId = "riskAnalysis")
-@RequestMapping(path = "/riskAnalysis", produces = MediaType.APPLICATION_JSON)
-@Controller
+@Path("/riskAnalysis")
+@Produces(MediaType.APPLICATION_JSON)
+
 public class RiskAnalysisImpl implements RiskAnalysis {
 
 	@Override
-	@RequestMapping(path = "check", method = RequestMethod.POST)
-	@ResponseBody
-	public String check(@RequestBody DeclarationForm form) {
+	@Path("check")
+	@POST
+
+	public String check(DeclarationForm form) {
 		try {
 			if (form.getPackingList().size() == 0 || form.getPackingList().get(0).getAmount() < 2) {
 				return InetAddress.getLocalHost().getHostName() + "风险分析失败:没有货物或者货物过少!";
@@ -37,9 +36,10 @@ public class RiskAnalysisImpl implements RiskAnalysis {
 	}
 
 	@Override
-	@RequestMapping(path = "confirm", method = RequestMethod.POST)
-	@ResponseBody
-	public String confirm(@RequestBody DeclarationForm form) {
+	@Path("confirm")
+	@POST
+
+	public String confirm(DeclarationForm form) {
 		return "confirm成功：riskAnalysis";
 	}
 

@@ -11,15 +11,15 @@ public class PackingItem {
 	long id;
 	String SKU;// SKU编号
 	double amount;// 数量及单位
-	String name;//商品名称、规格型号
-	double singlePrice;//单价
-	double totalPrice;//总价
-	String country;//原产国/最终目的国
-	String currency;//币制
-	String exemption;//征免
+	String name;// 商品名称、规格型号
+	double singlePrice;// 单价
+	double totalPrice;// 总价
+	String country;// 原产国/最终目的国
+	String currency;// 币制
+	String exemption;// 征免
 	double tax;// 关税
 	double taxCutting;// 税收减免
-	
+
 	public long getId() {
 		return id;
 	}
@@ -107,5 +107,5 @@ public class PackingItem {
 	public void setExemption(String exemption) {
 		this.exemption = exemption;
 	}
-	
+
 }

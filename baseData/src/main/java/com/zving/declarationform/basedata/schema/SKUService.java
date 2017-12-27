@@ -7,17 +7,17 @@ import com.zving.declarationform.model.SKU;
 /**
  * @author xujunhao
  * @mail xujunhao@zving.com
- * @date 2017年10月23日 
+ * @date 2017年10月23日
  * @description:SKU相关服务
  */
 public interface SKUService {
-    List<SKU> list(String searchWord);
+	List<SKU> list(String searchWord);
 
-    SKU get(long id);
+	SKU get(long id);
 
-    String delete(String ids);
+	String delete(String ids);
 
-    String add(SKU sku);
+	String add(SKU sku);
 
-    String update(SKU sku);
+	String update(SKU sku);
 }
