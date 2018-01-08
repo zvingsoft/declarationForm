@@ -10,32 +10,19 @@ var content = __webpack_require__(140);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("3d8c6feb", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-9b0b9c5e\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./handlerChain.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-9b0b9c5e\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./handlerChain.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("a74bb948", content, true);
 
 /***/ }),
 
 /***/ 140:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.form-title[data-v-9b0b9c5e] {\n    font-size: 24px;\n    font-weight: bold;\n    margin: 0 20px 0 20px;\n    padding: 10px 0 0 10px;\n}\n.form-panel[data-v-9b0b9c5e] {\n    margin: 0 20px 0 20px;\n    padding: 10px 0 0 10px;\n    border-top: 2px solid #ccc;\n    border-radius: 4px;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/form/handlerChain.vue?79430a50"],"names":[],"mappings":";AAkHA;IACA,gBAAA;IACA,kBAAA;IACA,sBAAA;IACA,uBAAA;CACA;AAEA;IACA,sBAAA;IACA,uBAAA;IACA,2BAAA;IACA,mBAAA;CACA","file":"handlerChain.vue","sourcesContent":["<template>\n<div style=\"width: 100%; text-align: center; margin: auto;\">\n\t<div style=\"display: flex;\">\n\t\t<div style=\"width:300px;margin-top:10px;margin-bottom:200px;\">\n\t\t\t<el-form>\n\t\t\t<div>\n\t\t\t\t<!-- <div class=\"form-title\">TCC事务</div>\n\t\t\t\t<div class=\"form-panel\">\n \t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"trySuccessConfirmSuccess\" type=\"info\">Try成功Confirm成功</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"trySuccessConfirmFail\" type=\"info\">Try成功Confirm失败</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"tryFailCancelSuccess\" type=\"info\">Try失败Cancel成功</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"tryFailCancelFail\" type=\"info\">Try失败Cancel失败</el-button> </el-form-item>\n\t\t\t\t</div> -->\n\t\t\t\t<div class=\"form-title\">负载均衡</div>\n\t\t\t\t<div class=\"form-panel\">\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"loadblanceRoundRobin\" type=\"info\">轮询调用baseData</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"loadblanceRandom\" type=\"info\">随机调用manifest</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"loadblanceWeight\" type=\"info\">基于响应时间调用form</el-button> </el-form-item>\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"loadblanceSessionStick\" type=\"info\">基于会话保持调用license</el-button> </el-form-item>\n \t\t\t\t</div>\n\t\t\t\t<div class=\"form-title\">熔断与容错</div>\n\t\t\t\t<div class=\"form-panel\">\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"circuitBreakerFail\" type=\"info\">错误率30%熔断</el-button> </el-form-item>\n\t\t\t\t\t<!-- <el-form-item> <el-button style=\"width:200px;\" @click=\"circuitBreakerConcurrent\" type=\"info\">10秒请求数超10熔断</el-button> </el-form-item> -->\n \t\t\t\t</div>\n\t\t\t\t<div class=\"form-title\">QPS流控</div>\n\t\t\t\t<div class=\"form-panel\">\n\t\t\t\t\t<el-form-item> <el-button style=\"width:200px;\" @click=\"qps1\" type=\"info\">每秒点击超过5次触发流控</el-button> </el-form-item>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t</el-form>\n\t\t</div>\n\t\t<div style=\"flex: 1; text-align:left;border-left:2px solid #ccc;border-radius: 4px;font-size:16px;margin-top:10px;\">\n\t\t\t\t<div class=\"form-title\">\n          日志<el-button size=\"small\" style=\"margin-right:10px;float:right;margin-bottom:5px;\" @click=\"lines.splice(0,lines.length)\" type=\"medium\">清空</el-button>\n          </div>\n\t\t\t\t<div class=\"form-panel\">\n          <p v-for=\"line in lines\" :key=\"line.number\" :style=\"{color:line.color}\">{{line.message}}</p>\n\t\t\t\t</div>\n     </div>\n\t</div>\n</div>\n</template>\n\n<script>\nexport default {\n    data() {\n        return {\n            lines: [],\n        };\n    },\n    methods: {\n        trySuccessConfirmSuccess() {\n            this.handlerChainCall('trySuccessConfirmSuccess');\n        },\n        trySuccessConfirmFail() {\n            this.handlerChainCall('trySuccessConfirmFail');\n        },\n        tryFailCancelSuccess() {\n            this.handlerChainCall('tryFailCancelSuccess');\n        },\n        tryFailCancelFail() {\n            this.handlerChainCall('tryFailCancelFail');\n        },\n        loadblanceRoundRobin() {\n            this.handlerChainCall('loadblanceRoundRobin');\n        },\n        loadblanceRandom() {\n            this.handlerChainCall('loadblanceRandom');\n        },\n        loadblanceWeight() {\n            this.handlerChainCall('loadblanceWeight');\n        },\n        loadblanceSessionStick() {\n            this.handlerChainCall('loadblanceSessionStick');\n        },\n        loadblanceIsolation() {\n            this.handlerChainCall('loadblanceIsolation');\n        },\n        circuitBreakerFail() {\n            this.handlerChainCall('circuitBreakerFail');\n        },\n        circuitBreakerConcurrent() {\n            this.handlerChainCall('circuitBreakerConcurrent');\n        },\n        qps1() {\n            this.handlerChainCall('qps1');\n        },\n        qps10() {\n            this.handlerChainCall('qps10');\n        },\n        handlerChainCall(name) {\n            axios\n                .get('/handlerChain/' + name)\n                .then(res => {\n                    this.lines.push({ color: this.getColor(res.data), message: res.data });\n                })\n                .catch(err => {\n                    console.log(err.response);\n                    this.lines.push({ color: this.getColor(err.response.data.message), message: err.response.data.message });\n                });\n        },\n        getColor(message) {\n            if (message.includes('xception') || message.includes('Fail') || message.includes('fail') || message.includes('失败')) {\n                return 'red';\n            }\n            return '';\n        },\n    },\n    created() {},\n};\n</script>\n\n<style scoped>\n.form-title {\n    font-size: 24px;\n    font-weight: bold;\n    margin: 0 20px 0 20px;\n    padding: 10px 0 0 10px;\n}\n\n.form-panel {\n    margin: 0 20px 0 20px;\n    padding: 10px 0 0 10px;\n    border-top: 2px solid #ccc;\n    border-radius: 4px;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, ".form-title[data-v-9b0b9c5e]{font-size:24px;font-weight:700;margin:0 20px;padding:10px 0 0 10px}.form-panel[data-v-9b0b9c5e]{margin:0 20px;padding:10px 0 0 10px;border-top:2px solid #ccc;border-radius:4px}", ""]);
 
 // exports
 
@@ -166,7 +153,7 @@ exports.default = {
 /***/ }),
 
 /***/ 142:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -294,22 +281,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v(_vm._s(line.message))])
   }))])])])
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-9b0b9c5e", module.exports)
-  }
-}
 
 /***/ }),
 
 /***/ 92:
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(139)
 }
 var Component = __webpack_require__(2)(
@@ -324,25 +302,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\form\\handlerChain.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] handlerChain.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-9b0b9c5e", Component.options)
-  } else {
-    hotAPI.reload("data-v-9b0b9c5e", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -350,4 +309,3 @@ module.exports = Component.exports
 /***/ })
 
 });
-//# sourceMappingURL=formUI-handlerChain.js.map

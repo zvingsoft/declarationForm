@@ -3,9 +3,7 @@ webpackJsonp([5],{
 /***/ 100:
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(185)
 }
 var Component = __webpack_require__(2)(
@@ -20,25 +18,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\setting\\cottonQuota.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] cottonQuota.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6ee90e3d", Component.options)
-  } else {
-    hotAPI.reload("data-v-6ee90e3d", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -105,9 +84,7 @@ exports.default = companyAPI;
 /***/ 111:
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(112)
 }
 var Component = __webpack_require__(2)(
@@ -122,25 +99,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\setting\\components\\companyDetail.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] companyDetail.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-47dbc956", Component.options)
-  } else {
-    hotAPI.reload("data-v-47dbc956", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -157,32 +115,19 @@ var content = __webpack_require__(113);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("9e43a1c0", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47dbc956\",\"scoped\":true,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./companyDetail.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-47dbc956\",\"scoped\":true,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./companyDetail.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("13a00501", content, true);
 
 /***/ }),
 
 /***/ 113:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"companyDetail.vue","sourceRoot":""}]);
+exports.push([module.i, "", ""]);
 
 // exports
 
@@ -283,7 +228,7 @@ exports.default = {
 /***/ }),
 
 /***/ 115:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('el-dialog', {
@@ -350,13 +295,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("关 闭")])], 1)], 1)], 1)
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-47dbc956", module.exports)
-  }
-}
 
 /***/ }),
 
@@ -370,32 +308,19 @@ var content = __webpack_require__(186);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("6800965e", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6ee90e3d\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./cottonQuota.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6ee90e3d\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./cottonQuota.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("19e54f40", content, true);
 
 /***/ }),
 
 /***/ 186:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.main-content-wrap[data-v-6ee90e3d] {\n  padding: 10px;\n}\n.search-bar[data-v-6ee90e3d] {\n  padding: 5px 12px;\n}\n.cottonquota-table-expand[data-v-6ee90e3d] {\n  font-size: 0;\n}\n.cottonquota-table-expand label[data-v-6ee90e3d] {\n  width: 90px;\n  color: #99a9bf;\n}\n.cottonquota-table-expand .el-form-item[data-v-6ee90e3d] {\n  margin-right: 0;\n  margin-bottom: 0;\n  width: 50%;\n}\n.page-wrap[data-v-6ee90e3d] {\n  margin-top: 20px;\n  margin-right: 20px;\n}\n.page-wrap .page[data-v-6ee90e3d] {\n  float: right;\n}\n.red-color[data-v-6ee90e3d] {\n  color: #FF4949;\n}\n.green-color[data-v-6ee90e3d] {\n  color: #13CE66;\n}\n\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/setting/cottonQuota.vue?650841b5"],"names":[],"mappings":";AA6UA;EACA,cAAA;CACA;AAEA;EACA,kBAAA;CACA;AAEA;EACA,aAAA;CACA;AAEA;EACA,YAAA;EACA,eAAA;CACA;AAEA;EACA,gBAAA;EACA,iBAAA;EACA,WAAA;CACA;AAEA;EACA,iBAAA;EACA,mBAAA;CACA;AAEA;EACA,aAAA;CACA;AAEA;EACA,eAAA;CACA;AAEA;EACA,eAAA;CACA","file":"cottonQuota.vue","sourcesContent":["<template>\n  <div>\n    <el-toolbar>\n      <el-button type=\"primary\" class=\"z-toolbar-btn\" :plain=\"true\" @click=\"addClick\">\n        <i class=\"fa fa-plus\" aria-hidden=\"true\"></i> 新建</el-button>\n      <el-button type=\"primary\" class=\"z-toolbar-btn\" :plain=\"true\" @click=\"editClick\" :disabled=\"selectedRows.length !== 1\">\n        <i class=\"fa fa-edit\" aria-hidden=\"true\"></i> 编辑</el-button>\n      <el-button type=\"primary\" class=\"z-toolbar-btn\" :plain=\"true\" @click=\"deleteClick\" :disabled=\"selectedRows.length === 0\">\n        <i class=\"fa fa-minus\" aria-hidden=\"true\"></i> 删除</el-button>\n      <!-- <el-button type=\"primary\" class=\"z-toolbar-btn\" :plain=\"true\" @click=\"auditClick('Y')\" :disabled=\"selectedRows.length === 0\">\n        <i class=\"fa fa-check\" aria-hidden=\"true\"></i> 审核通过</el-button>\n      <el-button type=\"primary\" class=\"z-toolbar-btn\" :plain=\"true\" @click=\"auditClick('N')\" :disabled=\"selectedRows.length === 0\">\n        <i class=\"fa fa-remove\" aria-hidden=\"true\"></i> 审核不通过</el-button> -->\n    </el-toolbar>\n\n    <div class=\"search-bar fr\">\n      <span>编号</span>&nbsp;\n      <el-input v-model=\"number\" size=\"small\" placeholder=\"请输入编号\" style=\"width:200px\"></el-input>&nbsp;\n      <span>企业</span>&nbsp;\n      <el-input v-model=\"companyName\" size=\"small\" placeholder=\"请输入企业\" style=\"width:200px\"></el-input>\n      <el-button type=\"primary\" @click=\"list\" size=\"small\" style=\"width: 60px;\">搜索</el-button>\n    </div>\n\n    <div class=\"main-content-wrap\">\n      <el-table ref=\"cottonquotaTable\" :data=\"cottonquotas\" style=\"width: 100%\" v-loading=\"dataLoading\" @selection-change=\"onSelectionChange\"\n        @row-click=\"onCottonquotaTableRowClick\" @row-dblclick=\"editClick\">\n        <el-table-column type=\"selection\" width=\"50\">\n        </el-table-column>\n        <el-table-column type=\"expand\">\n          <template slot-scope=\"props\">\n            <el-form label-position=\"left\" inline class=\"cottonquota-table-expand\">\n              <el-form-item label=\"编号\">\n                <span>{{ props.row.number }}</span>\n              </el-form-item>\n              <el-form-item label=\"企业名称\">\n                <el-button type=\"text\" @click=\"viewCompanyClick( props.row.companyId)\">{{ props.row.companyName }}</el-button>\n              </el-form-item>\n              <!-- <el-form-item label=\"银行信用评级\">\n                <span>{{ props.row.bankcreditrating }}</span>\n              </el-form-item> -->\n              <!-- <el-form-item label=\"申请量\">\n                <span>{{ props.row.application }}（吨）</span>\n              </el-form-item> -->\n              <el-form-item label=\"分配量\">\n                <span>{{ props.row.quota }}（吨）</span>\n              </el-form-item>\n              <el-form-item label=\"已进口\">\n                <span>{{ props.row.used }}（吨）</span>\n              </el-form-item>\n              <!-- <el-form-item label=\"企业地址\">\n                <span>{{ props.row.address }}</span>\n              </el-form-item>\n              <el-form-item label=\"企业电话\">\n                <span>{{ props.row.phone }}</span>\n              </el-form-item>\n              <el-form-item label=\"企业传真\">\n                <span>{{ props.row.fax }}</span>\n              </el-form-item>\n              <el-form-item label=\"企业邮政编码\">\n                <span>{{ props.row.postcode }}</span>\n              </el-form-item> -->\n              <el-form-item label=\"申请时间\">\n                <span>{{ new Date(props.row.addTime).toLocaleString() }}</span>\n              </el-form-item>\n              <!-- <el-form-item label=\"审核状态\">\n                <span v-if=\"props.row.auditStatus==='Y'\" class=\"green-color\">已通过</span>\n                <span v-else-if=\"props.row.auditStatus==='N'\" class=\"red-color\">未通过</span>\n                <span v-else>未审核</span>\n              </el-form-item> -->\n              <el-form-item label=\"添加人\">\n                <span>{{ props.row.addUser }}</span>\n              </el-form-item>\n            </el-form>\n          </template>\n        </el-table-column>\n        <el-table-column label=\"编号\" prop=\"number\">\n        </el-table-column>\n        <el-table-column label=\"企业\">\n          <template slot-scope=\"props\">\n            <el-button type=\"text\" @click=\"viewCompanyClick( props.row.companyId)\">{{ props.row.companyName }}</el-button>\n          </template>\n        </el-table-column>\n        <!-- <el-table-column label=\"银行信用评级\" prop=\"bankcreditrating\">\n        </el-table-column> -->\n        <!-- <el-table-column label=\"申请量（吨）\" prop=\"application\">\n        </el-table-column> -->\n        <el-table-column label=\"分配量（吨）\" prop=\"quota\">\n        </el-table-column>\n        <el-table-column label=\"已进口（吨）\" prop=\"used\">\n        </el-table-column>\n        <!-- <el-table-column label=\"审核状态\">\n          <template slot-scope=\"scope\">\n            <span v-if=\"scope.row.auditStatus==='Y'\" class=\"green-color\">已通过</span>\n            <span v-else-if=\"scope.row.auditStatus==='N'\" class=\"red-color\">未通过</span>\n            <span v-else>未审核</span>\n          </template>\n        </el-table-column>\n        <el-table-column label=\"操作\">\n          <template slot-scope=\"scope\">\n            <el-button type=\"text\" @click=\"auditClick( 'Y',scope.row.id)\">通过</el-button>&nbsp;\n            <el-button type=\"text\" @click=\"auditClick( 'N',scope.row.id)\">不通过</el-button>\n          </template>\n        </el-table-column> -->\n      </el-table>\n\n      <!--分页-->\n      <div class=\"page-wrap\">\n        <el-pagination class=\"page\" @size-change=\"sizeChangeHandler\" @current-change=\"list\" :current-page.sync=\"currentPage\" :page-sizes=\"pageSizes\"\n          :page-size=\"pageSize\" layout=\"total, sizes, prev, pager, next, jumper\" :total=\"total\">\n        </el-pagination>\n      </div>\n\n    </div>\n\n    <!-- 新建,编辑对话框 -->\n    <el-dialog size=\"tiny\" :title=\"addOperate?'新建':'编辑'\" :visible.sync=\"showDialog\">\n      <el-form label-width=\"160px\" :model=\"tmpCottonQuota\">\n        <el-form-item label=\"企业名称：\">\n          <el-select v-model=\"tmpCompany\" clearable placeholder=\"请选择\" @change=\"onCompanyChange\" :disabled=\"!addOperate\" v-if=\"addOperate\">\n            <el-option v-for=\"item in companys\" :key=\"item.id\" :label=\"item.name\" :value=\"item\">\n            </el-option>\n          </el-select>\n          <span v-else>{{tmpCottonQuota.companyName}}</span>\n        </el-form-item>\n        <el-form-item label=\"分配量：\">\n          <el-input-number :min=\"0\" placeholder=\"请输入分配量\" v-model=\"tmpCottonQuota.quota\" class=\"width-300\"></el-input-number>（单位：吨）\n        </el-form-item>\n        <el-form-item label=\"已进口：\">\n          <el-input-number :min=\"0\" placeholder=\"请输入已进口量\" v-model=\"tmpCottonQuota.used\" class=\"width-300\"></el-input-number>（单位：吨）\n        </el-form-item>\n      </el-form>\n      <div slot=\"footer\" class=\"dialog-footer\">\n        <el-button @click=\"showDialog = false\">取 消</el-button>\n        <el-button type=\"primary\" @click=\"save\" :disabled=\"saveStatus\">确 定</el-button>\n      </div>\n    </el-dialog>\n\n    <!-- 企业信息对话框 -->\n    <company-detail :id=\"companyId\" :show.sync=\"showCompanyDialog\"></company-detail>\n\n  </div>\n</template>\n\n<script>\n  // require('./mock/cottonQuota.js')\n  // require('./mock/company.js')\n  import companyAPI from './api/companyAPI.js';\n  import cottonQuotaAPI from './api/cottonQuotaAPI.js';\n  import companyDetail from './components/companyDetail.vue';\n\n  export default {\n    data() {\n      return {\n        dataLoading: true,\n        cottonquotas: [],\n        number: '',\n        companyName: '',\n        tmpCottonQuota: {},\n        addOperate: true,\n        saveStatus: false,\n        showDialog: false,\n        showCompanyDialog: false,\n        selectedRows: [],\n        companys: {},\n        companyId: 0,\n        tmpCompany: {},\n        total: 0,\n        pageSize: 15,\n        currentPage: 1,\n        pageSizes: [15, 20, 30, 40, 50]\n      }\n    },\n    methods: {\n      //审核\n      auditClick(pass, ids) {\n        if (ids == undefined || ids == '') {\n          ids = this.getSelectedIds().join(',');\n        }\n        cottonQuotaAPI.auditCottonQuota(pass, ids).then(data => {\n          if (data.status == 200) {\n            this.$message.success(data.data);\n            this.list();\n          } else {\n            this.$message.error(data.data);\n          }\n        });\n      },\n      //单击一行选中当前行、单击多选框增加选中当前行\n      onCottonquotaTableRowClick(row, event, column) {\n        if (column.type != \"selection\") {\n          this.$refs.cottonquotaTable.clearSelection();\n        }\n        this.$refs.cottonquotaTable.toggleRowSelection(row);\n      },\n      //选择改变\n      onSelectionChange(selection) {\n        this.selectedRows = selection;\n      },\n      //分页大小改变\n      sizeChangeHandler(val) {\n        this.pageSize = val;\n        this.list();\n      },\n      //列表\n      list() {\n        this.dataLoading = false;\n        cottonQuotaAPI.getCottonQuota(this.number, this.companyName, this.currentPage, this.pageSize).then(data => {\n          this.cottonquotas = data.data;\n          if (this.number != '') {\n            this.cottonquotas = this.cottonquotas.filter(val => val.number.indexOf(this.number) != -1)\n          }\n          if (this.companyName != '') {\n            this.cottonquotas = this.cottonquotas.filter(val => val.companyName.indexOf(this.companyName) != -1)\n          }\n          this.total = this.cottonquotas.length;\n          this.dataLoading = false;\n        })\n      },\n      //新增\n      addClick() {\n        this.loadCompany();\n        this.addOperate = true;\n        this.tmpCottonQuota = {};\n        this.saveStatus = false;\n        this.showDialog = true;\n      },\n      //编辑\n      editClick() {\n        this.addOperate = false;\n        this.tmpCottonQuota = Object.assign({}, this.selectedRows[0]);\n        this.saveStatus = false;\n        this.showDialog = true;\n      },\n      //删除\n      deleteClick() {\n        let rowIds = this.getSelectedIds().join(',');\n        this.$confirm(\"确认删除所选的数据?\", '提示', {\n          confirmButtonText: '确定',\n          cancelButtonText: '取消',\n          type: 'warning',\n          beforeClose: (action, instance, done) => {\n            if (action == 'confirm') {\n              instance.confirmButtonLoading = true;\n              return cottonQuotaAPI.deleteCottonQuota(rowIds).then(data => {\n                if (data.status == 200) {\n                  this.list();\n                  this.$notify({\n                    title: '成功',\n                    message: data.data,\n                    type: 'success',\n                    duration: 2000,\n                  });\n                } else {\n                  this.$alert(data);\n                }\n                instance.confirmButtonLoading = false;\n                done(data);\n              });\n            } else {\n              done();\n            }\n          }\n        }).catch(() => {\n          this.$notify.info({\n            title: '取消',\n            message: '操作取消！',\n            duration: 2000\n          });\n        });\n      },\n      //查看公司信息\n      viewCompanyClick(companyId) {\n        this.showCompanyDialog = true;\n        this.companyId = companyId;\n      },\n      //保存\n      save() {\n        this.saveStatus = true;\n        if (this.addOperate) {\n          this.tmpCottonQuota.companyId = this.tmpCompany.id;\n          this.tmpCottonQuota.companyName = this.tmpCompany.name;\n          this.tmpCompany = {};\n          cottonQuotaAPI.addCottonQuota(this.tmpCottonQuota).then(data => {\n            if (data.status == 200) {\n              this.list();\n              this.$message.success(data.data);\n            } else {\n              this.$message.error(data.data);\n            }\n            this.saveStatus = false;\n            this.showDialog = false;\n          });\n        } else {\n          cottonQuotaAPI.editCottonQuota(this.tmpCottonQuota).then(data => {\n            if (data.status == 200) {\n              this.list();\n              this.$message.success(data.data);\n            } else {\n              this.$message.error(data.data);\n            }\n            this.saveStatus = false;\n            this.showDialog = false;\n          });\n        }\n      },\n      //获取选中id数组\n      getSelectedIds() {\n        let rowIds = [];\n        this.selectedRows.forEach(function (row) {\n          rowIds.push(row.id);\n        });\n        return rowIds;\n      },\n      //加载企业列表共选择\n      loadCompany() {\n        if (!this.companys.length > 0) {\n          companyAPI.getCompany().then(data => {\n            this.companys = data.data;\n          })\n        }\n      }\n    },\n    created() {\n      this.list();\n    },\n    components: {\n      'company-detail': companyDetail\n    }\n  }\n\n</script>\n\n<style scoped>\n  .main-content-wrap {\n    padding: 10px;\n  }\n\n  .search-bar {\n    padding: 5px 12px;\n  }\n\n  .cottonquota-table-expand {\n    font-size: 0;\n  }\n\n  .cottonquota-table-expand label {\n    width: 90px;\n    color: #99a9bf;\n  }\n\n  .cottonquota-table-expand .el-form-item {\n    margin-right: 0;\n    margin-bottom: 0;\n    width: 50%;\n  }\n\n  .page-wrap {\n    margin-top: 20px;\n    margin-right: 20px;\n  }\n\n  .page-wrap .page {\n    float: right;\n  }\n\n  .red-color {\n    color: #FF4949;\n  }\n\n  .green-color {\n    color: #13CE66;\n  }\n\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, ".main-content-wrap[data-v-6ee90e3d]{padding:10px}.search-bar[data-v-6ee90e3d]{padding:5px 12px}.cottonquota-table-expand[data-v-6ee90e3d]{font-size:0}.cottonquota-table-expand label[data-v-6ee90e3d]{width:90px;color:#99a9bf}.cottonquota-table-expand .el-form-item[data-v-6ee90e3d]{margin-right:0;margin-bottom:0;width:50%}.page-wrap[data-v-6ee90e3d]{margin-top:20px;margin-right:20px}.page-wrap .page[data-v-6ee90e3d]{float:right}.red-color[data-v-6ee90e3d]{color:#ff4949}.green-color[data-v-6ee90e3d]{color:#13ce66}", ""]);
 
 // exports
 
@@ -829,7 +754,7 @@ exports.default = cottonQuotaAPI;
 /***/ }),
 
 /***/ 189:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('el-toolbar', [_c('el-button', {
@@ -1156,15 +1081,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-6ee90e3d", module.exports)
-  }
-}
 
 /***/ })
 
 });
-//# sourceMappingURL=cottonQuotaUI-cottonQuota.js.map

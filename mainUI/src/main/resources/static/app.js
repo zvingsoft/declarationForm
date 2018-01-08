@@ -1202,9 +1202,7 @@ exports.default = ruleAPI;
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(46)
 }
 var Component = __webpack_require__(2)(
@@ -1219,25 +1217,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\system\\components\\TreeSelect.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] TreeSelect.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5e9d9894", Component.options)
-  } else {
-    hotAPI.reload("data-v-5e9d9894", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -1246,9 +1225,7 @@ module.exports = Component.exports
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(50)
 }
 var Component = __webpack_require__(2)(
@@ -1263,25 +1240,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\system\\components\\MenuPermission.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] MenuPermission.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4617f830", Component.options)
-  } else {
-    hotAPI.reload("data-v-4617f830", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -1395,9 +1353,7 @@ module.exports = {};
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(17)
   __webpack_require__(20)
 }
@@ -1413,25 +1369,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\components\\toolbar.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] toolbar.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5f13c002", Component.options)
-  } else {
-    hotAPI.reload("data-v-5f13c002", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -1447,31 +1384,18 @@ var content = __webpack_require__(18);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("0a814d5d", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../node_modules/css-loader/index.js?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5f13c002\",\"scoped\":true,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./toolbar.vue", function() {
-     var newContent = require("!!../../node_modules/css-loader/index.js?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5f13c002\",\"scoped\":true,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./toolbar.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("6317543e", content, true);
 
 /***/ }),
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.el-toolbar[data-v-5f13c002],\n.el-toolbar-body[data-v-5f13c002] {\n  background-color: #f8f8f8;\n}\n.body-list .el-toolbar[data-v-5f13c002],\n.body-list .el-toolbar-body[data-v-5f13c002] {\n  background-color: #ECEEF3;\n}\n.body-list .el-toolbar-body[data-v-5f13c002],\n.body-detail .el-toolbar-body[data-v-5f13c002] {\n  box-shadow: inset 1px 0px 0px rgba(0, 0, 0, 0.06);\n}\n.el-toolbar[data-v-5f13c002] {\n  height: 50px;\n  border-bottom: 1px solid #ddd;\n}\n.el-toolbar.small[data-v-5f13c002] {\n  height: 36px;\n}\n.el-toolbar-body[data-v-5f13c002] {\n  position: absolute;\n  z-index: 100;\n  left: 0;\n  right: 18px;\n  display: flex;\n  align-items: center;\n  align-content: center;\n  height: 50px;\n  font-size: 14px;\n  border-bottom: 1px solid #ddd;\n}\n.el-toolbar-body>span[data-v-5f13c002],\n.el-toolbar-body>.el-button[data-v-5f13c002]:first-child,\n.el-toolbar-body>.el-toolbar-btn[data-v-5f13c002]:first-child {\n  margin-left: 10px;\n}\n.el-toolbar-body>span[data-v-5f13c002],\n.el-toolbar-body>.el-button[data-v-5f13c002]:last-child,\n.el-toolbar-body>.el-toolbar-btn[data-v-5f13c002]:last-child {\n  margin-right: 10px;\n}\n.el-toolbar.small .el-toolbar-body[data-v-5f13c002] {\n  height: 36px;\n}\n.el-toolbar-body .button-separator[data-v-5f13c002] {\n  padding: 11px 0;\n  width: 1px;\n  background-color: rgba(0, 0, 0, .25);\n  display: inline-block;\n  margin: 6px;\n}\n@media (max-width: 576px) {\n.el-toolbar[data-v-5f13c002],\n  .el-toolbar-body[data-v-5f13c002] {\n    min-height: 50px;\n    height: auto;\n}\n.el-toolbar.small[data-v-5f13c002],\n  .el-toolbar.small .el-toolbar-body[data-v-5f13c002] {\n    min-height: 36px;\n    height: auto;\n}\n.el-toolbar-body[data-v-5f13c002] {\n    position: relative;\n    flex-flow: row wrap;\n    padding: 5px 0;\n}\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/components/toolbar.vue?7f5a9227"],"names":[],"mappings":";AAsBA;;EAEA,0BAAA;CACA;AAEA;;EAEA,0BAAA;CACA;AAEA;;EAEA,kDAAA;CACA;AAEA;EACA,aAAA;EACA,8BAAA;CACA;AAEA;EACA,aAAA;CACA;AAEA;EACA,mBAAA;EACA,aAAA;EACA,QAAA;EACA,YAAA;EACA,cAAA;EACA,oBAAA;EACA,sBAAA;EACA,aAAA;EACA,gBAAA;EACA,8BAAA;CACA;AAEA;;;EAGA,kBAAA;CACA;AAEA;;;EAGA,mBAAA;CACA;AAEA;EACA,aAAA;CACA;AAEA;EACA,gBAAA;EACA,WAAA;EACA,qCAAA;EACA,sBAAA;EACA,YAAA;CACA;AAEA;AACA;;IAEA,iBAAA;IACA,aAAA;CACA;AACA;;IAEA,iBAAA;IACA,aAAA;CACA;AACA;IACA,mBAAA;IACA,oBAAA;IACA,eAAA;CACA;CACA","file":"toolbar.vue","sourcesContent":["<template>\n  <div class=\"el-toolbar\" :class=\"{\n        'small': size === 'small'\n      }\">\n    <div class=\"el-toolbar-body\">\n      <slot></slot>\n    </div>\n  </div>\n</template>\n\n<script>\nexport default {\n  props: {\n    size: {\n      type: String,\n      default: 'normal'\n    }\n  }\n}\n</script>\n\n<style scoped>\n.el-toolbar,\n.el-toolbar-body {\n  background-color: #f8f8f8;\n}\n\n.body-list .el-toolbar,\n.body-list .el-toolbar-body {\n  background-color: #ECEEF3;\n}\n\n.body-list .el-toolbar-body,\n.body-detail .el-toolbar-body {\n  box-shadow: inset 1px 0px 0px rgba(0, 0, 0, 0.06);\n}\n\n.el-toolbar {\n  height: 50px;\n  border-bottom: 1px solid #ddd;\n}\n\n.el-toolbar.small {\n  height: 36px;\n}\n\n.el-toolbar-body {\n  position: absolute;\n  z-index: 100;\n  left: 0;\n  right: 18px;\n  display: flex;\n  align-items: center;\n  align-content: center;\n  height: 50px;\n  font-size: 14px;\n  border-bottom: 1px solid #ddd;\n}\n\n.el-toolbar-body>span,\n.el-toolbar-body>.el-button:first-child,\n.el-toolbar-body>.el-toolbar-btn:first-child {\n  margin-left: 10px;\n}\n\n.el-toolbar-body>span,\n.el-toolbar-body>.el-button:last-child,\n.el-toolbar-body>.el-toolbar-btn:last-child {\n  margin-right: 10px;\n}\n\n.el-toolbar.small .el-toolbar-body {\n  height: 36px;\n}\n\n.el-toolbar-body .button-separator {\n  padding: 11px 0;\n  width: 1px;\n  background-color: rgba(0, 0, 0, .25);\n  display: inline-block;\n  margin: 6px;\n}\n\n@media (max-width: 576px) {\n  .el-toolbar,\n  .el-toolbar-body {\n    min-height: 50px;\n    height: auto;\n  }\n  .el-toolbar.small,\n  .el-toolbar.small .el-toolbar-body {\n    min-height: 36px;\n    height: auto;\n  }\n  .el-toolbar-body {\n    position: relative;\n    flex-flow: row wrap;\n    padding: 5px 0;\n  }\n}\n</style>\n<style>\n.el-toolbar .el-button {\n  background: transparent;\n}\n\n.el-toolbar .el-button.is-disabled {\n  background-color: transparent;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, ".el-toolbar-body[data-v-5f13c002],.el-toolbar[data-v-5f13c002]{background-color:#f8f8f8}.body-list .el-toolbar-body[data-v-5f13c002],.body-list .el-toolbar[data-v-5f13c002]{background-color:#eceef3}.body-detail .el-toolbar-body[data-v-5f13c002],.body-list .el-toolbar-body[data-v-5f13c002]{box-shadow:inset 1px 0 0 rgba(0,0,0,.06)}.el-toolbar[data-v-5f13c002]{height:50px;border-bottom:1px solid #ddd}.el-toolbar.small[data-v-5f13c002]{height:36px}.el-toolbar-body[data-v-5f13c002]{position:absolute;z-index:100;left:0;right:18px;display:flex;align-items:center;align-content:center;height:50px;font-size:14px;border-bottom:1px solid #ddd}.el-toolbar-body>.el-button[data-v-5f13c002]:first-child,.el-toolbar-body>.el-toolbar-btn[data-v-5f13c002]:first-child,.el-toolbar-body>span[data-v-5f13c002]{margin-left:10px}.el-toolbar-body>.el-button[data-v-5f13c002]:last-child,.el-toolbar-body>.el-toolbar-btn[data-v-5f13c002]:last-child,.el-toolbar-body>span[data-v-5f13c002]{margin-right:10px}.el-toolbar.small .el-toolbar-body[data-v-5f13c002]{height:36px}.el-toolbar-body .button-separator[data-v-5f13c002]{padding:11px 0;width:1px;background-color:rgba(0,0,0,.25);display:inline-block;margin:6px}@media (max-width:576px){.el-toolbar-body[data-v-5f13c002],.el-toolbar[data-v-5f13c002]{min-height:50px;height:auto}.el-toolbar.small .el-toolbar-body[data-v-5f13c002],.el-toolbar.small[data-v-5f13c002]{min-height:36px;height:auto}.el-toolbar-body[data-v-5f13c002]{position:relative;flex-flow:row wrap;padding:5px 0}}", ""]);
 
 // exports
 
@@ -1520,31 +1444,18 @@ var content = __webpack_require__(21);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("7f5c139b", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../node_modules/css-loader/index.js?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5f13c002\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./toolbar.vue", function() {
-     var newContent = require("!!../../node_modules/css-loader/index.js?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5f13c002\",\"scoped\":false,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./toolbar.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("3986e8da", content, true);
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.el-toolbar .el-button {\n  background: transparent;\n}\n.el-toolbar .el-button.is-disabled {\n  background-color: transparent;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/components/toolbar.vue?7f5a9227"],"names":[],"mappings":";AAsGA;EACA,wBAAA;CACA;AAEA;EACA,8BAAA;CACA","file":"toolbar.vue","sourcesContent":["<template>\n  <div class=\"el-toolbar\" :class=\"{\n        'small': size === 'small'\n      }\">\n    <div class=\"el-toolbar-body\">\n      <slot></slot>\n    </div>\n  </div>\n</template>\n\n<script>\nexport default {\n  props: {\n    size: {\n      type: String,\n      default: 'normal'\n    }\n  }\n}\n</script>\n\n<style scoped>\n.el-toolbar,\n.el-toolbar-body {\n  background-color: #f8f8f8;\n}\n\n.body-list .el-toolbar,\n.body-list .el-toolbar-body {\n  background-color: #ECEEF3;\n}\n\n.body-list .el-toolbar-body,\n.body-detail .el-toolbar-body {\n  box-shadow: inset 1px 0px 0px rgba(0, 0, 0, 0.06);\n}\n\n.el-toolbar {\n  height: 50px;\n  border-bottom: 1px solid #ddd;\n}\n\n.el-toolbar.small {\n  height: 36px;\n}\n\n.el-toolbar-body {\n  position: absolute;\n  z-index: 100;\n  left: 0;\n  right: 18px;\n  display: flex;\n  align-items: center;\n  align-content: center;\n  height: 50px;\n  font-size: 14px;\n  border-bottom: 1px solid #ddd;\n}\n\n.el-toolbar-body>span,\n.el-toolbar-body>.el-button:first-child,\n.el-toolbar-body>.el-toolbar-btn:first-child {\n  margin-left: 10px;\n}\n\n.el-toolbar-body>span,\n.el-toolbar-body>.el-button:last-child,\n.el-toolbar-body>.el-toolbar-btn:last-child {\n  margin-right: 10px;\n}\n\n.el-toolbar.small .el-toolbar-body {\n  height: 36px;\n}\n\n.el-toolbar-body .button-separator {\n  padding: 11px 0;\n  width: 1px;\n  background-color: rgba(0, 0, 0, .25);\n  display: inline-block;\n  margin: 6px;\n}\n\n@media (max-width: 576px) {\n  .el-toolbar,\n  .el-toolbar-body {\n    min-height: 50px;\n    height: auto;\n  }\n  .el-toolbar.small,\n  .el-toolbar.small .el-toolbar-body {\n    min-height: 36px;\n    height: auto;\n  }\n  .el-toolbar-body {\n    position: relative;\n    flex-flow: row wrap;\n    padding: 5px 0;\n  }\n}\n</style>\n<style>\n.el-toolbar .el-button {\n  background: transparent;\n}\n\n.el-toolbar .el-button.is-disabled {\n  background-color: transparent;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, ".el-toolbar .el-button{background:transparent}.el-toolbar .el-button.is-disabled{background-color:transparent}", ""]);
 
 // exports
 
@@ -1581,7 +1492,7 @@ exports.default = {
 
 /***/ }),
 /* 23 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -1593,21 +1504,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "el-toolbar-body"
   }, [_vm._t("default")], 2)])
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-5f13c002", module.exports)
-  }
-}
 
 /***/ }),
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(25)
   __webpack_require__(27)
 }
@@ -1623,25 +1525,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\form\\index.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-795fa0f0", Component.options)
-  } else {
-    hotAPI.reload("data-v-795fa0f0", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -1657,31 +1540,18 @@ var content = __webpack_require__(26);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("2218e969", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-795fa0f0\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./index.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-795fa0f0\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./index.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("4922c318", content, true);
 
 /***/ }),
 /* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n@keyframes ani-demo-spin-data-v-795fa0f0 {\nfrom {\n        transform: rotate(0deg);\n}\n50% {\n        transform: rotate(180deg);\n}\nto {\n        transform: rotate(360deg);\n}\n}\n.menu-wrap[data-v-795fa0f0] {\n    background-color: #f5f7fb;\n    position: absolute;\n    width: 100%;\n    top: 50px;\n    bottom: 0;\n    overflow: auto;\n}\n.el-menu[data-v-795fa0f0] {\n    background-color: #f5f7fb;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/form/index.vue?1d06f025"],"names":[],"mappings":";AAiFA;AACA;QACA,wBAAA;CACA;AACA;QACA,0BAAA;CACA;AACA;QACA,0BAAA;CACA;CACA;AAEA;IACA,0BAAA;IACA,mBAAA;IACA,YAAA;IACA,UAAA;IACA,UAAA;IACA,eAAA;CACA;AAEA;IACA,0BAAA;CACA","file":"index.vue","sourcesContent":["<template>\n  <div class=\"layout\">\n    <div class=\"body-list\" style=\"background-color:white;\">\n      <el-toolbar>\n        <span>\n          <i class=\"fa fa-ship\" /> 通关</span>\n      </el-toolbar>\n      <div class=\"menu-wrap\">\n        <el-menu :default-active=\"activeMenu\" @select=\"onSelectMenu\">\n          <el-menu-item :index=\"menu.path\" v-for=\"menu in menus\" :key=\"menu.path\">\n            <i :class=\"menu.meta.icon\"></i>&nbsp;{{menu.meta.title}}\n          </el-menu-item>\n        </el-menu>\n      </div>\n\n    </div>\n    <div class=\"body-detail\">\n      <div class=\"layout-content-main\">\n        <router-view></router-view>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script>\nconst menus = [\n    {\n        path: '/form/declaration',\n        meta: { title: '报关单', icon: 'fa fa-file-text-o' },\n    },\n    {\n        path: '/form/declarationRetrieval',\n        meta: { title: '报关单检索', icon: 'fa fa-search' },\n    },\n    {\n        path: '/form/taxRegister',\n        meta: { title: '缴税登记', icon: 'fa fa-files-o' },\n    },\n    {\n        path: '/form/auditing',\n        meta: { title: '审核与放行', icon: 'fa fa-check-square-o' },\n    },\n    {\n        path: '/form/handlerChain',\n        meta: { title: '处理链示例', icon: 'fa fa-chain' },\n    },\n];\n\nexport default {\n    data() {\n        return {\n            menus,\n            activeMenu: menus[0].path,\n        };\n    },\n    methods: {\n        onSelectMenu(path) {\n            let item = this.menus.find(val => val.path === path);\n\n            if (item) {\n                this.$router.push({ path: item.path });\n            }\n        },\n    },\n    created() {\n        if (location.hash.split('/').length == 2) {\n            location.hash = this.activeMenu;\n        }\n    },\n    beforeRouteUpdate(to, from, next) {\n        let path = to.path;\n        let item = this.menus.find(val => val.path === path);\n\n        if (item) {\n            this.activeMenu = item.path;\n        }\n        next();\n    },\n};\n</script>\n<style scoped>\n@keyframes ani-demo-spin {\n    from {\n        transform: rotate(0deg);\n    }\n    50% {\n        transform: rotate(180deg);\n    }\n    to {\n        transform: rotate(360deg);\n    }\n}\n\n.menu-wrap {\n    background-color: #f5f7fb;\n    position: absolute;\n    width: 100%;\n    top: 50px;\n    bottom: 0;\n    overflow: auto;\n}\n\n.el-menu {\n    background-color: #f5f7fb;\n}\n</style>\n<style>\n.menu-wrap .el-menu {\n    width: 200px;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "@keyframes ani-demo-spin-data-v-795fa0f0{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}to{transform:rotate(1turn)}}.menu-wrap[data-v-795fa0f0]{background-color:#f5f7fb;position:absolute;width:100%;top:50px;bottom:0;overflow:auto}.el-menu[data-v-795fa0f0]{background-color:#f5f7fb}", ""]);
 
 // exports
 
@@ -1697,31 +1567,18 @@ var content = __webpack_require__(28);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("d506abb6", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-795fa0f0\",\"scoped\":false,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./index.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-795fa0f0\",\"scoped\":false,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./index.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("4fae0656", content, true);
 
 /***/ }),
 /* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.menu-wrap .el-menu {\n    width: 200px;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/form/index.vue?1d06f025"],"names":[],"mappings":";AA2GA;IACA,aAAA;CACA","file":"index.vue","sourcesContent":["<template>\n  <div class=\"layout\">\n    <div class=\"body-list\" style=\"background-color:white;\">\n      <el-toolbar>\n        <span>\n          <i class=\"fa fa-ship\" /> 通关</span>\n      </el-toolbar>\n      <div class=\"menu-wrap\">\n        <el-menu :default-active=\"activeMenu\" @select=\"onSelectMenu\">\n          <el-menu-item :index=\"menu.path\" v-for=\"menu in menus\" :key=\"menu.path\">\n            <i :class=\"menu.meta.icon\"></i>&nbsp;{{menu.meta.title}}\n          </el-menu-item>\n        </el-menu>\n      </div>\n\n    </div>\n    <div class=\"body-detail\">\n      <div class=\"layout-content-main\">\n        <router-view></router-view>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script>\nconst menus = [\n    {\n        path: '/form/declaration',\n        meta: { title: '报关单', icon: 'fa fa-file-text-o' },\n    },\n    {\n        path: '/form/declarationRetrieval',\n        meta: { title: '报关单检索', icon: 'fa fa-search' },\n    },\n    {\n        path: '/form/taxRegister',\n        meta: { title: '缴税登记', icon: 'fa fa-files-o' },\n    },\n    {\n        path: '/form/auditing',\n        meta: { title: '审核与放行', icon: 'fa fa-check-square-o' },\n    },\n    {\n        path: '/form/handlerChain',\n        meta: { title: '处理链示例', icon: 'fa fa-chain' },\n    },\n];\n\nexport default {\n    data() {\n        return {\n            menus,\n            activeMenu: menus[0].path,\n        };\n    },\n    methods: {\n        onSelectMenu(path) {\n            let item = this.menus.find(val => val.path === path);\n\n            if (item) {\n                this.$router.push({ path: item.path });\n            }\n        },\n    },\n    created() {\n        if (location.hash.split('/').length == 2) {\n            location.hash = this.activeMenu;\n        }\n    },\n    beforeRouteUpdate(to, from, next) {\n        let path = to.path;\n        let item = this.menus.find(val => val.path === path);\n\n        if (item) {\n            this.activeMenu = item.path;\n        }\n        next();\n    },\n};\n</script>\n<style scoped>\n@keyframes ani-demo-spin {\n    from {\n        transform: rotate(0deg);\n    }\n    50% {\n        transform: rotate(180deg);\n    }\n    to {\n        transform: rotate(360deg);\n    }\n}\n\n.menu-wrap {\n    background-color: #f5f7fb;\n    position: absolute;\n    width: 100%;\n    top: 50px;\n    bottom: 0;\n    overflow: auto;\n}\n\n.el-menu {\n    background-color: #f5f7fb;\n}\n</style>\n<style>\n.menu-wrap .el-menu {\n    width: 200px;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, ".menu-wrap .el-menu{width:200px}", ""]);
 
 // exports
 
@@ -1817,7 +1674,7 @@ exports.default = {
 
 /***/ }),
 /* 30 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -1853,21 +1710,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "layout-content-main"
   }, [_c('router-view')], 1)])])
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-795fa0f0", module.exports)
-  }
-}
 
 /***/ }),
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(32)
 }
 var Component = __webpack_require__(2)(
@@ -1882,25 +1730,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\setting\\index.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5acc77bc", Component.options)
-  } else {
-    hotAPI.reload("data-v-5acc77bc", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -1916,31 +1745,18 @@ var content = __webpack_require__(33);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("63c96f30", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5acc77bc\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./index.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5acc77bc\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./index.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("15b5bbd2", content, true);
 
 /***/ }),
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n@keyframes ani-demo-spin-data-v-5acc77bc {\nfrom {\n    transform: rotate(0deg);\n}\n50% {\n    transform: rotate(180deg);\n}\nto {\n    transform: rotate(360deg);\n}\n}\n.menu-wrap[data-v-5acc77bc] {\n  background-color: #f5f7fb;\n  position: absolute;\n  width: 100%;\n  top: 50px;\n  bottom: 0;\n  overflow: auto;\n}\n.el-menu[data-v-5acc77bc] {\n  background-color: #f5f7fb;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/setting/index.vue?2ef280ed"],"names":[],"mappings":";AA4FA;AACA;IACA,wBAAA;CACA;AACA;IACA,0BAAA;CACA;AACA;IACA,0BAAA;CACA;CACA;AAEA;EACA,0BAAA;EACA,mBAAA;EACA,YAAA;EACA,UAAA;EACA,UAAA;EACA,eAAA;CACA;AACA;EACA,0BAAA;CACA","file":"index.vue","sourcesContent":["<template>\n  <div class=\"layout\">\n    <div class=\"body-list\" style=\"background-color:white;\">\n      <el-toolbar>\n        <span><i class=\"fa fa-sliders\"/> 业务配置</span>\n      </el-toolbar>\n      <div class=\"menu-wrap\">\n        <el-menu :default-active=\"activeMenu\" @select=\"onSelectMenu\">\n          <el-menu-item :index=\"menu.path\" v-for=\"menu in menus\" :key=\"menu.path\">\n            <i :class=\"menu.meta.icon\"></i>&nbsp;{{menu.meta.title}}\n          </el-menu-item>\n        </el-menu>\n      </div>\n\n    </div>\n    <div class=\"body-detail\">\n      <div class=\"layout-content-main\">\n        <router-view></router-view>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script>\nconst menus = [\n  {\n    path: '/setting/sku',\n    meta: { title: '商品管理', icon: 'fa fa-th-list' },\n  },\n  {\n    path: '/setting/company',\n    meta: { title: '企业管理', icon: 'fa fa-american-sign-language-interpreting' },\n  },\n  {\n    path: '/setting/tax',\n    meta: { title: '税率管理', icon: 'fa fa-money' },\n  },\n  {\n    path: '/setting/license',\n    meta: { title: '许可证管理', icon: 'fa fa-compass' },\n  },\n  {\n    path: '/setting/taxCutting',\n    meta: { title: '减免税管理', icon: 'fa fa-hand-lizard-o' },\n  },\n  {\n    path: '/setting/manifest',\n    meta: { title: '舱单管理', icon: 'fa fa-dropbox' },\n  },\n  {\n    path: '/setting/processingTrade',\n    meta: { title: '加贸管理', icon: 'fa fa-wrench' },\n  },\n  {\n    path: '/setting/cottonQuota',\n    meta: { title: '棉花配额管理', icon: 'fa fa-meetup' },\n  },\n];\n\nexport default {\n  data() {\n    return {\n      menus,\n      activeMenu: this.$route.path,\n    };\n  },\n  methods: {\n    onSelectMenu(path) {\n      let item = this.menus.find(val => val.path === path);\n\n      if (item) {\n        this.$router.push({ path: item.path });\n      }\n    },\n  },\n  created() {\n    if (location.hash.split('/').length == 2) {\n      location.hash = this.activeMenu;\n    }\n  },\n  beforeRouteUpdate(to, from, next) {\n    let path = to.path;\n    let item = this.menus.find(val => val.path === path);\n\n    if (item) {\n      this.activeMenu = item.path;\n    }\n    next();\n  },\n};\n</script>\n<style scoped>\n@keyframes ani-demo-spin {\n  from {\n    transform: rotate(0deg);\n  }\n  50% {\n    transform: rotate(180deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n\n.menu-wrap {\n  background-color: #f5f7fb;\n  position: absolute;\n  width: 100%;\n  top: 50px;\n  bottom: 0;\n  overflow: auto;\n}\n.el-menu {\n  background-color: #f5f7fb;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "@keyframes ani-demo-spin-data-v-5acc77bc{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}to{transform:rotate(1turn)}}.menu-wrap[data-v-5acc77bc]{background-color:#f5f7fb;position:absolute;width:100%;top:50px;bottom:0;overflow:auto}.el-menu[data-v-5acc77bc]{background-color:#f5f7fb}", ""]);
 
 // exports
 
@@ -2044,7 +1860,7 @@ exports.default = {
 
 /***/ }),
 /* 35 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -2080,21 +1896,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "layout-content-main"
   }, [_c('router-view')], 1)])])
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-5acc77bc", module.exports)
-  }
-}
 
 /***/ }),
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(37)
 }
 var Component = __webpack_require__(2)(
@@ -2109,25 +1916,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\system\\index.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] index.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2b8384f3", Component.options)
-  } else {
-    hotAPI.reload("data-v-2b8384f3", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -2143,31 +1931,18 @@ var content = __webpack_require__(38);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("8e6c373e", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2b8384f3\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./index.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2b8384f3\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./index.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("405883e0", content, true);
 
 /***/ }),
 /* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n@keyframes ani-demo-spin-data-v-2b8384f3 {\nfrom {\n    transform: rotate(0deg);\n}\n50% {\n    transform: rotate(180deg);\n}\nto {\n    transform: rotate(360deg);\n}\n}\n.menu-wrap[data-v-2b8384f3] {\n  background-color: #F5F7FB;\n  position: absolute;\n  width: 100%;\n  top: 50px;\n  bottom: 0;\n  overflow: auto;\n}\n.el-menu[data-v-2b8384f3]{\n  background-color: #F5F7FB;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/system/index.vue?669554cb"],"names":[],"mappings":";AAqEA;AACA;IACA,wBAAA;CACA;AACA;IACA,0BAAA;CACA;AACA;IACA,0BAAA;CACA;CACA;AAEA;EACA,0BAAA;EACA,mBAAA;EACA,YAAA;EACA,UAAA;EACA,UAAA;EACA,eAAA;CACA;AACA;EACA,0BAAA;CACA","file":"index.vue","sourcesContent":["<template>\n  <div class=\"layout\">\n    <div class=\"body-list\" style=\"background-color:white;\">\n      <el-toolbar>\n        <span><i class=\"fa fa-gears\"/> 系统</span>\n      </el-toolbar>\n      <div class=\"menu-wrap\">\n        <el-menu :default-active=\"activeMenu\" @select=\"onSelectMenu\">\n          <el-menu-item :index=\"menu.path\" v-for=\"menu in menus\" :key=\"menu.path\">\n            <i :class=\"menu.meta.icon\"></i>&nbsp;{{menu.meta.title}}\n          </el-menu-item>\n        </el-menu>\n      </div>\n\n    </div>\n    <div class=\"body-detail\">\n      <div class=\"layout-content-main\">\n        <router-view></router-view>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script>\nconst menus = [\n      {\n        path: '/system/user',\n        meta: { title: '用户管理', icon: 'fa fa-users' },\n      },\n      {\n        path: '/system/role',\n        meta: { title: '角色管理', icon: 'fa fa-user-circle' },\n      }\n    ]\n\nexport default {\n  data() {\n    return {\n      menus,\n      activeMenu: this.$route.path\n    };\n  },\n  methods: {\n    onSelectMenu(path) {\n      let item = this.menus.find((val) => val.path === path)\n\n      if (item) {\n        this.$router.push({ path: item.path })\n      }\n    }\n  },\n  created() {\n    if(location.hash.split('/').length==2){\n      location.hash = this.activeMenu\n    }\n  },\n  beforeRouteUpdate(to, from, next) {\n    let path = to.path\n    let item = this.menus.find(val => val.path === path)\n\n    if (item) {\n      this.activeMenu = item.path\n    }\n    next()\n  }\n\n}\n</script>\n<style scoped>\n@keyframes ani-demo-spin {\n  from {\n    transform: rotate(0deg);\n  }\n  50% {\n    transform: rotate(180deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n\n.menu-wrap {\n  background-color: #F5F7FB;\n  position: absolute;\n  width: 100%;\n  top: 50px;\n  bottom: 0;\n  overflow: auto;\n}\n.el-menu{\n  background-color: #F5F7FB;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, "@keyframes ani-demo-spin-data-v-2b8384f3{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}to{transform:rotate(1turn)}}.menu-wrap[data-v-2b8384f3]{background-color:#f5f7fb;position:absolute;width:100%;top:50px;bottom:0;overflow:auto}.el-menu[data-v-2b8384f3]{background-color:#f5f7fb}", ""]);
 
 // exports
 
@@ -2253,7 +2028,7 @@ exports.default = {
 
 /***/ }),
 /* 40 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -2289,21 +2064,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "layout-content-main"
   }, [_c('router-view')], 1)])])
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-2b8384f3", module.exports)
-  }
-}
 
 /***/ }),
 /* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(42)
 }
 var Component = __webpack_require__(2)(
@@ -2318,25 +2084,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\system\\user.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] user.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-cfa92d8c", Component.options)
-  } else {
-    hotAPI.reload("data-v-cfa92d8c", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -2352,31 +2099,18 @@ var content = __webpack_require__(43);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("3419a8da", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-cfa92d8c\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./user.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-cfa92d8c\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./user.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("5ea65d4b", content, true);
 
 /***/ }),
 /* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.main-content-wrap[data-v-cfa92d8c] {\n  padding: 10px;\n}\n.search-bar[data-v-cfa92d8c] {\n  padding-bottom: 10px;\n}\n.pane-btns[data-v-cfa92d8c] {\n  text-align: right;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/system/user.vue?0f48544a"],"names":[],"mappings":";AAwdA;EACA,cAAA;CACA;AAEA;EACA,qBAAA;CACA;AACA;EACA,kBAAA;CACA","file":"user.vue","sourcesContent":["<template>\n<div>\n  <el-toolbar>\n      <el-button class=\"z-toolbar-btn\" :plain=\"true\" icon=\"plus\" @click=\"addClick\">添加</el-button>\n      <el-button class=\"z-toolbar-btn\" :plain=\"true\" icon=\"edit\" :disabled=\"selectedRows.length !== 1\" @click=\"editClick\">编辑</el-button>\n      <el-button class=\"z-toolbar-btn\" :plain=\"true\" icon=\"circle-cross\" :disabled=\"!(selectedRows.length === 1 && selectedRows[0].status)\" @click=\"disableOrEnableClickHandler\">停用</el-button>\n      <el-button class=\"z-toolbar-btn\" :plain=\"true\" icon=\"circle-check\" :disabled=\"!(selectedRows.length === 1 && !selectedRows[0].status)\" @click=\"disableOrEnableClickHandler\">启用</el-button>\n      <el-button class=\"z-toolbar-btn\" :plain=\"true\" icon=\"delete\" :disabled=\"selectedRows.length === 0\" @click=\"deleteClickHandler\">删除</el-button>\n      <el-button class=\"z-toolbar-btn\" :plain=\"true\" icon=\"setting\" :disabled=\"selectedRows.length !== 1\" @click=\"modifyPasswordClick\">修改密码</el-button>\n  </el-toolbar>\n  <div class=\"main-content-wrap\" v-loading=\"dataLoading\">\n      <div class=\"search-bar fr\">\n        用户名/真实姓名:\n        <el-input v-model=\"search.username\" size=\"small\" placeholder=\"请输入用户名/真实姓名\" style=\"width: 200px;\"></el-input>\n        公司：\n        <el-input v-model=\"search.company\" size=\"small\" placeholder=\"请输入公司名称\" style=\"width: 200px;\"></el-input>\n        <el-button size=\"small\" type=\"primary\" @click=\"handleSearchBtn\" style=\"width: 60px;\">搜索</el-button>\n      </div>\n    <el-table :data=\"users\" border tooltip-effect=\"dark\" @selection-change=\"onSelectionChange\"  highlight-current-row >\n      <el-table-column type=\"selection\" width=\"60\" align=\"center\"/>\n      <el-table-column prop=\"username\" label=\"用户名\"/>\n      <el-table-column prop=\"realname\" label=\"真实姓名\"/>\n      <el-table-column prop=\"status\"label=\"用户状态\"/>\n      </el-table-column>\n      <el-table-column prop=\"company\" label=\"单位\"/>\n      <el-table-column label=\"所属角色\">\n        <template slot-scope=\"scope\">\n          <span v-for=\"role in scope.row.roles\" :key=\"role.rolecode\">{{role.name}} </span>\n        </template>\n      </el-table-column>\n    </el-table>\n    <div class=\"page-wrap fr\">\n        <el-pagination class=\"page\" @size-change=\"sizeChangeHandler\" @current-change=\"currentChangeHandler\" :current-page.sync=\"currentPage\" :page-sizes=\"pageSizes\" :page-size=\"pageSize\" :total=\"total\" layout=\"total,sizes, prev, pager, next\">\n        </el-pagination>\n    </div>\n  </div>\n\n    <!--修改密码框-->\n  <el-dialog title=\"修改密码\" :visible.sync=\"modifyPasswordModal\">\n    <el-form :model=\"tmpUser\" :rules=\"userRules\" ref=\"modifyPasswordForm\" label-width=\"100px\">\n      <el-form-item label=\"用户名\" prop=\"username\">\n        <el-input type=\"text\" v-model=\"tmpUser.username\" :readonly=\"true\" auto-complete=\"off\"></el-input>\n      </el-form-item>\n      <el-form-item label=\"密码\" prop=\"password\">\n        <el-input type=\"password\" v-model=\"tmpUser.password\" auto-complete=\"off\"></el-input>\n      </el-form-item>\n      <el-form-item label=\"确认密码\" prop=\"repeatPassword\">\n        <el-input type=\"password\" v-model=\"tmpUser.repeatPassword\" auto-complete=\"off\"></el-input>\n      </el-form-item>\n    </el-form>\n    <div slot=\"footer\">\n      <el-button @click=\"modifyPasswordModal = false\">取 消</el-button>\n      <el-button type=\"primary\" @click=\"modifyPasswordHandler\" :loading=\"handlerLoading\">确 定</el-button>\n    </div>\n  </el-dialog>\n    <!--添加框-->\n  <el-dialog title=\"添加用户\" :visible.sync=\"addUserModal\">\n    <el-form :model=\"tmpUser\" :rules=\"userRules\" ref=\"addUserForm\" label-width=\"100px\">\n      <el-form-item label=\"用户名\" prop=\"username\">\n        <el-input type=\"text\" v-model=\"tmpUser.username\" auto-complete=\"off\"/>\n      </el-form-item>\n      <el-form-item label=\"真实姓名\" prop=\"realname\">\n        <el-input type=\"text\" v-model=\"tmpUser.realname\"/>\n      </el-form-item>\n      <el-form-item label=\"密码\" prop=\"password\">\n        <el-input type=\"password\" v-model=\"tmpUser.password\" auto-complete=\"off\"/>\n      </el-form-item>\n      <el-form-item label=\"确认密码\" prop=\"repeatPassword\">\n        <el-input type=\"password\" v-model=\"tmpUser.repeatPassword\" auto-complete=\"off\"/>\n      </el-form-item>\n      <el-form-item label=\"公司\" prop=\"company\">\n        <el-input type=\"company\" v-model=\"tmpUser.company\" auto-complete=\"off\"/>\n      </el-form-item>\n      <el-form-item prop=\"email\" label=\"邮箱\">\n        <el-input v-model=\"tmpUser.email\"/>\n      </el-form-item>\n      <el-form-item label=\"联系电话\">\n        <el-input v-model=\"tmpUser.tel\" placeholder=\"联系电话\"/>\n      </el-form-item>\n      <el-form-item label=\"手机号码\">\n        <el-input v-model=\"tmpUser.phone\" placeholder=\"手机号码\"/>\n      </el-form-item>\n      <el-form-item label=\"所属角色\" prop=\"roleIds\">\n        <el-select v-model=\"tmpUser.roleIds\" multiple placeholder=\"请选择所属角色\">\n          <el-option v-for=\"role in roles\" :key=\"role.rolecode\" :label=\"role.name\" :value=\"role.rolecode\">\n          </el-option>\n        </el-select>\n      </el-form-item>\n    </el-form>\n    <div slot=\"footer\">\n      <el-button @click=\"addUserModal = false\">取 消</el-button>\n      <el-button type=\"primary\" @click=\"addUserHandler\" :loading=\"handlerLoading\">确 定</el-button>\n    </div>\n  </el-dialog>\n    <!--编辑框-->\n  <el-dialog title=\"编辑用户\" :visible.sync=\"editUserModal\">\n    <el-tabs class=\"tabs-wrap\" v-model=\"editUserActiveNameTab\">\n     <el-tab-pane label=\"基本信息\" name=\"base\" key=\"base\">\n      <div class=\"modal-wrap\" v-loading=\"modalLoading\">\n        <el-form :model=\"tmpUser\" :rules=\"userRules\" ref=\"editUserForm\" style=\"margin-top: 20px;\" label-width=\"100px\">\n          <el-form-item label=\"用户名\" prop=\"username\">\n            <el-input type=\"text\" v-model=\"tmpUser.username\" auto-complete=\"off\"/>\n          </el-form-item>\n          <el-form-item label=\"真实姓名\" prop=\"realname\">\n            <el-input type=\"text\" v-model=\"tmpUser.realname\"/>\n          </el-form-item>\n          <el-form-item label=\"公司\" prop=\"company\">\n            <el-input type=\"company\" v-model=\"tmpUser.company\" auto-complete=\"off\"/>\n          </el-form-item>\n          <el-form-item prop=\"email\" label=\"邮箱\">\n            <el-input v-model=\"tmpUser.email\"/>\n          </el-form-item>\n          <el-form-item label=\"联系电话\">\n            <el-input v-model=\"tmpUser.tel\" placeholder=\"联系电话\"/>\n          </el-form-item>\n          <el-form-item label=\"手机号码\">\n            <el-input v-model=\"tmpUser.phone\" placeholder=\"手机号码\"/>\n          </el-form-item>\n          <el-form-item label=\"所属角色\" prop=\"roleIds\">\n            <el-select v-model=\"tmpUser.roleIds\" multiple placeholder=\"请选择所属角色\">\n              <el-option v-for=\"(role, index) in roles\" :key=\"index\" :label=\"role.name\" :value=\"role.rolecode\">\n              </el-option>\n            </el-select>\n          </el-form-item>\n          <div class=\"pane-btns\">\n            <el-button @click=\"editUserModal = false\">取 消</el-button>\n            <el-button type=\"primary\" @click=\"editUserHandler()\" :loading=\"handlerLoading\">保存基本信息</el-button>\n          </div>\n        </el-form>\n      </div>\n        </el-tab-pane>\n        <el-tab-pane :label=\"type.name\" :name=\"type.code\" v-for=\"type in userPermissionTypes\" :key=\"type.code\">\n          <div style=\"max-height: 350px;overflow-y: auto;overflow-x: hidden;\">\n            <component :is=\"type.code\" :id=\"tmpUser.username\" type=\"U\"></component>\n          </div>\n        </el-tab-pane>\n    </el-tabs>\n\n  </el-dialog>\n</div>\n</template>\n\n<script>\nimport userAPI from './api/userAPI.js'\nimport roleAPI from './api/roleAPI.js'\nimport TreeSelect from './components/TreeSelect.vue'\nimport MenuPermission from './components/MenuPermission.vue'\nimport util from './components/util.js'\nrequire('./mock/user.js')\nexport default {\n  data() {\n    return {\n      userPermissionTypes: [{code:'menuPermission',name:'菜单权限'}],\n      currentPage: 1,\n      total: 50,\n      pageSize: 5,\n      pageSizes: [5, 10, 15, 20],\n      search:{username:'',company:''},\n      dataLoading: true,\n      users: [],\n      selectedRows: [],\n      handlerLoading: false,\n      modifyPasswordModal: false,\n      addUserModal: false,\n      editUserModal: false,\n      editUserActiveNameTab: 'base',\n      tmpUser: {\n        username: '',\n        realname: '',\n        password: '',\n        repeatPassword: '',\n        status: true,\n        company: '',\n        roles: [],\n        roleIds: [],\n        lastChangePasswordDate: '',\n        email: '',\n        tel: '',\n        phone: '',\n        remark: ''\n      },\n      roles: [],\n      modalLoading: false,\n      userRules: {\n        username: [\n          { required: true, message: '请输入用户名', trigger: 'blur' }\n        ],\n        realname: [\n          { required: true, message: '请输入真实姓名', trigger: 'blur' }\n        ],\n        password: [\n          { required: true, message: '请输入密码', trigger: 'blur' },\n          { min: 6, max: 32, message: '密码最少6位，最多32位', trigger: 'blur' }\n        ],\n        repeatPassword: [\n          { required: true, message: '请重复输入一次密码', trigger: 'blur' },\n          {\n            validator: (rule, value, callback) => {\n              if (value !== this.tmpUser.password) {\n                callback(new Error('两次输入密码不一致!'))\n              } else {\n                callback()\n              }\n            }, trigger: 'blur'\n          }\n        ],\n        email: [\n          { required: true, message: '请输入邮箱地址', trigger: 'blur' },\n          { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }\n        ],\n        roleIds: [\n          { type: 'array', required: true, message: '请选择所属角色', trigger: 'blur, change' }\n        ]\n      },\n\n    }\n  },\n  computed: {\n    disableOrEnable: function() {\n      if (this.selectedRows.length !== 1) {\n        return ''\n      }\n\n      return this.selectedRows[0].status ? '停用' : '启用'\n    }\n  },\n  methods: {\n    onSelectionChange(selection) {\n      this.selectedRows = selection\n    },\n    addClick() {\n      this.tmpUser = {\n        username: '',\n        realname: '',\n        password: '',\n        repeatPassword: '',\n        sate: true,\n        company: '',\n        roles: [],\n        roleIds: [],\n        lastChangePasswordDate: '',\n        email: '',\n        tel: '',\n        phone: '',\n        remark: ''\n      }\n      if ( !this.roles.length) {\n        Promise.all([\n        ]).then(datas => {\n          this.roles = datas[1].data\n        })\n      }\n\n      this.addUserModal = true\n    },\n    addUserHandler() {\n      util.validateForm(this.$refs['addUserForm']).then(() => {\n        this.handlerLoading = true\n        this.tmpUser.roles = this.roles.filter(val => {\n          return this.tmpUser.roleIds.includes(val.rolecode)\n        })\n\n        return userAPI.addUser(this.tmpUser).then(data => {\n          if (data.status !== 1) {\n            return data\n          }\n          this.users.push(this.tmpUser)\n          return data\n        })\n\n      }).then(data => {\n        this.addUserModal = false\n        this.handlerLoading = false\n        util.showNotification(data)\n\n      }).catch((e) => {\n        util.showErrorNotification(e)\n        this.handlerLoading = false\n      })\n\n\n    },\n    editClick() {\n      this.tmpUser = Object.assign({ roleIds: [] }, this.tmpUser, this.selectedRows[0])\n      this.tmpUser.roleIds = this.tmpUser.roles.map(val => {\n        return val.rolecode\n      })\n      this.editUserActiveNameTab = 'base'\n      this.modalLoading = true\n      this.editUserModal = true\n\n      Promise.all([\n        roleAPI.getRoles(),\n      ]).then(datas => {\n        this.roles = datas[0].data\n        this.modalLoading = false\n      })\n\n    },\n    editUserHandler() {\n      util.validateForm(this.$refs['editUserForm']).then(() => {\n        this.handlerLoading = true\n        return userAPI.editUser(this.tmpUser.username, this.tmpUser)\n      }).then(res => {\n        if (res.status === 1) {\n          return res\n        }\n        let index = this.users.findIndex(val => val.username === this.tmpUser.username)\n        this.tmpUser.roles = this.roles.filter(val => {\n          return this.tmpUser.roleIds.includes(val.rolecode)\n        })\n\n        this.users = [\n          ...this.users.slice(0, index),\n          this.tmpUser,\n          ...this.users.slice(index + 1)\n        ]\n        return res\n      }).then((data) => {\n        this.handlerLoading = false\n        this.editUserModal = false\n        util.showNotification(data)\n      }).catch(e => {\n        util.showErrorNotification(e)\n        this.handlerLoading = false\n      })\n\n    },\n    deleteClickHandler() {\n      let rowIds = []\n\n      this.selectedRows.forEach(function(row) {\n        rowIds.push(row.username)\n      })\n\n      this.$confirm('确定删除吗？删除后无法恢复。是否继续删除？', '删除确认', {\n        confirmButtonText: '确定',\n        cancelButtonText: '取消',\n        type: 'warning',\n        beforeClose: (action, instance, done) => {\n          if (action !== 'confirm') {\n            done()\n            return\n          }\n          instance.confirmButtonLoading = true\n\n          return userAPI.deleteUsers(rowIds).then(data => {\n            instance.confirmButtonLoading = false\n            return data\n          }).then(data => {\n            if (data.status !== 1) {\n              return data\n            }\n\n            this.users = this.users.filter(val => !rowIds.includes(val.username))\n\n            return data\n          }).then(data => {\n            util.showNotification(data)\n            done()\n          }).catch(e => {\n            util.showErrorNotification(e)\n            instance.confirmButtonLoading = false\n            done()\n          })\n        }\n      }).catch(e => {\n        util.showErrorNotification(e)\n      })\n\n    },\n    disableOrEnableClickHandler() {\n      let username = this.selectedRows[0].username\n\n      this.$confirm('确定' + this.disableOrEnable + '这个用户吗？', '确认' + this.disableOrEnable, {\n        confirmButtonText: '确定',\n        cancelButtonText: '取消',\n        type: 'warning',\n        beforeClose: (action, instance, done) => {\n          if (action !== 'confirm') {\n            done()\n            return\n          }\n          instance.confirmButtonLoading = true\n          let handle\n          if (this.selectedRows[0].status) {\n            handle = userAPI.disableUser\n          } else {\n            handle = userAPI.enableUser\n          }\n\n          handle(username).then(data => {\n            instance.confirmButtonLoading = false\n            return data\n          }).then(data => {\n            if (data.status !== 1) {\n              return data\n            }\n            let index = this.users.findIndex(val => {\n              return val.username === username\n            })\n            this.users[index].status = !this.users[index].status\n\n            return data\n          }).then(data => {\n            util.showNotification(data)\n            done()\n          }).catch(e => {\n            util.showErrorNotification(e)\n            instance.confirmButtonLoading = false\n            done()\n          })\n        }\n      }).catch(e => {\n        util.showErrorNotification(e)\n      })\n    },\n    modifyPasswordClick() {\n      this.tmpUser.username = this.selectedRows[0].username\n      this.tmpUser.password = ''\n      this.tmpUser.repeatPassword = ''\n\n      this.modifyPasswordModal = true\n    },\n    modifyPasswordHandler() {\n\n      util.validateForm(this.$refs['modifyPasswordForm']).then(() => {\n        this.handlerLoading = true\n        return userAPI.updatePassword(this.tmpUser.username, this.tmpUser.password).then(data => {\n          this.modifyPasswordModal = false\n          this.handlerLoading = false\n          return data\n        })\n      }).then((data) => {\n        util.showNotification(data)\n      }).catch((e) => {\n        util.showErrorNotification(e)\n        this.handlerLoading = false\n      })\n\n    },\n    handleSearchBtn() {\n      if (this.search.username != '' || this.search.company != '') {\n        userAPI.getUsers(search).then(data =>{\n          this.users=data.data\n          })\n      }\n    },\n    sizeChangeHandler(val) {\n      this.pageSize = val;\n    },\n    currentChangeHandler(val) {\n      this.currentPage = val;\n    }\n  },\n  created() {\n    Promise.all([\n      userAPI.getUsers(),\n    ]).then(datas => {\n      console.info(datas)\n      this.users = datas[0].data\n      this.dataLoading = false\n    })\n  },\n  components: {\n    'menuPermission': MenuPermission,\n    'tree-select': TreeSelect\n  }\n}\n</script>\n\n<style scoped>\n.main-content-wrap {\n  padding: 10px;\n}\n\n.search-bar {\n  padding-bottom: 10px;\n}\n.pane-btns {\n  text-align: right;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, ".main-content-wrap[data-v-cfa92d8c]{padding:10px}.search-bar[data-v-cfa92d8c]{padding-bottom:10px}.pane-btns[data-v-cfa92d8c]{text-align:right}", ""]);
 
 // exports
 
@@ -2933,31 +2667,18 @@ var content = __webpack_require__(47);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("5a83594f", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5e9d9894\",\"scoped\":true,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TreeSelect.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-5e9d9894\",\"scoped\":true,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TreeSelect.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("28af370e", content, true);
 
 /***/ }),
 /* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.select-wrap[data-v-5e9d9894]{\n  position: relative;\n  cursor: pointer;\n}\n.select-wrap input[type='text'][data-v-5e9d9894]{\n}\n.select-wrap .tree-wrap[data-v-5e9d9894]{\n  position: absolute;\n  z-index: 10000;\n  top: 42px;\n  left: 1px;\n  right: 1px;\n  background-color: #fff;\n  border: 1px solid #d1dbe5;\n  border-radius: 3px;\n  box-shadow: 0 2px 4px rgba(0,0,0,.12), 0 0 6px rgba(0,0,0,.04);\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/system/components/TreeSelect.vue?1f2d11b3"],"names":[],"mappings":";AAyFA;EACA,mBAAA;EACA,gBAAA;CACA;AACA;CAGA;AACA;EACA,mBAAA;EACA,eAAA;EACA,UAAA;EACA,UAAA;EACA,WAAA;EACA,uBAAA;EACA,0BAAA;EACA,mBAAA;EACA,+DAAA;CACA","file":"TreeSelect.vue","sourcesContent":["<template>\r\n  <div class=\"select-wrap\" @click.stop=\"wrapClickHandler\">\r\n    <el-input :value=\"inputValue\"\r\n              :placeholder=\"placeholder\"\r\n              :readonly=\"true\"\r\n              :disabled=\"disabled\"\r\n              :icon=\"isOpenTree ? 'caret-top' : 'caret-bottom'\"\r\n              @click.stop=\"inputClickHandler\">\r\n    </el-input>\r\n    <div class=\"tree-wrap\" v-show=\"isOpenTree\">\r\n      <el-tree :data=\"items\"\r\n               :node-key=\"itemsOptions.key\"\r\n               :current-node-key=\"currentNodeKey\"\r\n               :props=\"itemsOptions\"\r\n               :default-expand-all=\"true\"\r\n               :expand-on-click-node=\"false\"\r\n               :highlight-current=\"true\"\r\n               @node-click=\"treeNodeClickHandler\" >\r\n      </el-tree>\r\n    </div>\r\n  </div>\r\n</template>\r\n\r\n<script>\r\n  // 树形选择器\r\n\r\n  export default {\r\n    data(){\r\n      return {\r\n        isOpenTree: false\r\n      };\r\n    },\r\n    methods: {\r\n      inputClickHandler(){\r\n        if(this.disabled){\r\n          return;\r\n        }\r\n        this.isOpenTree = !this.isOpenTree;\r\n      },\r\n      wrapClickHandler(){\r\n        if(this.disabled){\r\n          return;\r\n        }\r\n        if(!this.isOpenTree){\r\n          this.isOpenTree = true;\r\n        }\r\n      },\r\n      treeNodeClickHandler(data){\r\n        let val = {};\r\n        val[this.itemsOptions.label] = data[this.itemsOptions.label];\r\n        val[this.itemsOptions.key] = data[this.itemsOptions.key];\r\n\r\n        this.$emit('input', val);\r\n        this.isOpenTree = false;\r\n      }\r\n    },\r\n    computed:{\r\n      inputValue(){\r\n        if(!this.value || !this.itemsOptions || !this.itemsOptions.label){\r\n          return '';\r\n        }\r\n\r\n        return this.value[this.itemsOptions.label] || '';\r\n      },\r\n      currentNodeKey(){\r\n        if(!this.value || !this.itemsOptions || !this.itemsOptions.key){\r\n          return '';\r\n        }\r\n\r\n        return this.value[this.itemsOptions.key] || '';\r\n      }\r\n    },\r\n    props: [\r\n      'value',\r\n      'placeholder',\r\n      'items',\r\n      'itemsOptions',\r\n      'disabled'\r\n    ],\r\n    mounted(){\r\n      let that = this;\r\n      document.addEventListener('click', () => {\r\n        that.isOpenTree = false;\r\n      }, false)\r\n    }\r\n  };\r\n</script>\r\n\r\n<style scoped>\r\n  .select-wrap{\r\n    position: relative;\r\n    cursor: pointer;\r\n  }\r\n  .select-wrap input[type='text']{\r\n\r\n\r\n  }\r\n  .select-wrap .tree-wrap{\r\n    position: absolute;\r\n    z-index: 10000;\r\n    top: 42px;\r\n    left: 1px;\r\n    right: 1px;\r\n    background-color: #fff;\r\n    border: 1px solid #d1dbe5;\r\n    border-radius: 3px;\r\n    box-shadow: 0 2px 4px rgba(0,0,0,.12), 0 0 6px rgba(0,0,0,.04);\r\n  }\r\n</style>\r\n"],"sourceRoot":""}]);
+exports.push([module.i, ".select-wrap[data-v-5e9d9894]{position:relative;cursor:pointer}.select-wrap .tree-wrap[data-v-5e9d9894]{position:absolute;z-index:10000;top:42px;left:1px;right:1px;background-color:#fff;border:1px solid #d1dbe5;border-radius:3px;box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04)}", ""]);
 
 // exports
 
@@ -3056,7 +2777,7 @@ exports.default = {
 
 /***/ }),
 /* 49 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -3104,13 +2825,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)], 1)
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-5e9d9894", module.exports)
-  }
-}
 
 /***/ }),
 /* 50 */
@@ -3123,31 +2837,18 @@ var content = __webpack_require__(51);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("d92fe98e", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4617f830\",\"scoped\":true,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MenuPermission.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-4617f830\",\"scoped\":true,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MenuPermission.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("ee3e1d10", content, true);
 
 /***/ }),
 /* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"MenuPermission.vue","sourceRoot":""}]);
+exports.push([module.i, "", ""]);
 
 // exports
 
@@ -3295,9 +2996,7 @@ exports.default = {
 /* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(54)
   __webpack_require__(56)
 }
@@ -3313,25 +3012,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\system\\components\\TreePermission.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] TreePermission.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6c8bf032", Component.options)
-  } else {
-    hotAPI.reload("data-v-6c8bf032", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -3347,31 +3027,18 @@ var content = __webpack_require__(55);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("cae8235e", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6c8bf032\",\"scoped\":true,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TreePermission.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6c8bf032\",\"scoped\":true,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TreePermission.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("dff656e0", content, true);
 
 /***/ }),
 /* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.tree-wrap[data-v-6c8bf032]{\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/system/components/TreePermission.vue?531f369a"],"names":[],"mappings":";AAUA;CACA","file":"TreePermission.vue","sourcesContent":["<template>\n  <div class=\"tree-wrap\">\n    <el-checkbox-group :value=\"value\">\n      <el-tree class=\"permission-tree-wrap\" :data=\"permissions\" :props=\"props\" :default-expand-all=\"expand\" :render-content=\"renderContent\">\n      </el-tree>\n    </el-checkbox-group>\n  </div>\n</template>\n\n<style scoped>\n  .tree-wrap{\n  }\n</style>\n\n<script>\n  import util from './util.js';\n\n  export default {\n    data() {\n      return {};\n    },\n    props: {\n      'value': {\n        type: Array,\n        required: true\n      },\n      'permissions': {\n        type: Array,\n        required: true\n      },\n      'props': {\n        type: Object,\n        default: function () {\n          return {\n            children: 'children',\n            label: 'name',\n            permission: 'permissions'\n          };\n        }\n      },\n      'expand': {\n        type: Boolean,\n        default: true\n      }\n    },\n    computed: {\n    },\n    methods: {\n      checkBoxChangeHandler(event){\n        const {target} = event;\n\n        let val = Object.assign([], this.value);\n\n        if(target.checked){\n          val.push(target.value);\n        }else {\n          let index = val.findIndex(val => val === target.value);\n          val.splice(index, 1);\n        }\n\n        return this.$emit('input', val);\n\n      },\n      nodeCheckBoxChangeHandler(event){\n        const {target} = event;\n\n        let val = Object.assign([], this.value);\n        let node = util.findTreeNode(this.permissions, 'code', target.value, this.props.children);\n        let nodeValues = this.treeNodeAllPermissionItems([ node ]);\n\n        if(target.checked){ // 全选子节点\n          const unique = (array) => { // 去重\n            var a = {};\n            for(let i = 0; i < array.length; i++){\n              if(typeof a[array[i]] === 'undefined')\n                a[array[i]] = 1;\n            }\n\n            array.length = 0;\n            for(let i in a)\n              array[array.length] = i;\n            return array;\n          };\n\n          val = unique(val.concat(nodeValues));\n\n        }else { // 取消选择子节点\n          val = val.filter(val => !nodeValues.includes(val) );\n        }\n\n        return this.$emit('input', val);\n      },\n      renderContent(h, {node}){\n        const { data } = node;\n\n        let nodeContent = [];\n        nodeContent.push(h(\n          'div', {\n            'class': ['node-name'],\n            'style': {\n              'display': 'inline-block'\n            }\n          }, [\n            h(\n              'span', {\n                style: {\n                  display: 'inline-block',\n                  'marginRight': '20px'\n                }\n              }, data[this.props.label]\n            ),\n            h('el-checkbox', {\n              props: {\n                'label': data.code,\n                'disabled': data.disabled\n              },\n              on: {\n                'change': this.nodeCheckBoxChangeHandler\n              }\n            }, '')\n          ]\n        ));\n\n        if(data[this.props.permission] && data[this.props.permission].length){\n          let permissionCheckBoxs = data[this.props.permission].map((val) => {\n            return h('el-checkbox', {\n              props: {\n                'label': val.code,\n                'disabled': val.disabled\n              },\n              on: {\n                'change': this.checkBoxChangeHandler\n              }\n            }, val.name);\n          }, this);\n\n          nodeContent.push(h(\n            'div', {\n              style: {\n                'paddingLeft': '77px',\n                'paddingRight': '22px',\n                'whiteSpace': 'normal'\n              }\n            }, permissionCheckBoxs\n          ));\n        }\n\n        return h('div', {\n          style: {\n            display: 'inline-block'\n          }\n        }, nodeContent);\n      },\n      treeNodeAllPermissionItems(tree){\n        let result = [];\n\n        for(let i = 0; i < tree.length; i++){\n          if(tree[i].code){\n            result.push(tree[i].code);\n          }\n\n          if(tree[i][this.props.permission] && tree[i][this.props.permission].length){\n            let tmpItems = tree[i][this.props.permission].map(val => val.code);\n            result = result.concat(tmpItems);\n          }\n\n          if(tree[i][this.props.children] && tree[i][this.props.children].length){\n            let tmp = this.treeNodeAllPermissionItems(tree[i][this.props.children]);\n            result = result.concat(tmp);\n          }\n        }\n\n        return result;\n      }\n    },\n    created() {\n    }\n  };\n</script>\n<<style scoped>\n.permission-tree-wrap .el-tree-node__content{\n  height: auto;\n}\n</style>\n\n"],"sourceRoot":""}]);
+exports.push([module.i, "", ""]);
 
 // exports
 
@@ -3387,31 +3054,18 @@ var content = __webpack_require__(57);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("3684f0dc", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6c8bf032\",\"scoped\":true,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./TreePermission.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6c8bf032\",\"scoped\":true,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./TreePermission.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("4b93245e", content, true);
 
 /***/ }),
 /* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.permission-tree-wrap .el-tree-node__content[data-v-6c8bf032]{\n  height: auto;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/system/components/TreePermission.vue?531f369a"],"names":[],"mappings":";AAoLA;EACA,aAAA;CACA","file":"TreePermission.vue","sourcesContent":["<template>\n  <div class=\"tree-wrap\">\n    <el-checkbox-group :value=\"value\">\n      <el-tree class=\"permission-tree-wrap\" :data=\"permissions\" :props=\"props\" :default-expand-all=\"expand\" :render-content=\"renderContent\">\n      </el-tree>\n    </el-checkbox-group>\n  </div>\n</template>\n\n<style scoped>\n  .tree-wrap{\n  }\n</style>\n\n<script>\n  import util from './util.js';\n\n  export default {\n    data() {\n      return {};\n    },\n    props: {\n      'value': {\n        type: Array,\n        required: true\n      },\n      'permissions': {\n        type: Array,\n        required: true\n      },\n      'props': {\n        type: Object,\n        default: function () {\n          return {\n            children: 'children',\n            label: 'name',\n            permission: 'permissions'\n          };\n        }\n      },\n      'expand': {\n        type: Boolean,\n        default: true\n      }\n    },\n    computed: {\n    },\n    methods: {\n      checkBoxChangeHandler(event){\n        const {target} = event;\n\n        let val = Object.assign([], this.value);\n\n        if(target.checked){\n          val.push(target.value);\n        }else {\n          let index = val.findIndex(val => val === target.value);\n          val.splice(index, 1);\n        }\n\n        return this.$emit('input', val);\n\n      },\n      nodeCheckBoxChangeHandler(event){\n        const {target} = event;\n\n        let val = Object.assign([], this.value);\n        let node = util.findTreeNode(this.permissions, 'code', target.value, this.props.children);\n        let nodeValues = this.treeNodeAllPermissionItems([ node ]);\n\n        if(target.checked){ // 全选子节点\n          const unique = (array) => { // 去重\n            var a = {};\n            for(let i = 0; i < array.length; i++){\n              if(typeof a[array[i]] === 'undefined')\n                a[array[i]] = 1;\n            }\n\n            array.length = 0;\n            for(let i in a)\n              array[array.length] = i;\n            return array;\n          };\n\n          val = unique(val.concat(nodeValues));\n\n        }else { // 取消选择子节点\n          val = val.filter(val => !nodeValues.includes(val) );\n        }\n\n        return this.$emit('input', val);\n      },\n      renderContent(h, {node}){\n        const { data } = node;\n\n        let nodeContent = [];\n        nodeContent.push(h(\n          'div', {\n            'class': ['node-name'],\n            'style': {\n              'display': 'inline-block'\n            }\n          }, [\n            h(\n              'span', {\n                style: {\n                  display: 'inline-block',\n                  'marginRight': '20px'\n                }\n              }, data[this.props.label]\n            ),\n            h('el-checkbox', {\n              props: {\n                'label': data.code,\n                'disabled': data.disabled\n              },\n              on: {\n                'change': this.nodeCheckBoxChangeHandler\n              }\n            }, '')\n          ]\n        ));\n\n        if(data[this.props.permission] && data[this.props.permission].length){\n          let permissionCheckBoxs = data[this.props.permission].map((val) => {\n            return h('el-checkbox', {\n              props: {\n                'label': val.code,\n                'disabled': val.disabled\n              },\n              on: {\n                'change': this.checkBoxChangeHandler\n              }\n            }, val.name);\n          }, this);\n\n          nodeContent.push(h(\n            'div', {\n              style: {\n                'paddingLeft': '77px',\n                'paddingRight': '22px',\n                'whiteSpace': 'normal'\n              }\n            }, permissionCheckBoxs\n          ));\n        }\n\n        return h('div', {\n          style: {\n            display: 'inline-block'\n          }\n        }, nodeContent);\n      },\n      treeNodeAllPermissionItems(tree){\n        let result = [];\n\n        for(let i = 0; i < tree.length; i++){\n          if(tree[i].code){\n            result.push(tree[i].code);\n          }\n\n          if(tree[i][this.props.permission] && tree[i][this.props.permission].length){\n            let tmpItems = tree[i][this.props.permission].map(val => val.code);\n            result = result.concat(tmpItems);\n          }\n\n          if(tree[i][this.props.children] && tree[i][this.props.children].length){\n            let tmp = this.treeNodeAllPermissionItems(tree[i][this.props.children]);\n            result = result.concat(tmp);\n          }\n        }\n\n        return result;\n      }\n    },\n    created() {\n    }\n  };\n</script>\n<<style scoped>\n.permission-tree-wrap .el-tree-node__content{\n  height: auto;\n}\n</style>\n\n"],"sourceRoot":""}]);
+exports.push([module.i, ".permission-tree-wrap .el-tree-node__content[data-v-6c8bf032]{height:auto}", ""]);
 
 // exports
 
@@ -3612,7 +3266,7 @@ exports.default = {
 
 /***/ }),
 /* 59 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -3631,13 +3285,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)], 1)
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-6c8bf032", module.exports)
-  }
-}
 
 /***/ }),
 /* 60 */
@@ -3678,7 +3325,7 @@ exports.default = privAPI;
 
 /***/ }),
 /* 61 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('el-toolbar', {
@@ -3720,13 +3367,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-4617f830", module.exports)
-  }
-}
 
 /***/ }),
 /* 62 */
@@ -3748,12 +3388,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 window.axiosMock = window.axiosMock || new _axiosMockAdapter2.default(_axios2.default, { delayResponse: 10 });
 
 var users = [{
-    "username": "jianghq",
-    "realname": "jianghaiqun",
+    "username": "huawei",
+    "realname": "huawei",
     "branchinnercode": "00010036",
     "lastmodifypasstime": null,
     "status": true,
-    "email": "jhq@zving.com",
+    "email": "huawei@huawei.com",
     "company": "上海公司",
     "roles": []
 }, {
@@ -3762,8 +3402,8 @@ var users = [{
     "branchinnercode": "0001",
     "lastmodifypasstime": "2016-10-28 19:13:31",
     "status": true,
-    "email": "audit@zving.com",
-    "company": "长沙泽元软件有限公司",
+    "email": "audit@huawei.com",
+    "company": "华为",
     "roles": [{
         "rolecode": "audit",
         "name": "审核组"
@@ -3774,8 +3414,8 @@ var users = [{
     "branchinnercode": "0001",
     "lastmodifypasstime": "2016-10-28 19:13:17",
     "status": false,
-    "email": "edit@zving.com",
-    "company": "北京泽元软件有限公司",
+    "email": "edit@huawei.com",
+    "company": "huawei",
     "roles": [{
         "rolecode": "sanbu",
         "name": "三部"
@@ -3789,8 +3429,8 @@ var users = [{
     "branchinnercode": "0001",
     "lastmodifypasstime": null,
     "status": true,
-    "email": "admin@zving.com",
-    "company": "泽西艾暮艾斯有限公司",
+    "email": "admin@huawei.com",
+    "company": "华为",
     "roles": [{
         "rolecode": "admin",
         "name": "管理员组"
@@ -3807,7 +3447,7 @@ axiosMock.onPut(/\/users\/[^\/]+\/password/).reply(200, { status: 1, message: '�
 
 /***/ }),
 /* 63 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('el-toolbar', [_c('el-button', {
@@ -4465,21 +4105,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })], 1)])
   })], 2)], 1)], 1)
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-cfa92d8c", module.exports)
-  }
-}
 
 /***/ }),
 /* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(65)
   __webpack_require__(67)
 }
@@ -4495,25 +4126,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\system\\role.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] role.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-cfac9f36", Component.options)
-  } else {
-    hotAPI.reload("data-v-cfac9f36", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -4529,31 +4141,18 @@ var content = __webpack_require__(66);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("7c1282cc", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-cfac9f36\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./role.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-cfac9f36\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./role.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("b2c19186", content, true);
 
 /***/ }),
 /* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.z-body-list[data-v-cfac9f36]{\n  flex-basis: 280px;\n  max-width: 280px;\n}\n.pane-wrap[data-v-cfac9f36]{\n  height: calc(100vh - 100px);\n  overflow-y: auto;\n  overflow-x: hidden;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/system/role.vue?b40b6f9a"],"names":[],"mappings":";AAgIA;EACA,kBAAA;EACA,iBAAA;CACA;AACA;EACA,4BAAA;EACA,iBAAA;EACA,mBAAA;CACA","file":"role.vue","sourcesContent":["<template>\n  <div style=\"display: flex;\">\n    <div class=\"z-body-list z-main-height\">\n      <el-toolbar>\n        <el-button  @click=\"addRoleClickHandler\" >\n          <i class=\"fa fa-plus\"></i> 新建\n        </el-button>\n        <el-button @click=\"editRoleClickHandler\" :disabled=\"!currentRole\">\n          <i class=\"fa fa-pencil\"></i> 编辑\n        </el-button>\n        <el-button @click=\"deleteRoleClickHandler\" :disabled=\"!currentRole\">\n          <i class=\"fa fa-close\"></i> 删除\n        </el-button>\n      </el-toolbar>\n      <div v-loading=\"roleLoading\">\n        <el-tree :highlight-current=\"true\"\n                 :props=\"roleProps\"\n                 :data=\"roleTree\"\n                 @current-change=\"onRoleTreeCheckChange\">\n        </el-tree>\n      </div>\n    </div>\n    <div class=\"z-body-detail z-main-height\" >\n      <div>\n        <el-tabs class=\"tabs-wrap\" v-model=\"activeName\" @tab-click=\"onRoleTabsClick\">\n          <el-tab-pane label='基本信息' name='roleInfo'>\n            <div v-loading=\"roleInfoLoading\">\n              <div style=\"padding: 15px;\">\n                <table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\" class=\"z-datagrid\">\n                  <tbody>\n                    <tr style=\"height: 24px; line-height: 24px;\">\n                      <td class=\"noellipsis\">&nbsp;</td>\n                      <td>角色名：</td>\n                      <td>{{currentRole && currentRole.name}}</td>\n                      <td>角色代码：</td>\n                      <td>{{currentRole && currentRole.rolecode}}</td>\n                    </tr>\n                    <tr style=\"height: 24px; line-height: 24px;\">\n                      <td class=\"noellipsis\">&nbsp;</td>\n                      <td>备注：</td>\n                      <td colspan=\"3\">{{currentRole && currentRole.memo}}</td>\n                    </tr>\n                  </tbody>\n                </table>\n              </div>\n              <el-toolbar>\n                <el-button class=\"z-toolbar-btn\"\n                           :plain=\"true\"\n                           icon=\"plus\"\n                           size=\"small\"\n                           @click=\"addUsersToRoleClickHandler\"\n                           :disabled=\"!currentRole\">添加用户到角色</el-button>\n                <el-button class=\"z-toolbar-btn\"\n                           :plain=\"true\"\n                           icon=\"delete\"\n                           size=\"small\"\n                           @click=\"deleteUsersToRoleClickHandler\" :disabled=\"!currentRole\">从角色中删除用户\n                </el-button>\n              </el-toolbar>\n              <div class=\"main-content-wrap\">\n                <el-table style=\"width: 100%\" :data=\"userDataTableValues\">\n                  <el-table-column prop=\"username\" label=\"用户名\" min-width=\"150\"></el-table-column>\n                  <el-table-column prop=\"realname\" label=\"真实姓名\" min-width=\"150\"></el-table-column>\n                  <el-table-column label=\"所属角色\" min-width=\"150\">\n                    <template slot-scope=\"scope\">\n                      <span v-for=\"(role,index) in scope.row.roles\" :key=\"role.rolecode\">\n                        {{role.name}}{{index+1 < scope.row.roles.length ? ',':''}}\n                      </span>\n                    </template>\n                  </el-table-column>\n                </el-table>\n              </div>\n            </div>\n          </el-tab-pane>\n          <el-tab-pane :label=\"type.name\" :name=\"type.code\" v-for=\"type in rolePermissionTypes\" :key=\"type.code\">\n            <div class=\"pane-wrap main-content-wrap\">\n              <component :is=\"type.code\" :id=\"currentRole.rolecode\" :type=\"privType\"></component>\n            </div>\n          </el-tab-pane>\n        </el-tabs>\n      </div>\n    </div>\n    <!--添加编辑框-->\n    <el-dialog :title=\"editRoleMode === 1 ? '添加新角色' : '编辑角色'\" :visible.sync=\"roleDialog\">\n      <el-form :model=\"tmpRole\" :rules=\"roleRules\" ref=\"roleForm\" label-width=\"100px\">\n        <el-form-item label=\"角色名\" prop=\"rolename\">\n          <el-input v-model=\"tmpRole.rolename\"></el-input>\n        </el-form-item>\n        <el-form-item label=\"角色代码\" prop=\"rolecode\">\n          <el-input v-model=\"tmpRole.rolecode\" :disabled=\"editRoleMode === 2\"></el-input>\n        </el-form-item>\n        <el-form-item label=\"备注\">\n          <el-input v-model=\"tmpRole.memo\"></el-input>\n        </el-form-item>\n      </el-form>\n      <div slot=\"footer\">\n        <el-button @click=\"roleDialog = false\">取 消</el-button>\n        <el-button type=\"primary\" :loading=\"confirmLoading\" @click=\"okHandler\">确 定</el-button>\n      </div>\n    </el-dialog>\n    <!--用户选择框-->\n    <el-dialog :title=\"selectMode === 1 ? '添加用户到角色' : '从角色中删除用户'\" :visible.sync=\"selectDialog\">\n      <div class=\"select-user-wrap\" v-loading=\"selectLoading\">\n        <el-table :data=\"selectUsers\" @selection-change=\"usersSelectionChangeHandler\" style=\"width: 100%\" highlight-current-row>\n          <el-table-column type=\"selection\" width=\"40\"></el-table-column>\n          <el-table-column prop=\"username\" label=\"用户名\" min-width=\"150\"></el-table-column>\n          <el-table-column prop=\"realname\" label=\"真实姓名\" min-width=\"150\"></el-table-column>\n          <el-table-column label=\"所属角色\" min-width=\"150\">\n            <template slot-scope=\"scope\">\n              <span v-for=\"role in scope.row.roles\" :key=\"role.rolecode\">\n                {{role.name}}，\n              </span>\n            </template>\n          </el-table-column>\n        </el-table>\n      </div>\n      <div slot=\"footer\">\n        <el-button @click=\"selectDialog = false\">取 消</el-button>\n        <el-button type=\"primary\"\n                   :loading=\"confirmLoading\"\n                   :disabled=\"!selectedUsers.length\"\n                   @click=\"selectConfirmClickHandler\">确 定</el-button>\n      </div>\n    </el-dialog>\n  </div>\n</template>\n\n<style scoped>\n  .z-body-list{\n    flex-basis: 280px;\n    max-width: 280px;\n  }\n  .pane-wrap{\n    height: calc(100vh - 100px);\n    overflow-y: auto;\n    overflow-x: hidden;\n  }\n</style>\n\n<script>\n  import roleAPI from './api/roleAPI.js'\n  import TreeSelect from './components/TreeSelect.vue'\n  import TreeGrid from './components/TreeGrid.vue'\n  import MenuPermission from './components/MenuPermission.vue'\n  import util from './components/util.js'\n  require('./mock/role.js')\n  require('./mock/priv.js')\nexport default {\n  data() {\n    return {\n      rolePermissionTypes: [{code:'menuPermission',name:'菜单权限'}],\n      roleLoading: false,\n      roleTree: [],\n      currentRole:{},\n      activeName: 'roleInfo',\n      roleInfoLoading: false,\n      userDataTableValues: [],\n      menuPrivLoading: false,\n      privType: 'R',\n      roleProps: {\n        children: 'children',\n        label: 'name',\n        key: 'rolecode'\n      },\n\n      roleDialog: false,\n      editRoleMode: 1, // 1： 添加， 2：编辑\n      tmpRole: {},\n      roleRules: {\n        rolename: [\n          { required: true, message: '请输入角色名', trigger: 'blur' }\n        ],\n        rolecode: [\n          { required: true, message: '请输入角色代码', trigger: 'blur' }\n        ]\n      },\n      confirmLoading: false,\n      selectUsers: [],\n      selectMode: 1, // 1: 添加用户到角色，2: 从角色中删除用户\n      selectDialog: false,\n      selectLoading: false,\n      selectedUsers: [],\n      sidebarCollapsed: false //侧边栏是否为展开状态\n    }\n  },\n  created() {\n    roleAPI.getRoles().then(data =>{\n      this.roleTree = data.data\n       this.roleInfoLoading = false\n    })\n  },\n  methods: {\n    // 当在左下机构树上点击\n    onRoleTreeCheckChange(role) {\n      this.currentRole = role;\n      this.userDataTableValues = []\n      this.onRoleTabsClick()\n    },\n    // 当在右上页签上点击\n    onRoleTabsClick() {\n      if( !this.currentRole || !this.currentRole.rolecode){\n        return;\n      }\n\n      if (this.activeName === 'roleInfo' && !this.userDataTableValues.length) {\n        this.roleInfoLoading = true;\n        roleAPI.getUsersByRole(this.currentRole.rolecode).then(data => {\n          this.userDataTableValues = data.data\n          this.roleInfoLoading = false\n        });\n      }\n\n    },\n    addRoleClickHandler(){\n      this.editRoleMode = 1;\n      this.tmpRole = {\n        rolename: '',\n        rolecode: '',\n        memo: ''\n      };\n      this.roleDialog = true\n    },\n    editRoleClickHandler(){\n      this.editRoleMode = 2;\n      console.info(this.currentRole);\n      this.tmpRole = {\n        rolecode:  this.currentRole.rolecode,\n        memo: this.currentRole.memo,\n        rolename: this.currentRole.name\n      };\n\n      this.roleDialog = true;\n    },\n    deleteRoleClickHandler(){\n      this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {\n        confirmButtonText: '确定',\n        cancelButtonText: '取消',\n        type: 'warning'\n      }).then(() => {\n        return roleAPI.deleteRole(this.currentRole.rolecode);\n      }).then((data)=>{\n        if(data.status !== 1){\n          return data\n        }\n\n        let index = this.roleTree.findIndex(val => val.rolecode === this.currentRole.rolecode);\n\n        this.roleTree = [\n          ...this.roleTree.slice(0, index),\n          ...this.roleTree.slice(index + 1)\n        ];\n\n        this.currentRole = null\n        this.userDataTableValues = []\n\n        return data\n      }).then((data) => {\n        util.showNotification(data);\n      }).catch(e => {\n        util.showErrorNotification(e)\n      });\n    },\n    okHandler(){\n      let addForm = () => {\n        return roleAPI.addRole(this.tmpRole).then(data=>{\n          if(data.status !== 1){\n            return data;\n          }\n            this.roleTree.push({\n              name: this.tmpRole.rolename,\n              rolecode: this.tmpRole.rolecode,\n              memo: this.tmpRole.memo\n            });\n\n          return data;\n        })\n      };\n\n      let editForm = () => {\n        return roleAPI.editRole(this.tmpRole.rolecode, this.tmpRole).then( data => {\n          if(data.status !== 1){\n            return data;\n          }\n\n          let index = this.roleTree.findIndex(val => val.rolecode === this.tmpRole.rolecode);\n          this.tmpRole.name=this.tmpRole.rolename;\n          this.roleTree = [\n            ...this.roleTree.slice(0, index),\n            this.tmpRole,\n            ...this.roleTree.slice(index + 1)\n          ]\n          this.currentRole=this.tmpRole\n\n          return data;\n        })\n\n      };\n\n      util.validateForm(this.$refs['roleForm']).then(() => {\n        this.confirmLoading = true;\n        if(this.editRoleMode === 1){\n          return addForm();\n        }\n\n        if(this.editRoleMode === 2){\n          return editForm();\n        }\n      }).then((data)=> {\n        this.confirmLoading = false;\n        this.roleDialog = false;\n\n        util.showNotification(data);\n      }).catch((e)=>{\n        util.showErrorNotification(e);\n        this.confirmLoading = false;\n      });\n    },\n    addUsersToRoleClickHandler(){\n      this.selectUsers = [];\n      this.selectedUsers = [];\n      this.selectMode = 1;\n      this.selectLoading = true;\n      this.selectDialog = true;\n\n      roleAPI.getUsersNotRole(this.currentRole.rolecode).then(data=>{\n        this.selectUsers = data.data;\n        this.selectLoading = false;\n      });\n    },\n    deleteUsersToRoleClickHandler(){\n      this.selectUsers = Object.assign([], this.userDataTableValues);\n      this.selectedUsers = [];\n      this.selectMode = 2;\n      this.selectLoading = false;\n      this.selectDialog = true;\n    },\n    usersSelectionChangeHandler(selection){\n      this.selectedUsers = selection;\n    },\n    selectConfirmClickHandler(){\n      this.confirmLoading = true;\n\n      let deleteUsers = () => {\n        let ids = this.selectedUsers.map(val => val.username);\n\n        return roleAPI.removeUsers(ids,this.currentRole.rolecode).then(res => {\n          if(res.status !== 1){\n            return res;\n          }\n          this.userDataTableValues = this.userDataTableValues.filter(val => {\n            return !ids.includes(val.username);\n          });\n          return res;\n        });\n      };\n\n      let addUsers = () => {\n        let ids = this.selectedUsers.map(val => val.username);\n\n        return roleAPI.addUsers(ids, this.currentRole.rolecode).then(res => {\n          if(res.status !== 1){\n            return res;\n          }\n\n          this.userDataTableValues = [\n            ...this.userDataTableValues,\n            ...this.selectedUsers\n          ];\n\n          return res;\n        });\n      };\n\n      let handler = this.selectMode === 1 ? addUsers : deleteUsers;\n\n      handler().then((res)=>{\n        this.confirmLoading = false;\n        this.selectDialog = false;\n\n        util.showNotification(res);\n      }).catch(e => {\n        this.confirmLoading = false;\n        util.showErrorNotification(e);\n      });\n    },\n    toggleSidebar(){\n      this.sidebarCollapsed = !this.sidebarCollapsed\n    }\n  },\n  components: {\n    'menuPermission': MenuPermission,\n    'tree-select': TreeSelect,\n    'tree-grid': TreeGrid\n  }\n\n};\n</script>\n<style scoped>\n.z-body-detail {\n    background: #f9fbfc none;\n    box-shadow: inset 1px 0px 0px rgba(0, 0, 0, 0.04);\n    flex: 1;\n    position: relative;\n}\n\n.z-main-height {\n    height: calc(100vh - 50px);\n    position: relative;\n}\n.main-content-wrap {\n  padding: 10px;\n}\n</style>\n\n\n\n"],"sourceRoot":""}]);
+exports.push([module.i, ".z-body-list[data-v-cfac9f36]{flex-basis:280px;max-width:280px}.pane-wrap[data-v-cfac9f36]{height:calc(100vh - 100px);overflow-y:auto;overflow-x:hidden}", ""]);
 
 // exports
 
@@ -4569,31 +4168,18 @@ var content = __webpack_require__(68);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("6a95894d", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-cfac9f36\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./role.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-cfac9f36\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=1!./role.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("d5bb8484", content, true);
 
 /***/ }),
 /* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.z-body-detail[data-v-cfac9f36] {\n    background: #f9fbfc none;\n    box-shadow: inset 1px 0px 0px rgba(0, 0, 0, 0.04);\n    flex: 1;\n    position: relative;\n}\n.z-main-height[data-v-cfac9f36] {\n    height: calc(100vh - 50px);\n    position: relative;\n}\n.main-content-wrap[data-v-cfac9f36] {\n  padding: 10px;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/system/role.vue?b40b6f9a"],"names":[],"mappings":";AA8YA;IACA,yBAAA;IACA,kDAAA;IACA,QAAA;IACA,mBAAA;CACA;AAEA;IACA,2BAAA;IACA,mBAAA;CACA;AACA;EACA,cAAA;CACA","file":"role.vue","sourcesContent":["<template>\n  <div style=\"display: flex;\">\n    <div class=\"z-body-list z-main-height\">\n      <el-toolbar>\n        <el-button  @click=\"addRoleClickHandler\" >\n          <i class=\"fa fa-plus\"></i> 新建\n        </el-button>\n        <el-button @click=\"editRoleClickHandler\" :disabled=\"!currentRole\">\n          <i class=\"fa fa-pencil\"></i> 编辑\n        </el-button>\n        <el-button @click=\"deleteRoleClickHandler\" :disabled=\"!currentRole\">\n          <i class=\"fa fa-close\"></i> 删除\n        </el-button>\n      </el-toolbar>\n      <div v-loading=\"roleLoading\">\n        <el-tree :highlight-current=\"true\"\n                 :props=\"roleProps\"\n                 :data=\"roleTree\"\n                 @current-change=\"onRoleTreeCheckChange\">\n        </el-tree>\n      </div>\n    </div>\n    <div class=\"z-body-detail z-main-height\" >\n      <div>\n        <el-tabs class=\"tabs-wrap\" v-model=\"activeName\" @tab-click=\"onRoleTabsClick\">\n          <el-tab-pane label='基本信息' name='roleInfo'>\n            <div v-loading=\"roleInfoLoading\">\n              <div style=\"padding: 15px;\">\n                <table width=\"100%\" cellpadding=\"4\" cellspacing=\"0\" class=\"z-datagrid\">\n                  <tbody>\n                    <tr style=\"height: 24px; line-height: 24px;\">\n                      <td class=\"noellipsis\">&nbsp;</td>\n                      <td>角色名：</td>\n                      <td>{{currentRole && currentRole.name}}</td>\n                      <td>角色代码：</td>\n                      <td>{{currentRole && currentRole.rolecode}}</td>\n                    </tr>\n                    <tr style=\"height: 24px; line-height: 24px;\">\n                      <td class=\"noellipsis\">&nbsp;</td>\n                      <td>备注：</td>\n                      <td colspan=\"3\">{{currentRole && currentRole.memo}}</td>\n                    </tr>\n                  </tbody>\n                </table>\n              </div>\n              <el-toolbar>\n                <el-button class=\"z-toolbar-btn\"\n                           :plain=\"true\"\n                           icon=\"plus\"\n                           size=\"small\"\n                           @click=\"addUsersToRoleClickHandler\"\n                           :disabled=\"!currentRole\">添加用户到角色</el-button>\n                <el-button class=\"z-toolbar-btn\"\n                           :plain=\"true\"\n                           icon=\"delete\"\n                           size=\"small\"\n                           @click=\"deleteUsersToRoleClickHandler\" :disabled=\"!currentRole\">从角色中删除用户\n                </el-button>\n              </el-toolbar>\n              <div class=\"main-content-wrap\">\n                <el-table style=\"width: 100%\" :data=\"userDataTableValues\">\n                  <el-table-column prop=\"username\" label=\"用户名\" min-width=\"150\"></el-table-column>\n                  <el-table-column prop=\"realname\" label=\"真实姓名\" min-width=\"150\"></el-table-column>\n                  <el-table-column label=\"所属角色\" min-width=\"150\">\n                    <template slot-scope=\"scope\">\n                      <span v-for=\"(role,index) in scope.row.roles\" :key=\"role.rolecode\">\n                        {{role.name}}{{index+1 < scope.row.roles.length ? ',':''}}\n                      </span>\n                    </template>\n                  </el-table-column>\n                </el-table>\n              </div>\n            </div>\n          </el-tab-pane>\n          <el-tab-pane :label=\"type.name\" :name=\"type.code\" v-for=\"type in rolePermissionTypes\" :key=\"type.code\">\n            <div class=\"pane-wrap main-content-wrap\">\n              <component :is=\"type.code\" :id=\"currentRole.rolecode\" :type=\"privType\"></component>\n            </div>\n          </el-tab-pane>\n        </el-tabs>\n      </div>\n    </div>\n    <!--添加编辑框-->\n    <el-dialog :title=\"editRoleMode === 1 ? '添加新角色' : '编辑角色'\" :visible.sync=\"roleDialog\">\n      <el-form :model=\"tmpRole\" :rules=\"roleRules\" ref=\"roleForm\" label-width=\"100px\">\n        <el-form-item label=\"角色名\" prop=\"rolename\">\n          <el-input v-model=\"tmpRole.rolename\"></el-input>\n        </el-form-item>\n        <el-form-item label=\"角色代码\" prop=\"rolecode\">\n          <el-input v-model=\"tmpRole.rolecode\" :disabled=\"editRoleMode === 2\"></el-input>\n        </el-form-item>\n        <el-form-item label=\"备注\">\n          <el-input v-model=\"tmpRole.memo\"></el-input>\n        </el-form-item>\n      </el-form>\n      <div slot=\"footer\">\n        <el-button @click=\"roleDialog = false\">取 消</el-button>\n        <el-button type=\"primary\" :loading=\"confirmLoading\" @click=\"okHandler\">确 定</el-button>\n      </div>\n    </el-dialog>\n    <!--用户选择框-->\n    <el-dialog :title=\"selectMode === 1 ? '添加用户到角色' : '从角色中删除用户'\" :visible.sync=\"selectDialog\">\n      <div class=\"select-user-wrap\" v-loading=\"selectLoading\">\n        <el-table :data=\"selectUsers\" @selection-change=\"usersSelectionChangeHandler\" style=\"width: 100%\" highlight-current-row>\n          <el-table-column type=\"selection\" width=\"40\"></el-table-column>\n          <el-table-column prop=\"username\" label=\"用户名\" min-width=\"150\"></el-table-column>\n          <el-table-column prop=\"realname\" label=\"真实姓名\" min-width=\"150\"></el-table-column>\n          <el-table-column label=\"所属角色\" min-width=\"150\">\n            <template slot-scope=\"scope\">\n              <span v-for=\"role in scope.row.roles\" :key=\"role.rolecode\">\n                {{role.name}}，\n              </span>\n            </template>\n          </el-table-column>\n        </el-table>\n      </div>\n      <div slot=\"footer\">\n        <el-button @click=\"selectDialog = false\">取 消</el-button>\n        <el-button type=\"primary\"\n                   :loading=\"confirmLoading\"\n                   :disabled=\"!selectedUsers.length\"\n                   @click=\"selectConfirmClickHandler\">确 定</el-button>\n      </div>\n    </el-dialog>\n  </div>\n</template>\n\n<style scoped>\n  .z-body-list{\n    flex-basis: 280px;\n    max-width: 280px;\n  }\n  .pane-wrap{\n    height: calc(100vh - 100px);\n    overflow-y: auto;\n    overflow-x: hidden;\n  }\n</style>\n\n<script>\n  import roleAPI from './api/roleAPI.js'\n  import TreeSelect from './components/TreeSelect.vue'\n  import TreeGrid from './components/TreeGrid.vue'\n  import MenuPermission from './components/MenuPermission.vue'\n  import util from './components/util.js'\n  require('./mock/role.js')\n  require('./mock/priv.js')\nexport default {\n  data() {\n    return {\n      rolePermissionTypes: [{code:'menuPermission',name:'菜单权限'}],\n      roleLoading: false,\n      roleTree: [],\n      currentRole:{},\n      activeName: 'roleInfo',\n      roleInfoLoading: false,\n      userDataTableValues: [],\n      menuPrivLoading: false,\n      privType: 'R',\n      roleProps: {\n        children: 'children',\n        label: 'name',\n        key: 'rolecode'\n      },\n\n      roleDialog: false,\n      editRoleMode: 1, // 1： 添加， 2：编辑\n      tmpRole: {},\n      roleRules: {\n        rolename: [\n          { required: true, message: '请输入角色名', trigger: 'blur' }\n        ],\n        rolecode: [\n          { required: true, message: '请输入角色代码', trigger: 'blur' }\n        ]\n      },\n      confirmLoading: false,\n      selectUsers: [],\n      selectMode: 1, // 1: 添加用户到角色，2: 从角色中删除用户\n      selectDialog: false,\n      selectLoading: false,\n      selectedUsers: [],\n      sidebarCollapsed: false //侧边栏是否为展开状态\n    }\n  },\n  created() {\n    roleAPI.getRoles().then(data =>{\n      this.roleTree = data.data\n       this.roleInfoLoading = false\n    })\n  },\n  methods: {\n    // 当在左下机构树上点击\n    onRoleTreeCheckChange(role) {\n      this.currentRole = role;\n      this.userDataTableValues = []\n      this.onRoleTabsClick()\n    },\n    // 当在右上页签上点击\n    onRoleTabsClick() {\n      if( !this.currentRole || !this.currentRole.rolecode){\n        return;\n      }\n\n      if (this.activeName === 'roleInfo' && !this.userDataTableValues.length) {\n        this.roleInfoLoading = true;\n        roleAPI.getUsersByRole(this.currentRole.rolecode).then(data => {\n          this.userDataTableValues = data.data\n          this.roleInfoLoading = false\n        });\n      }\n\n    },\n    addRoleClickHandler(){\n      this.editRoleMode = 1;\n      this.tmpRole = {\n        rolename: '',\n        rolecode: '',\n        memo: ''\n      };\n      this.roleDialog = true\n    },\n    editRoleClickHandler(){\n      this.editRoleMode = 2;\n      console.info(this.currentRole);\n      this.tmpRole = {\n        rolecode:  this.currentRole.rolecode,\n        memo: this.currentRole.memo,\n        rolename: this.currentRole.name\n      };\n\n      this.roleDialog = true;\n    },\n    deleteRoleClickHandler(){\n      this.$confirm('确定删除吗，删除后无法恢复。是否继续删除？', '删除确认', {\n        confirmButtonText: '确定',\n        cancelButtonText: '取消',\n        type: 'warning'\n      }).then(() => {\n        return roleAPI.deleteRole(this.currentRole.rolecode);\n      }).then((data)=>{\n        if(data.status !== 1){\n          return data\n        }\n\n        let index = this.roleTree.findIndex(val => val.rolecode === this.currentRole.rolecode);\n\n        this.roleTree = [\n          ...this.roleTree.slice(0, index),\n          ...this.roleTree.slice(index + 1)\n        ];\n\n        this.currentRole = null\n        this.userDataTableValues = []\n\n        return data\n      }).then((data) => {\n        util.showNotification(data);\n      }).catch(e => {\n        util.showErrorNotification(e)\n      });\n    },\n    okHandler(){\n      let addForm = () => {\n        return roleAPI.addRole(this.tmpRole).then(data=>{\n          if(data.status !== 1){\n            return data;\n          }\n            this.roleTree.push({\n              name: this.tmpRole.rolename,\n              rolecode: this.tmpRole.rolecode,\n              memo: this.tmpRole.memo\n            });\n\n          return data;\n        })\n      };\n\n      let editForm = () => {\n        return roleAPI.editRole(this.tmpRole.rolecode, this.tmpRole).then( data => {\n          if(data.status !== 1){\n            return data;\n          }\n\n          let index = this.roleTree.findIndex(val => val.rolecode === this.tmpRole.rolecode);\n          this.tmpRole.name=this.tmpRole.rolename;\n          this.roleTree = [\n            ...this.roleTree.slice(0, index),\n            this.tmpRole,\n            ...this.roleTree.slice(index + 1)\n          ]\n          this.currentRole=this.tmpRole\n\n          return data;\n        })\n\n      };\n\n      util.validateForm(this.$refs['roleForm']).then(() => {\n        this.confirmLoading = true;\n        if(this.editRoleMode === 1){\n          return addForm();\n        }\n\n        if(this.editRoleMode === 2){\n          return editForm();\n        }\n      }).then((data)=> {\n        this.confirmLoading = false;\n        this.roleDialog = false;\n\n        util.showNotification(data);\n      }).catch((e)=>{\n        util.showErrorNotification(e);\n        this.confirmLoading = false;\n      });\n    },\n    addUsersToRoleClickHandler(){\n      this.selectUsers = [];\n      this.selectedUsers = [];\n      this.selectMode = 1;\n      this.selectLoading = true;\n      this.selectDialog = true;\n\n      roleAPI.getUsersNotRole(this.currentRole.rolecode).then(data=>{\n        this.selectUsers = data.data;\n        this.selectLoading = false;\n      });\n    },\n    deleteUsersToRoleClickHandler(){\n      this.selectUsers = Object.assign([], this.userDataTableValues);\n      this.selectedUsers = [];\n      this.selectMode = 2;\n      this.selectLoading = false;\n      this.selectDialog = true;\n    },\n    usersSelectionChangeHandler(selection){\n      this.selectedUsers = selection;\n    },\n    selectConfirmClickHandler(){\n      this.confirmLoading = true;\n\n      let deleteUsers = () => {\n        let ids = this.selectedUsers.map(val => val.username);\n\n        return roleAPI.removeUsers(ids,this.currentRole.rolecode).then(res => {\n          if(res.status !== 1){\n            return res;\n          }\n          this.userDataTableValues = this.userDataTableValues.filter(val => {\n            return !ids.includes(val.username);\n          });\n          return res;\n        });\n      };\n\n      let addUsers = () => {\n        let ids = this.selectedUsers.map(val => val.username);\n\n        return roleAPI.addUsers(ids, this.currentRole.rolecode).then(res => {\n          if(res.status !== 1){\n            return res;\n          }\n\n          this.userDataTableValues = [\n            ...this.userDataTableValues,\n            ...this.selectedUsers\n          ];\n\n          return res;\n        });\n      };\n\n      let handler = this.selectMode === 1 ? addUsers : deleteUsers;\n\n      handler().then((res)=>{\n        this.confirmLoading = false;\n        this.selectDialog = false;\n\n        util.showNotification(res);\n      }).catch(e => {\n        this.confirmLoading = false;\n        util.showErrorNotification(e);\n      });\n    },\n    toggleSidebar(){\n      this.sidebarCollapsed = !this.sidebarCollapsed\n    }\n  },\n  components: {\n    'menuPermission': MenuPermission,\n    'tree-select': TreeSelect,\n    'tree-grid': TreeGrid\n  }\n\n};\n</script>\n<style scoped>\n.z-body-detail {\n    background: #f9fbfc none;\n    box-shadow: inset 1px 0px 0px rgba(0, 0, 0, 0.04);\n    flex: 1;\n    position: relative;\n}\n\n.z-main-height {\n    height: calc(100vh - 50px);\n    position: relative;\n}\n.main-content-wrap {\n  padding: 10px;\n}\n</style>\n\n\n\n"],"sourceRoot":""}]);
+exports.push([module.i, ".z-body-detail[data-v-cfac9f36]{background:#f9fbfc none;box-shadow:inset 1px 0 0 rgba(0,0,0,.04);flex:1;position:relative}.z-main-height[data-v-cfac9f36]{height:calc(100vh - 50px);position:relative}.main-content-wrap[data-v-cfac9f36]{padding:10px}", ""]);
 
 // exports
 
@@ -5033,9 +4619,7 @@ exports.default = {
 /* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(71)
 }
 var Component = __webpack_require__(2)(
@@ -5050,25 +4634,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\system\\components\\TreeGrid.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] TreeGrid.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-ccc30c44", Component.options)
-  } else {
-    hotAPI.reload("data-v-ccc30c44", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -5084,31 +4649,18 @@ var content = __webpack_require__(72);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("f0bb3652", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-ccc30c44\",\"scoped\":true,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TreeGrid.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-ccc30c44\",\"scoped\":true,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./TreeGrid.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("2a58a656", content, true);
 
 /***/ }),
 /* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.ms-tree-space[data-v-ccc30c44] {\n  position: relative;\n  top: 1px;\n  display: inline-block;\n  font-family: 'Glyphicons Halflings';\n  font-style: normal;\n  font-weight: 400;\n  line-height: 1;\n  width: 14px;\n  height: 14px;\n}\n.ms-tree-space[data-v-ccc30c44]::before {\n  content: \"\"\n}\ntable td[data-v-ccc30c44] {\n  line-height: 26px;\n}\n.tree-arrow[data-v-ccc30c44] {\n  cursor: pointer;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/system/components/TreeGrid.vue?1be4dea4"],"names":[],"mappings":";AAuIA;EACA,mBAAA;EACA,SAAA;EACA,sBAAA;EACA,oCAAA;EACA,mBAAA;EACA,iBAAA;EACA,eAAA;EACA,YAAA;EACA,aAAA;CACA;AAEA;EACA,WAAA;CACA;AAEA;EACA,kBAAA;CACA;AAEA;EACA,gBAAA;CACA","file":"TreeGrid.vue","sourcesContent":["<template>\n  <el-table :data=\"data\" :height=\"height\" :row-style=\"showTr\" @selection-change=\"onSelectionChange\" style=\"width: 100%\" highlight-current-row>\n    <el-table-column type=\"selection\" width=\"50\" align=\"center\"></el-table-column>\n    <el-table-column v-for=\"(column, index) in columns\" :key=\"column.dataIndex\" :label=\"column.text\" :width=\"column.width\" :min-width=\"column.minWidth\">\n      <template slot-scope=\"scope\">\n        <span v-if=\"spaceIconShow(index)\" v-for=\"(space, levelIndex) in scope.row._level\" class=\"ms-tree-space\"></span>\n        <span v-if=\"toggleIconShow(index,scope.row)\" @click=\"toggle(scope.$index)\" class=\"tree-arrow\">\n          <i v-if=\"!scope.row._expanded\" class=\"el-icon-arrow-right\"></i>\n          <i v-if=\"scope.row._expanded\" class=\"el-icon-arrow-down\"></i>\n        </span>\n        <span v-else-if=\"index===0\" class=\"ms-tree-space\"></span>\n        {{cell(scope.row, column)}}\n      </template>\n    </el-table-column>\n  </el-table>\n</template>\n<script>\nimport Utils from './dataTranslate.js';\n\nexport default {\n  name: 'tree-grid',\n  props: {\n    // 该属性是确认父组件传过来的数据是否已经是树形结构了，如果是，则不需要进行树形格式化\n    treeStructure: {\n      type: Boolean,\n      default: function() {\n        return false\n      }\n    },\n    // 这是相应的字段展示\n    columns: {\n      type: Array,\n      default: function() {\n        return []\n      }\n    },\n    //表格高度\n    height: {\n      type: Number,\n      default: function() {\n        return 400\n      }\n    },\n    // 这是数据源\n    dataSource: {\n      type: Array,\n      default: function() {\n        return []\n      }\n    },\n    // 这个作用是根据自己需求来的，比如在操作中涉及相关按钮编辑，删除等，需要向服务端发送请求，则可以把url传过来\n    requestUrl: {\n      type: String,\n      default: function() {\n        return ''\n      }\n    },\n    // 这个是是否展示操作列\n    treeType: {\n      type: String,\n      default: function() {\n        return 'normal'\n      }\n    },\n    // 是否默认展开所有树\n    defaultExpandAll: {\n      type: Boolean,\n      default: function() {\n        return true\n      }\n    }\n  },\n  data() {\n    return {}\n  },\n  computed: {\n    // 格式化数据源\n    data: function() {\n      let me = this\n      if (me.treeStructure) {\n        let data = Utils.MSDataTransfer.treeToArray(me.dataSource, null, null, me.defaultExpandAll)\n        //          console.log(data)\n        return data\n      }\n      return me.dataSource\n    }\n  },\n  methods: {\n    // 单元格内容\n    cell(row, column) {\n      if (column.render) {\n        return column.render(row);\n      }\n\n      if (column.dataIndex) {\n        return row[column.dataIndex];\n      }\n\n      return '';\n    },\n    // 显示行\n    showTr: function(row, index) {\n      let show = (row._parent ? (row._parent._expanded && row._parent._show) : true)\n      row._show = show\n      return show ? '' : 'display:none;'\n    },\n    // 展开下级\n    toggle: function(trIndex) {\n      let me = this\n      let record = me.data[trIndex]\n      record._expanded = !record._expanded\n    },\n    // 显示层级关系的空格和图标\n    spaceIconShow(index) {\n      let me = this\n      if (me.treeStructure && index === 0) {\n        return true\n      }\n      return false\n    },\n    // 点击展开和关闭的时候，图标的切换\n    toggleIconShow(index, record) {\n      let me = this\n      if (me.treeStructure && index === 0 && record.children && record.children.length > 0) {\n        return true\n      }\n      return false\n    },\n    onSelectionChange(selection) {\n      this.$emit('selection-change', selection);\n    }\n  }\n}\n</script>\n<style scoped>\n.ms-tree-space {\n  position: relative;\n  top: 1px;\n  display: inline-block;\n  font-family: 'Glyphicons Halflings';\n  font-style: normal;\n  font-weight: 400;\n  line-height: 1;\n  width: 14px;\n  height: 14px;\n}\n\n.ms-tree-space::before {\n  content: \"\"\n}\n\ntable td {\n  line-height: 26px;\n}\n\n.tree-arrow {\n  cursor: pointer;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, ".ms-tree-space[data-v-ccc30c44]{position:relative;top:1px;display:inline-block;font-family:Glyphicons Halflings;font-style:normal;font-weight:400;line-height:1;width:14px;height:14px}.ms-tree-space[data-v-ccc30c44]:before{content:\"\"}table td[data-v-ccc30c44]{line-height:26px}.tree-arrow[data-v-ccc30c44]{cursor:pointer}", ""]);
 
 // exports
 
@@ -5315,7 +4867,7 @@ exports.default = {
 
 /***/ }),
 /* 75 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('el-table', {
@@ -5371,13 +4923,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })
   })], 2)
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-ccc30c44", module.exports)
-  }
-}
 
 /***/ }),
 /* 76 */
@@ -5566,7 +5111,7 @@ axiosMock.onPut(/\/permissions\/id\/[^\/]+\/type\/[^\/]+\/menus/).reply(200, { s
 
 /***/ }),
 /* 78 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -5904,19 +5449,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("确 定")])], 1)])], 1)
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-cfac9f36", module.exports)
-  }
-}
 
 /***/ }),
 /* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(80),
@@ -5929,25 +5466,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\error\\404.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] 404.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-ff05e600", Component.options)
-  } else {
-    hotAPI.reload("data-v-ff05e600", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -5971,26 +5489,17 @@ exports.default = {};
 
 /***/ }),
 /* 81 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('p', [_vm._v("notFound404.vue")])
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-ff05e600", module.exports)
-  }
-}
 
 /***/ }),
 /* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(83)
 }
 var Component = __webpack_require__(2)(
@@ -6005,25 +5514,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\main.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] main.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-44e7873a", Component.options)
-  } else {
-    hotAPI.reload("data-v-44e7873a", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -6039,31 +5529,18 @@ var content = __webpack_require__(84);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("677783f4", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../node_modules/css-loader/index.js?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-44e7873a\",\"scoped\":true,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./main.vue", function() {
-     var newContent = require("!!../../node_modules/css-loader/index.js?sourceMap!../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-44e7873a\",\"scoped\":true,\"hasInlineConfig\":false}!../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./main.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("a91cea76", content, true);
 
 /***/ }),
 /* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.app-wrap[data-v-44e7873a] {\n  width: 100%;\n  height: 100%;\n  position: relative;\n}\n.navbar[data-v-44e7873a] {\n  height: 50px;\n  line-height: 50px;\n  box-shadow: 2px 0px 2px rgba(0, 0, 0, 1.05);\n  padding: 0;\n  background-color: #7386E6;\n  color: #DDE3FF;\n  border-radius: 0;\n}\n.navbar .el-menu--horizontal[data-v-44e7873a] {\n  background-color: transparent;\n}\n.navbar .el-menu--horizontal .el-menu-item[data-v-44e7873a] {\n  color: #fff;\n  height: 50px;\n  line-height: 50px;\n}\n.navbar .el-menu--horizontal .el-menu-item[data-v-44e7873a]:hover,\n.navbar .el-menu--horizontal .el-menu-item.is-active[data-v-44e7873a] {\n  background-color: #5C71CE;\n  border-bottom: 5px solid #3B51A8;\n}\n.logo[data-v-44e7873a] {\n  padding-left: 5px;\n  width: 200px;\n  max-width: 200px;\n  display: inline-block;\n  font-size: 16px;\n  color: #eeee99;\n  background-color: #667CDB;\n}\n.navbar-collapse[data-v-44e7873a] {\n  position: relative;\n}\n.other-buttons[data-v-44e7873a] {\n  text-align: right;\n  float: right;\n  -webkit-app-region: no-drag;\n  position: relative;\n  z-index: 103;\n}\n.other-buttons button[data-v-44e7873a] {\n  padding: 3px;\n  color: #fff;\n}\n.collapse.in[data-v-44e7873a] {\n  background-color: #31A66C;\n  padding: 0;\n}\n@media (max-width: 576px) {\n.navbar-collapse[data-v-44e7873a] {\n    z-index: 102;\n    transition: all 0.3s;\n}\n.logo[data-v-44e7873a] {\n    background-color: transparent;\n}\n.other-buttons[data-v-44e7873a] {\n    display: none;\n}\n.navbar-toggle[data-v-44e7873a] {\n    width: 55px;\n    line-height: 30px;\n}\n.collapse.in .el-menu--horizontal .el-menu-item[data-v-44e7873a] {\n    float: none;\n    border-bottom-width: 1px;\n}\n}\n@media (min-width: 576px) {\n.navbar-toggle[data-v-44e7873a] {\n    display: none;\n}\n}\n.visible-on-mobile.el-menu .el-menu-item[data-v-44e7873a] {\n  padding-left: 40px;\n}\n.el-menu-item .menu-title[data-v-44e7873a]{\n  font-size:12pt;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/main.vue?2de32a64"],"names":[],"mappings":";AAiGA;EACA,YAAA;EACA,aAAA;EACA,mBAAA;CACA;AAEA;EACA,aAAA;EACA,kBAAA;EACA,4CAAA;EACA,WAAA;EACA,0BAAA;EACA,eAAA;EACA,iBAAA;CACA;AACA;EACA,8BAAA;CACA;AACA;EACA,YAAA;EACA,aAAA;EACA,kBAAA;CACA;AAEA;;EAEA,0BAAA;EACA,iCAAA;CACA;AAGA;EACA,kBAAA;EACA,aAAA;EACA,iBAAA;EACA,sBAAA;EACA,gBAAA;EACA,eAAA;EACA,0BAAA;CACA;AAEA;EACA,mBAAA;CACA;AACA;EACA,kBAAA;EACA,aAAA;EACA,4BAAA;EACA,mBAAA;EACA,aAAA;CACA;AAEA;EACA,aAAA;EACA,YAAA;CACA;AACA;EACA,0BAAA;EACA,WAAA;CACA;AAEA;AACA;IACA,aAAA;IACA,qBAAA;CACA;AACA;IACA,8BAAA;CACA;AACA;IACA,cAAA;CACA;AACA;IACA,YAAA;IACA,kBAAA;CACA;AACA;IACA,YAAA;IACA,yBAAA;CACA;CACA;AAEA;AACA;IACA,cAAA;CACA;CACA;AAEA;EACA,mBAAA;CACA;AAEA;EACA,eAAA;CACA","file":"main.vue","sourcesContent":["<template>\n  <div class=\"app-wrap\">\n    <div class=\"navbar navbar-color-bg select-disable\">\n      <div class=\"navbar-header\">\n        <el-button type=\"text\" @click=\"toggleNavbar\" class=\"navbar-toggle\">\n          <i class=\"fa fa-align-justify\"></i>\n        </el-button>\n        <a class=\"logo\">\n          <img src=\"assets/images/logo_zh-cn.png\" height=\"48\"/>\n        </a>\n      </div>\n      <div class=\"other-buttons\">\n        <el-dropdown @command=\"handleCommand\" style=\"padding-right:20px;cursor:pointer;\">\n          <span class=\"el-dropdown-link\" style=\"color:white;\">\n            {{realname}}\n            <i class=\"el-icon-caret-bottom el-icon--right\"></i>\n          </span>\n          <el-dropdown-menu slot=\"dropdown\">\n            <el-dropdown-item command=\"passwd\">修改密码</el-dropdown-item>\n            <el-dropdown-item command=\"logout\">退出登录</el-dropdown-item>\n          </el-dropdown-menu>\n        </el-dropdown>\n      </div>\n\n      <div :class=\"'navbar-collapse collapse'+ (navbarCollapsed?' in':'')\">\n        <el-menu mode=\"horizontal\" theme=\"primary\" :default-active=\"activeMenu\">\n          <template v-for=\"menu in menus\">\n            <el-menu-item v-if=\"menu.meta && menu.meta.title\" :index=\"menu.path\" :key=\"menu.path\" @click=\"onSelectMenun(menu)\">\n              <i :class=\"menu.meta.icon\"></i> <span class=\"menu-title\">{{menu.meta.title}}</span></el-menu-item>\n          </template>\n        </el-menu>\n        <el-menu mode=\"horizontal\" theme=\"primary\" :default-active=\"activeMenu\" class=\"visible-on-mobile\">\n          <template v-for=\"menu in systemMenus\">\n            <el-menu-item v-if=\"menu.meta && menu.meta.title\" :key=\"menu.path\" @click=\"onSelectMenun(menu)\">\n              <i :class=\"menu.meta.icon\"></i> <span class=\"menu-title\">{{menu.meta.title}}</span></el-menu-item>\n          </template>\n        </el-menu>\n      </div>\n\n    </div>\n\n    <router-view :key=\"routerName\"></router-view>\n  </div>\n</template>\n<script>\nimport routes from '../router/'\nimport util from '../utils/'\n\nwindow.axiosMock = window.axiosMock || new AxiosMockAdapter(axios, { delayResponse: 1000 })\n\nconst menus = util.assign([], routes, 'component')\n\nexport default {\n  data() {\n    let routePath = this.$route.path\n    if(routePath && routePath.split('/').length>2){\n      routePath = routePath.split('/').slice(0,2).join('/')\n    }\n    return {\n      realname: localStorage.realname || 'demo',\n      routerName: this.$route.name || '/',\n      menus: menus,\n      activeMenu: routePath,\n      navbarCollapsed: false, // 导航是否展开\n    }\n  },\n  watch: {\n    '$route.name'(val, oldVal) {\n      this.routerName = this.$route.name || '/'\n    }\n  },\n  methods: {\n    onSelectMenun(menu) {\n      let hash = menu.children && ('/' + menu.children[0].path) || ''\n      hash = menu.path + hash\n      window.location.hash = hash\n      if (this.navbarCollapsed) {\n        this.navbarCollapsed = false\n      }\n      localStorage.lastRoutePath = hash\n    },\n    toggleNavbar() {\n      this.navbarCollapsed = !this.navbarCollapsed\n    },\n    handleCommand(cmd) {\n      if (cmd == 'logout') {\n        console.warn('todo: ')\n      }\n      if (cmd == 'passwd') {\n        console.warn('todo: ')\n      }\n    }\n  }\n}\n</script>\n\n<style scoped>\n.app-wrap {\n  width: 100%;\n  height: 100%;\n  position: relative;\n}\n\n.navbar {\n  height: 50px;\n  line-height: 50px;\n  box-shadow: 2px 0px 2px rgba(0, 0, 0, 1.05);\n  padding: 0;\n  background-color: #7386E6;\n  color: #DDE3FF;\n  border-radius: 0;\n}\n.navbar .el-menu--horizontal {\n  background-color: transparent;\n}\n.navbar .el-menu--horizontal .el-menu-item {\n  color: #fff;\n  height: 50px;\n  line-height: 50px;\n}\n\n.navbar .el-menu--horizontal .el-menu-item:hover,\n.navbar .el-menu--horizontal .el-menu-item.is-active {\n  background-color: #5C71CE;\n  border-bottom: 5px solid #3B51A8;\n}\n\n\n.logo {\n  padding-left: 5px;\n  width: 200px;\n  max-width: 200px;\n  display: inline-block;\n  font-size: 16px;\n  color: #eeee99;\n  background-color: #667CDB;\n}\n\n.navbar-collapse {\n  position: relative;\n}\n.other-buttons {\n  text-align: right;\n  float: right;\n  -webkit-app-region: no-drag;\n  position: relative;\n  z-index: 103;\n}\n\n.other-buttons button {\n  padding: 3px;\n  color: #fff;\n}\n.collapse.in {\n  background-color: #31A66C;\n  padding: 0;\n}\n\n@media (max-width: 576px) {\n  .navbar-collapse {\n    z-index: 102;\n    transition: all 0.3s;\n  }\n  .logo {\n    background-color: transparent;\n  }\n  .other-buttons {\n    display: none;\n  }\n  .navbar-toggle {\n    width: 55px;\n    line-height: 30px;\n  }\n  .collapse.in .el-menu--horizontal .el-menu-item {\n    float: none;\n    border-bottom-width: 1px;\n  }\n}\n\n@media (min-width: 576px) {\n  .navbar-toggle {\n    display: none;\n  }\n}\n\n.visible-on-mobile.el-menu .el-menu-item {\n  padding-left: 40px;\n}\n\n.el-menu-item .menu-title{\n  font-size:12pt;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, ".app-wrap[data-v-44e7873a]{width:100%;height:100%;position:relative}.navbar[data-v-44e7873a]{height:50px;line-height:50px;box-shadow:2px 0 2px #000;padding:0;background-color:#7386e6;color:#dde3ff;border-radius:0}.navbar .el-menu--horizontal[data-v-44e7873a]{background-color:transparent}.navbar .el-menu--horizontal .el-menu-item[data-v-44e7873a]{color:#fff;height:50px;line-height:50px}.navbar .el-menu--horizontal .el-menu-item.is-active[data-v-44e7873a],.navbar .el-menu--horizontal .el-menu-item[data-v-44e7873a]:hover{background-color:#5c71ce;border-bottom:5px solid #3b51a8}.logo[data-v-44e7873a]{padding-left:5px;width:200px;max-width:200px;display:inline-block;font-size:16px;color:#ee9;background-color:#667cdb}.navbar-collapse[data-v-44e7873a]{position:relative}.other-buttons[data-v-44e7873a]{text-align:right;float:right;-webkit-app-region:no-drag;position:relative;z-index:103}.other-buttons button[data-v-44e7873a]{padding:3px;color:#fff}.collapse.in[data-v-44e7873a]{background-color:#31a66c;padding:0}@media (max-width:576px){.navbar-collapse[data-v-44e7873a]{z-index:102;transition:all .3s}.logo[data-v-44e7873a]{background-color:transparent}.other-buttons[data-v-44e7873a]{display:none}.navbar-toggle[data-v-44e7873a]{width:55px;line-height:30px}.collapse.in .el-menu--horizontal .el-menu-item[data-v-44e7873a]{float:none;border-bottom-width:1px}}@media (min-width:576px){.navbar-toggle[data-v-44e7873a]{display:none}}.visible-on-mobile.el-menu .el-menu-item[data-v-44e7873a]{padding-left:40px}.el-menu-item .menu-title[data-v-44e7873a]{font-size:12pt}", ""]);
 
 // exports
 
@@ -6184,7 +5661,7 @@ exports.default = {
 
 /***/ }),
 /* 86 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -6290,14 +5767,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })])
 }]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-44e7873a", module.exports)
-  }
-}
 
 /***/ })
 /******/ ]);
-//# sourceMappingURL=app.js.map

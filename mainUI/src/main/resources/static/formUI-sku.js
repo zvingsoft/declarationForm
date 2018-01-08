@@ -54,32 +54,19 @@ var content = __webpack_require__(144);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("9b2a4118", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3b0448ed\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./sku.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3b0448ed\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./sku.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("402d58e3", content, true);
 
 /***/ }),
 
 /***/ 144:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.main-content-wrap[data-v-3b0448ed] {\n  padding: 10px;\n}\n.search-bar[data-v-3b0448ed] {\n  width: 100%;\n  text-align: right;\n  padding-bottom: 10px;\n}\n.page-wrap[data-v-3b0448ed] {\n  width: 100%;\n  text-align: right;\n  position: relative;\n  top: 5px;\n  padding-right: 10px;\n}\n.e-input[data-v-3b0448ed] {\n  width: 270px;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/setting/sku.vue?8b827802"],"names":[],"mappings":";AAmLA;EACA,cAAA;CACA;AAEA;EACA,YAAA;EACA,kBAAA;EACA,qBAAA;CACA;AAEA;EACA,YAAA;EACA,kBAAA;EACA,mBAAA;EACA,SAAA;EACA,oBAAA;CACA;AAEA;EACA,aAAA;CACA","file":"sku.vue","sourcesContent":["<template>\n  <div>\n    <el-toolbar>\n      <el-button class=\"z-toolbar-btn\" :plain=\"true\" @click=\"addClick\">\n        <i class=\"fa fa-plus\"></i>添加</el-button>\n          <el-button class=\"z-toolbar-btn\" :plain=\"true\" :disabled=\"selectedRows.length === 0\" @click=\"editClick\">\n            <i class=\"fa fa-edit\"></i>编辑</el-button>\n            <el-button class=\"z-toolbar-btn\" :plain=\"true\" :disabled=\"selectedRows.length === 0\" @click=\"deleteClick\">\n        <i class=\"fa fa-remove\"></i>删除</el-button>\n    </el-toolbar>\n    <div class=\"main-content-wrap\">\n      <div class=\"search-bar\">\n        <el-input style=\"width:200px\" size=\"small\" v-model=\"searchWord\"></el-input>\n        <el-button size=\"small\" type=\"primary\" @click=\"getSKUData\" style=\"width:60px;\">搜索</el-button>\n      </div>\n      <el-table :data=\"SKUData\" v-loading=\"dataLoading\" tooltip-effect=\"dark\" style=\"width:100%\" :height=\"clientHeight\" highlight-current-row @selection-change=\"onSelectionChange\" @row-dblclick=\"rowDBClick\">\n        <el-table-column type=\"index\" width=\"70px\" label=\"序号\"></el-table-column>\n        <el-table-column type=\"selection\" width=\"60px\" align=\"center\"></el-table-column>\n        <el-table-column prop=\"sn\" min-width=\"90px\" label=\"商品编号\"></el-table-column>\n        <el-table-column prop=\"goodsType\" min-width=\"100px\" label=\"商品类型\"></el-table-column>\n        <el-table-column prop=\"name\" min-width=\"200px\" label=\"商品名称\"></el-table-column>\n        <el-table-column prop=\"spec\" min-width=\"80px\" label=\"商品规格\"></el-table-column>\n        <el-table-column prop=\"unit\" min-width=\"80px\" label=\"商品单位\"></el-table-column>\n      </el-table>\n      <div class=\"page-wrap\">\n        <el-pagination @size-change=\"handleSizeChange\" @current-change=\"handleCurrentChange\" :current-page=\"currentPage\" :page-sizes=\"pageSizes\" :page-size=\"pageSize\" layout=\"total, sizes, prev, pager, next\" :total=\"total\">\n        </el-pagination>\n      </div>\n    </div>\n      <el-dialog :title=\"editMode==1? '编辑商品信息': '添加商品'\" :visible.sync=\"SKUDialogModal\" :close-on-click-modal=\"false\">\n      <el-form label-position=\"right\" :model=\"tmpSKU\" label-width=\"150px\">\n        <el-form-item label=\"商品编号：\">\n          <el-input class=\"e-input\" v-model=\"tmpSKU.sn\"></el-input>\n        </el-form-item>\n        <el-form-item label=\"商品类型：\">\n          <el-input class=\"e-input\" v-model=\"tmpSKU.goodsType\"></el-input>\n        </el-form-item>\n        <el-form-item label=\"商品名称：\">\n          <el-input class=\"e-input\" v-model=\"tmpSKU.name\"></el-input>\n        </el-form-item>\n        <el-form-item label=\"商品规格：\">\n          <el-input class=\"e-input\" v-model=\"tmpSKU.spec\"></el-input>\n        </el-form-item>\n        <el-form-item label=\"商品单位：\">\n          <el-input class=\"e-input\" v-model=\"tmpSKU.unit\"></el-input>\n        </el-form-item>\n      </el-form>\n      <div slot=\"footer\">\n        <el-button @click=\"SKUDialogModal = false\">取 消</el-button>\n        <el-button type=\"primary\" @click=\"SKUDialogConfirm\">确 定</el-button>\n      </div>\n    </el-dialog>\n  </div>\n</template>\n\n<script>\nimport skuAPI from './api/skuAPI.js';\n//import '../mock/declaration.js';\n\nexport default {\n  data() {\n    return {\n      searchWord: '',\n      tmpSKU: {},\n      SKUData: [],\n      dataLoading: false,\n      SKUDialogModal: false,\n      editMode: 1,\n      selectedRows: [],\n      clientHeight: 0,\n      packinglistData: [],\n      currentPage: 1,\n      pageSizes: [10, 20, 50],\n      pageSize: 10,\n      total: 0,\n    };\n  },\n  methods: {\n    rowDBClick(row) {\n      skuAPI.getSKUById(row.id).then(data => {\n        this.editMode = 1;\n        this.tmpSKU = data;\n        this.SKUDialogModal = true;\n      });\n    },\n    onSelectionChange(selection) {\n      this.selectedRows = selection;\n    },\n    getSKUData() {\n      this.dataLoading = true;\n      skuAPI.getSKU(this.searchWord).then(data => {\n        console.log(data);\n        this.dataLoading = false;\n        this.SKUData = data;\n        this.total = data.length;\n      });\n    },\n    addClick() {\n      this.editMode = 0;\n      this.tmpSKU = {\n        id: Math.floor(Math.random() * 999999) + 1,\n      };\n      this.SKUDialogModal = true;\n    },\n    editClick() {\n      skuAPI.getSKUById(this.selectedRows[0].id).then(data => {\n        this.editMode = 1;\n        this.tmpSKU = data;\n        this.SKUDialogModal = true;\n      });\n    },\n    deleteClick() {\n      let rowIds = [];\n      this.selectedRows.forEach(function(row) {\n        rowIds.push(row.id);\n      });\n      this.$confirm('确定删除吗？删除后无法恢复。是否继续删除？', '删除确认', {\n        confirmButtonText: '确定',\n        cancelButtonText: '取消',\n        type: 'warning',\n      })\n        .then(() => {\n          return skuAPI.deleteSKU(rowIds).then(res => {\n            if (res.status == 200) {\n              this.$notify({\n                title: '成功',\n                message: res.data,\n                type: 'success',\n                duration: 2000,\n              });\n              this.getSKUData();\n            }\n          });\n        })\n        .catch(() => {\n          this.$notify.error({\n            title: '取消',\n            message: '操作取消！',\n            duration: 2000,\n          });\n        });\n    },\n    SKUDialogConfirm() {\n      if (this.editMode == 1) {\n        skuAPI.updateSKU(this.tmpSKU).then(res => {\n          if (res.status == 200) {\n            this.$notify({\n              title: '成功',\n              message: res.data,\n              type: 'success',\n              duration: 2000,\n            });\n            this.getSKUData();\n          }\n        });\n      } else {\n        skuAPI.addSKU(this.tmpSKU).then(res => {\n          if (res.status == 200) {\n            this.$notify({\n              title: '成功',\n              message: res.data,\n              type: 'success',\n              duration: 2000,\n            });\n            this.getSKUData();\n          }\n        });\n      }\n      this.SKUDialogModal = false;\n    },\n  },\n  created() {\n    this.clientHeight = document.documentElement.clientHeight - 200;\n    this.getSKUData();\n  },\n};\n</script>\n\n<style scoped>\n.main-content-wrap {\n  padding: 10px;\n}\n\n.search-bar {\n  width: 100%;\n  text-align: right;\n  padding-bottom: 10px;\n}\n\n.page-wrap {\n  width: 100%;\n  text-align: right;\n  position: relative;\n  top: 5px;\n  padding-right: 10px;\n}\n\n.e-input {\n  width: 270px;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, ".main-content-wrap[data-v-3b0448ed]{padding:10px}.search-bar[data-v-3b0448ed]{width:100%;text-align:right;padding-bottom:10px}.page-wrap[data-v-3b0448ed]{width:100%;text-align:right;position:relative;top:5px;padding-right:10px}.e-input[data-v-3b0448ed]{width:270px}", ""]);
 
 // exports
 
@@ -288,7 +275,7 @@ exports.default = {
 /***/ }),
 
 /***/ 146:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('el-toolbar', [_c('el-button', {
@@ -530,22 +517,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("确 定")])], 1)], 1)], 1)
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3b0448ed", module.exports)
-  }
-}
 
 /***/ }),
 
 /***/ 93:
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(143)
 }
 var Component = __webpack_require__(2)(
@@ -560,25 +538,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\setting\\sku.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] sku.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3b0448ed", Component.options)
-  } else {
-    hotAPI.reload("data-v-3b0448ed", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -586,4 +545,3 @@ module.exports = Component.exports
 /***/ })
 
 });
-//# sourceMappingURL=formUI-sku.js.map

@@ -237,32 +237,19 @@ var content = __webpack_require__(127);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("b8799a52", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b1ddfcb8\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./taxRegister.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js?sourceMap!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-b1ddfcb8\",\"scoped\":true,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./taxRegister.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("1cae6574", content, true);
 
 /***/ }),
 
 /***/ 127:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.main-content-wrap[data-v-b1ddfcb8] {\n  padding: 10px;\n}\n.search-bar[data-v-b1ddfcb8] {\n  width: 100%;\n  text-align: right;\n  padding-bottom: 10px;\n}\n.page-wrap[data-v-b1ddfcb8] {\n  width: 100%;\n  text-align: right;\n  position: relative;\n  top: 5px;\n  padding-right: 10px;\n}\n.e-input[data-v-b1ddfcb8] {\n  width: 240px;\n}\n.search-select[data-v-b1ddfcb8] {\n  width: 140px;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/form/taxRegister.vue?6732ba64"],"names":[],"mappings":";AAsVA;EACA,cAAA;CACA;AAEA;EACA,YAAA;EACA,kBAAA;EACA,qBAAA;CACA;AAEA;EACA,YAAA;EACA,kBAAA;EACA,mBAAA;EACA,SAAA;EACA,oBAAA;CACA;AAEA;EACA,aAAA;CACA;AAEA;EACA,aAAA;CACA","file":"taxRegister.vue","sourcesContent":["<template slot-scope=\"scope\">\n  <div :style=\"{width:clientWidth+'px'}\">\n    <el-toolbar>\n      <el-button class=\"z-toolbar-btn\" :plain=\"true\" @click=\"addClick\">\n        <i class=\"fa fa-plus\"></i> 新建</el-button>\n      <el-button class=\"z-toolbar-btn\" :plain=\"true\" :disabled=\"selectedRows.length === 0  || registered\" @click=\"editClick\">\n        <i class=\"fa fa-edit\"></i> 编辑</el-button>\n      <el-button class=\"z-toolbar-btn\" :plain=\"true\" :disabled=\"selectedRows.length === 0\" @click=\"deleteClick\">\n        <i class=\"fa fa-remove\"></i> 删除</el-button>\n      <el-button class=\"z-toolbar-btn\" :plain=\"true\" :disabled=\"selectedRows.length === 0 || registered\" @click=\"registerClick('')\">\n        <i class=\"fa fa-check\"></i> 确认缴税</el-button>\n    </el-toolbar>\n    <div class=\"main-content-wrap\">\n      <div class=\"search-bar\">\n        排序：\n        <el-select size=\"small\" v-model=\"sort\" class=\"search-select\">\n          <el-option v-for=\"item in sortOptions\" :key=\"item.key\" :label=\"item.value\" :value=\"item.key\">\n          </el-option>\n        </el-select>\n        缴税状态：\n        <el-select size=\"small\" v-model=\"registerStatus\" class=\"search-select\">\n          <el-option v-for=\"item in registerStatusOptions\" :key=\"item.key\" :label=\"item.value\" :value=\"item.key\">\n          </el-option>\n        </el-select>\n        检索字段：\n        <el-select size=\"small\" v-model=\"retrieval\" class=\"search-select\">\n          <el-option v-for=\"item in retrievalOptions\" :key=\"item.key\" :label=\"item.value\" :value=\"item.key\">\n          </el-option>\n        </el-select>\n        <el-input style=\"width:200px\" size=\"small\" v-model=\"searchWord\"></el-input>\n        <el-button size=\"small\" type=\"primary\" @click=\"getTaxRegisterData\" style=\"width:60px;\">搜索</el-button>\n      </div>\n      <el-table :data=\"taxRegisterData\" v-loading=\"dataLoading\" tooltip-effect=\"dark\" style=\"width:100%\" :height=\"clientHeight\" highlight-current-row @selection-change=\"onSelectionChange\" @row-dblclick=\"rowDBClick\">\n        <el-table-column type=\"selection\" width=\"55\" align=\"center\"></el-table-column>\n        <el-table-column prop=\"id\" show-overflow-tooltip min-width=\"12%\" label=\"报关单海关编号\"></el-table-column>\n        <el-table-column prop=\"taxAmount\" show-overflow-tooltip min-width=\"15%\" label=\"缴税金额\"></el-table-column>\n        <el-table-column prop=\"registerDate\" show-overflow-tooltip min-width=\"15%\" label=\"缴税时间\"></el-table-column>\n        <el-table-column min-width=\"15%\" label=\"操作\">\n          <template slot-scope=\"scope\">\n            <el-button type=\"text\" :disabled=\"scope.row.registerStatus == 'Y'\" @click=\"registerClick(scope.row.id)\">\n              <span style=\"color:green;\">确认缴税</span>\n            </el-button>\n          </template>\n        </el-table-column>\n      </el-table>\n      <div class=\"page-wrap\">\n        <el-pagination @size-change=\"handleSizeChange\" @current-change=\"handleCurrentChange\" :current-page=\"currentPage\" :page-sizes=\"pageSizes\" :page-size=\"pageSize\" layout=\"total, sizes, prev, pager, next\" :total=\"total\">\n        </el-pagination>\n      </div>\n    </div>\n    <el-dialog :title=\"editMode==1? '编辑缴税单信息': '添加缴税单'\" :visible.sync=\"registerDialogModal\" :close-on-click-modal=\"false\">\n      <el-form label-position=\"right\" ref=\"taxRegisterForm\" :model=\"tmpTaxRegister\" label-width=\"150px\">\n        <el-form-item label=\"报关单海关编号：\">\n          <el-input class=\"e-input\" v-model.number=\"tmpTaxRegister.id\"></el-input>\n        </el-form-item>\n        <el-form-item label=\"缴税金额：\" prop=\"taxAmount\" :rules=\"[{ type: 'number', message: '缴税金额必须为数字值', trigger: 'change'}]\">\n          <el-input class=\"e-input\" v-model.number=\"tmpTaxRegister.taxAmount\"></el-input>\n        </el-form-item>\n        <el-form-item label=\"缴税时间：\">\n          <el-date-picker v-model=\"tmpTaxRegister.registerDate\" @change=\"registerDateChange\" type=\"date\" class=\"e-input\" placeholder=\"选择缴税日期\">\n          </el-date-picker>\n        </el-form-item>\n      </el-form>\n      <div slot=\"footer\">\n        <el-button @click=\"registerDialogModal = false\">取 消</el-button>\n        <el-button type=\"primary\" @click=\"registerDialogConfirm\">确 定</el-button>\n      </div>\n    </el-dialog>\n\n  </div>\n</template>\n\n<script>\nimport taxRegisterAPI from './api/taxRegisterAPI';\nimport declarationAPI from './api/declarationAPI.js';\nimport packinglistAPI from './api/packinglistAPI.js';\nimport auditingAPI from './api/auditingAPI.js';\n//import './mock/declaration.js';\nimport declarationList from './components/declarationList.vue';\n\nexport default {\n  data() {\n    return {\n      declarationIds: [],\n      declarationOptions: [],\n      registered: false,\n      declarationList: [],\n      declarationListDialogModal: false,\n      registerDialogModal: false,\n      statu: false,\n      clientWidth: 0,\n      clientHeight: 0,\n      searchWord: '',\n      selectedRows: [],\n      taxRegisterData: [],\n      currentPage: 1,\n      pageSizes: [10, 20, 50],\n      pageSize: 10,\n      total: 0,\n      editMode: 1,\n      tmpTaxRegister: {},\n      dataLoading: false,\n      sort: '',\n      sortOptions: [\n        {\n          key: '',\n          value: '请选择排序',\n        },\n        {\n          key: 'registerNumber',\n          value: '缴税单号',\n        },\n        {\n          key: 'registerDate',\n          value: '缴税日期',\n        },\n      ],\n      registerStatus: '',\n      registerStatusOptions: [\n        {\n          key: '',\n          value: '请选择缴税状态',\n        },\n        {\n          key: 'Y',\n          value: '已缴税',\n        },\n        {\n          key: 'N',\n          value: '未缴税',\n        },\n      ],\n      retrieval: '',\n      retrievalOptions: [\n        {\n          key: '',\n          value: '请选择检索字段',\n        },\n        {\n          key: 'id',\n          value: '报关单海关编号',\n        },\n        {\n          key: 'registerDate',\n          value: '缴税时间',\n        },\n      ],\n    };\n  },\n  methods: {\n    showDeclarationist(id, ids) {\n      this.id = id;\n      this.declarationIds = ids;\n      this.declarationListDialogModal = true;\n    },\n    listCallback(selection) {\n      Vue.set(this.tmpTaxRegister, 'declarationList', selection);\n    },\n    addClick() {\n      this.editMode = 0;\n      this.tmpTaxRegister = {\n         declarationIds: [],\n      };\n      this.registerDialogModal = true;\n    },\n    editClick() {\n      if (this.selectedRows.length == 0) {\n        this.$message('请选择要编辑的缴税单', 'info');\n        return;\n      }\n      this.tmpTaxRegister = Object.assign({}, this.selectedRows[0]);\n      this.editMode = 1;\n      this.registerDialogModal = true;\n    },\n    registerDialogConfirm() {\n      this.$refs['taxRegisterForm'].validate(valid => {\n        if (valid) {\n          if (this.editMode == 0) {\n            taxRegisterAPI.addTaxRegister(this.tmpTaxRegister).then(res => {\n              if (res.status == 200) {\n                this.$notify({\n                  title: '成功',\n                  message: res.data,\n                  type: 'success',\n                  duration: 2000,\n                });\n                this.registerDialogModal = false;\n                this.getTaxRegisterData();\n              }\n            });\n          }\n          if (this.editMode == 1) {\n            taxRegisterAPI.updateTaxRegister(this.tmpTaxRegister).then(res => {\n              if (res.status == 200) {\n                this.$notify({\n                  title: '成功',\n                  message: res.data,\n                  type: 'success',\n                  duration: 2000,\n                });\n                this.registerDialogModal = false;\n                this.getTaxRegisterData();\n              }\n            });\n          }\n        } else {\n          this.$notify({\n            title: '操作失败',\n            message: '请正确填写表单项',\n            type: 'error',\n            duration: 2000,\n          });\n          return false;\n        }\n      });\n    },\n    registerClick(id) {\n      let rowIds = [];\n      if (id != '') {\n        rowIds = [id];\n      } else {\n        this.selectedRows.forEach(function(row) {\n          rowIds.push(row.id);\n        });\n      }\n      taxRegisterAPI.registerConfrim(rowIds).then(res => {\n        this.$notify({\n          title: '提示',\n          message: res.data,\n          type: 'success',\n          duration: 2000,\n        });\n        this.getTaxRegisterData();\n      });\n    },\n    deleteClick() {\n      if (this.selectedRows.length == 0) {\n        this.$message('请选择要编辑的缴税单', 'info');\n        return;\n      }\n      let rowIds = [];\n      this.selectedRows.forEach(function(row) {\n        rowIds.push(row.id);\n      });\n      this.$confirm('确定删除吗？删除后无法恢复。是否继续删除？', '删除确认', {\n        confirmButtonText: '确定',\n        cancelButtonText: '取消',\n        type: 'warning',\n      })\n        .then(() => {\n          return taxRegisterAPI.deleteTaxRegister(rowIds).then(res => {\n            if (res.status == 200) {\n              this.$notify({\n                title: '成功',\n                message: res.data,\n                type: 'success',\n                duration: 2000,\n              });\n              this.getTaxRegisterData();\n            }\n          });\n        })\n        .catch(() => {\n          this.$notify.error({\n            title: '取消',\n            message: '操作取消！',\n            duration: 2000,\n          });\n        });\n    },\n    registerDateChange(val) {\n      this.tmpTaxRegister.registerDate = val;\n    },\n    rowDBClick(row) {\n      this.tmpTaxRegister = Object.assign({}, row);\n      this.registerDialogModal = true;\n    },\n    getTaxRegisterData() {\n      this.dataLoading = true;\n      let obj = {\n        retrieval: this.retrieval,\n        searchWord: this.searchWord,\n        pageSize: this.pageSize,\n        pageIndex: this.currentPage,\n      };\n      taxRegisterAPI.getTaxRegisterList(obj).then(data => {\n        console.log(data);\n        this.taxRegisterData = [];\n        if (data.length > 0) {\n          this.total = data[0].total;\n        }\n        data.forEach(o => {\n          if (this.registerStatus != '') {\n            if (this.registerStatus == o.registerStatus) {\n              if (this.retrieval == '' || this.searchWord == '') {\n                this.taxRegisterData.push(o);\n              } else if (o[this.retrieval].indexOf(this.searchWord) >= 0) {\n                this.taxRegisterData.push(o);\n              }\n            }\n          } else {\n            if (this.retrieval == '' || this.searchWord == '') {\n              this.taxRegisterData.push(o);\n            } else if (o[this.retrieval].indexOf(this.searchWord) >= 0) {\n              this.taxRegisterData.push(o);\n            }\n          }\n        });\n        this.dataLoading = false;\n      });\n    },\n    onSelectionChange(selection) {\n      this.selectedRows = selection;\n      console.log(selection);\n      this.registered = false;\n      selection.forEach(o => {\n        if (o.registerStatus == 'Y') {\n          this.registered = true;\n        }\n      });\n    },\n    handleSizeChange(val) {\n      this.pageSize = val;\n      this.getTaxRegisterData();\n    },\n    handleCurrentChange(val) {\n      this.currentPage = val;\n      this.getTaxRegisterData();\n    },\n  },\n  created() {\n    this.clientWidth = document.documentElement.clientWidth - 200;\n    this.clientHeight = document.documentElement.clientHeight - 200;\n    this.getTaxRegisterData();\n  },\n  components: {\n    'declaration-list': declarationList,\n  },\n};\n</script>\n\n<style scoped>\n.main-content-wrap {\n  padding: 10px;\n}\n\n.search-bar {\n  width: 100%;\n  text-align: right;\n  padding-bottom: 10px;\n}\n\n.page-wrap {\n  width: 100%;\n  text-align: right;\n  position: relative;\n  top: 5px;\n  padding-right: 10px;\n}\n\n.e-input {\n  width: 240px;\n}\n\n.search-select {\n  width: 140px;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, ".main-content-wrap[data-v-b1ddfcb8]{padding:10px}.search-bar[data-v-b1ddfcb8]{width:100%;text-align:right;padding-bottom:10px}.page-wrap[data-v-b1ddfcb8]{width:100%;text-align:right;position:relative;top:5px;padding-right:10px}.e-input[data-v-b1ddfcb8]{width:240px}.search-select[data-v-b1ddfcb8]{width:140px}", ""]);
 
 // exports
 
@@ -637,9 +624,7 @@ exports.default = {
 /***/ 129:
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(130)
 }
 var Component = __webpack_require__(2)(
@@ -654,25 +639,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\form\\components\\declarationList.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] declarationList.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-da7de60e", Component.options)
-  } else {
-    hotAPI.reload("data-v-da7de60e", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -689,32 +655,19 @@ var content = __webpack_require__(131);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(1)("63918cee", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-da7de60e\",\"scoped\":true,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./declarationList.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js?sourceMap!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-da7de60e\",\"scoped\":true,\"hasInlineConfig\":false}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./declarationList.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
+var update = __webpack_require__(1)("1d356e8f", content, true);
 
 /***/ }),
 
 /***/ 131:
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(0)(true);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.search-bar[data-v-da7de60e] {\n  width: 100%;\n  text-align: right;\n  padding: 5px;\n}\n", "", {"version":3,"sources":["G:/git/declarationForm/mainUI/source/views/form/components/declarationList.vue?7ea9f7ff"],"names":[],"mappings":";AAgEA;EACA,YAAA;EACA,kBAAA;EACA,aAAA;CACA","file":"declarationList.vue","sourcesContent":["<template>\n  <div>\n    <div class=\"search-bar\" v-if=\"!onlyView\">\n        海关编号：\n        <el-input style=\"width:200px\" size=\"small\" v-model=\"searchWord\"></el-input>\n        <el-button size=\"small\" type=\"primary\" @click=\"getDeclarationData\" style=\"width:60px;\">搜索</el-button>\n      </div>\n    <el-table :data=\"declarationData\" v-loading=\"dataLoading\" tooltip-effect=\"dark\" style=\"width:100%\" :height=\"300\" highlight-current-row @selection-change=\"onSelectionChange\">\n      <el-table-column type=\"index\" width=\"70\" label=\"序号\" align=\"center\" v-if=\"onlyView\"></el-table-column>\n      <el-table-column type=\"selection\" width=\"60\" align=\"center\" v-else></el-table-column>\n        <el-table-column prop=\"customsNumber\" show-overflow-tooltip min-width=\"20%\" label=\"海关编号\"></el-table-column>\n        <el-table-column prop=\"importOrExportPort\" show-overflow-tooltip min-width=\"30%\" label=\"海关口岸\"></el-table-column>\n        <el-table-column prop=\"declarationUnit\" show-overflow-tooltip min-width=\"30%\" label=\"申报单位\"></el-table-column>\n        <el-table-column prop=\"declarationDate\" show-overflow-tooltip min-width=\"15%\" label=\"申报日期\"></el-table-column>\n    </el-table>\n  </div>\n</template>\n<script>\nimport taxRegisterAPI from '../api/taxRegisterAPI.js';\n\nexport default {\n  data() {\n    return {\n      declarationData: [],\n      searchWord: '',\n      dataLoading: false,\n      selectedRows: [],\n    };\n  },\n  watch: {\n    declarationIds() {\n      this.getDeclarationData();\n    },\n  },\n  mounted() {\n    this.getDeclarationData();\n  },\n  methods: {\n    getDeclarationData() {\n      taxRegisterAPI\n        .getDeclarationByIds(this.declarationIds)\n        .then(data => {\n          console.log(data);\n          this.declarationData = data;\n          if (this.searchWord != '') {\n            this.declarationData = [];\n            data.forEach(o => {\n              if (o.customsNumber.indexOf(this.searchWord) >= 0) {\n                this.declarationData.push(o);\n              }\n            });\n          }\n        });\n    },\n    onSelectionChange(selection) {\n      this.selectedRows = selection;\n      this.$emit('callback', selection);\n    },\n  },\n  props: ['declarationIds', 'onlyView'],\n};\n</script>\n\n<style scoped>\n.search-bar {\n  width: 100%;\n  text-align: right;\n  padding: 5px;\n}\n</style>\n"],"sourceRoot":""}]);
+exports.push([module.i, ".search-bar[data-v-da7de60e]{width:100%;text-align:right;padding:5px}", ""]);
 
 // exports
 
@@ -800,7 +753,7 @@ exports.default = {
 /***/ }),
 
 /***/ 133:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [(!_vm.onlyView) ? _c('div', {
@@ -892,18 +845,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)], 1)
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-da7de60e", module.exports)
-  }
-}
 
 /***/ }),
 
 /***/ 134:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
@@ -1220,22 +1166,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("确 定")])], 1)], 1)], 1)
 },staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-b1ddfcb8", module.exports)
-  }
-}
 
 /***/ }),
 
 /***/ 90:
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
 function injectStyle (ssrContext) {
-  if (disposed) return
   __webpack_require__(126)
 }
 var Component = __webpack_require__(2)(
@@ -1250,25 +1187,6 @@ var Component = __webpack_require__(2)(
   /* moduleIdentifier (server only) */
   null
 )
-Component.options.__file = "G:\\git\\declarationForm\\mainUI\\source\\views\\form\\taxRegister.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] taxRegister.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b1ddfcb8", Component.options)
-  } else {
-    hotAPI.reload("data-v-b1ddfcb8", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
@@ -1276,4 +1194,3 @@ module.exports = Component.exports
 /***/ })
 
 });
-//# sourceMappingURL=formUI-taxRegister.js.map
